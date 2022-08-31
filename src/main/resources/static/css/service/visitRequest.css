@@ -1,8 +1,12 @@
 #container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+}
+
+input {
+    background-color: #fcfcfc;
+    border: 1px solid #e7e7e7;
 }
 
 .title-h1 {
@@ -73,23 +77,42 @@
     height: 100%;
 }
 
+.category-info:hover {
+    text-decoration: underline;
+}
+
 .category-info h1 {
     font-size: 18px;
     font-weight: 400;
 }
 
+.main-request-div {
+    height: 1000px;
+}
+
+.request-ul {
+    height: 100%;
+}
+
 .step-group {
     display: flex;
+    flex-direction: column;
     align-items: center;
+}
+
+.step-group:not(.step-group:nth-child(1)) {
+    margin-top: 50px;
+}
+
+.step-title-div {
+    display: flex;
+    align-items: center;
+
     border: 1px solid #dbdbdb;
     width: 978px;
     height: 77px;
 
     cursor: pointer;
-}
-
-.step-group:not(.step-group:nth-child(1)) {
-    margin-top: 50px;
 }
 
 .step-group h3 {
@@ -122,4 +145,359 @@
 .step-div span:nth-child(2) {
     font-size: 24px;
     font-weight: 500;
+}
+
+/* >>>>>>>>>>>>>>>>>> STEP 1 <<<<<<<<<<<<<<<<<<<*/
+
+.detail-content-div {
+    /* margin-top: 30px; */
+}
+
+.category-image-ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-image-li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-top: 1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
+    width: 197px;
+    height: 202px;
+}
+
+.category-image-li:not(.category-image-li:nth-child(5)) {
+    border-right: 1px solid #d3d3d3;
+}
+
+.product-area {
+    border-bottom: 1px solid #d3d3d3;
+
+    padding: 40px 20px 20px;
+}
+
+.detail-product-ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail-product-ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 156px;
+    height: 168px;
+}
+
+.write-div {
+    /* margin-top: 50px; */
+    
+    width: 980px;
+    height: 354px;
+}
+
+.comment-span-div {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    height: 60px;
+
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.required-menu::before {
+    content: "✔ ";
+    color: #0A71CC;
+}
+
+.model-check-button-list {
+    display: flex;
+    align-items: center;
+}
+
+.model-check-button-list button {
+    border: 1px solid #ccc;
+
+    margin-right: 2px;
+
+    width: 83px;
+    height: 31px;
+
+    font-size: 12px;
+    background-color: #fff;
+    color: #7e7e7e;
+}
+
+.model-check-button-list button:nth-child(3) {
+    width: 108px;
+}
+
+.request-service-table select {
+    border: 1px solid #e7e7e7;
+
+    width: 258px;
+    height: 31px;
+
+    background-color: #fcfcfc;
+    color: #7e7e7e;
+}
+
+.request-service-table {
+    width: 980px;
+    height: 304px;
+}
+
+table th, table td {
+    border-top: 1px solid #9e9e9e;
+    border-bottom: 1px solid #9e9e9e;
+
+}
+
+table th {
+    width: 154px;
+}
+
+table tr:nth-child(5) {
+    height: 120px;
+}
+
+.description-input {
+    padding: 5px;
+    width: 95%;
+    height: 31px;
+}
+
+.description-div {
+    margin-top: 5px;
+
+    position: relative;
+}
+
+.allowed-byte {
+    position: absolute;
+    right: 40px;
+
+    font-size: 12px;
+}
+
+.description-div p {
+    font-size: 12px;
+    color: #7e7e7e;
+}
+
+.important-p::before {
+    content: "※";
+}
+
+.emphasis-span {
+    font-size: 12px;
+    color: #ff0000;
+}
+
+/* >>>>>>>>>>>>>>>>>> STEP 2 <<<<<<<<<<<<<<<<<<<<<<*/
+
+.user-info-content {
+    width: 920px;
+    height: 887px;
+}
+
+.user-info-table {
+    width: 980px;
+    height: 324px;
+}
+
+.name-input {
+    padding: 5px;
+
+    width: 187px;
+    height: 31px;
+}
+
+.phone-box {
+    display: flex;
+    align-items: center;
+    border: none;
+}
+
+.phone-box input {
+    height: 31px;
+}
+
+.phone-box select {
+    border: 1px solid #e7e7e7;
+    
+    color: #7e7e7e;
+    padding: 5px;
+
+    width: 132px;
+    height: 31px;
+    background-color: #fcfcfc;
+}
+
+.phone-notice-p {
+    font-size: 12px;
+
+    color: #5b5a5a;
+}
+
+.email-box input{
+    padding: 5px;
+    width: 130px;
+}
+
+.email-box select {
+    border: 1px solid #e7e7e7;
+
+    width: 125px;
+    height: 31px;
+    
+    background-color: #fcfcfc;
+
+}
+
+.address-td input {
+    padding: 5px;
+    height: 31px;
+}
+
+.postal-code {
+    width: 72px;
+}
+
+.address-main {
+    width: 587px;
+}
+
+.search-address-button {
+    border: 1px solid #e7e7e7;
+    
+    width: 73px;
+    height: 31px;
+
+    color: #5b5a5a;
+    background-color: #fff;
+}
+
+.user-agree-div {
+    margin-top: 50px;
+}
+
+.user-agree-div h1 {
+    font-size: 16px;
+    font-size: 500;
+    color: #252525;
+}
+
+.user-agree-div p {
+    color: #7d7d7d;
+    font-weight: 400;
+}
+
+.consent-to-use-div, .consignment-processing-div {
+    border: 1px solid #dbdbdb;
+    padding: 9px;
+    width: 978px;
+    height: 150px;
+
+    overflow: auto;
+
+    background-color: #fcfcfc;
+}
+
+.consignment-processing-div table {
+    width: 940px;
+    height: 225px;
+
+}
+
+.consignment-processing-div td {
+    height: 25px;
+}
+
+.consignment-processing-div table, .consignment-processing-div table th, .consignment-processing-div table td {
+    border: 1px solid #dbdbdb;
+
+    font-size: 12px;
+    font-weight: 300;
+
+    text-align: center;
+}
+
+.input-checkbox {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.input-checkbox label {
+    margin-left: 10px;
+
+    cursor: pointer;
+}
+
+/* >>>>>>>>>>>>>> STEP 3 <<<<<<<<<<<<<<*/
+
+.main-h3-div {
+    display: flex;
+    align-items: center;
+}
+
+.main-h3-div h3 {
+    text-align: center;
+
+    font-size: 16px;
+}
+
+.select-day-h3-div {
+    width: 326px;
+    height: 43px;
+}
+
+.select-time-h3-div {
+    width: 654px;
+    height: 43px;
+}
+
+.schedule-div {
+    display: flex;
+}
+
+.calendar-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 1px solid #d3d3d3;
+
+    width: 324px;
+    height: 360px;
+}
+
+.calendar-div table {
+    width: 324px;
+    height: 216px;
+}
+
+.reservation-time-div {
+    border: 1px solid #d3d3d3;
+    padding: 30px;
+    width: 654px;
+    height: 360px;
+}
+
+.show-date-span {
+    margin-left: 15px;
+}
+
+.visible {
+    /* display: none; */
 }

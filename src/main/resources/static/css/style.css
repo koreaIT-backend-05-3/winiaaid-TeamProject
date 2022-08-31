@@ -9,10 +9,20 @@
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px;
     font-weight: 300;
+
+    text-decoration: none;
 }
 
 html, body {
     height: 100%;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: center;
 }
 
 button {
