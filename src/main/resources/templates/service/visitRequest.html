@@ -28,9 +28,9 @@
                     </div>
                 </div>
                 <div class="etc-group">
-                    <img src="/image/service/frequently_asked_question_service.jpg" alt="자주하는 질문">
-                    <img src="/image/service/self_examination.jpg" alt="자가진단">
-                    <img src="/image/service/fare-Information.jpg" alt="서비스 요금안내">
+                    <img src="/static/images/frequently_asked_question_service.jpg" alt="자주하는 질문">
+                    <img src="/static/images/self_examination.jpg" alt="자가진단">
+                    <img src="/static/images/fare-Information.jpg" alt="서비스 요금안내">
                 </div>
                 <div>
                     <ul class="select-manufacturer">
@@ -147,7 +147,7 @@
                                                     </select>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr class="description-tr">
                                                 <th class="required-menu">접수내용 1</th>
                                                 <td>
                                                     <input type="text" class="description-input">
@@ -391,65 +391,33 @@
                                     </div>
                                     <h3>날짜와 시간을 선택해주세요.</h3>
                                 </div>
-                                <div class="main-h3-div">
-                                    <div class="select-day-h3-div"><h3>예약날짜 선택</h3></div>
-                                    <div class="select-time-h3-div"><h3>예약시간 선택</h3></div>
+                                <div class="main-h2-div">
+                                    <div class="select-day-h2-div"><h2>예약날짜 선택</h2></div>
+                                    <div class="select-time-h2-div"><h2>예약시간 선택</h2></div>
                                 </div>
                                 <div class="schedule-div">
                                     <div class="calendar-div">
-                                        <div>
-                                            <div>2022년 8월</div>
+                                        <div class="select-month-div">
+                                            <button type="button" class="pre-month-button">◃</button>
+                                            <div class="now-date"></div>
+                                            <button type="button" class="next-month-button">▹</button>
                                         </div>
-                                        <table>
-                                            <tr>
-                                                <th>일</th>
-                                                <th>월</th>
-                                                <th>화</th>
-                                                <th>수</th>
-                                                <th>목</th>
-                                                <th>금</th>
-                                                <th>토</th>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                        <table class="canlendar-table">
+                                            <thead class="calendar-head">
+                                                <tr>
+                                                    <th>일</th>
+                                                    <th>월</th>
+                                                    <th>화</th>
+                                                    <th>수</th>
+                                                    <th>목</th>
+                                                    <th>금</th>
+                                                    <th>토</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="calendar-body">
+
+                                            </tbody>
+                                            
                                         </table>
                                         <div class="show-date-div">
                                             <span>예약가능일</span>
@@ -476,5 +444,6 @@
             </div>
         </div>
     </main>
+    <script src="/static/js/service/visitRequest.js"></script>
 </body>
 </html>

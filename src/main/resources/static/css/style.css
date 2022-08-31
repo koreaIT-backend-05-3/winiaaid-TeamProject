@@ -21,10 +21,6 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
-    text-align: center;
-}
-
 button {
     cursor: pointer;
 }

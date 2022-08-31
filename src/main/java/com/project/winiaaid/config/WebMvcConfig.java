@@ -26,7 +26,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		.setCachePeriod(60 * 60)						
 		.resourceChain(true)							
 		.addResolver(new PathResourceResolver() {
-			
+
 			@Override
 			protected Resource getResource(String resourcePath, Resource location) throws IOException {
 				resourcePath = URLDecoder.decode(resourcePath, StandardCharsets.UTF_8);		

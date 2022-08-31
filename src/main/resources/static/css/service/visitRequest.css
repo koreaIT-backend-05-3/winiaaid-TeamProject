@@ -265,7 +265,7 @@ table th {
     width: 154px;
 }
 
-table tr:nth-child(5) {
+.description-tr {
     height: 120px;
 }
 
@@ -446,29 +446,38 @@ table tr:nth-child(5) {
 
 /* >>>>>>>>>>>>>> STEP 3 <<<<<<<<<<<<<<*/
 
-.main-h3-div {
+.main-h2-div {
     display: flex;
     align-items: center;
+
+    margin-top: 15px;
 }
 
-.main-h3-div h3 {
+.main-h2-div h2 {
     text-align: center;
 
     font-size: 16px;
+    font-weight: 500;
+    color: #5b5a5a;
 }
 
-.select-day-h3-div {
+.select-day-h2-div {
     width: 326px;
     height: 43px;
 }
 
-.select-time-h3-div {
+.select-time-h2-div {
     width: 654px;
     height: 43px;
 }
 
 .schedule-div {
     display: flex;
+}
+
+.canlendar-table th, .canlendar-table td {
+    border: none;
+    text-align: center;
 }
 
 .calendar-div {
@@ -482,9 +491,75 @@ table tr:nth-child(5) {
     height: 360px;
 }
 
-.calendar-div table {
+.select-month-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 15px 0px;
+}
+
+.select-month-div button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    border-radius: 50%;
+
+    width: 14px;
+    height: 14px;
+
+    background-color: black;
+    color: white;
+}
+
+.now-date {
+    margin: 0px 20px;
+}
+
+
+.calendar-head th {
+    height: 33px;
+}
+
+.calendar-body tr {
     width: 324px;
-    height: 216px;
+    height: 33px;
+}
+
+.calendar-body td {
+    height: 33px;
+}
+
+.sunday-div, .past-day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid #bcbcbc;
+    margin: 3px auto 0px;
+
+    width: 33px;
+    height: 33px;
+
+    color: #bcbcbc;
+
+    cursor: default;
+}
+
+.day-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid #dbdbdb;
+    margin: 3px auto 0px;
+
+    width: 33px;
+    height: 33px;
+
+    cursor: pointer;
 }
 
 .reservation-time-div {
@@ -496,6 +571,18 @@ table tr:nth-child(5) {
 
 .show-date-span {
     margin-left: 15px;
+}
+
+.show-date-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-top: 1px solid #bcbcbc;
+    margin-top: 40px;
+    
+    width: 100%;
+    height: 100%;
 }
 
 .visible {
