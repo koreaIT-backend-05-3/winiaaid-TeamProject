@@ -1,0 +1,172 @@
+#wrap{
+    width: 100%;
+    height: 1500px;
+}
+#top-header{
+    width: 100%;
+    height: 160px;
+    background-color: aqua
+}
+#main-contents{
+    width: 1000px;
+    margin: 0 auto;
+
+}
+.main-header{
+    width: 100%;
+    height: 50px;
+    margin-bottom: 50px;
+    padding-top: 25px;
+    background-color: aquamarine;
+}
+ .main-login-box{
+    width: 100%;
+    height: 600px;
+ }
+ .sub-title{
+    width: 100%;
+    height: 60px;
+    margin-bottom: 35px;
+ }
+ .sub-title h1{
+    font-size: 30px;
+    font-weight: 500;
+ }
+.comment-login{
+    width: 100%;
+    padding: 0 100px;
+    text-align: center;
+    height: 120px;
+    margin-bottom: 60px;
+}
+
+.comment-login-title{
+    font-size: 27px;
+    margin-bottom: 20px;
+}
+
+.comment-login-title span{
+    font-size: 27px;
+    color: dodgerblue;
+}
+.login-box{
+    width: 100%;
+    height: 400px;
+    border: 1px solid #dbdbdb;
+    padding: 30px 0;
+}
+.user-area-inner{
+    width: 440px;
+    height: 230px;
+    margin: 0 auto;
+}
+
+.user-area-inner form{
+    position: relative;
+    width: 100%;
+}
+.button-login{
+    width: 97px;
+    height: 101px;
+    background-color: #0a71cc;
+    color: #fff;
+    font-size: 17px;
+    position: absolute;
+    top: 0;
+    border: none;
+}
+
+.input-user input{
+    width: 340px;
+    height: 48px;
+    position: relative;
+    border: 1px solid rgb(231, 231, 231);
+    padding: 5px 5px 5px 12px;
+    font-size: 12px;
+}
+.input-user:first-child input{
+    margin-bottom: 5px;
+}
+
+#save-id{
+    margin-top: 14px;
+}
+
+.find-user{
+    width: 100%;
+    height: 80px;
+    margin-top: 20px;
+    padding-top: 20px;
+    font-size: 13px;
+    border-top:1px solid #dbdbdb;
+}
+.find-user p{
+    float: left;
+    font-size: 13px;
+    height: 31px;
+    margin-bottom: 5px;
+}
+
+.bin-area{
+    width: 200px;
+    height: 31px;
+    display: flex;
+    position: absolute;
+    right: 0;
+}
+.bin-area .find-button{
+    display: block;
+    height: 31px;
+    border: 1px solid #dbdbdb;
+    padding: 0 12px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 13px;
+}
+.bin-area .find-button:first-child{
+    margin-right: 5px;
+}
+.find-user span{
+    color: #0a71cc;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.enjoy{
+    width: 100%;
+    height: 82px;
+    border-top: 1px solid #dbdbdb;
+    margin-top: 27px;
+    padding-top: 27px;
+}
+
+.enjoy-inner{
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+    height: 55px;
+    margin: 0 auto;
+    padding-top: 5px;
+    display: flex;
+}
+.enjoy-inner .user-image-box{
+
+}
+.enjoy-inner p{
+    width: 300px;
+    font-size: 13px;
+}
+
+.button-area{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 106px;
+    height: 37px;
+    float: right;
+    background-color: #5b5b5b;
+}
+
+.button-area a{
+    color: #fff;
+}
