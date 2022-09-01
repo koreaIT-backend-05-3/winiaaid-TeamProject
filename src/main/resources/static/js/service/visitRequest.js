@@ -81,28 +81,25 @@ function setDateObject(dateObject) {
 }
 
 function setCalendarDate(dateObject) {
-    let nextMonth = new Date();
     let blankCount = 0;
     let dayCount = 0;
-    let sundayCheck = 0;
 
-    let inacticeFlag = false;
-    
     let calendar = "";
     
     for(let i = 0; i < dateObject.weekCount; i++) {
+        let saturdayCount = 0;
         calendar += "<tr>";
     
         for(let j = 0; j < 7; j++) {
     
             calendar += "<td>";
             if(dateObject.monthStartDay < blankCount + 2 && dayCount < dateObject.monthLastDay + 1) {
-                
                 calendar += `
                 <div class=${dayCount == 0 ? "" 
-                : sundayCheck == 0 
-                || sundayCheck % 7 ==0 ? "sunday-day" :
-                 dayCount < dateObject.day ? "past-day" :
+                : blankCount == 0 
+                || blankCount % 7 == 0 ? "sunday" 
+                : saturdayCount == 6 ? "saturday"
+                : dayCount < dateObject.day ? "past-day" :
                   nowDate.getMonth() + 1 != dateObject.month 
                   && nowDate.getDate() < dayCount ? "future-day" 
                   : "day-div"}>${dayCount == 0 ? "" 
@@ -113,7 +110,7 @@ function setCalendarDate(dateObject) {
             }
             calendar += "</td>";
             blankCount++;
-            sundayCheck++;
+            saturdayCount++;
         }
         calendar += "</tr>";
     }
@@ -133,4 +130,47 @@ function setReservationableDaySpan() {
     const showDateSpan = document.querySelector(".show-date-span");
 
     showDateSpan.innerHTML = `${nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1}월 ${nowDate.getDate()}일 ~ ${nowDate.getMonth() + 2 < 10 ? "0" + (nowDate.getMonth() + 2) : nowDate.getMonth() + 2}월 ${nowDate.getDate()}일`;
+}
+
+function getTheUnbookableTimeMap(day) {
+    let unbookableTimeMap = null;
+
+    $.ajax({
+        async: false,
+        type: "get",
+        url: `/api/v1/engineer/reservation/time?day=${day}`,
+        dataType: "json",
+        success: (response) => {
+            if(response.data != nul) {
+                unbookableTimeMap = response.data;
+            }
+        },
+        error: errorMessage
+    });
+
+    return unbookableTimeMap;
+}
+
+function setReservationTime(unbookableTimeMap) {
+    const enginnerContents = document.querySelectorAll(".engineer-content");
+
+    removeTheVisibleClass(enginnerContents);
+
+    let unbookableTimeByEngineerList = null;
+
+    for(engineerCode of unbookableTimeMap.keys()) {
+        unbookableTimeByEngineerList = unbookableTimeMap.get("enginnerCode");
+    }
+
+}
+
+function removeTheVisibleClass(enginnerContents) {
+    enginnerContents.forEach(content => content.classList.remove("visible"));
+}
+
+function errorMessage(request, status, error) {
+    alert("요청중에 오류가 발생했습니다.");
+    console.log(request.status);
+    console.log(request.responseText);
+    console.log(error);
 }
