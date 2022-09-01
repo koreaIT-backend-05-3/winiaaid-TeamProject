@@ -28,9 +28,9 @@
                     </div>
                 </div>
                 <div class="etc-group">
-                    <img src="/static/images/frequently_asked_question_service.jpg" alt="자주하는 질문">
-                    <img src="/static/images/self_examination.jpg" alt="자가진단">
-                    <img src="/static/images/fare-Information.jpg" alt="서비스 요금안내">
+                    <img src="/image/product/frequently_asked_question_service.jpg" alt="자주하는 질문">
+                    <img src="/image/product/self_examination.jpg" alt="자가진단">
+                    <img src="/image/product/fare-Information.jpg" alt="서비스 요금안내">
                 </div>
                 <div>
                     <ul class="select-manufacturer">
@@ -395,39 +395,102 @@
                                     <div class="select-day-h2-div"><h2>예약날짜 선택</h2></div>
                                     <div class="select-time-h2-div"><h2>예약시간 선택</h2></div>
                                 </div>
-                                <div class="schedule-div">
-                                    <div class="calendar-div">
-                                        <div class="select-month-div">
-                                            <button type="button" class="pre-month-button">◃</button>
-                                            <div class="now-date"></div>
-                                            <button type="button" class="next-month-button">▹</button>
-                                        </div>
-                                        <table class="canlendar-table">
-                                            <thead class="calendar-head">
-                                                <tr>
-                                                    <th>일</th>
-                                                    <th>월</th>
-                                                    <th>화</th>
-                                                    <th>수</th>
-                                                    <th>목</th>
-                                                    <th>금</th>
-                                                    <th>토</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="calendar-body">
+                                <div>
+                                    <div class="schedule-div">
+                                        <div class="calendar-div">
+                                            <div class="select-month-div">
+                                                <button type="button" class="pre-month-button month-button">◃</button>
+                                                <div class="now-date"></div>
+                                                <button type="button" class="next-month-button month-button">▹</button>
+                                            </div>
+                                            <table class="canlendar-table">
+                                                <thead class="calendar-head">
+                                                    <tr>
+                                                        <th>일</th>
+                                                        <th>월</th>
+                                                        <th>화</th>
+                                                        <th>수</th>
+                                                        <th>목</th>
+                                                        <th>금</th>
+                                                        <th>토</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="calendar-body">
 
-                                            </tbody>
-                                            
-                                        </table>
-                                        <div class="show-date-div">
-                                            <span>예약가능일</span>
-                                            <span class="show-date-span">08월 31일 ~ 09월 31일</span>
+                                                </tbody>
+                                                
+                                            </table>
+                                            <div class="show-date-div">
+                                                <span>예약가능일</span>
+                                                <span class="show-date-span"></span>
+                                            </div>
+                                        </div>
+                                        <div class="reservation-time-div">
+                                            <div class="main-time-content">
+                                                <dl class="engineer-content-1">
+                                                    <dt>A기사님</dt>
+                                                    <dd>
+                                                        <label>09:00</label>
+                                                        <label>09:30</label>
+                                                        <label>10:00</label>
+                                                        <label>10:30</label>
+                                                        <label>11:00</label>
+                                                        <label>11:30</label>
+                                                        <label>13:00</label>
+                                                        <label>13:30</label>
+                                                        <label>14:00</label>
+                                                        <label>14:30</label>
+                                                        <label>15:00</label>
+                                                        <label>15:30</label>
+                                                        <label>16:00</label>
+                                                        <label>16:30</label>
+                                                        <label>17:00</label>
+                                                        <label>17:30</label>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="engineer-content-2">
+                                                    <dt>B기사님</dt>
+                                                    <dd>
+                                                        <label>09:00</label>
+                                                        <label>09:30</label>
+                                                        <label>10:00</label>
+                                                        <label>10:30</label>
+                                                        <label>11:00</label>
+                                                        <label>11:30</label>
+                                                        <label>13:00</label>
+                                                        <label>13:30</label>
+                                                        <label>14:00</label>
+                                                        <label>14:30</label>
+                                                        <label>15:00</label>
+                                                        <label>15:30</label>
+                                                        <label>16:00</label>
+                                                        <label>16:30</label>
+                                                        <label>17:00</label>
+                                                        <label>17:30</label>
+                                                    </dd>
+                                                </dl>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="reservation-time-div">
-
+                                    <div class="schedule-explaination-div">
+                                        <div class="white-display-div"></div>
+                                        <span>예약가능일/시간</span>
+                                        <div class="blue-display-div"></div>
+                                        <span>선택일/시간</span>
                                     </div>
                                 </div>
+                                <ul class="schedule-explaination-dtl-ul">
+                                    <li>
+                                        <span class="">엔지니어 이름을 클릭하시면 사진을 보실 수 있습니다.</span>
+                                    </li>
+                                    <li>
+                                        <span class="emphasis-span">무상 보증기간이 경과되었거나, 보증기간 이내라도 고객 부주의로 인한 고장은 비용이 발생됩니다.</span>
+                                        <br>
+                                        <span class="emphasis-span">출장점검비는 제품수리 여부와 상관없이 18,000원이 적용됩니다.</span>
+                                        <br>
+                                        <span class="emphasis-span">단, 평일 18시 이후, 토/일/공휴일 방문 시에는 출장비 22,000원이 적용됩니다.</span>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="step-group">
                                 <div class="step-title-div">
@@ -436,6 +499,79 @@
                                         <span>04</span>
                                     </div>
                                     <h3>예약정보확인/완료.</h3>
+                                </div>
+                                <div class="main-confirm-div">
+                                    <div class="confirm-info">
+                                        <div class="detail-content">
+                                            <h4>제품</h4>
+                                            <div class="text-info">
+                                                <dl>
+                                                    <dt>선택제품/모델명</dt>
+                                                    <dd>벽걸이드럼세탁기/ 모름</dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>고장증상</dt>
+                                                    <dd>고객요청_이전설치</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div class="detail-content">
+                                            <h4>서비스 신청자 정보</h4>
+                                            <div class="text-info applicant">
+                                                <dl class="flex-row">
+                                                    <div>
+                                                        <dt>성명</dt>
+                                                        <dd>홍길동</dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt>휴대폰번호</dt>
+                                                        <dd>010-0000-0000</dd>
+                                                    </div>
+                                                </dl>
+                                                <dl class="flex-row">
+                                                    <div>
+                                                        <dt>이메일</dt>
+                                                        <dd>aaaaaa@naver.com</dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt>연락가능번호</dt>
+                                                        <dd>000-0000-0000</dd>
+                                                    </div>
+                                                </dl>
+                                                <dl class="flex-column">
+                                                    <dt>주소</dt>
+                                                    <dd>부산광역시 해운대구 달맞이길117번나길 194(중동, 현우산호맨션) 1동 312호</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div class="detail-content">
+                                            <h4>예약일시</h4>
+                                            <div class="text-info">
+                                                <dl>
+                                                    <dt>예약일시</dt>
+                                                    <dd>2022.09.22 15:00</dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>엔지니어</dt>
+                                                    <dd>A기사님 / 위니아서비스 동부산점</dd>
+                                                </dl>
+                                                <div class="modify-button">
+                                                    <button type="button">예약일시변경</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="confirm-explaination">
+                                        <li>
+                                            <span class="emphasis-span">출장점검비는 제품수리 여부와 상관없이 18,000원이 적용됩니다.</span>
+                                            <br>
+                                            <span class="emphasis-span">단, 평일 18시 이후, 토/일/공휴일 방문 시에는 출장비 22,000원이 적용됩니다.</span>
+                                        </li>
+                                    </ul>
+                                    <div class="request-and-cancel-button-div">
+                                        <button class="request-button" type="button">예약 신청</button>
+                                        <button class="cancel-button" type="button">예약 취소</button>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
