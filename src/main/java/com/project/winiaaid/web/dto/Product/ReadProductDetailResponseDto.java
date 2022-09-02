@@ -3,6 +3,8 @@ package com.project.winiaaid.web.dto.Product;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Data
 public class ReadProductDetailResponseDto {
@@ -10,4 +12,6 @@ public class ReadProductDetailResponseDto {
     private boolean integratedFlag;
     private int productCode;
     private String productName;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
 }

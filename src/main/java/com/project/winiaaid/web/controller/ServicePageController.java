@@ -12,6 +12,6 @@ public class ServicePageController {
 
 	@GetMapping("/visit/request")
 	public String loadVisitRequestPage() {
-		return "/service/visitRequest";
+		return "service/visitRequest";
 	}
 }

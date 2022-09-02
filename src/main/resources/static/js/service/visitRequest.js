@@ -72,7 +72,7 @@ function setProductImages(domObject, productInfoList, type) {
             domObject.innerHTML += `
             <li class="category-image-li">
                 <div>
-                    <img onclick="getProductDetail(${categoryInfo.categoryCode})" src="/image/winia-product/category-images/product-category-${categoryInfo.categoryCode}" alt="${categoryInfo.categoryName}">
+                    <img onclick="getProductDetail(${categoryInfo.categoryCode})" src="/image/winia-product/category-images/product-category-${categoryInfo.categoryCode}.png" alt="${categoryInfo.categoryName}">
                 </div>
             </li>
             `;
@@ -81,35 +81,37 @@ function setProductImages(domObject, productInfoList, type) {
         productInfoList.forEach(detailProduct => {
             domObject.innerHTML += `
             <li>
-                <img src="/image/" alt="스탠드에어컨">
+                <img src="/image/winia-product/detail-images/product-code-${detailProduct.productCode}.png" alt="${detailProduct.productName}">
+                <span>${detailProduct.productName}</span>
             </li>
             `;
         });
     }
 }
 
-function getProductDetail(categoryCode) {
+function getProductDetail(code) {
     let productInfoList = null;
     $.ajax({
         async: false,
         type: "get",
-        url: "/api/v1/product/list/category/default",
+        url: `/api/v1/product/list/category/default/${code}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
-                productInfoList = response.data;
+                showProductList(response.data);
             }
         },
         error: errorMessage
     });
 
-    return productInfoList;
 }
 
 function showProductList(productInfoList) {
     const detailProductUl = document.querySelector(".detail-product-ul");
 
     clearDomObject(detailProductUl);
+    
+    removeVisibleClass(detailProductUl);
 
     setProductImages(detailProductUl, productInfoList, "detailProduct");
 }
@@ -263,7 +265,6 @@ function getTheUnbookableTime(day) {
 
 function setReservationTime(unbookableTimeByEngineerList) {
     const mainTimeContent = document.querySelector(".main-time-content");
-    console.log("전체 들고옴: " + unbookableTimeByEngineerList);
     clearMainTimeContent(mainTimeContent);
 
     for(engineer of unbookableTimeByEngineerList) {
@@ -299,8 +300,6 @@ function setReservationTime(unbookableTimeByEngineerList) {
         let reservationDayList = new Array();
 
         engineer.engineerReservationInfoDtoList.forEach(info => {
-            console.log("확인: " + info.reservationDay);
-            console.log("selectReservationDay: " + selectReservationDay);
             if(info.reservationDay.replaceAll("-", "") == selectReservationDay) {
                 reservationDayList.push(info);
             }

@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/service/visitRequest.css">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <title>[위니아에이드] 방문서비스_신청하기</title>
 </head>
 <body>
+	<th:block th:replace="/fragments/header"></th:block>
     <main>
         <div id="container">
             <div class="location-div">
@@ -237,6 +239,7 @@
                                                         <option value="">gmail.com</option>
                                                         <option value="">yahoo.com</option>
                                                     </select>
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -545,6 +548,7 @@
             </div>
         </div>
     </main>
+    <th:block th:replace="/fragments/footer"></th:block>
     <script src="/static/js/service/visitRequest.js"></script>
 </body>
 </html>

@@ -1,7 +1,17 @@
+main {
+    height: 100%;
+}
+
+#container {
+    height: 100%;
+}
+
 .main-service {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    height: 100%;
 }
 
 input {
@@ -203,11 +213,12 @@ input {
 
 .detail-product-ul li {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-end;
     align-items: center;
 
     width: 156px;
-    height: 168px;
+    height: 138px;
 }
 
 .write-div {

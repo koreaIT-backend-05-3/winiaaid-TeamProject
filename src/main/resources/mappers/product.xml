@@ -15,17 +15,33 @@
             main_product = 1;
     </select>
 
-    <select id="findListToProductDetailInfo" parameterType="Integer" resultType="com.project.winiaaid.domain.product.Product">
+    <select id="findListToProductDetailInfo" parameterType="HashMap" resultType="com.project.winiaaid.domain.product.Product">
         SELECT
             wpm.product_category_name,
             wpm.integrated_flag,
-            wpd.product_code,
+        <choose>
+            <when test='type.equals("group")'>
+                wpm.product_category_code,
+            </when>
+            <otherwise>
+                wpd.product_code,
+            </otherwise>
+        </choose>
             wpd.product_detail_name
         FROM
             winia_product_mst wpm
             LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_category_code = wpm.product_category_code)
         WHERE
-            wpm.product_category_code = #{product_code};
+        <choose>
+            <when test='type.equals("group")'>
+                wpm.product_group = #{code} AND wpm.is_group != 1
+            ORDER BY
+                wpm.product_category_code;
+            </when>
+            <otherwise>
+                wpm.product_category_code = #{code};
+            </otherwise>
+        </choose>
     </select>
     
 </mapper>

@@ -3,9 +3,10 @@ package com.project.winiaaid.domain.product;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ProductRepository {
     public List<Product> findListToProductMainCategory() throws Exception;
-    public List<Product> findListToProductDetailInfo(int product_code) throws Exception;
+    public List<Product> findListToProductDetailInfo(Map<String, Object> infoMap) throws Exception;
 }

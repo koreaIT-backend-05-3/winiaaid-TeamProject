@@ -6,6 +6,6 @@ import com.project.winiaaid.web.dto.Product.ReadProductDetailResponseDto;
 import java.util.List;
 
 public interface ProductService {
-    public List<ReadProductCategoryResponseDto> getProductMainCategoryList () throws Exception;
-    public List<ReadProductDetailResponseDto> getProductDetailInfoList() throws Exception;
+    public List<ReadProductCategoryResponseDto> getProductMainCategoryList() throws Exception;
+    public List<? extends Object> getProductDetailInfoList(String type, int productCode) throws Exception;
 }
