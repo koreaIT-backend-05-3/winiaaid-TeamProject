@@ -56,26 +56,36 @@ function getMainCategoryList() {
 function showMainCategory(categoryInfoList) {
     const categoryImageUl = document.querySelector(".category-image-ul");
 
-    clearCategoryImageUl(categoryImageUl);
+    clearDomObject(categoryImageUl);
 
-    setCategoryImages(categoryImageUl, categoryInfoList);
+    setProductImages(categoryImageUl, categoryInfoList, "mainCategory");
 
 }
 
-function clearCategoryImageUl(categoryImageUl) {
-    categoryImageUl.innerHTML = "";
+function clearDomObject(object) {
+    object.innerHTML = "";
 }
 
-function setCategoryImages(categoryImageUl, categoryInfoList) {
-    categoryInfoList.forEach(categoryInfo => {
-        categoryImageUl.innerHTML += `
-        <li class="category-image-li">
-            <div>
-                <img onclick="getProductDetail(${categoryInfo.categoryCode})" src="/image/winia-product/category-images/product-category-${categoryInfo.categoryCode}" alt="${categoryInfo.categoryName}">
-            </div>
-        </li>
-        `;
-    });
+function setProductImages(domObject, productInfoList, type) {
+    if(type == "mainCategory") {
+        productInfoList.forEach(categoryInfo => {
+            domObject.innerHTML += `
+            <li class="category-image-li">
+                <div>
+                    <img onclick="getProductDetail(${categoryInfo.categoryCode})" src="/image/winia-product/category-images/product-category-${categoryInfo.categoryCode}" alt="${categoryInfo.categoryName}">
+                </div>
+            </li>
+            `;
+        });
+    }else if(type == "detailProduct") {
+        productInfoList.forEach(detailProduct => {
+            domObject.innerHTML += `
+            <li>
+                <img src="/image/" alt="스탠드에어컨">
+            </li>
+            `;
+        });
+    }
 }
 
 function getProductDetail(categoryCode) {
@@ -97,7 +107,11 @@ function getProductDetail(categoryCode) {
 }
 
 function showProductList(productInfoList) {
+    const detailProductUl = document.querySelector(".detail-product-ul");
 
+    clearDomObject(detailProductUl);
+
+    setProductImages(detailProductUl, productInfoList, "detailProduct");
 }
 
 

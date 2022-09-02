@@ -20,7 +20,7 @@ public class ProductRestController {
     private final ProductService productService;
 
     @GetMapping("/list/category")
-    public ResponseEntity<?> getMainCategoryListByType() {
+    public ResponseEntity<?> getMainCategoryList() {
         List<ReadProductCategoryResponseDto> productCategoryList = null;
 
         try {
@@ -31,5 +31,12 @@ public class ProductRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "load categoryList success", productCategoryList));
+    }
+
+    @GetMapping("/list/category/{type}")
+    public ResponseEntity<?> getDetailProductListByType(@PathVariable String type) {
+
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "load productList success", null));
     }
 }

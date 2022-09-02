@@ -14,5 +14,18 @@
         WHERE
             main_product = 1;
     </select>
+
+    <select id="findListToProductDetailInfo" parameterType="Integer" resultType="com.project.winiaaid.domain.product.Product">
+        SELECT
+            wpm.product_category_name,
+            wpm.integrated_flag,
+            wpd.product_code,
+            wpd.product_detail_name
+        FROM
+            winia_product_mst wpm
+            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_category_code = wpm.product_category_code)
+        WHERE
+            wpm.product_category_code = #{product_code};
+    </select>
     
 </mapper>
