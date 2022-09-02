@@ -60,12 +60,13 @@ input {
 
 .etc-group img {
     border: 1px solid #dbdbdb;
-    width: 320px;
+    width: 319px;
     height: 113px;
 }
 
 .etc-group img:not(.etc-group img:nth-child(1)) {
     margin-left: 7px;
+    width: 320px;
 }
 
 .select-manufacturer {
@@ -834,5 +835,5 @@ table th {
 }
 
 .visible {
-    /* display: none; */
+    display: none;
 }

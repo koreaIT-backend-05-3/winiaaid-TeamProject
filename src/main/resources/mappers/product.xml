@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.winiaaid.domain.product.ProductRepository">
+    <select id="findListToProductMainCategory" parameterType="Integer" resultType="com.project.winiaaid.domain.product.Product">
+        SELECT
+            product_category_code,
+            product_category_name,
+            is_group
+        FROM
+            winia_product_mst
+        WHERE
+            main_product = 1;
+    </select>
+    
+</mapper>

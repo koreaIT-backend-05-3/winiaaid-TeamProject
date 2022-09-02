@@ -28,7 +28,6 @@ public class EngineerRestController {
 
         try {
             engineerList = engineerService.getEngineerReservationInfo();
-            System.out.println(engineerList);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "engineerReservationInfo load fail", engineerList));

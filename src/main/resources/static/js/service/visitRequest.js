@@ -1,3 +1,6 @@
+const winia = document.querySelector(".li-winia");
+const daewoo = document.querySelector(".li-daewoo");
+
 const preMonthButton = document.querySelector(".pre-month-button");
 const nextMonthButton = document.querySelector(".next-month-button");
 
@@ -5,15 +8,102 @@ let nowDate = null;
 let dateObject = {};
 let selectReservationDay = null;
 
+
+winia.onclick = showWiniaProduct;
+
+
 setNowDate();
 dateObject = setDateObject(dateObject);
 insertCalendar(setCalendarDate(dateObject));
 setChangeMonthButton("pre");
 setReservationableDaySpan();
 
+
 preMonthButton.onclick = setPreMonth;
 
 nextMonthButton.onclick = setNextMonth;
+
+
+
+function showWiniaProduct() {
+    const serviceRequestDiv = document.querySelector(".service-request-div");
+
+    alert("위니아 제품이 맞습니까?\n아닐경우 방문이 되지 않습니다.\n제조사를 다시 한번 확인해 주세요.");
+
+    let categoryInfoList = getMainCategoryList();
+    showMainCategory(categoryInfoList);
+    removeVisibleClass(serviceRequestDiv);
+}
+
+function getMainCategoryList() {
+    let categoryInfoList = null;
+    $.ajax({
+        async: false,
+        type: "get",
+        url: "/api/v1/product/list/category",
+        dataType: "json",
+        success: (response) => {
+            if(response.data != null) {
+                categoryInfoList = response.data;
+            }
+        },
+        error: errorMessage     
+    });
+
+    return categoryInfoList;
+}
+
+function showMainCategory(categoryInfoList) {
+    const categoryImageUl = document.querySelector(".category-image-ul");
+
+    clearCategoryImageUl(categoryImageUl);
+
+    setCategoryImages(categoryImageUl, categoryInfoList);
+
+}
+
+function clearCategoryImageUl(categoryImageUl) {
+    categoryImageUl.innerHTML = "";
+}
+
+function setCategoryImages(categoryImageUl, categoryInfoList) {
+    categoryInfoList.forEach(categoryInfo => {
+        categoryImageUl.innerHTML += `
+        <li class="category-image-li">
+            <div>
+                <img onclick="getProductDetail(${categoryInfo.categoryCode})" src="/image/winia-product/category-images/product-category-${categoryInfo.categoryCode}" alt="${categoryInfo.categoryName}">
+            </div>
+        </li>
+        `;
+    });
+}
+
+function getProductDetail(categoryCode) {
+    let productInfoList = null;
+    $.ajax({
+        async: false,
+        type: "get",
+        url: "/api/v1/product/list/category/default",
+        dataType: "json",
+        success: (response) => {
+            if(response.data != null) {
+                productInfoList = response.data;
+            }
+        },
+        error: errorMessage
+    });
+
+    return productInfoList;
+}
+
+function showProductList(productInfoList) {
+
+}
+
+
+function removeVisibleClass(object) {
+    object.classList.remove("visible");
+}
 
 function setNowDate() {
     const nowDateDiv = document.querySelector(".now-date");
