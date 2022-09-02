@@ -10,5 +10,6 @@ import java.util.List;
 public class EngineerReservationInfoDto {
     private int engineerCode;
     private String engineerName;
+    private String reservationDay;
     private String reservationTime;
 }

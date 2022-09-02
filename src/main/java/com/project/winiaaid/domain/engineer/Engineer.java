@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @Builder
@@ -22,7 +23,8 @@ public class Engineer {
         return EngineerReservationInfoDto.builder()
                 .engineerCode(engineer_code)
                 .engineerName(engineer_name)
-                .reservationTime(reservation_time.getHour() + ":" + reservation_time.getMinute())
+                .reservationDay(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(reservation_time))
+                .reservationTime(DateTimeFormatter.ofPattern("HH:mm").format(reservation_time))
                 .build();
     }
 }

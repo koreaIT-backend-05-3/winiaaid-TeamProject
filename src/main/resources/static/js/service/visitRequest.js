@@ -3,6 +3,7 @@ const nextMonthButton = document.querySelector(".next-month-button");
 
 let nowDate = null;
 let dateObject = {};
+let selectReservationDay = null;
 
 setNowDate();
 dateObject = setDateObject(dateObject);
@@ -93,20 +94,20 @@ function setCalendarDate(dateObject) {
         for(let j = 0; j < 7; j++) {
     
             calendar += "<td>";
-            if(dateObject.monthStartDay < blankCount + 2 && dayCount < dateObject.monthLastDay + 1) {
+            if(dateObject.monthStartDay < blankCount + 1 && dayCount < dateObject.monthLastDay) {
+                dayCount++;
+
                 calendar += `
-                <div class=${dayCount == 0 ? "" 
-                : blankCount == 0 
-                || blankCount % 7 == 0 ? "sunday" 
-                : saturdayCount == 6 ? "saturday"
-                : dayCount < dateObject.day ? "past-day" :
-                  nowDate.getMonth() + 1 != dateObject.month 
-                  && nowDate.getDate() < dayCount ? "future-day" 
-                  : "day-div"}>${dayCount == 0 ? "" 
-                  : dayCount}
+                <div class=${blankCount == 0 
+                    || blankCount % 7 == 0 ? "sunday"
+                    : dayCount < dateObject.date
+                    && nowDate.getDate > dayCount ? "past-day" 
+                    :nowDate.getMonth() + 1 != dateObject.month 
+                    && nowDate.getDate() < dayCount ? "future-day" 
+                    : saturdayCount == 6 ? "saturday"
+                    : "day-div"} onclick="selectDay(${dayCount})">${dayCount}
                   <div>`;
 
-                dayCount++; 
             }
             calendar += "</td>";
             blankCount++;
@@ -132,40 +133,105 @@ function setReservationableDaySpan() {
     showDateSpan.innerHTML = `${nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1}월 ${nowDate.getDate()}일 ~ ${nowDate.getMonth() + 2 < 10 ? "0" + (nowDate.getMonth() + 2) : nowDate.getMonth() + 2}월 ${nowDate.getDate()}일`;
 }
 
-function getTheUnbookableTimeMap(day) {
-    let unbookableTimeMap = null;
+function getTheUnbookableTime(day) {
+    let unbookableTimeByEngineerList = null;
 
+    let date = new Date(dateObject.year, dateObject.month - 1, day);
+    
+    date = date.getFullYear().toString() + (date.getMonth() + 1 < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1)) + (date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate());
+
+    selectReservationDay = date;
+
+    console.log(date);
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/engineer/reservation/time?day=${day}`,
+        url: `/api/v1/engineer/reservation/time`,
         dataType: "json",
         success: (response) => {
-            if(response.data != nul) {
-                unbookableTimeMap = response.data;
-            }
+            unbookableTimeByEngineerList = response.data;
         },
         error: errorMessage
     });
 
-    return unbookableTimeMap;
+    return unbookableTimeByEngineerList;
 }
 
-function setReservationTime(unbookableTimeMap) {
-    const enginnerContents = document.querySelectorAll(".engineer-content");
+function setReservationTime(unbookableTimeByEngineerList) {
+    const mainTimeContent = document.querySelector(".main-time-content");
+    console.log("전체 들고옴: " + unbookableTimeByEngineerList);
+    clearMainTimeContent(mainTimeContent);
 
-    removeTheVisibleClass(enginnerContents);
+    for(engineer of unbookableTimeByEngineerList) {
+        console.log(engineer.engineerReservationInfoDtoList[0].engineerName);
+        mainTimeContent.innerHTML += `
+        <dl class="engineer-content">
+            <dt>${engineer.engineerReservationInfoDtoList[0].engineerName}</dt>
+                <dd class="time-table-${engineer.engineerReservationInfoDtoList[0].engineerCode}">
+                    <label class="activation" onclick="selectTime(this)">09:00</label>
+                    <label class="activation" onclick="selectTime(this)">09:30</label>
+                    <label class="activation" onclick="selectTime(this)">10:00</label>
+                    <label class="activation" onclick="selectTime(this)">10:30</label>
+                    <label class="activation" onclick="selectTime(this)">11:00</label>
+                    <label class="activation" onclick="selectTime(this)">11:30</label>
+                    <label class="activation" onclick="selectTime(this)">13:00</label>
+                    <label class="activation" onclick="selectTime(this)">13:30</label>
+                    <label class="activation" onclick="selectTime(this)">14:00</label>
+                    <label class="activation" onclick="selectTime(this)">14:30</label>
+                    <label class="activation" onclick="selectTime(this)">15:00</label>
+                    <label class="activation" onclick="selectTime(this)">15:30</label>
+                    <label class="activation" onclick="selectTime(this)">16:00</label>
+                    <label class="activation" onclick="selectTime(this)">16:30</label>
+                    <label class="activation" onclick="selectTime(this)">17:00</label>
+                    <label class="activation" onclick="selectTime(this)">17:30</label>
+                </dd>
+        </dl>
+        `;
 
-    let unbookableTimeByEngineerList = null;
+        const timeTables = document.querySelectorAll(`.time-table-${engineer.engineerReservationInfoDtoList[0].engineerCode} label`);
 
-    for(engineerCode of unbookableTimeMap.keys()) {
-        unbookableTimeByEngineerList = unbookableTimeMap.get("enginnerCode");
+        let reservationListIndex = 0;
+
+        let reservationDayList = new Array();
+
+        engineer.engineerReservationInfoDtoList.forEach(info => {
+            console.log("확인: " + info.reservationDay);
+            console.log("selectReservationDay: " + selectReservationDay);
+            if(info.reservationDay.replaceAll("-", "") == selectReservationDay) {
+                reservationDayList.push(info);
+            }
+        });
+
+        console.log(reservationDayList);
+        
+        if(reservationDayList.length != 0) {
+            for(timeTable of timeTables) {
+                if(timeTable.textContent == reservationDayList[reservationListIndex].reservationTime) {
+                    timeTable.classList.add("unbookable")
+                    reservationListIndex++;
+                }
+                if(reservationListIndex == reservationDayList.length) {
+                    break;
+                }
+            }
+        }
+        
     }
 
 }
 
-function removeTheVisibleClass(enginnerContents) {
-    enginnerContents.forEach(content => content.classList.remove("visible"));
+function clearMainTimeContent(mainTimeContent) {
+    mainTimeContent.innerHTML = "";
+}
+
+function selectDay(day) {
+    setReservationTime(getTheUnbookableTime(day));
+}
+
+function selectTime(object) {
+    if(!object.classList.contains("unbookable")) {
+        console.log(object.textContent);
+    }
 }
 
 function errorMessage(request, status, error) {

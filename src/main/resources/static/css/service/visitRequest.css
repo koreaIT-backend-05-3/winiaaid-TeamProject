@@ -551,7 +551,7 @@ table th {
     justify-content: center;
     align-items: center;
 
-    border: 1px solid #bcbcbc;
+    border: 1px solid #dbdbdb;
     margin: 3px auto 0px;
 
     width: 33px;
@@ -567,7 +567,7 @@ table th {
     justify-content: center;
     align-items: center;
 
-    border: 1px solid #dbdbdb;
+    border: 1px solid #bcbcbc;
     margin: 3px auto 0px;
 
     width: 33px;
@@ -623,7 +623,7 @@ table th {
     height: 80px;
 }
 
-.reservation-time-div label {
+.activation {
     display: inline-block;
     border: 1px solid #dbdbdb;
     margin: 11px 0px 0px 16px;
@@ -631,7 +631,16 @@ table th {
     width: 45px;
     height: 29px;
 
+    cursor: pointer;
     text-align: center;
+}
+
+.unbookable {
+    border: none;
+
+    color: #bcbcbc;
+
+    cursor: default;
 }
 
 .engineer-content:nth-child(2) {
