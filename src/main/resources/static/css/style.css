@@ -2,7 +2,6 @@
 
 * {
     box-sizing: border-box;
-
     margin: 0px;
     padding: 0px;
 
@@ -10,8 +9,10 @@
     font-size: 14px;
     font-weight: 300;
 }
-
-
+a{
+    text-decoration: none;
+    color:#333;
+}
 html, body {
     height: 100%;
 }
