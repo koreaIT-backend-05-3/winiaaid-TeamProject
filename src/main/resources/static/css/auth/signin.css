@@ -1,289 +1,236 @@
-#wrap{
+#wrap {
     width: 100%;
 }
 
-#header{
+#top-header {
     width: 100%;
-    height: 110px;
+    height: 160px;
+    background-color: aqua
 }
-#header .inner{
+
+#main-contents {
     width: 980px;
-    height: 62px;
     margin: 0 auto;
+
+}
+
+.main-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#header .inner h1{
-    width: 83px;
-    height: 54px;
-    padding: 18px 0;
-}
-#header .inner .logout{
-    width: 52px;
-    height: 52px;
-    padding-top:30px;
-}
-#gnb{
     width: 100%;
-    height: 48px;
-    border-top:1px solid #dbdbdb;
-    border-bottom:1px solid #dbdbdb;
-}
-#gnb .mn-ul{
-    width: 980px;
-    height: 46px;
-    margin: 0 auto;
-    position: relative;
+    margin-bottom: 50px;
+    padding-top: 25px;
 }
 
-#gnb .main-mn{
-    width: 326px;
-    height: 46px;
-    text-align: center;
-    float: left;
-    padding: 16px 0;
+.main-header .home {
+    cursor: pointer;
 }
 
-#gnb .main-mn:nth-child(1){
-    border-right: 1px solid #dbdbdb;
-    border-left: 1px solid #dbdbdb;
-}
-#gnb .main-mn:nth-child(2){
-    border-right: 1px solid #dbdbdb;
-}
-#gnb .main-mn:nth-child(3){
-    border-right: 1px solid #dbdbdb;
+.main-header .home img {
+    width: 14px;
+    height: 15px;
 }
 
-#gnb .sub-ul{
-    display: none;
-    margin-top: 10px;
-    width: 326px;
-    height: 115px;
-    padding: 15px 30px;
-    text-align: left;
-    z-index: 1;
-}
-#gnb .main-mn:nth-child(1) ul{
-    margin-left: -1px;
-    border-right: 1px solid #dbdbdb;
-    border-left: 1px solid #dbdbdb;
-}
-#gnb .main-mn:nth-child(2) ul{
-    border-right: 1px solid #dbdbdb;
-    
-}
-#gnb .main-mn:nth-child(3) ul{
-    border-right: 1px solid #dbdbdb;
-   
-}
-
-
-#gnb .sub-mn{
-    width: 266px;
-    height: 26px;
-    line-height: 25px;
-}
-#gnb .sub-mn a{
-    font-size: 14px;
-    font-weight: 500;
-}
-
-#gnb .sub-wrap{
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 11px;
+.main-header .move-depth {
     width: 100%;
-    height: 116px;
-    border-bottom: 1px solid #dbdbdb;
-    z-index: 1;
 }
 
-#main{
-    width: 100%;
-    height: 1298px;
-    padding-bottom :60px;
-}
-#main .main-inner{
-    width: 980px;
-    height: 100%;
-    margin: 0 auto;
-}
-#form-main{
-    width: 100%;
-    height: 100%;
-}
-
-#form-main h2{
-    width: 100%;
-    height: 25px;
-    margin: 60px 0 40px 0;
-    font-size: 25px;
-    text-align: center;
-    line-height: 25px;
-    font-weight: normal;
-}
-#form-main p{
-    width: 100%;
-    height: 126px;
-    text-align: center;
-}
-
-#main .section{
-    width: 100%;
-    height: 136px;
-
-}
-#form-main .section-header{
-    text-align: left;
-    display: block;
-    width: 100%;
-    height: 22px;
-    margin: 35px 0 10px 0;
-    font-size: 16px;
-    font-weight: normal;
-}
-#main .section .box{
-    width: 100%;
-    height: 104px;
-    padding: 40px 0 40px 90px;
-    border: 1px solid #dbdbdb;
-    text-align: center;
-}
-label[for="family1"]{
-    margin: 0 90px 0 5px;
-}
-label[for="site04"]{
-    margin: 0 90px 0 5px;
-}
-label[for="site05"]{
-    margin: 0 90px 0 5px;
-}
-label[for="site06"]{
-    margin: 0 90px 0 5px;
-}
-
-#form-main .section2{
-    width: 100%;
-    height: 211px;
-}
-#form-main .rule{
-    width: 100%;
-    height: 152px;
-    border: 1px solid #dbdbdb;
-}
-#form-main .rule .rule-textbox{
-    overflow: auto;
-    width: 100%;
-    height: 152px;
-    padding: 10px;
-}
-
-#form-main .rule .rule-textbox strong{
+.main-header .lo-depth {
+    width: 80px;
+    height: 18px;
+    padding-left: 15px;
     font-size: 13px;
 }
-#form-main .rule .rule-textbox h4{
-    font-size: 12px;
-    color: rgb(119, 119, 119);
-}
-#form-main .rule .check-right{
-    width: 100%;
-    height: 22px;
-    margin: 5px 0 15px 0;
-    text-align: right;
+
+.main-header .now-depth {
+    font-size: 13px;
 }
 
-#form-main .all-check-right{
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: 100%;
-    height: 28px;
-    margin-top: 30px;
-    padding-top: 5px;
-    border-top: 1px solid #dbdbdb;
-}
-#agree04{
-    width: 13px;
-    height: 13px;
+.main-header .lo-depth:before {
+    content: url(https://www.winiaaid.com/assets/images/common/arrow_location.png);
     margin-right: 5px;
 }
-label[for="agree04"]{
-    font-size: 12px;
-}
 
-#form-main .button-center{
+.main-login-box {
     width: 100%;
-    height: 40px;
-    margin-top: 40px;
+    height: 600px;
+}
+
+.sub-title {
+    width: 100%;
+    height: 30px;
+    margin-bottom: 35px;
+}
+
+.sub-title h1 {
+    font-size: 28px;
+    font-weight: 400;
+}
+
+.comment-login {
+    width: 100%;
     text-align: center;
+    height: 67px;
+    margin-bottom: 60px;
+    line-height: 29px;
 }
 
-#form-main .button-center .button-notagree{
-    display: inline-block;
-    width: 122px;
-    height: 40px;
-    padding: 0 20px;
-    background-color: #444;
+.comment-login-title {
+    width: 100%;
+    height: 29px;
+    font-size: 27px;
+    margin-bottom: 20px;
+}
+
+.comment-login-title span {
+    font-size: 27px;
+    color: rgb(10, 113, 204);
+    font-weight: 400;
+}
+
+.login-box {
+    width: 100%;
+    height: 407px;
+    border: 1px solid rgb(179, 179, 179);
+    padding: 30px 0;
+}
+
+.user-area-inner {
+    width: 440px;
+    height: 230px;
+    margin: 0 auto;
+}
+
+.user-area-inner form {
+    position: relative;
+    width: 100%;
+}
+
+.button-login {
+    width: 97px;
+    height: 101px;
+    background-color: #0a71cc;
     color: #fff;
-    font-weight: bold;
-    line-height: 40px;
+    font-size: 17px;
+    position: absolute;
+    top: 0;
+    border: none;
+}
+
+.input-user input {
+    width: 340px;
+    height: 48px;
+    position: relative;
+    border: 1px solid rgb(231, 231, 231);
+    padding: 5px 5px 5px 12px;
+    font-size: 12px;
+    background-color: rgb(252, 252, 252);
+}
+
+.input-user:first-child input {
+    margin-bottom: 5px;
+}
+
+.save-id {
+    font-size: 13px;
+    margin-top: 14px;
+}
+
+.find-user {
+    width: 100%;
+    height: 83px;
+    margin-top: 20px;
+    padding-top: 20px;
+    font-size: 13px;
+    border-top: 1px solid #dbdbdb;
+}
+
+.find-user p {
+    float: left;
+    font-size: 13px;
+    height: 31px;
+    margin-bottom: 5px;
+}
+
+.bin-area {
+    width: 190px;
+    height: 31px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    right: 0;
+    margin-bottom: 1px;
+}
+
+.bin-area .find-button {
+    display: block;
+    height: 31px;
+    border: 1px solid #dbdbdb;
+    padding: 0 12px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 13px;
     cursor: pointer;
 }
-#form-main .button-center .button-agree{
-    display: inline-block;
-    padding: 0 20px;
-    width: 66px;
-    height: 40px;
-    background-color: #3652a2;
-    color: #fff;
-    font-weight: bold;
-    line-height: 40px;
-    cursor: pointer;
-}   
 
-/* ===== Footer ====== */
+.find-user span {
+    color: #0a71cc;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.enjoy {
+    width: 100%;
+    height: 82px;
+    border-top: 1px solid #dbdbdb;
+    margin-top: 27px;
+    padding-top: 27px;
+}
+
+.enjoy-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+    height: 54px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.user-image-box {
+    width: 50px;
+    height: 50px;
+    padding-top: 5px;
+}
+
+.enjoy-textbox {
+    width: 320px;
+}
+
+.enjoy-textbox p {
+    font-size: 13px;
+}
+
+.button-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 106px;
+    height: 37px;
+    float: right;
+    background-color: #5b5b5b;
+    cursor: pointer;
+}
+
+.button-area a {
+    color: #fff;
+}
 
 #footer{
+    margin-top: 50px;
     width: 100%;
-    height: 138px;
-    padding-top: 30px;
-    border-top: 1px solid #dbdbdb;
-
+    height: 300px;
+    background-color: aqua;
 }
 
-#footer .inner{
-    display: flex;
-    justify-content: space-between;
-    width: 980px;
-    height: 77px;
-    margin: 0 auto;
-    color: #444;
-    line-height: 22px;
-}
 
-#footer .footer-logo{
-    float: left;
-    margin: 4px 30px 0 0;
-}
-
-#footer .footer-menu{
-    float: left;
-}
-
-#footer .link{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-#footer .footer-menu ul li a{
-    font-size: 12px;
-    color: #444;
-}
-#footer .copyright p{
-    font-size: 12px;
-    color: #444;
-}
