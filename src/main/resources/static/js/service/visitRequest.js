@@ -62,6 +62,32 @@ function showMainCategory(categoryInfoList) {
 
 }
 
+function getProductDetail(code) {
+    $.ajax({
+        async: false,
+        type: "get",
+        url: `/api/v1/product/list/category/default/${code}`,
+        dataType: "json",
+        success: (response) => {
+            if(response.data != null) {
+                showProductList(response.data, true);
+            }
+        },
+        error: errorMessage
+    });
+
+}
+
+function showProductList(productInfoList, isGroup) {
+    const detailProductUl = document.querySelector(".detail-product-ul");
+
+    clearDomObject(detailProductUl);
+    
+    removeVisibleClass(detailProductUl);
+
+    setProductImages(detailProductUl, productInfoList, "detailProduct");
+}
+
 function clearDomObject(object) {
     object.innerHTML = "";
 }
@@ -72,7 +98,7 @@ function setProductImages(domObject, productInfoList, type) {
             domObject.innerHTML += `
             <li class="category-image-li">
                 <div>
-                    <img onclick="getProductDetail(${categoryInfo.categoryCode})" src="/image/winia-product/category-images/product-category-${categoryInfo.categoryCode}.png" alt="${categoryInfo.categoryName}">
+                    <img onclick="getProductDetail(${categoryInfo.isGroup ? categoryInfo.productGroup : categoryInfo.categoryCode})" src="/image/winia-product/category-images/product-category-${categoryInfo.categoryCode}.png" alt="${categoryInfo.categoryName}">
                 </div>
             </li>
             `;
@@ -89,37 +115,12 @@ function setProductImages(domObject, productInfoList, type) {
     }
 }
 
-function getProductDetail(code) {
-    let productInfoList = null;
-    $.ajax({
-        async: false,
-        type: "get",
-        url: `/api/v1/product/list/category/default/${code}`,
-        dataType: "json",
-        success: (response) => {
-            if(response.data != null) {
-                showProductList(response.data);
-            }
-        },
-        error: errorMessage
-    });
-
-}
-
-function showProductList(productInfoList) {
-    const detailProductUl = document.querySelector(".detail-product-ul");
-
-    clearDomObject(detailProductUl);
-    
-    removeVisibleClass(detailProductUl);
-
-    setProductImages(detailProductUl, productInfoList, "detailProduct");
-}
-
-
 function removeVisibleClass(object) {
     object.classList.remove("visible");
 }
+
+
+
 
 function setNowDate() {
     const nowDateDiv = document.querySelector(".now-date");

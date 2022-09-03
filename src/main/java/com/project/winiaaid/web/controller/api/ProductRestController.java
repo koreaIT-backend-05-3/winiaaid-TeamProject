@@ -36,10 +36,11 @@ public class ProductRestController {
 
     @GetMapping("/list/category/{type}/{code}")
     public ResponseEntity<?> getDetailProductListByType(@PathVariable String type, @PathVariable int code) {
-        List<ReadProductDetailResponseDto> productDetailList = null;
+        List<?> productDetailList = null;
 
         try {
-            productDetailList = (List<ReadProductDetailResponseDto>) productService.getProductDetailInfoList(type, code);
+            productDetailList = productService.getProductDetailInfoList(type, code);
+            System.out.println(productDetailList);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "load productList fail", productDetailList));

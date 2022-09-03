@@ -12,6 +12,7 @@ public class ReadProductDetailResponseDto {
     private boolean integratedFlag;
     private int productCode;
     private String productName;
+    private boolean isGroup;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 }

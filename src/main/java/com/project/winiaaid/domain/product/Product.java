@@ -18,6 +18,7 @@ public class Product {
 	private int product_category_code;
 	private String product_category_name;
 	private int integrated_flag;
+	private int is_group;
 
 	private int product_code;
 	private String product_detail_name;
@@ -29,6 +30,7 @@ public class Product {
 		return ReadProductCategoryResponseDto.builder()
 				.categoryCode(product_category_code)
 				.categoryName(product_category_name)
+				.isGroup(is_group == 1 ? true : false)
 				.build();
 	}
 
@@ -38,6 +40,7 @@ public class Product {
 				.integratedFlag(integrated_flag == 1 ? true : false)
 				.productCode(product_code)
 				.productName(product_detail_name)
+				.isGroup(is_group == 1 ? true : false)
 				.createDate(create_date)
 				.updateDate(update_date)
 				.build();

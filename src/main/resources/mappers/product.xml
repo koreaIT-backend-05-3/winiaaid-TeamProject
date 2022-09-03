@@ -19,6 +19,7 @@
         SELECT
             wpm.product_category_name,
             wpm.integrated_flag,
+            wpm.is_group,
         <choose>
             <when test='type.equals("group")'>
                 wpm.product_category_code,
