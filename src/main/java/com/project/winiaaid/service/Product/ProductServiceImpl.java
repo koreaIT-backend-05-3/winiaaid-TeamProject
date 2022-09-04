@@ -1,10 +1,9 @@
 package com.project.winiaaid.service.Product;
 
 import com.project.winiaaid.domain.product.Product;
+import com.project.winiaaid.domain.product.ProductNumberInfo;
 import com.project.winiaaid.domain.product.ProductRepository;
-import com.project.winiaaid.web.dto.Product.ProductObjectResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductCategoryResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductDetailResponseDto;
+import com.project.winiaaid.web.dto.Product.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
         List<ReadProductCategoryResponseDto> productCategoryList = null;
 
         productList = productRepository.findListToProductMainCategory();
+
 
         if(productList != null) {
             productCategoryList = productList.stream()
@@ -77,5 +77,43 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return type.equals("default") ? productInfoList : productObjectList;
+    }
+
+    @Override
+    public List<ProductNumberInfoObjectResponseDto> getProductNumberInfoList() throws Exception {
+        List<ProductNumberInfo> productNumberInfoList = null;
+        List<ReadProductNumberInfoResponseDto> readProductNumberInfoResponseDtoList = null;
+        List<ProductNumberInfoObjectResponseDto> productNumberInfoObjectResponseDtoList = null;
+
+        productNumberInfoList = productRepository.findListToProductNumberInfo();
+
+        if(productNumberInfoList != null) {
+            productNumberInfoObjectResponseDtoList = new ArrayList<>();
+            readProductNumberInfoResponseDtoList = new ArrayList<>();
+
+            Set<Integer> modelCodeSet = new HashSet<>();
+
+            productNumberInfoList.forEach(product -> modelCodeSet.add(product.getModel_code()));
+
+            Iterator<Integer> iterator = modelCodeSet.iterator();
+
+            while(iterator.hasNext()) {
+                int modelCode = iterator.next();
+
+                ProductNumberInfoObjectResponseDto productObjectResponseDto = ProductNumberInfoObjectResponseDto.builder()
+                        .readProductNumberInfoResponseDtoList(
+                            productNumberInfoList
+                                    .stream()
+                                    .filter(productNumberInfo -> productNumberInfo.getModel_code() == modelCode)
+                                    .map(productNumberInfo -> productNumberInfo.toReadProductNumberInfoResponseDto())
+                                    .collect(Collectors.toList()))
+                        .build();
+
+                productNumberInfoObjectResponseDtoList.add(productObjectResponseDto);
+            }
+
+        }
+
+        return productNumberInfoObjectResponseDtoList;
     }
 }

@@ -44,5 +44,18 @@
             </otherwise>
         </choose>
     </select>
+
+    <select id="findListToProductNumberInfo" resultType="com.project.winiaaid.domain.product.ProductNumberInfo">
+        SELECT
+            pmt.model_code,
+            pmt.model_name,
+            pmt.model_number_info,
+            pmt.model_number_info_detail,
+
+            pmi.model_image_name
+        FROM
+            product_model_table pmt
+            LEFT OUTER JOIN product_model_image pmi ON(pmi.model_code = pmt.model_code);
+    </select>
     
 </mapper>

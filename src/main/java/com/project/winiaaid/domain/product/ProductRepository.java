@@ -9,4 +9,5 @@ import java.util.Map;
 public interface ProductRepository {
     public List<Product> findListToProductMainCategory() throws Exception;
     public List<Product> findListToProductDetailInfo(Map<String, Object> infoMap) throws Exception;
+    public List<ProductNumberInfo> findListToProductNumberInfo() throws Exception;
 }

@@ -1,6 +1,8 @@
 const winia = document.querySelector(".li-winia");
 const daewoo = document.querySelector(".li-daewoo");
 
+const modelCheckButtonList = document.querySelectorAll(".model-check-button-list button");
+
 const preMonthButton = document.querySelector(".pre-month-button");
 const nextMonthButton = document.querySelector(".next-month-button");
 
@@ -17,6 +19,26 @@ dateObject = setDateObject(dateObject);
 insertCalendar(setCalendarDate(dateObject));
 setChangeMonthButton("pre");
 setReservationableDaySpan();
+
+
+modelCheckButtonList[0].onclick = () => {
+    const modelSearchTr = document.querySelector(".model-search-tr");
+
+    removeVisibleClass(modelSearchTr);
+};
+
+modelCheckButtonList[1].onclick = () => {
+    const modelNameSpan = document.querySelector(".model-name-span");
+    setModelName(modelNameSpan, "모델명 모름");
+
+};
+
+modelCheckButtonList[2].onclick = showModelNumberCheckPopup;
+
+function setModelName(domObject, modelName) {
+    domObject.textContent = modelName;
+}
+
 
 
 preMonthButton.onclick = setPreMonth;
@@ -62,7 +84,7 @@ function showMainCategory(categoryInfoList) {
 
 }
 
-function getProductDetail(code) {
+function getProductDetail(code, isGroup) {
     $.ajax({
         async: false,
         type: "get",
@@ -70,7 +92,7 @@ function getProductDetail(code) {
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
-                showProductList(response.data, true);
+                showProductList(response.data, isGroup);
             }
         },
         error: errorMessage
@@ -85,25 +107,25 @@ function showProductList(productInfoList, isGroup) {
     
     removeVisibleClass(detailProductUl);
 
-    setProductImages(detailProductUl, productInfoList, "detailProduct");
+    setProductImages(detailProductUl, productInfoList, "detailProduct", isGroup);
 }
 
 function clearDomObject(object) {
     object.innerHTML = "";
 }
 
-function setProductImages(domObject, productInfoList, type) {
+function setProductImages(domObject, productInfoList, type, isGroup) {
     if(type == "mainCategory") {
         productInfoList.forEach(categoryInfo => {
             domObject.innerHTML += `
             <li class="category-image-li">
                 <div>
-                    <img onclick="getProductDetail(${categoryInfo.isGroup ? categoryInfo.productGroup : categoryInfo.categoryCode})" src="/image/winia-product/category-images/product-category-${categoryInfo.categoryCode}.png" alt="${categoryInfo.categoryName}">
+                    <img onclick="getProductDetail(${categoryInfo.isGroup ? (categoryInfo.productGroup, true) : (categoryInfo.categoryCode, false)})" src="/image/winia-product/category-images/product-category-${categoryInfo.categoryCode}.png" alt="${categoryInfo.categoryName}">
                 </div>
             </li>
             `;
         });
-    }else if(type == "detailProduct") {
+    }else if(type == "detailProduct" && !isGroup) {
         productInfoList.forEach(detailProduct => {
             domObject.innerHTML += `
             <li>
@@ -112,6 +134,25 @@ function setProductImages(domObject, productInfoList, type) {
             </li>
             `;
         });
+    }else if(type == "detailProduct" && isGroup) {
+        let index = 0;
+        for(productList of productInfoList) {
+            domObject.innerHTML += `
+                <ul>
+                    <img src="/image/winia-product/main-images/product-main-${productList[index].productCode}.png" alt="${productList[index].productName}">
+                    <li class="category-title">${productList[index].categoryName}</li>
+                `;
+                productList.forEach(detailProduct => {
+                    domObject.innerHTML += `
+                <li>
+                    <span>${detailProduct.productName}</span>
+                </li>
+                `;
+            });
+
+            domObject.innerHTML += `</ul>`;
+            index++;
+        }
     }
 }
 

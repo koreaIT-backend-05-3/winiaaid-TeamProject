@@ -76,7 +76,7 @@
                                     </div>
                                     <h3>제품/증상을 선택해주세요.</h3>
                                 </div>
-                                <div class="service-request-div detail-content-div visible">
+                                <div class="service-request-div detail-content-div">
                                     <ul class="category-image-ul">
                                         <!-- <li class="category-image-li">
                                             <div>
@@ -125,6 +125,7 @@
                                             <tr>
                                                 <th class="required-menu">제품모델명</th>
                                                 <td>
+                                                    <span class="model-name-span"></span>
                                                     <div class="model-check-button-list">
                                                         <button type="button">모델명 검색</button>
                                                         <button type="button">모델명 모름</button>
@@ -132,11 +133,21 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                            <tr class="model-search-tr visible">
+                                                <th></th>
+                                                <td>
+                                                    <div class="model-search-div">
+                                                        <input type="text" class="model-search-input">
+                                                        <button type="button" class="model-search-button">검색</button>
+                                                    </div>
+                                                    <p class="important-p search-notice-p">모델명은 최소 2자리 이상 입력해 주세요. 예) BC, DHE, RCS, WSP, K175, 175</p>
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <th class="required-menu">접수구분</th>
-                                                <td>
-                                                    <input type="radio" id="request-type">
-                                                    <label for="request-type"></label>
+                                                <td class="request-type-td">
+                                                    <input type="radio" id="request-type" checked>
+                                                    <label for="request-type">A/S</label>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -549,6 +560,7 @@
         </div>
     </main>
     <th:block th:replace="/fragments/footer"></th:block>
+    <script src="/static/js/service/model_name_check_popup.js"></script>
     <script src="/static/js/service/visitRequest.js"></script>
 </body>
 </html>

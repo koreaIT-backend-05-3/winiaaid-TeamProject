@@ -14,4 +14,9 @@ public class ServicePageController {
 	public String loadVisitRequestPage() {
 		return "service/visitRequest";
 	}
+
+	@GetMapping("/popup/modelNamePopup")
+	public String loadModelNamePopupPage() {
+		return "service/model_name_popup";
+	}
 }
