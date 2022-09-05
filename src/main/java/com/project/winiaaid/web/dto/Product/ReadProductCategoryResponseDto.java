@@ -8,5 +8,6 @@ import lombok.Data;
 public class ReadProductCategoryResponseDto {
     private int categoryCode;
     private String categoryName;
-    private boolean isGroup;
+    private boolean groupFlag;
+    private int productGroup;
 }

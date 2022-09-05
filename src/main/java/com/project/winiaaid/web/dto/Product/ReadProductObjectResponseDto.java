@@ -7,6 +7,6 @@ import java.util.List;
 
 @Builder
 @Data
-public class ProductObjectResponseDto {
+public class ReadProductObjectResponseDto {
     private List<ReadProductDetailResponseDto> readProductDetailResponseDtoList;
 }

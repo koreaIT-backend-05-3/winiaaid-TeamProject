@@ -18,7 +18,9 @@ public class Product {
 	private int product_category_code;
 	private String product_category_name;
 	private int integrated_flag;
-	private int is_group;
+	private String product_group_category_name;
+	private int group_flag;
+	private int product_group;
 
 	private int product_code;
 	private String product_detail_name;
@@ -29,20 +31,19 @@ public class Product {
 	public ReadProductCategoryResponseDto toReadProductCategoryResponseDto() {
 		return ReadProductCategoryResponseDto.builder()
 				.categoryCode(product_category_code)
-				.categoryName(product_category_name)
-				.isGroup(is_group == 1 ? true : false)
+				.categoryName(product_category_name != null ? product_category_name : product_group_category_name)
+				.productGroup(product_group)
+				.groupFlag(group_flag == 1 ? true : false)
 				.build();
 	}
 
 	public ReadProductDetailResponseDto toReadProductDetailResponseDto() {
 		return ReadProductDetailResponseDto.builder()
+				.categoryCode(product_category_code)
 				.categoryName(product_category_name)
 				.integratedFlag(integrated_flag == 1 ? true : false)
 				.productCode(product_code)
-				.productName(product_detail_name)
-				.isGroup(is_group == 1 ? true : false)
-				.createDate(create_date)
-				.updateDate(update_date)
+				.productName(integrated_flag == 1 ? product_category_name : product_detail_name)
 				.build();
 	}
 }

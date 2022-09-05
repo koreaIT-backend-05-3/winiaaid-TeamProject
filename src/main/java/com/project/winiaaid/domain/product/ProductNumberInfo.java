@@ -1,6 +1,6 @@
 package com.project.winiaaid.domain.product;
 
-import com.project.winiaaid.web.dto.Product.ReadProductNumberInfoResponseDto;
+import com.project.winiaaid.web.dto.Product.ProductNumberInfoObjectDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +15,8 @@ public class ProductNumberInfo {
     private String model_number_info_detail;
     private String model_image_name;
 
-    public ReadProductNumberInfoResponseDto toReadProductNumberInfoResponseDto() {
-        return ReadProductNumberInfoResponseDto.builder()
+    public ProductNumberInfoObjectDto toProductNumberInfoObjectDtoDto() {
+        return ProductNumberInfoObjectDto.builder()
                 .modelCode(model_code)
                 .modelName(model_name)
                 .modelNumberInfo(model_number_info)

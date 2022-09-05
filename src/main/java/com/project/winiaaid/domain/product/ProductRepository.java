@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Mapper
 public interface ProductRepository {
-    public List<Product> findListToProductMainCategory() throws Exception;
+    public List<Product> findListToProductMainCategory(int company_code) throws Exception;
     public List<Product> findListToProductDetailInfo(Map<String, Object> infoMap) throws Exception;
     public List<ProductNumberInfo> findListToProductNumberInfo() throws Exception;
 }

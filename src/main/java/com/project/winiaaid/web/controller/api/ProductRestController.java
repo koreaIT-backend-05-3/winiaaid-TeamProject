@@ -2,12 +2,10 @@ package com.project.winiaaid.web.controller.api;
 
 import com.project.winiaaid.service.Product.ProductService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
-import com.project.winiaaid.web.dto.Product.ProductNumberInfoObjectResponseDto;
 import com.project.winiaaid.web.dto.Product.ReadProductCategoryResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductDetailResponseDto;
+import com.project.winiaaid.web.dto.Product.ReadProductNumberInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +20,12 @@ public class ProductRestController {
 
     private final ProductService productService;
 
-    @GetMapping("/list/category")
-    public ResponseEntity<?> getMainCategoryList() {
+    @GetMapping("/list/category/{company}")
+    public ResponseEntity<?> getMainCategoryList(@PathVariable String company) {
         List<ReadProductCategoryResponseDto> productCategoryList = null;
 
         try {
-            productCategoryList = productService.getProductMainCategoryList();
+            productCategoryList = productService.getProductMainCategoryList(company);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "load categoryList fail", productCategoryList));
@@ -36,12 +34,12 @@ public class ProductRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "load categoryList success", productCategoryList));
     }
 
-    @GetMapping("/list/category/{type}/{code}")
-    public ResponseEntity<?> getDetailProductListByType(@PathVariable String type, @PathVariable int code) {
+    @GetMapping("/list/category/{company}/{type}/{code}")
+    public ResponseEntity<?> getDetailProductListByType(@PathVariable String company, @PathVariable String type, @PathVariable int code) {
         List<?> productDetailList = null;
 
         try {
-            productDetailList = productService.getProductDetailInfoList(type, code);
+            productDetailList = productService.getProductDetailInfoList(company, type, code);
             System.out.println(productDetailList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,7 +51,7 @@ public class ProductRestController {
 
     @GetMapping("/list/model/number/info")
     public ResponseEntity<?> getProductModelNumberInfo() {
-        List<ProductNumberInfoObjectResponseDto> productNumberInfoObjectList = null;
+        List<ReadProductNumberInfoResponseDto> productNumberInfoObjectList = null;
 
         try {
             productNumberInfoObjectList = productService.getProductNumberInfoList();

@@ -6,28 +6,27 @@
 <mapper namespace="com.project.winiaaid.domain.product.ProductRepository">
     <select id="findListToProductMainCategory" parameterType="Integer" resultType="com.project.winiaaid.domain.product.Product">
         SELECT
-            product_category_code,
-            product_category_name,
-            is_group
+            pmc.product_category_code,
+            pmc.group_flag,
+            pmc.product_group,
+
+            wpm.product_category_name,
+
+            pgc.product_group_category_name
         FROM
-            winia_product_mst
+            product_main_category pmc
+            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = pmc.product_category_code)
+            LEFT OUTER JOIN product_group_catgegory pgc ON(pgc.product_category_code = pmc.product_category_code)
         WHERE
-            main_product = 1;
+            pmc.company_code = #{company_code};
     </select>
 
     <select id="findListToProductDetailInfo" parameterType="HashMap" resultType="com.project.winiaaid.domain.product.Product">
         SELECT
+            wpm.product_category_code,
             wpm.product_category_name,
             wpm.integrated_flag,
-            wpm.is_group,
-        <choose>
-            <when test='type.equals("group")'>
-                wpm.product_category_code,
-            </when>
-            <otherwise>
-                wpd.product_code,
-            </otherwise>
-        </choose>
+            wpd.product_code,
             wpd.product_detail_name
         FROM
             winia_product_mst wpm
@@ -35,14 +34,16 @@
         WHERE
         <choose>
             <when test='type.equals("group")'>
-                wpm.product_group = #{code} AND wpm.is_group != 1
-            ORDER BY
-                wpm.product_category_code;
+                wpm.product_group = #{code}
+                AND wpm.company_code = #{company_code}
             </when>
             <otherwise>
-                wpm.product_category_code = #{code};
+                wpm.product_category_code = #{code}
+                AND wpm.company_code = #{company_code}
             </otherwise>
         </choose>
+        ORDER BY
+            wpm.product_category_code;
     </select>
 
     <select id="findListToProductNumberInfo" resultType="com.project.winiaaid.domain.product.ProductNumberInfo">
