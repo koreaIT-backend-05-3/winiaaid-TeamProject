@@ -50,7 +50,7 @@ header {
     cursor: pointer;
 }
 
-.select-product-category {
+.select-category {
     border: 1px solid #0a71cc;
     color: #fff;
     background-color: #0a71cc;
@@ -105,8 +105,12 @@ header {
 
 .product-category-image div {
     border: 1px solid #ccc;
-    width: 301px;
-    height: 195px;
+    width: 310px;
+    height: 210px;
+}
+
+.product-category-image div:nth-child(2) {
+    border-left: none;
 }
 
 .product-number-location-info {

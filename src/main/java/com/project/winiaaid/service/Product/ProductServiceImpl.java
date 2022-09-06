@@ -3,6 +3,7 @@ package com.project.winiaaid.service.Product;
 import com.project.winiaaid.domain.product.Product;
 import com.project.winiaaid.domain.product.ProductNumberInfo;
 import com.project.winiaaid.domain.product.ProductRepository;
+import com.project.winiaaid.domain.product.ProductTrouble;
 import com.project.winiaaid.web.dto.Product.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
         productList = productRepository.findListToProductDetailInfo(infoMap);
 
         if(productList != null) {
-            if(type.equals("default")){
+            if(type.equals("default") && productList.get(0).getProduct_code() != 0){
                 productInfoList = changeToReadProductDetailResponseDto(productList);
 
             }else {
@@ -101,6 +102,20 @@ public class ProductServiceImpl implements ProductService {
         return readProductNumberInfoResponseDtoList;
     }
 
+    @Override
+    public List<ReadProductTroubleResponseDto> getProductTroubleInfoList(int categoryCode) throws Exception {
+        List<ReadProductTroubleResponseDto> productTroubleDtoList = null;
+        List<ProductTrouble> productTroubleEntityList = null;
+
+        productTroubleEntityList = productRepository.findTroubleSymptomByProductCode(categoryCode);
+
+        if(productTroubleEntityList != null) {
+            productTroubleDtoList = changeToReadProductTroubleResponseDto(productTroubleEntityList);
+        }
+
+        return productTroubleDtoList;
+    }
+
     private int setCompanyCode(String company) {
         int companyCode = 0;
         if(company.equals("daewoo")) {
@@ -109,6 +124,12 @@ public class ProductServiceImpl implements ProductService {
             companyCode = 2;
         }
         return companyCode;
+    }
+
+    private List<ReadProductTroubleResponseDto> changeToReadProductTroubleResponseDto(List<ProductTrouble> productList) {
+       return productList.stream()
+               .map(product -> product.toReadProductTroubleResponseDto())
+               .collect(Collectors.toList());
     }
 
     private List<ReadProductCategoryResponseDto> changeToReadProductCategoryResponseDto(List<Product> productList) {
@@ -135,7 +156,11 @@ public class ProductServiceImpl implements ProductService {
 
     private Iterator<Integer> makeIteratorBycodeSet(List<Product> productList) {
         Set<Integer> codeSet = new HashSet<>();
-        productList.forEach(product -> codeSet.add(product.getProduct_category_code()));
+        productList.forEach(product -> {
+            if(product.getProduct_code() != 0 || (product.getIntegrated_flag() != 0 && product.getProduct_code() == 0)) {
+                codeSet.add(product.getProduct_category_code());
+            }
+        });
 
         return codeSet.iterator();
     }

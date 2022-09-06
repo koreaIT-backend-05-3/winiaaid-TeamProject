@@ -59,4 +59,15 @@
             LEFT OUTER JOIN product_model_image pmi ON(pmi.model_code = pmt.model_code);
     </select>
     
+    <select id="findTroubleSymptomByProductCode" parameterType="Integer" resultType="com.project.winiaaid.domain.product.ProductTrouble">
+        SELECT
+            tst.trouble_code,
+            tst.trouble_name
+        FROM
+            trouble_symptom_table tst
+            LEFT OUTER JOIN trouble_product_category tpc ON(tpc.trouble_code = tst.trouble_code)
+        WHERE
+            tpc.product_category_code = #{category_code};
+    </select>
+    
 </mapper>

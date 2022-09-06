@@ -7,11 +7,10 @@
     <th:block th:replace="/fragments/head"></th:block>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/service/visitRequest.css">
-    <!-- <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css"> -->
-    <!-- <script src="https://unpkg.com/swiper/js/swiper.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
     <title>[위니아에이드] 방문서비스_신청하기</title>
 </head>
 <body>
@@ -130,12 +129,13 @@
                                         <table class="request-service-table">
                                             <tr>
                                                 <th class="required-menu">선택제품</th>
-                                                <td class="product-name-td">김치냉장고</td>
+                                                <td class="product-name-td"></td>
+                                                <!-- <td class="product-name-td-detail"></td> -->
                                             </tr>
                                             <tr>
                                                 <th class="required-menu">제품모델명</th>
                                                 <td>
-                                                    <span class="model-name-span"></span>
+                                                    <span class="model-result-span"></span>
                                                     <div class="model-check-button-list">
                                                         <button type="button">모델명 검색</button>
                                                         <button type="button">모델명 모름</button>
@@ -162,14 +162,14 @@
                                             </tr>
                                             <tr>
                                                 <th class="required-menu">고장증상 선택</th>
-                                                <td>
+                                                <td class="trouble-symptom-td">
                                                     <select name="" id="">
                                                         <option value="">선택</option>
-                                                        <option value="">전원_차단기떨어짐</option>
+                                                        <!-- <option value="">전원_차단기떨어짐</option>
                                                         <option value="">조작부_에러표시</option>
                                                         <option value="">냄새_김치/생활 냄새</option>
                                                         <option value="">냉기커튼_누락</option>
-                                                        <option value="">김치_쉶</option>
+                                                        <option value="">김치_쉶</option> -->
                                                     </select>
                                                 </td>
                                             </tr>

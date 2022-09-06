@@ -4,6 +4,7 @@ import com.project.winiaaid.service.Product.ProductService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.Product.ReadProductCategoryResponseDto;
 import com.project.winiaaid.web.dto.Product.ReadProductNumberInfoResponseDto;
+import com.project.winiaaid.web.dto.Product.ReadProductTroubleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,5 +62,19 @@ public class ProductRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "load modelNumberInfoList success", productNumberInfoObjectList));
+    }
+
+    @GetMapping("/list/trouble/category/{categoryCode}")
+    public ResponseEntity<?> getProductTroubleSymptomInfoList(@PathVariable int categoryCode) {
+        List<ReadProductTroubleResponseDto> productTroubleResponseDtoList = null;
+
+        try {
+            productTroubleResponseDtoList = productService.getProductTroubleInfoList(categoryCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "load productTroubleSymptomInfoList fail", productTroubleResponseDtoList));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "load productTroubleSymptomInfoList success", productTroubleResponseDtoList));
     }
 }

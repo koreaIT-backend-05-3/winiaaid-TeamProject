@@ -224,6 +224,10 @@ input {
     align-items: center;
 }
 
+.detail-product-ul span {
+    margin-bottom: 20px;
+}
+
 
 .swiper-prev {
     width: 20px;
@@ -273,21 +277,21 @@ input {
 }
 
 .product-category img, .detail-product-ul img {
+    margin-bottom: 20px;
     width: 105px;
     height: 115px;
 
     cursor: pointer;
 }
 
-.product-category p, .detail-product-ul span {
-    margin-top: 30px;
+.product-category p {
     margin-bottom: 20px;
 
     font-size: 13px;
     font-weight: 500;
 }
 
-.product-detail {
+.product-name-ul {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -295,19 +299,40 @@ input {
     width: 156px;
 }
 
-.product-detail li {
+.product-name-ul li {
     margin-bottom: 20px;
 }
 
-.product-detail span {
+.product-name-ul span {
     font-size: 13px;
     font-weight: 400;
     color: #7d7d7d;
     cursor: pointer;
 }
 
-.product-detail span:hover {
+.product-name-ul span:hover {
     text-decoration: underline;
+}
+
+.fa-ban {
+    margin-bottom: 20px;
+    font-size: 40px;
+    font-weight: 500;
+}
+
+.model-name-span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #0A71CC;
+
+}
+
+.category-include-model::before {
+    margin: 0px 10px;
+    content: " > ";
+
+    color: black;
+    font-size: 14px;
 }
 
 .write-div {
@@ -352,7 +377,7 @@ input {
     width: 108px;
 }
 
-.model-name-span {
+.model-result-span {
     display: inline-block;
     padding-bottom: 10px;
     font-size: 13px;
