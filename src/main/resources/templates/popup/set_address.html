@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/popup/set_address.css">
+    <title>[위니아에이드] 우편번호 검색</title>
+</head>
+<body>
+    <header>
+        <div class="title-div">
+            <h1>우편번호 검색</h1>
+            <div>
+                <i class="fa-solid fa-x cancel-image"></i>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="container">
+            <div class="search-step-1">
+                <h1 class="step-title">01. 주소검색</h1>
+                <p class="comment-p">도로명, 건물명, 지번에 대해 통합검색이 가능합니다. ((예: 반포대로 58, 국립중앙박물관, 삼성동 25))</p>
+                <div class="search-address-div">
+                    <input type="text">
+                    <button class="address-search-button" type="button">검색</button>
+                    <p class="important-p notice-p"><span class="notice-span">도로명+건물번호</span> 또는<span class="notice-span">지역명+지번</span> 으로 검색하면, 보다 정확한 결과를 확인하실 수 있습니다.</p>
+                </div>
+            </div>
+            <div class="search-step-2">
+                <h1 class="step-title">02. 주소선택 및 상세주소 입력</h1>
+                <div class="address-result-div-1">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    우편번호
+                                </th>
+                                <th>주소</th>
+                            </tr>
+                        </thead>
+                        <tbody class="address-reuslt-tbody">
+                            
+                        </tbody>
+                    </table>
+                    <div class="page-button-div">
+                        
+                    </div>
+                </div>
+                <div class="address-result-div-2">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>기본주소</th>
+                                <td>
+                                    <input class="postal-code-check" type="text" readonly>
+                                    <input class="main-address-check" type="text" readonly>
+                                </td>
+                            </tr>
+                            <tr class="detail-address-tr">
+                                <th>상세주소</th>
+                                <td>
+                                    <input class="detail-address-check" type="text" placeholder="상세 주소 입력">
+                                    <p class="important-p">아파트의 경우 동, 호수만 입력해주세요.</p>
+                                    <p class="important-p">아파트 이외의 경우 회사 또는 부서명, 건물명칭을 포함한 상세주소를 입력해주세요.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="write-cancel-div">
+                    <button class="write-button" type="button">확인</button>
+                    <button class="write-cancel-button" type="button">취소</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/popup/popup.js"></script>
+    <script src="/static/js/popup/set_address.js"></script>
+</body>
+</html>

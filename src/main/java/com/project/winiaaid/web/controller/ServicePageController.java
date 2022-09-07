@@ -17,6 +17,7 @@ public class ServicePageController {
 
 	@GetMapping("/popup/modelNamePopup")
 	public String loadModelNamePopupPage() {
-		return "service/model_name_popup";
+		return "popup/model_name_popup";
 	}
+
 }

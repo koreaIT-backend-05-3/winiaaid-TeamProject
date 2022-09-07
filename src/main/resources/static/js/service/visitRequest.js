@@ -1,11 +1,14 @@
 const winia = document.querySelector(".li-winia");
 const daewoo = document.querySelector(".li-daewoo");
 
+const modelSearchTr = document.querySelector(".model-search-tr");
 const swiperWrapper = document.querySelector(".swiper-wrapper");
 const productNameTd = document.querySelector(".product-name-td");
 const productDetailNameTd  = document.querySelector(".product-name-td-detail");
 const modelNameSpan = document.querySelector(".model-result-span");
 const modelCheckButtonList = document.querySelectorAll(".model-check-button-list button");
+
+const searchAddressButton = document.querySelector(".search-address-button");
 
 const preMonthButton = document.querySelector(".pre-month-button");
 const nextMonthButton = document.querySelector(".next-month-button");
@@ -29,19 +32,50 @@ setReservationableDaySpan();
 
 
 modelCheckButtonList[0].onclick = () => {
-    const modelSearchTr = document.querySelector(".model-search-tr");
-
     addVisibleClass(modelNameSpan);
-    removeVisibleClass(modelSearchTr);
+    toggleVisibleClass(modelSearchTr);
 };
 
 modelCheckButtonList[1].onclick = () => {
+    addVisibleClass(modelSearchTr);
+    toggleVisibleClass(modelNameSpan);
     setModelName(modelNameSpan, {productName: "모델명 모름"}, "buttonClick");
 
 };
 
 modelCheckButtonList[2].onclick = showModelNumberCheckPopup;
 
+
+
+searchAddressButton.onclick = loadAddressPopup;
+
+
+// function setAddress() {
+//     const postalCode = document.querySelector(".postal-code");
+//     const addressMain = document.querySelector(".address-main");
+//     const addressDetail = document.querySelector(".address-detail");
+
+//     new daum.Postcode({
+//         oncomplete: function(data) {
+            
+//             let address = "";
+//             let extraAddress = "";
+
+//             if (data.userSelectedType === 'R') {
+//                 address = data.roadAddress;
+//             } else {
+//                 address = data.jibunAddress;
+//             }
+
+//             postalCode.value = data.zonecode;
+//             addressMain.value = address;
+
+//             addressDetail.focus();
+
+//         }
+//     }).open();
+    
+// }
 
 
 
@@ -166,6 +200,8 @@ function createProductNameSpan(domObject, productInfoObject, categoryIncludeFlag
         domObject.appendChild(newSpan);
     }
     getProductTroubleSymptom(productInfoObject.categoryCode);
+    addVisibleClass(modelSearchTr);
+    addVisibleClass(modelNameSpan);
 }
 
 function getProductTroubleSymptom(categoryCode) {
@@ -406,6 +442,10 @@ function removeVisibleClass(object) {
     object.classList.remove("visible");
 }
 
+function toggleVisibleClass(object) {
+    object.classList.toggle("visible");
+}
+
 function makeSwiper() {
     const swiper = new Swiper(".swiper-container", {
         navigation: {
@@ -477,6 +517,17 @@ function clearModelName(domObject) {
     domObject.innerHTML = "";
 }
 
+function setAddressInput(postalCode, mainAddress, detailAddress) {
+    const postalCodeInput = document.querySelector(".postal-code");
+    const mainAddressInput = document.querySelector(".main-address");
+    const detailAddressInput = document.querySelector(".detail-address");
+
+    postalCodeInput.value = postalCode;
+    mainAddressInput.value = mainAddress;
+    detailAddressInput.value = detailAddress;
+
+    detailAddressInput.focus();
+}
 
 
 

@@ -1,3 +1,4 @@
+const cancelImage = document.querySelector(".cancel-image");
 const productCategoryName = document.querySelector(".product-category-name");
 const productCategoryInfo = document.querySelector(".product-category-info");
 const productCategoryImage = document.querySelector(".product-category-image");
@@ -5,11 +6,10 @@ const productNumberLocationInfo = document.querySelector(".product-number-locati
 
 let productCategories = document.querySelectorAll(".product-category");
 
-const cancelImage = document.querySelector(".cancel-image");
-
 let modelMap = new Map();
 
 loadModelCategory();
+
 cancelImage.onclick = cancelPopup;
 
 function loadModelCategory() {
