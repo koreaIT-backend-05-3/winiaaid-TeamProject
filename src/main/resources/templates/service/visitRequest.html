@@ -76,44 +76,15 @@
                                     </div>
                                     <h3>제품/증상을 선택해주세요.</h3>
                                 </div>
-                                <div class="service-request-div detail-content-div">
+                                <div class="service-request-div detail-content-div visible">
+                                    <div class="step-lock visible"></div>
                                     <ul class="category-image-ul">
-                                        <!-- <li class="category-image-li">
-                                            <div>
-                                                <img src="/image/category/product-category1.png" alt="김치냉장고">
-                                            </div>
-                                        </li>
-                                        <li class="category-image-li">
-                                            <div>
-                                                <img src="/image/category/product-category2.png" alt="에어컨">
-                                            </div>
-                                        </li>
-                                        <li class="category-image-li">
-                                            <div>
-                                                <img src="/image/category/product-category3.png" alt="전기밥솥">
-                                            </div>
-                                        </li>
-                                        <li class="category-image-li">
-                                            <div>
-                                                <img src="/image/category/product-category4.png" alt="주방가전">
-                                            </div>
-                                        </li>
-                                        <li class="category-image-li">
-                                            <div>
-                                                <img src="/image/category/product-category5.png" alt="생활가전">
-                                            </div>
-                                        </li> -->
+                                        
                                     </ul>
                                     <div class="product-area">
                                         <div class="swiper-container">
                                             <div class="swiper-wrapper">
-                                                <!-- <ul class="detail-product-ul visible">
-                                                    <li><img src="/image/service" alt="스탠드에어컨"></li>
-                                                    <li><img src="/image/service" alt="벽결이에어컨"></li>
-                                                    <li><img src="/image/service" alt="천장형에어컨"></li>
-                                                    <li><img src="/image/service" alt="이동형에어컨"></li>
-                                                    <li><img src="/image/service" alt="창문형에어컨"></li>
-                                                </ul> -->
+                                               
                                             </div>
                                             <div class="swiper-prev slide-div visible">&lt;</div>
                                             <div class="swiper-next slide-div visible">&gt;</div>
@@ -127,7 +98,6 @@
                                             <tr>
                                                 <th class="required-menu">선택제품</th>
                                                 <td class="product-name-td"></td>
-                                                <!-- <td class="product-name-td-detail"></td> -->
                                             </tr>
                                             <tr>
                                                 <th class="required-menu">제품모델명</th>
@@ -162,11 +132,6 @@
                                                 <td class="trouble-symptom-td">
                                                     <select name="" id="">
                                                         <option value="">선택</option>
-                                                        <!-- <option value="">전원_차단기떨어짐</option>
-                                                        <option value="">조작부_에러표시</option>
-                                                        <option value="">냄새_김치/생활 냄새</option>
-                                                        <option value="">냉기커튼_누락</option>
-                                                        <option value="">김치_쉶</option> -->
                                                     </select>
                                                 </td>
                                             </tr>
@@ -194,7 +159,8 @@
                                     </div>
                                     <h3>서비스 신청자 정보를 입력해주세요.</h3>
                                 </div>
-                                <div class="user-info-content detail-content-div">
+                                <div class="user-info-content detail-content-div visible">
+                                    <div class="step-lock visible"></div>
                                     <div class="comment-span-div">
                                         <span class="required-menu">필수 입력 사항</span>
                                     </div>
@@ -209,16 +175,16 @@
                                                 <div class="phone-box">
                                                     <select name="" id="">
                                                         <option value="">선택</option>
-                                                        <option value="">010</option>
-                                                        <option value="">011</option>
-                                                        <option value="">016</option>
-                                                        <option value="">017</option>
-                                                        <option value="">019</option>
+                                                        <option value="010">010</option>
+                                                        <option value="011">011</option>
+                                                        <option value="016">016</option>
+                                                        <option value="017">017</option>
+                                                        <option value="019">019</option>
                                                     </select>
                                                     <span>-</span>
-                                                    <input type="text">
+                                                    <input class="middle-number" type="tel">
                                                     <span>-</span>
-                                                    <input type="text">
+                                                    <input class="last-number" type="tel">
                                                 </div>
                                                 <p class="important-p phone-notice-p">통화가 되지 않을 경우 예약이 취소될 수 있으니 전화번호를 정확하게 입력해주세요.</p>
                                             </td>
@@ -226,19 +192,25 @@
                                         <tr>
                                             <th>연락가능번호</th>
                                             <td>
-                                                <div class="phone-box">
+                                                <div class="phone-box second-phone-box">
                                                     <select name="" id="">
                                                         <option value="">선택</option>
-                                                        <option value="">010</option>
-                                                        <option value="">011</option>
-                                                        <option value="">016</option>
-                                                        <option value="">017</option>
-                                                        <option value="">019</option>
+                                                        <option value="010">010</option>
+                                                        <option value="011">011</option>
+                                                        <option value="016">016</option>
+                                                        <option value="017">017</option>
+                                                        <option value="019">019</option>
+                                                        <option value="070">070</option>
+                                                        <option value="02">02</option>
+                                                        <option value="031">031</option>
+                                                        <option value="032">032</option>
+                                                        <option value="033">033</option>
+                                                        <option value="041">041</option>
                                                     </select>
                                                     <span>-</span>
-                                                    <input type="text">
+                                                    <input class="middle-number" type="tel">
                                                     <span>-</span>
-                                                    <input type="text">
+                                                    <input class="last-number" type="tel">
                                                 </div>
                                             </td>
                                         </tr>
@@ -246,16 +218,16 @@
                                             <th>이메일</th>
                                             <td>
                                                 <div class="email-box">
-                                                    <input type="text">
+                                                    <input class="email-1" type="text">
                                                     <span>@</span>
-                                                    <input type="text">
+                                                    <input class="email-2" type="text">
                                                     <select name="" id="">
-                                                        <option value="">직접입력</option>
-                                                        <option value="">naver.com</option>
-                                                        <option value="">daum.com</option>
-                                                        <option value="">nate.com</option>
-                                                        <option value="">gmail.com</option>
-                                                        <option value="">yahoo.com</option>
+                                                        <option value="custom">직접입력</option>
+                                                        <option value="naver.com">naver.com</option>
+                                                        <option value="daum.com">daum.com</option>
+                                                        <option value="nate.com">nate.com</option>
+                                                        <option value="gmail.com">gmail.com</option>
+                                                        <option value="yahoo.com">yahoo.com</option>
                                                     </select>
                                                 </div>
                                             </td>
@@ -297,7 +269,7 @@
                                                 <p>- 전자적 파일 형태로 저장된 개인정보는 재생할 수 없는 기술적 방법을 사용하여 삭제합니다.</p>
                                             </div>
                                             <div class="input-checkbox">
-                                                <input type="checkbox" id="agree-consent-to-use-box">
+                                                <input type="checkbox" class="agree-consent-to-use-box" id="agree-consent-to-use-box">
                                                 <label for="agree-consent-to-use-box">개인정보 수집 및 이용에 동의합니다.</label>
                                             </div>
                                         </div>
@@ -400,7 +372,7 @@
                                                 </table>
                                             </div>
                                             <div class="input-checkbox">
-                                                <input type="checkbox" id="agree-consignment-processing-box">
+                                                <input type="checkbox" class="agree-consignment-processing-box" id="agree-consignment-processing-box">
                                                 <label for="agree-consignment-processing-box">개인정보 수집 및 이용에 동의합니다.</label>
                                             </div>
                                         </div>
@@ -415,8 +387,8 @@
                                     </div>
                                     <h3>날짜와 시간을 선택해주세요.</h3>
                                 </div>
-                                <div class="visible">
-
+                                <div class="reservation-div detail-content-div visible">
+                                    <div class="step-lock visible"></div>
                                     <div class="main-h2-div">
                                         <div class="select-day-h2-div"><h2>예약날짜 선택</h2></div>
                                         <div class="select-time-h2-div"><h2>예약시간 선택</h2></div>
@@ -542,7 +514,7 @@
                                                     <dd>A기사님 / 위니아서비스 동부산점</dd>
                                                 </dl>
                                                 <div class="modify-button">
-                                                    <button type="button">예약일시변경</button>
+                                                    <button type="button">예약정보변경</button>
                                                 </div>
                                             </div>
                                         </div>

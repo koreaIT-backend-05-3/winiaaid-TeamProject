@@ -1,45 +1,66 @@
 const winia = document.querySelector(".li-winia");
 const daewoo = document.querySelector(".li-daewoo");
 
+const stepTitleItems = document.querySelectorAll(".step-title-div");
+
 const modelSearchTr = document.querySelector(".model-search-tr");
 const swiperWrapper = document.querySelector(".swiper-wrapper");
 const productNameTd = document.querySelector(".product-name-td");
-const productDetailNameTd  = document.querySelector(".product-name-td-detail");
-const modelNameSpan = document.querySelector(".model-result-span");
+const modelDetailSpan = document.querySelector(".model-result-span");
 const modelCheckButtonList = document.querySelectorAll(".model-check-button-list button");
+const troubleSymptomTd = document.querySelector(".trouble-symptom-td select");
+const descriptionInput = document.querySelector(".description-input");
+
+const firstEmail = document.querySelector(".email-1");
+const secondEmail = document.querySelector(".email-2");
+const emailBoxSelect = document.querySelector(".email-box select")
 
 const searchAddressButton = document.querySelector(".search-address-button");
+const postalCodeInput = document.querySelector(".postal-code");
+const mainAddressInput = document.querySelector(".main-address");
+const detailAddressInput = document.querySelector(".detail-address");
 
+
+let dayDivItems = null;
+const mainTimeContent = document.querySelector(".main-time-content");
+const reservationDiv = document.querySelector(".reservation-div");
 const preMonthButton = document.querySelector(".pre-month-button");
 const nextMonthButton = document.querySelector(".next-month-button");
 
+const stepLocks = document.querySelectorAll(".step-lock");
+const modifyButton = document.querySelector(".modify-button button");
+const requestButton = document.querySelector(".request-button");
+const cancelButton = document.querySelector(".cancel-button");
+
 let company = null;
 let productCategoryTitle = null;
+
+let tempPhoneNumber = null;
 
 let nowDate = null;
 let dateObject = {};
 let selectReservationDay = null;
 
+let reservationFlag = false;
 
 winia.onclick = showWiniaProduct;
 
 
 setNowDate();
-dateObject = setDateObject(dateObject);
-insertCalendar(setCalendarDate(dateObject));
+setCalendarData();
 setChangeMonthButton("pre");
 setReservationableDaySpan();
 
 
 modelCheckButtonList[0].onclick = () => {
-    addVisibleClass(modelNameSpan);
+    addVisibleClass(modelDetailSpan);
     toggleVisibleClass(modelSearchTr);
 };
 
 modelCheckButtonList[1].onclick = () => {
     addVisibleClass(modelSearchTr);
-    toggleVisibleClass(modelNameSpan);
-    setModelName(modelNameSpan, {productName: "모델명 모름"}, "buttonClick");
+    toggleVisibleClass(modelDetailSpan);
+    setModelName(modelDetailSpan, {productName: "모델명 모름"}, "buttonClick");
 
 };
 
@@ -78,12 +99,64 @@ searchAddressButton.onclick = loadAddressPopup;
 // }
 
 
+emailBoxSelect.onchange = setEmail;
+
 
 preMonthButton.onclick = setPreMonth;
 
 nextMonthButton.onclick = setNextMonth;
 
+stepTitleItems[0].onclick = checkRequireProductBrand;
 
+stepTitleItems[1].onclick = () => {
+    if(!checkRequireProductBrand()) {
+        return
+    }else if(!checkRequireProductModel()) {
+        return
+    }
+}
+
+stepTitleItems[2].onclick = () =>{
+    if(!checkRequireProductBrand()) {
+        return
+    }else if(!checkRequireProductModel()) {
+        return
+    }else if(!checkRequireInput()) {
+        return
+    }
+}
+
+stepTitleItems[3].onclick = () => {
+    if(!checkRequireProductBrand()) {
+        return
+    }else if(!checkRequireProductModel()) {
+        return
+    }else if(!checkRequireInput()) {
+        return
+    }else if(!checkReservationFlag()) {
+        return
+    }
+}
+
+modifyButton.onclick = requestDivActivation;
+
+requestButton.onclick = checkAllRequireItems;
+
+
+function checkAllRequireItems() {
+    if(!checkRequireProductBrand()) {
+        return
+    }else if(!checkRequireProductModel()) {
+        return
+    }else if(!checkRequireInput()) {
+        return
+    }else if(!checkReservationFlag()) {
+        return
+    }
+    alert("신청!");
+}
+
+/*>>>>>>>>>>>>>>>>> STEP 1 <<<<<<<<<<<<<<<<<<<<<<<<*/ 
 
 function showWiniaProduct() {
     const serviceRequestDiv = document.querySelector(".service-request-div");
@@ -143,6 +216,7 @@ function setModelName(domObject, productInfoObject, type) {
 
     }else if(type == "integrated") {
         removeAllChild(domObject);
+        initializationTroubleSymptom();
 
         if(productInfoObject.productName != null) {
             createProductNameSpan(domObject, productInfoObject, false);
@@ -201,7 +275,7 @@ function createProductNameSpan(domObject, productInfoObject, categoryIncludeFlag
     }
     getProductTroubleSymptom(productInfoObject.categoryCode);
     addVisibleClass(modelSearchTr);
-    addVisibleClass(modelNameSpan);
+    addVisibleClass(modelDetailSpan);
 }
 
 function getProductTroubleSymptom(categoryCode) {
@@ -220,15 +294,17 @@ function getProductTroubleSymptom(categoryCode) {
 }
 
 function setProductTroubleSymptom(toubleSymptomList) {
-    const troubleSymptomTd = document.querySelector(".trouble-symptom-td select");
-
-    troubleSymptomTd.innerHTML = `<option value="0">선택</option>`;
+    initializationTroubleSymptom();
 
     toubleSymptomList.forEach(trouble => {
         troubleSymptomTd.innerHTML += `
         <option value="${trouble.troubleCode}">${trouble.troubleName}</option>
         `;
     });
+}
+
+function initializationTroubleSymptom() {
+    troubleSymptomTd.innerHTML = `<option value="0">선택</option>`;
 }
 
 function getProductDetail(code, isGroup) {
@@ -459,18 +535,18 @@ function checkSlideAmount() {
     const swiperSlides = document.querySelectorAll(".swiper-slide");
     const swiperMoveDivs = document.querySelectorAll(".slide-div");
     if(swiperSlides.length > 1) {
-        removeVisible(swiperMoveDivs);
+        removeVisibles(swiperMoveDivs);
     }else {
-        addVisible(swiperMoveDivs);
+        addVisibles(swiperMoveDivs);
     }
 }
 
-function addVisible(slideObjects) {
-    slideObjects.forEach(object => object.classList.add("visible"));
+function addVisibles(objects) {
+    objects.forEach(object => object.classList.add("visible"));
 }
 
-function removeVisible(slideObjects) {
-    slideObjects.forEach(object => object.classList.remove("visible"));
+function removeVisibles(objects) {
+    objects.forEach(object => object.classList.remove("visible"));
 }
 
 function setCategoryClickEvent(productInfoList) {
@@ -481,11 +557,13 @@ function setCategoryClickEvent(productInfoList) {
             categoryImages[i].onclick = () => {
                 getProductDetail(productInfoList[i].productGroup, true);
                 setModelName(productNameTd, {"productTitle": productInfoList[i].categoryName}, "category");
+                initializationTroubleSymptom();
             }
         }else {
             categoryImages[i].onclick = () => {
                 getProductDetail(productInfoList[i].categoryCode, false);
                 setModelName(productNameTd, {"productTitle": productInfoList[i].categoryName}, "category");
+                initializationTroubleSymptom();
             }
         }
     }
@@ -517,11 +595,25 @@ function clearModelName(domObject) {
     domObject.innerHTML = "";
 }
 
-function setAddressInput(postalCode, mainAddress, detailAddress) {
-    const postalCodeInput = document.querySelector(".postal-code");
-    const mainAddressInput = document.querySelector(".main-address");
-    const detailAddressInput = document.querySelector(".detail-address");
+function checkRequireStep1() {
 
+}
+
+
+/*>>>>>>>>>>>>>>>>> STEP 2 <<<<<<<<<<<<<<<<<<<<<<<<*/ 
+
+function setEmail() {
+
+    if(emailBoxSelect.options[emailBoxSelect.selectedIndex].value != "custom") {
+        secondEmail.value = emailBoxSelect.options[emailBoxSelect.selectedIndex].value;
+        secondEmail.setAttribute("readonly", true);
+    }else {
+        secondEmail.value = "";
+        secondEmail.removeAttribute("readonly", false);
+    }
+}
+
+function setAddressInput(postalCode, mainAddress, detailAddress) {
     postalCodeInput.value = postalCode;
     mainAddressInput.value = mainAddress;
     detailAddressInput.value = detailAddress;
@@ -529,13 +621,18 @@ function setAddressInput(postalCode, mainAddress, detailAddress) {
     detailAddressInput.focus();
 }
 
-
+/*>>>>>>>>>>>>>>>>> STEP 3 <<<<<<<<<<<<<<<<<<<<<<<<*/ 
 
 function setNowDate() {
     const nowDateDiv = document.querySelector(".now-date");
     nowDate = new Date();
 
     nowDateDiv.innerHTML = `${nowDate.getFullYear()}년 ${nowDate.getMonth() + 1}월`;
+}
+
+function setCalendarData() {
+    dateObject = setDateObject(dateObject);
+    insertCalendar(setCalendarDate(dateObject));
 }
 
 function checkChangeableMonth() {
@@ -613,16 +710,16 @@ function setCalendarDate(dateObject) {
             if(dateObject.monthStartDay < blankCount + 1 && dayCount < dateObject.monthLastDay) {
                 dayCount++;
 
-                calendar += `
-                <div class=${blankCount == 0 
+                let dayResult = blankCount == 0 
                     || blankCount % 7 == 0 ? "sunday"
                     : dayCount < dateObject.date
-                    && nowDate.getDate > dayCount ? "past-day" 
+                    && nowDate.getMonth() + 1 == dateObject.month ? "past-day" 
                     :nowDate.getMonth() + 1 != dateObject.month 
                     && nowDate.getDate() < dayCount ? "future-day" 
                     : saturdayCount == 6 ? "saturday"
-                    : "day-div"} onclick="selectDay(${dayCount})">${dayCount}
-                  <div>`;
+                    : "day-div";
+
+                calendar += `<div class=${dayResult}>${dayCount}<div>`;
 
             }
             calendar += "</td>";
@@ -632,15 +729,36 @@ function setCalendarDate(dateObject) {
         calendar += "</tr>";
     }
 
+    clearReservationTime();
+
     return calendar;
 
+}
+
+function clearReservationTime() {
+    mainTimeContent.innerHTML = "";
+    reservationFlag = false;
 }
 
 function insertCalendar(calendar) {
     const calendarBody = document.querySelector(".calendar-body");
 
     calendarBody.innerHTML = calendar;
-    
+
+    setCalendarClickEvent(calendarBody);
+}
+
+function setCalendarClickEvent(calendarBody) {
+    dayDivItems = calendarBody.querySelectorAll("div");
+
+    dayDivItems.forEach(dayDiv => {
+        if(dayDiv.classList.contains("saturday") || dayDiv.classList.contains("day-div")) {
+            dayDiv.onclick = () => {
+                selectDay(dayDiv.textContent, dayDiv);
+                reservationFlag = false;
+            }
+        }
+    });
 }
 
 function setReservationableDaySpan() {
@@ -674,34 +792,40 @@ function getTheUnbookableTime(day) {
 }
 
 function setReservationTime(unbookableTimeByEngineerList) {
-    const mainTimeContent = document.querySelector(".main-time-content");
     clearMainTimeContent(mainTimeContent);
 
     for(engineer of unbookableTimeByEngineerList) {
-        console.log(engineer.engineerReservationInfoDtoList[0].engineerName);
-        mainTimeContent.innerHTML += `
+        let engineerInfo = engineer.engineerReservationInfoDtoList[0];
+
+        const newDl = document.createElement("dl");
+        newDl.setAttribute("class", "engineer-content");
+
+        let rawHTML = `
         <dl class="engineer-content">
-            <dt>${engineer.engineerReservationInfoDtoList[0].engineerName}</dt>
-                <dd class="time-table-${engineer.engineerReservationInfoDtoList[0].engineerCode}">
-                    <label class="activation" onclick="selectTime(this)">09:00</label>
-                    <label class="activation" onclick="selectTime(this)">09:30</label>
-                    <label class="activation" onclick="selectTime(this)">10:00</label>
-                    <label class="activation" onclick="selectTime(this)">10:30</label>
-                    <label class="activation" onclick="selectTime(this)">11:00</label>
-                    <label class="activation" onclick="selectTime(this)">11:30</label>
-                    <label class="activation" onclick="selectTime(this)">13:00</label>
-                    <label class="activation" onclick="selectTime(this)">13:30</label>
-                    <label class="activation" onclick="selectTime(this)">14:00</label>
-                    <label class="activation" onclick="selectTime(this)">14:30</label>
-                    <label class="activation" onclick="selectTime(this)">15:00</label>
-                    <label class="activation" onclick="selectTime(this)">15:30</label>
-                    <label class="activation" onclick="selectTime(this)">16:00</label>
-                    <label class="activation" onclick="selectTime(this)">16:30</label>
-                    <label class="activation" onclick="selectTime(this)">17:00</label>
-                    <label class="activation" onclick="selectTime(this)">17:30</label>
+            <dt>${engineerInfo.engineerName}</dt>
+                <dd class="time-table-${engineerInfo.engineerCode}">
+                    <label class="activation">09:00</label>
+                    <label class="activation">09:30</label>
+                    <label class="activation">10:00</label>
+                    <label class="activation">10:30</label>
+                    <label class="activation">11:00</label>
+                    <label class="activation">11:30</label>
+                    <label class="activation">13:00</label>
+                    <label class="activation">13:30</label>
+                    <label class="activation">14:00</label>
+                    <label class="activation">14:30</label>
+                    <label class="activation">15:00</label>
+                    <label class="activation">15:30</label>
+                    <label class="activation">16:00</label>
+                    <label class="activation">16:30</label>
+                    <label class="activation">17:00</label>
+                    <label class="activation">17:30</label>
                 </dd>
         </dl>
         `;
+
+        newDl.innerHTML = rawHTML;
+        mainTimeContent.appendChild(newDl);
 
         const timeTables = document.querySelectorAll(`.time-table-${engineer.engineerReservationInfoDtoList[0].engineerCode} label`);
 
@@ -728,23 +852,75 @@ function setReservationTime(unbookableTimeByEngineerList) {
                 }
             }
         }
-        
+        setReservationTimeClickEvent(timeTables, engineerInfo.engineerCode);
     }
+    // test(document.querySelectorAll(".activation"));
+    
+    // setReservationTimeClickEvent(document.querySelectorAll(".activation"), 1);
+}
 
+function setReservationTimeClickEvent(reservationTimes, enginnerCode) {
+    reservationTimes.forEach(time => {
+        time.onclick = () => {
+            selectTime(time, enginnerCode);
+        }
+    })
 }
 
 function clearMainTimeContent(mainTimeContent) {
     mainTimeContent.innerHTML = "";
 }
 
-function selectDay(day) {
+function selectDay(day, object) {
+    removeSelectDayClass();
+
+    object.classList.add("select-day");
+
     setReservationTime(getTheUnbookableTime(day));
 }
 
-function selectTime(object) {
+const mainConfirmDiv = document.querySelector(".main-confirm-div");
+
+function selectTime(object, engineerCode) {
     if(!object.classList.contains("unbookable")) {
-        console.log(object.textContent);
+        removeSelectTimeClass();
+        object.classList.add("select-time");
+        removeVisibles(stepLocks);
+        removeVisibleClass(mainConfirmDiv);
+        reservationFlag = true;
     }
+}
+
+function removeSelectDayClass() {
+    for(dayDiv of dayDivItems) {
+        if(dayDiv.classList.contains("select-day")) {
+            dayDiv.classList.remove("select-day");
+            break;
+        }
+    }
+}
+
+function removeSelectTimeClass() {
+    const reservationTimeItems = document.querySelectorAll(".activation");
+    for(reservationTime of reservationTimeItems) {
+        if(reservationTime.classList.contains("select-time")) {
+            reservationTime.classList.remove("select-time");
+            break;
+        }
+    }
+
+}
+
+function requestDivActivation() {
+    if(confirm("예약날짜와 시간이 초기화 됩니다.\n다시 수정 하시겠습니까?")) {
+        addVisibles(stepLocks);
+        addVisibleClass(mainConfirmDiv);
+        setCalendarData();
+    }
+}
+
+function isEmpty(data) {
+    return data == null || data == undefined || data == "";
 }
 
 function errorMessage(request, status, error) {
@@ -752,4 +928,122 @@ function errorMessage(request, status, error) {
     console.log(request.status);
     console.log(request.responseText);
     console.log(error);
+}
+
+function checkRequireProductBrand() {
+    if(company == null) {
+        alert("예약신청 제품의 브랜드를 선택해주세요.");
+        return false;
+    }
+    return true;
+}
+
+function checkRequireProductModel() {
+    const modelNameSpan = document.querySelector(".model-name-span");
+
+    if(isEmpty(modelNameSpan)) {
+        alert("예약신청 제품을 선택해주세요.");
+        return false;
+    }else if(modelDetailSpan.classList.contains("visible")) {
+        alert("모델명을 선택해주세요.");
+        return false;
+    }else if(troubleSymptomTd.options[troubleSymptomTd.selectedIndex].value == 0) {
+        alert("고장증상을 선택해주세요.");
+        return false;
+    }else if(isEmpty(descriptionInput.value)) {
+        alert("접수내용을 입력해주세요");
+        descriptionInput.focus();
+        return false;
+    }
+
+    const userInfoContent = document.querySelector(".user-info-content");
+    removeVisibleClass(userInfoContent);
+
+    return true;
+}
+
+function checkRequireInput() {
+    const nameInput = document.querySelector(".name-input");
+
+    const firstPhoneNumber = document.querySelector(".phone-box select");
+    const middlePhoneNumber = document.querySelector(".middle-number");
+    const lastPhoneNumber = document.querySelector(".last-number");
+
+    let firstNumber = firstPhoneNumber.options[firstPhoneNumber.selectedIndex].value;
+    let phoneNumber = firstNumber +"-"+ middlePhoneNumber.value +"-"+ lastPhoneNumber.value;
+
+    let regPhone = /^01([0|1|6|7|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
+    const secondFirstPhoneNumber = document.querySelector(".second-phone-box select");
+    const secondMiddlePhoneNumber = document.querySelector(".second-phone-box .middle-number");
+    const secondLastPhoneNumber = document.querySelector(".second-phone-box .last-number");
+
+    let secondFirstNumber = secondFirstPhoneNumber.options[secondFirstPhoneNumber.selectedIndex].value;
+    let secondNumber = secondFirstNumber +"-"+ secondMiddlePhoneNumber.value +"-"+ secondLastPhoneNumber.value;
+
+    let regPhone2 = /^([0-9]{2,3})-?([0-9]{3,4})-?([0-9]{4})$/;
+
+    const agreeConsentToUse = document.querySelector(".agree-consent-to-use-box")
+    const agreeConsignmentProcessing = document.querySelector(".agree-consignment-processing-box");
+
+    if(isEmpty(nameInput.value)) {
+        alert("성명을 입력해 주세요.");
+        nameInput.focus();
+        return false;
+    }else if(isEmpty(firstNumber) && isEmpty(middlePhoneNumber.value) && isEmpty(lastPhoneNumber.value)) {
+        alert("휴대폰번호를 입력해주세요.");
+        middlePhoneNumber.focus();
+        return false;
+    }else if(!regPhone.test(phoneNumber)) {
+        alert("휴대폰번호를 확인해주세요.");
+        middlePhoneNumber.focus();
+        return false;
+    }else if(isEmpty(postalCodeInput.value) || isEmpty(mainAddressInput.value) || isEmpty(detailAddressInput.value)) {
+        alert("주소를 입력해주세요.");
+        detailAddressInput.focus();
+        return false;
+    }else if(!agreeConsentToUse.checked) {
+        alert("개인정보 수집 및 이용에 동의해주세요.")
+        agreeConsentToUse.focus();
+        return false;
+    }else if(!agreeConsignmentProcessing.checked) {
+        alert("개인정보 위탁처리에 동의해주세요.");
+        agreeConsignmentProcessing.focus();
+        return false;
+    }
+
+    if(!isEmpty(firstEmail.value) || !isEmpty(secondEmail.value)) {
+        let email = firstEmail.value + "@" + secondEmail.value;
+        let regEmail = /^[A-Za-z0-9]+@[A-Za-z0-9]+\.com$/;
+
+        if(!regEmail.test(email)) {
+            alert("이메일 주소를 올바르게 입력해주세요.");
+            firstEmail.focus();
+            return false;
+        }
+    }else if(!isEmpty(secondNumber.replaceAll("-", ""))) {
+        if(!regPhone2.test(secondNumber)) {
+            alert("휴대폰번호를 확인해주세요.");
+            secondMiddlePhoneNumber.focus();
+            return false;
+        }
+    }
+
+    if(phoneNumber != tempPhoneNumber) {
+        if(!confirm(`입력하신 전화번호가\n${phoneNumber}이 맞습니까?\n연락처가 틀린 경우 방문이 되지 않습니다.\n다시 한 번 확인해주세요.`)){
+            return false;
+        }
+        tempPhoneNumber = phoneNumber;
+    }
+    removeVisibleClass(reservationDiv);
+    
+    return true;
+}
+
+function checkReservationFlag() {
+    if(!reservationFlag) {
+        alert("예약날짜와 시간을 선택해주세요.");
+        return false;
+    }
+    return reservationFlag;
 }

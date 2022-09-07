@@ -8,9 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.filter.CorsFilter;
 
-@EnableWebSecurity
-@Configuration
-@RequiredArgsConstructor
+//@EnableWebSecurity
+//@Configuration
+//@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 

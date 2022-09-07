@@ -21,6 +21,12 @@ searchKeyword.onkeypress = (e) => {
 
 addressSearchButton.onclick = () => searchAddress(nowPage);
 
+detailAddressCheck.onkeypress = (e) => {
+    if(e.keyCode == 13) {
+        writeButton.click();
+    }
+}
+
 writeButton.onclick = setAddressToParentWindow;
 
 writeCancelButton.onclick = cancelPopup;
