@@ -176,6 +176,14 @@ input {
     font-weight: 500;
 }
 
+.activation-step-title {
+    border: 1px solid #0A71CC;
+}
+
+.activation-step-div {
+    background-color: #0A71CC;
+}
+
 /* >>>>>>>>>>>>>>>>>> STEP 1 <<<<<<<<<<<<<<<<<<<*/
 
 .category-image-ul {
@@ -416,8 +424,45 @@ input {
     color: #7e7e7e;
 }
 
+.model-result {
+    border-top: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    overflow: auto;
+    max-height: 85px;
+}
+
+.model-result li {
+    float: left;
+    width: 255px;
+    height: 30px;
+
+    cursor: pointer;
+}
+
+.model-result li:hover {
+    text-decoration: underline;
+}
+
+.model-result li::after {
+    content: "┃";
+    color: #d9d9d9;
+
+    font-size: 12px;
+    font-weight: 100;
+}
+
 .request-type-td label {
     cursor: pointer;
+}
+
+.request-service-table {
+    width: 980px;
+    height: 354px;
 }
 
 .request-service-table select {
@@ -430,10 +475,10 @@ input {
     color: #7e7e7e;
 }
 
-.request-service-table {
-    width: 980px;
-    height: 354px;
+.request-service-table th, .request-service-table td {
+    padding: 10px 20px;
 }
+
 
 table th, table td {
     border-top: 1px solid #9e9e9e;
@@ -466,6 +511,12 @@ table th {
     right: 40px;
 
     font-size: 12px;
+}
+
+.allowed-byte-display {
+    font-size: 13px;
+    font-weight: 500;
+    color: #0A71CC;
 }
 
 .description-div p {
@@ -506,6 +557,8 @@ table th {
 .phone-box input {
     padding: 5px;
     height: 31px;
+    
+    text-align: center;
 }
 
 .phone-box select {

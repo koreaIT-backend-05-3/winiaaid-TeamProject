@@ -11,4 +11,5 @@ public interface ProductRepository {
     public List<Product> findListToProductDetailInfo(Map<String, Object> infoMap) throws Exception;
     public List<ProductNumberInfo> findListToProductNumberInfo() throws Exception;
     public List<ProductTrouble> findTroubleSymptomByProductCode(int category_code) throws Exception;
+    public List<ProductModel> findModelNumberListByModelNumber(Map<String, Object> modelMap) throws Exception;
 }

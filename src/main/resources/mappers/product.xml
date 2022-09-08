@@ -9,14 +9,12 @@
             pmc.product_category_code,
             pmc.group_flag,
             pmc.product_group,
+            pmc.product_main_category_image,
 
-            wpm.product_category_name,
-
-            pgc.product_group_category_name
+            wpm.product_category_name
         FROM
             product_main_category pmc
             LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = pmc.product_category_code)
-            LEFT OUTER JOIN product_group_catgegory pgc ON(pgc.product_category_code = pmc.product_category_code)
         WHERE
             pmc.company_code = #{company_code};
     </select>
@@ -25,9 +23,10 @@
         SELECT
             wpm.product_category_code,
             wpm.product_category_name,
-            wpm.integrated_flag,
+            wpm.product_main_image,
             wpd.product_code,
-            wpd.product_detail_name
+            wpd.product_detail_name,
+            wpd.product_detail_image
         FROM
             winia_product_mst wpm
             LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_category_code = wpm.product_category_code)
@@ -36,6 +35,7 @@
             <when test='type.equals("group")'>
                 wpm.product_group = #{code}
                 AND wpm.company_code = #{company_code}
+                AND main_group_flag != 1
             </when>
             <otherwise>
                 wpm.product_category_code = #{code}
@@ -69,5 +69,15 @@
         WHERE
             tpc.product_category_code = #{category_code};
     </select>
-    
+
+    <select id="findModelNumberListByModelNumber" parameterType="HashMap" resultType="com.project.winiaaid.domain.product.ProductModel">
+        SELECT
+            model_code,
+            model_number
+        FROM
+            product_model_detail
+        WHERE
+            product_code = #{product_code}
+            AND model_number LIKE concat("%", #{model_number}, "%");
+    </select>
 </mapper>

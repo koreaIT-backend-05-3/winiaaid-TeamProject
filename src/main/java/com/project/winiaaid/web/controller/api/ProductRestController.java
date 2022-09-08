@@ -3,14 +3,12 @@ package com.project.winiaaid.web.controller.api;
 import com.project.winiaaid.service.Product.ProductService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.Product.ReadProductCategoryResponseDto;
+import com.project.winiaaid.web.dto.Product.ReadProductModelResponseDto;
 import com.project.winiaaid.web.dto.Product.ReadProductNumberInfoResponseDto;
 import com.project.winiaaid.web.dto.Product.ReadProductTroubleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -76,5 +74,19 @@ public class ProductRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "load productTroubleSymptomInfoList success", productTroubleResponseDtoList));
+    }
+
+    @GetMapping("/model/list/{modelName}")
+    public ResponseEntity<?> getProductModelByModelName(@PathVariable String modelName, @RequestParam int code) {
+        List<ReadProductModelResponseDto> productModelList = null;
+
+        try {
+            productModelList = productService.getProductModelInfoList(code, modelName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "load modelName fail", productModelList));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "load modelName success", productModelList));
     }
 }

@@ -10,4 +10,5 @@ public class ReadProductCategoryResponseDto {
     private String categoryName;
     private boolean groupFlag;
     private int productGroup;
+    private String productMainCategoryImage;
 }

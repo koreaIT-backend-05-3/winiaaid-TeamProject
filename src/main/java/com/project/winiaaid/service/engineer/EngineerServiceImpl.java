@@ -2,8 +2,8 @@ package com.project.winiaaid.service.engineer;
 
 import com.project.winiaaid.domain.engineer.Engineer;
 import com.project.winiaaid.domain.engineer.EngineerRepository;
-import com.project.winiaaid.web.dto.Engineer.EngineerReservationInfoDto;
-import com.project.winiaaid.web.dto.Engineer.ReadEngineerResponseDto;
+import com.project.winiaaid.web.dto.Engineer.ReadEngineerInfoResponseDto;
+import com.project.winiaaid.web.dto.Engineer.ReadEngineerReservationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +17,25 @@ public class EngineerServiceImpl implements EngineerService {
     private final EngineerRepository engineerRepository;
 
     @Override
-    public List<ReadEngineerResponseDto> getEngineerReservationInfo() throws Exception {
+    public List<ReadEngineerInfoResponseDto> getEngineerInfoList() throws Exception {
         List<Engineer> engineerList = null;
-        List<ReadEngineerResponseDto> engineerResponseDtoList = null;
+        List<ReadEngineerInfoResponseDto> engineerInfoResponseDtoList = null;
 
-        engineerList = engineerRepository.getEngineerReservationInfo();
+        engineerList = engineerRepository.findEngineerList();
+
+        if(engineerList != null) {
+            engineerInfoResponseDtoList = changeToReadEngineerInfoResponseDto(engineerList);
+        }
+
+        return engineerInfoResponseDtoList;
+    }
+
+    @Override
+    public List<ReadEngineerReservationResponseDto> getEngineerReservationInfo(String date) throws Exception {
+        List<Engineer> engineerList = null;
+        List<ReadEngineerReservationResponseDto> engineerResponseDtoList = null;
+
+        engineerList = engineerRepository.findEngineerReservationInfo(date);
 
         if(engineerList != null) {
             Set<Integer> engineerCodeSet = new HashSet<>();
@@ -34,7 +48,7 @@ public class EngineerServiceImpl implements EngineerService {
             while(iterator.hasNext()) {
                 int engineerCode = iterator.next();
 
-                ReadEngineerResponseDto readEngineerResponseDto = ReadEngineerResponseDto.builder()
+                ReadEngineerReservationResponseDto readEngineerResponseDto = ReadEngineerReservationResponseDto.builder()
                         .engineerReservationInfoDtoList(
                                 engineerList.stream()
                                     .filter(engineer -> engineerCode == engineer.getEngineer_code())
@@ -53,5 +67,11 @@ public class EngineerServiceImpl implements EngineerService {
 
 
         return engineerResponseDtoList;
+    }
+
+    private List<ReadEngineerInfoResponseDto> changeToReadEngineerInfoResponseDto(List<Engineer> engineerList) {
+        return engineerList.stream()
+                .map(engineer -> engineer.toReadEngineerInfoResponseDto())
+                .collect(Collectors.toList());
     }
 }

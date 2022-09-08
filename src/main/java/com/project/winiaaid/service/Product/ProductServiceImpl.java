@@ -1,9 +1,6 @@
 package com.project.winiaaid.service.Product;
 
-import com.project.winiaaid.domain.product.Product;
-import com.project.winiaaid.domain.product.ProductNumberInfo;
-import com.project.winiaaid.domain.product.ProductRepository;
-import com.project.winiaaid.domain.product.ProductTrouble;
+import com.project.winiaaid.domain.product.*;
 import com.project.winiaaid.web.dto.Product.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -126,6 +123,24 @@ public class ProductServiceImpl implements ProductService {
         return companyCode;
     }
 
+    @Override
+    public List<ReadProductModelResponseDto> getProductModelInfoList(int productCode, String modelNumber) throws Exception {
+        List<ProductModel> modelEntityList = null;
+        List<ReadProductModelResponseDto> modelDtoList = null;
+        Map<String, Object> modelMap = new HashMap<>();
+
+        modelMap.put("product_code", productCode);
+        modelMap.put("model_number", modelNumber);
+
+        modelEntityList = productRepository.findModelNumberListByModelNumber(modelMap);
+
+        if(modelEntityList != null) {
+            modelDtoList = changeToReadProductModelResponseDto(modelEntityList);
+        }
+
+        return modelDtoList.size() != 0 ? modelDtoList : null;
+    }
+
     private List<ReadProductTroubleResponseDto> changeToReadProductTroubleResponseDto(List<ProductTrouble> productList) {
        return productList.stream()
                .map(product -> product.toReadProductTroubleResponseDto())
@@ -157,9 +172,7 @@ public class ProductServiceImpl implements ProductService {
     private Iterator<Integer> makeIteratorBycodeSet(List<Product> productList) {
         Set<Integer> codeSet = new HashSet<>();
         productList.forEach(product -> {
-            if(product.getProduct_code() != 0 || (product.getIntegrated_flag() != 0 && product.getProduct_code() == 0)) {
                 codeSet.add(product.getProduct_category_code());
-            }
         });
 
         return codeSet.iterator();
@@ -174,5 +187,11 @@ public class ProductServiceImpl implements ProductService {
                                 .map(product -> product.toReadProductDetailResponseDto())
                                 .collect(Collectors.toList()))
                 .build();
+    }
+
+    private List<ReadProductModelResponseDto> changeToReadProductModelResponseDto(List<ProductModel> productModelList) {
+        return productModelList.stream()
+                .map(productModel -> productModel.toReadProductModelResponseDto())
+                .collect(Collectors.toList());
     }
 }

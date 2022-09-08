@@ -17,13 +17,16 @@ import java.time.LocalDateTime;
 public class Product {
 	private int product_category_code;
 	private String product_category_name;
-	private int integrated_flag;
 	private String product_group_category_name;
 	private int group_flag;
 	private int product_group;
 
 	private int product_code;
 	private String product_detail_name;
+
+	private String product_main_category_image;
+	private String product_main_image;
+	private String product_detail_image;
 
 	private LocalDateTime create_date;
 	private LocalDateTime update_date;
@@ -34,6 +37,7 @@ public class Product {
 				.categoryName(product_category_name != null ? product_category_name : product_group_category_name)
 				.productGroup(product_group)
 				.groupFlag(group_flag == 1 ? true : false)
+				.productMainCategoryImage(product_main_category_image)
 				.build();
 	}
 
@@ -41,9 +45,10 @@ public class Product {
 		return ReadProductDetailResponseDto.builder()
 				.categoryCode(product_category_code)
 				.categoryName(product_category_name)
-				.integratedFlag(integrated_flag == 1 ? true : false)
 				.productCode(product_code)
-				.productName(integrated_flag == 1 ? product_category_name : product_detail_name)
+				.productName(product_detail_name == null ? product_category_name : product_detail_name)
+				.productMainImage(product_main_image)
+				.productDetailImage(product_detail_image == null ? product_main_image : product_detail_image)
 				.build();
 	}
 }

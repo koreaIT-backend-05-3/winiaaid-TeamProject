@@ -6,5 +6,6 @@ import java.util.List;
 
 @Mapper
 public interface EngineerRepository {
-    public List<Engineer> getEngineerReservationInfo() throws Exception;
+    public List<Engineer> findEngineerList() throws Exception;
+    public List<Engineer> findEngineerReservationInfo(String date) throws Exception;
 }

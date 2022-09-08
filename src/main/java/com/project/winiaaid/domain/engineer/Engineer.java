@@ -1,7 +1,7 @@
 package com.project.winiaaid.domain.engineer;
 
 import com.project.winiaaid.web.dto.Engineer.EngineerReservationInfoDto;
-import com.project.winiaaid.web.dto.Engineer.ReadEngineerResponseDto;
+import com.project.winiaaid.web.dto.Engineer.ReadEngineerInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +25,13 @@ public class Engineer {
                 .engineerName(engineer_name)
                 .reservationDay(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(reservation_time))
                 .reservationTime(DateTimeFormatter.ofPattern("HH:mm").format(reservation_time))
+                .build();
+    }
+
+    public ReadEngineerInfoResponseDto toReadEngineerInfoResponseDto() {
+        return ReadEngineerInfoResponseDto.builder()
+                .engineerCode(engineer_code)
+                .engineerName(engineer_name)
                 .build();
     }
 }

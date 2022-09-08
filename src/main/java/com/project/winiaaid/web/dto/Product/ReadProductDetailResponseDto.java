@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 public class ReadProductDetailResponseDto {
     private int categoryCode;
     private String categoryName;
-    private boolean integratedFlag;
     private int productCode;
     private String productName;
+    private String productMainImage;
+    private String productDetailImage;
 }

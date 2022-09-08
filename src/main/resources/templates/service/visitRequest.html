@@ -118,6 +118,11 @@
                                                         <button type="button" class="model-search-button">검색</button>
                                                     </div>
                                                     <p class="important-p search-notice-p">모델명은 최소 2자리 이상 입력해 주세요. 예) BC, DHE, RCS, WSP, K175, 175</p>
+                                                    <div class="model-result visible">
+                                                        <ul>
+                                                            
+                                                        </ul>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -140,7 +145,7 @@
                                                 <td>
                                                     <input type="text" class="description-input">
                                                     <div class="description-div">
-                                                        <span class="allowed-byte">0/40bytes</span>
+                                                        <span class="allowed-byte"><span class="allowed-byte-display"></span>/40bytes</span>
                                                         <p class="important-p">최대 40Bytes(한글 20자, 영문 40자)까지 가능</p>
                                                         <p class="important-p"><span class="emphasis-span">에어컨 이전설치</span>(분리 또는 재설치)와<span class="emphasis-span">냉장고 이전설치</span>는 <span class="emphasis-span">콜센터 대표번호</span>로 접수하여 주시기 바랍니다.</p>
                                                         <p class="important-p"><span class="emphasis-span">세탁기 이전설치 </span>서비스는 제공되지 않습니다.</p>
@@ -182,9 +187,9 @@
                                                         <option value="019">019</option>
                                                     </select>
                                                     <span>-</span>
-                                                    <input class="middle-number" type="tel">
+                                                    <input class="middle-number" type="tel" maxlength="4">
                                                     <span>-</span>
-                                                    <input class="last-number" type="tel">
+                                                    <input class="last-number" type="tel" maxlength="4">
                                                 </div>
                                                 <p class="important-p phone-notice-p">통화가 되지 않을 경우 예약이 취소될 수 있으니 전화번호를 정확하게 입력해주세요.</p>
                                             </td>
@@ -192,7 +197,7 @@
                                         <tr>
                                             <th>연락가능번호</th>
                                             <td>
-                                                <div class="phone-box second-phone-box">
+                                                <div class="phone-box sub-phone-box">
                                                     <select name="" id="">
                                                         <option value="">선택</option>
                                                         <option value="010">010</option>
@@ -208,9 +213,9 @@
                                                         <option value="041">041</option>
                                                     </select>
                                                     <span>-</span>
-                                                    <input class="middle-number" type="tel">
+                                                    <input class="middle-number" type="tel" maxlength="4">
                                                     <span>-</span>
-                                                    <input class="last-number" type="tel">
+                                                    <input class="last-number" type="tel" maxlength="4">
                                                 </div>
                                             </td>
                                         </tr>
@@ -465,11 +470,11 @@
                                             <div class="text-info">
                                                 <dl>
                                                     <dt>선택제품/모델명</dt>
-                                                    <dd>벽걸이드럼세탁기/ 모름</dd>
+                                                    <dd class="product-info">벽걸이드럼세탁기/ 모름</dd>
                                                 </dl>
                                                 <dl>
                                                     <dt>고장증상</dt>
-                                                    <dd>고객요청_이전설치</dd>
+                                                    <dd class="trouble-symptom-info">고객요청_이전설치</dd>
                                                 </dl>
                                             </div>
                                         </div>
@@ -479,26 +484,36 @@
                                                 <dl class="flex-row">
                                                     <div>
                                                         <dt>성명</dt>
-                                                        <dd>홍길동</dd>
+                                                        <dd class="name-info">
+                                                            
+                                                        </dd>
                                                     </div>
                                                     <div>
                                                         <dt>휴대폰번호</dt>
-                                                        <dd>010-0000-0000</dd>
+                                                        <dd class="main-phone-number-info">
+                                                            
+                                                        </dd>
                                                     </div>
                                                 </dl>
                                                 <dl class="flex-row">
                                                     <div>
                                                         <dt>이메일</dt>
-                                                        <dd>aaaaaa@naver.com</dd>
+                                                        <dd class="email-info">
+                                                            
+                                                        </dd>
                                                     </div>
                                                     <div>
                                                         <dt>연락가능번호</dt>
-                                                        <dd>000-0000-0000</dd>
+                                                        <dd class="sub-phone-number-info">
+                                                            
+                                                        </dd>
                                                     </div>
                                                 </dl>
                                                 <dl class="flex-column">
                                                     <dt>주소</dt>
-                                                    <dd>부산광역시 해운대구 달맞이길117번나길 194(중동, 현우산호맨션) 1동 312호</dd>
+                                                    <dd class="address-info">
+
+                                                    </dd>
                                                 </dl>
                                             </div>
                                         </div>
@@ -507,11 +522,13 @@
                                             <div class="text-info">
                                                 <dl>
                                                     <dt>예약일시</dt>
-                                                    <dd>2022.09.22 15:00</dd>
+                                                    <dd class="reservation-info">2022.09.22 15:00</dd>
                                                 </dl>
                                                 <dl>
                                                     <dt>엔지니어</dt>
-                                                    <dd>A기사님 / 위니아서비스 동부산점</dd>
+                                                    <dd class="reservation-engineer-info">
+                                                        
+                                                    </dd>
                                                 </dl>
                                                 <div class="modify-button">
                                                     <button type="button">예약정보변경</button>
@@ -539,7 +556,6 @@
         </div>
     </main>
     <th:block th:replace="/fragments/footer"></th:block>
-    <!-- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
     <script src="/static/js/popup/popup.js"></script>
     <script src="/static/js/service/visitRequest.js"></script>
 </body>
