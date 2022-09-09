@@ -1,13 +1,12 @@
 package com.project.winiaaid.domain.product;
 
-import com.project.winiaaid.web.dto.Product.ReadProductCategoryResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductDetailResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductCategoryResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductDetailResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder

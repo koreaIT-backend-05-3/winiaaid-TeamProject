@@ -1,12 +1,11 @@
-package com.project.winiaaid.service.Product;
+package com.project.winiaaid.service.product;
 
-import com.project.winiaaid.web.dto.Product.ReadProductCategoryResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductModelResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductNumberInfoResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductTroubleResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductCategoryResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductModelResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductNumberInfoResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductTroubleResponseDto;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ProductService {
     public List<ReadProductCategoryResponseDto> getProductMainCategoryList(String company) throws Exception;

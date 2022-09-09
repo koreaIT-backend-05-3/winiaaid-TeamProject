@@ -2,8 +2,8 @@ package com.project.winiaaid.web.controller.api;
 
 import com.project.winiaaid.service.engineer.EngineerService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
-import com.project.winiaaid.web.dto.Engineer.ReadEngineerInfoResponseDto;
-import com.project.winiaaid.web.dto.Engineer.ReadEngineerReservationResponseDto;
+import com.project.winiaaid.web.dto.engineer.ReadEngineerInfoResponseDto;
+import com.project.winiaaid.web.dto.engineer.ReadEngineerReservationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

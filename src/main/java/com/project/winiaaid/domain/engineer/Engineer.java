@@ -1,7 +1,7 @@
 package com.project.winiaaid.domain.engineer;
 
-import com.project.winiaaid.web.dto.Engineer.EngineerReservationInfoDto;
-import com.project.winiaaid.web.dto.Engineer.ReadEngineerInfoResponseDto;
+import com.project.winiaaid.web.dto.engineer.EngineerReservationInfoDto;
+import com.project.winiaaid.web.dto.engineer.ReadEngineerInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

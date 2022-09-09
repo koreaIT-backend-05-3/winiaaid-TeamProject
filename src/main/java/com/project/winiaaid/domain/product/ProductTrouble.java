@@ -1,6 +1,6 @@
 package com.project.winiaaid.domain.product;
 
-import com.project.winiaaid.web.dto.Product.ReadProductTroubleResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductTroubleResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

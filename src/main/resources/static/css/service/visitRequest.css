@@ -190,6 +190,8 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    width: 980px;
 }
 
 .category-image-li {
@@ -203,7 +205,7 @@ input {
     height: 202px;
 }
 
-.category-image-li:not(.category-image-li:nth-child(5)) {
+.category-image-li:not(.category-image-li:last-child) {
     border-right: 1px solid #d3d3d3;
 }
 
@@ -230,10 +232,13 @@ input {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-right: 5px;
 }
 
 .detail-product-ul span {
     margin-bottom: 20px;
+
+    font-size: 13px;
 }
 
 

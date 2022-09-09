@@ -1,4 +1,4 @@
-package com.project.winiaaid.web.dto.Engineer;
+package com.project.winiaaid.web.dto.engineer;
 
 import lombok.Builder;
 import lombok.Data;

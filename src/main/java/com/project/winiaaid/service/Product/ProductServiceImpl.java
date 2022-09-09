@@ -1,7 +1,7 @@
-package com.project.winiaaid.service.Product;
+package com.project.winiaaid.service.product;
 
 import com.project.winiaaid.domain.product.*;
-import com.project.winiaaid.web.dto.Product.*;
+import com.project.winiaaid.web.dto.product.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,25 +40,32 @@ public class ProductServiceImpl implements ProductService {
         productList = productRepository.findListToProductDetailInfo(infoMap);
 
         if(productList != null) {
-            if(type.equals("default") && productList.get(0).getProduct_code() != 0){
+            if(type.equals("default")){
                 productInfoList = changeToReadProductDetailResponseDto(productList);
+
+                productInfoList = checkIntegratedProduct(productInfoList);
 
             }else {
                 productObjectList = new ArrayList<>();
 
-                Iterator<Integer> iterator = makeIteratorBycodeSet(productList);
+                Iterator<Integer> iterator = makeIteratorByCategoryCodeSet(productList);
 
                 while(iterator.hasNext()) {
                     int categoryCode = iterator.next();
 
                     ReadProductObjectResponseDto productObjectResponseDto = buildProductObjectDtoByCategoryCode(categoryCode, productList);
 
+                    productObjectResponseDto.setReadProductDetailResponseDtoList(
+                            checkIntegratedProduct(productObjectResponseDto.getReadProductDetailResponseDtoList())
+                    );
+
+
                     productObjectList.add(productObjectResponseDto);
                 }
             }
         }
 
-        return type.equals("default") ? productInfoList : productObjectList;
+        return productList.size() == 0 ? null : type.equals("default") ? productInfoList : productObjectList;
     }
 
     @Override
@@ -73,23 +80,12 @@ public class ProductServiceImpl implements ProductService {
             productNumberInfoObjectResponseDtoList = new ArrayList<>();
             readProductNumberInfoResponseDtoList = new ArrayList<>();
 
-            Set<Integer> modelCodeSet = new HashSet<>();
-
-            productNumberInfoList.forEach(product -> modelCodeSet.add(product.getModel_code()));
-
-            Iterator<Integer> iterator = modelCodeSet.iterator();
+            Iterator<Integer> iterator = makeIteratorByModelCodeSet(productNumberInfoList);
 
             while(iterator.hasNext()) {
                 int modelCode = iterator.next();
 
-                ReadProductNumberInfoResponseDto productObjectResponseDto = ReadProductNumberInfoResponseDto.builder()
-                        .productNumberInfoObjectDtoList(
-                            productNumberInfoList
-                                    .stream()
-                                    .filter(productNumberInfo -> productNumberInfo.getModel_code() == modelCode)
-                                    .map(productNumberInfo -> productNumberInfo.toProductNumberInfoObjectDtoDto())
-                                    .collect(Collectors.toList()))
-                        .build();
+                ReadProductNumberInfoResponseDto productObjectResponseDto = buildProductNumberInfoDtoByModelCode(modelCode, productNumberInfoList);
 
                 readProductNumberInfoResponseDtoList.add(productObjectResponseDto);
             }
@@ -112,6 +108,9 @@ public class ProductServiceImpl implements ProductService {
 
         return productTroubleDtoList;
     }
+
+
+
 
     private int setCompanyCode(String company) {
         int companyCode = 0;
@@ -169,13 +168,21 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    private Iterator<Integer> makeIteratorBycodeSet(List<Product> productList) {
+    private Iterator<Integer> makeIteratorByCategoryCodeSet(List<Product> productList) {
         Set<Integer> codeSet = new HashSet<>();
         productList.forEach(product -> {
                 codeSet.add(product.getProduct_category_code());
         });
 
         return codeSet.iterator();
+    }
+
+    private Iterator<Integer> makeIteratorByModelCodeSet(List<ProductNumberInfo> productList) {
+        Set<Integer> modelCodeSet = new HashSet<>();
+
+        productList.forEach(product -> modelCodeSet.add(product.getModel_code()));
+
+        return modelCodeSet.iterator();
     }
 
     private ReadProductObjectResponseDto buildProductObjectDtoByCategoryCode(int categoryCode, List<Product> productList) {
@@ -189,9 +196,29 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
+    private ReadProductNumberInfoResponseDto buildProductNumberInfoDtoByModelCode(int modelCode, List<ProductNumberInfo> productList) {
+        return ReadProductNumberInfoResponseDto.builder()
+                .productNumberInfoObjectDtoList(
+                        productList
+                                .stream()
+                                .filter(productNumberInfo -> productNumberInfo.getModel_code() == modelCode)
+                                .map(productNumberInfo -> productNumberInfo.toProductNumberInfoObjectDtoDto())
+                                .collect(Collectors.toList()))
+                .build();
+    }
+
     private List<ReadProductModelResponseDto> changeToReadProductModelResponseDto(List<ProductModel> productModelList) {
         return productModelList.stream()
                 .map(productModel -> productModel.toReadProductModelResponseDto())
                 .collect(Collectors.toList());
+    }
+
+    private List<ReadProductDetailResponseDto> checkIntegratedProduct(List<ReadProductDetailResponseDto> productList) {
+        if(productList.size() != 1) {
+            productList = productList.stream()
+                    .filter(product -> !product.getCategoryName().equals(product.getProductName()))
+                    .collect(Collectors.toList());
+        }
+        return productList;
     }
 }

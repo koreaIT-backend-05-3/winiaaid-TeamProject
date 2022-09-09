@@ -1,11 +1,11 @@
 package com.project.winiaaid.web.controller.api;
 
-import com.project.winiaaid.service.Product.ProductService;
+import com.project.winiaaid.service.product.ProductService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductCategoryResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductModelResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductNumberInfoResponseDto;
-import com.project.winiaaid.web.dto.Product.ReadProductTroubleResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductCategoryResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductModelResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductNumberInfoResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductTroubleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -2,8 +2,8 @@ package com.project.winiaaid.service.engineer;
 
 import com.project.winiaaid.domain.engineer.Engineer;
 import com.project.winiaaid.domain.engineer.EngineerRepository;
-import com.project.winiaaid.web.dto.Engineer.ReadEngineerInfoResponseDto;
-import com.project.winiaaid.web.dto.Engineer.ReadEngineerReservationResponseDto;
+import com.project.winiaaid.web.dto.engineer.ReadEngineerInfoResponseDto;
+import com.project.winiaaid.web.dto.engineer.ReadEngineerReservationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,24 +38,14 @@ public class EngineerServiceImpl implements EngineerService {
         engineerList = engineerRepository.findEngineerReservationInfo(date);
 
         if(engineerList != null) {
-            Set<Integer> engineerCodeSet = new HashSet<>();
             engineerResponseDtoList = new ArrayList<>();
 
-            engineerList.forEach(engineer -> engineerCodeSet.add(engineer.getEngineer_code()));
-
-            Iterator<Integer> iterator = engineerCodeSet.iterator();
+            Iterator<Integer> iterator = makeIteratorByEngineerCodeSet(engineerList);
 
             while(iterator.hasNext()) {
                 int engineerCode = iterator.next();
 
-                ReadEngineerReservationResponseDto readEngineerResponseDto = ReadEngineerReservationResponseDto.builder()
-                        .engineerReservationInfoDtoList(
-                                engineerList.stream()
-                                    .filter(engineer -> engineerCode == engineer.getEngineer_code())
-                                    .map(engineer -> engineer.toEngineerReservationInfoDto())
-                                    .collect(Collectors.toList())
-                        )
-                        .build();
+                ReadEngineerReservationResponseDto readEngineerResponseDto = buildEngineerReservationDtoByEngineerCode(engineerCode, engineerList);
 
                 engineerResponseDtoList.add(readEngineerResponseDto);
 //                List<String> reservationTimeList = engineerList.stream()
@@ -65,8 +55,27 @@ public class EngineerServiceImpl implements EngineerService {
             }
         }
 
+        return engineerList.size() != 0 ? engineerResponseDtoList : null;
+    }
 
-        return engineerResponseDtoList;
+
+
+    private Iterator<Integer> makeIteratorByEngineerCodeSet(List<Engineer> engineerList) {
+        Set<Integer> engineerCodeSet = new HashSet<>();
+
+        engineerList.forEach(engineer -> engineerCodeSet.add(engineer.getEngineer_code()));
+
+        return  engineerCodeSet.iterator();
+    }
+    private ReadEngineerReservationResponseDto buildEngineerReservationDtoByEngineerCode(int engineerCode, List<Engineer> engineerList) {
+        return ReadEngineerReservationResponseDto.builder()
+                .engineerReservationInfoDtoList(
+                        engineerList.stream()
+                                .filter(engineer -> engineerCode == engineer.getEngineer_code())
+                                .map(engineer -> engineer.toEngineerReservationInfoDto())
+                                .collect(Collectors.toList())
+                )
+                .build();
     }
 
     private List<ReadEngineerInfoResponseDto> changeToReadEngineerInfoResponseDto(List<Engineer> engineerList) {

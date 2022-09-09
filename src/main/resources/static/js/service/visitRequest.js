@@ -32,6 +32,7 @@ const reservationDiv = document.querySelector(".reservation-div");
 const preMonthButton = document.querySelector(".pre-month-button");
 const nextMonthButton = document.querySelector(".next-month-button");
 
+const mainConfirmDiv = document.querySelector(".main-confirm-div");
 const stepLocks = document.querySelectorAll(".step-lock");
 const modifyButton = document.querySelector(".modify-button button");
 const requestButton = document.querySelector(".request-button");
@@ -49,16 +50,36 @@ let selectReservationDay = null;
 let reservationFlag = false;
 
 let productInfoObject = {
+    "company": null,
+    "categoryCode": 0,
     "productCode": 0,
+    "productCategory": null,
     "productName": null,
     "modelName": null,
-    "trouble": null
+    "trouble": null,
+    "description": null
 };
 
-let userInfoObject = {};
-let reservationInfoObject = {};
+let userInfoObject = {
+    "name": null,
+    "email": null,
+    "mainPhone": null,
+    "subPhone": null,
+    "postalCode": 0,
+    "mainAddress": null,
+    "detailAddress": null
+};
 
-winia.onclick = showWiniaProduct;
+let reservationInfoObject = {
+    "engineerCode": 0,
+    "engineerName": null,
+    "reservationDay": null,
+    "reservationTime": null,
+    "serviceType": null
+};
+
+winia.onclick = checkWiniaProduct;
+daewoo.onclick = checkDaewooProduct;
 
 
 setNowDate();
@@ -138,29 +159,64 @@ stepTitleItems[3].onclick = () => {
 
 modifyButton.onclick = requestDivActivation;
 
-requestButton.onclick = checkAllRequireItems;
+requestButton.onclick = requestSubmit;
 
 
-function checkAllRequireItems() {
-    if(!checkRequireProductBrand()) {
-        return
-    }else if(!checkRequireProductModel()) {
-        return
-    }else if(!checkRequireInput()) {
-        return
-    }else if(!checkReservationFlag()) {
-        return
-    }
-    alert("신청!");
+
+function requestSubmit() {
+    $.ajax({
+        type: "post",
+        url: "/api/v1/service/visit/request",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "productInfoMap": productInfoObject,
+            "userInfoMap": userInfoObject,
+            "reservationInfoMap": reservationInfoObject
+            
+        }),
+        dataType: "json",
+        success: (response) => {
+            if(response.data) {
+                alert("서비스 신청 성공");
+            }
+        },
+        error: errorMessage
+    });
 }
+
 
 /*>>>>>>>>>>>>>>>>> STEP 1 <<<<<<<<<<<<<<<<<<<<<<<<*/ 
 
-function showWiniaProduct() {
-    const serviceRequestDiv = document.querySelector(".service-request-div");
-    company = "winia";
+function checkWiniaProduct() {
+    if(company != null) {
+        if(confirm("다시 처음으로 돌아갑니다.\n괜찮으시겠습니까?")) {
+            location.replace("/service/visit/request");
+        }
+    }else {
+        company = "winia";
+    
+        alert("위니아 제품이 맞습니까?\n아닐경우 방문이 되지 않습니다.\n제조사를 다시 한번 확인해 주세요.");
+    
+        showCompanyProduct();
+    }
+}
 
-    alert("위니아 제품이 맞습니까?\n아닐경우 방문이 되지 않습니다.\n제조사를 다시 한번 확인해 주세요.");
+function checkDaewooProduct() {
+    if(company != null) {
+        if(confirm("다시 처음으로 돌아갑니다.\n괜찮으시겠습니까?")) {
+            location.replace("/service/visit/request");
+        }
+    }else {
+        company = "daewoo";
+    
+        alert("위니아전자(구 대우전자) 제품이 맞습니까?\n아닐경우 방문이 되지 않습니다.\n제조사를 다시 한번 확인해 주세요.");
+    
+        showCompanyProduct();
+    }
+}
+
+function showCompanyProduct() {
+    const serviceRequestDiv = document.querySelector(".service-request-div");
 
     let categoryInfoList = getMainCategoryList(company);
     showMainCategory(categoryInfoList);
@@ -385,7 +441,7 @@ function setProductImages(domObject, productInfoList, type, isGroup) {
 
 function setProductDetail(domObject, productInfoList) {
     let totalPage = productInfoList.length % 6 == 0 ? productInfoList.length / 6 : Math.floor(productInfoList.length / 6) + 1;
-
+    let integratedFlag = checkIntegratedProduct(productInfoList, "default");
     for(let i = 0; i < totalPage; i++) {
         let innerHTML = "";
         let startIndex = 6 * i;
@@ -395,6 +451,9 @@ function setProductDetail(domObject, productInfoList) {
         innerHTML += `<ul class="detail-product-ul">`;
 
         for(startIndex; startIndex < endIndex; startIndex++) {
+            // if(!integratedFlag && productInfoList[startIndex].categoryName == productInfoList[startIndex].productName) {
+            //     continue;
+            // }
             innerHTML += `<li>
                             <img  src="/image/winia-product/detail-images/${productInfoList[startIndex].productDetailImage}" alt="${productInfoList[startIndex].productName}">
                             <span>${productInfoList[startIndex].productName}</span>
@@ -413,7 +472,7 @@ function setProductDetail(domObject, productInfoList) {
 }
 
 function setGroupProductDetail(domObject, productInfoList) {
-
+    // let productCodeList = new Array();
     let totalPage = productInfoList.length % 6 == 0 ? productInfoList.length / 6 : Math.floor(productInfoList.length / 6) + 1;
 
     for(let i = 0; i < totalPage; i++) {
@@ -421,60 +480,159 @@ function setGroupProductDetail(domObject, productInfoList) {
         let startIndex = 6 * i;
         let endIndex = i == totalPage - 1 ? productInfoList.length : startIndex + 6;
 
-        innerHTML += `<div class="swiper-slide">`;
-        innerHTML += `<ul class="detail-product-ul">`;
+        // innerHTML += `<div class="swiper-slide">`;
+        // innerHTML += `<ul class="detail-product-ul">`;
+
+
+        let swiperDiv = document.createElement("div");
+        swiperDiv.setAttribute("class", "swiper-slide");
+
+        let detailProductUl = document.createElement("ul");
+        detailProductUl.setAttribute("class", "detail-product-ul");
+        swiperDiv.appendChild(detailProductUl);
         
         for(startIndex; startIndex < endIndex; startIndex++) {
-            let integratedFlag = checkIntegratedProduct(productInfoList[startIndex]);
-            let productInfo = getProductInfo(productInfoList[startIndex]);
-            innerHTML += `
-                <li class="product-category">
-                    <img class="${integratedFlag ? "integrated" : ""}" src="/image/winia-product/main-images/${productInfo.productMainImage}" alt="${productInfo.productName}">
-                    <p class="category-title-${productInfo.categoryCode}">${productInfo.categoryName}</p>
-                `;
+            let integratedFlag = checkIntegratedProduct(productInfoList[startIndex], "group");
+            let productFirstInfo = getProductFirstInfo(productInfoList[startIndex]);
+            let productAllInfo = getProdutListInfo(productInfoList[startIndex]);
+            
+            let productCategoryLi = document.createElement("li");
+            productCategoryLi.setAttribute("class", `product-category-${startIndex}`);
+
+            let productImage = document.createElement("img");
+            productImage.setAttribute("class", integratedFlag ? "integrated" : "");
+            productImage.setAttribute("src", `/image/winia-product/main-images/${productFirstInfo.productMainImage}`);
+            productImage.setAttribute("alt", productFirstInfo.productName);
+
+            let productCategoryNameP = document.createElement("p");
+            productCategoryNameP.setAttribute("class", `category-title-${productFirstInfo.categoryCode}`);
+            productCategoryNameP.appendChild(document.createTextNode(productFirstInfo.categoryName));
+
+
+            productCategoryLi.appendChild(productImage);
+            productCategoryLi.appendChild(productCategoryNameP);
+
+            // innerHTML += `
+            //     <li class="product-category">
+            //         <img class="${integratedFlag ? "integrated" : ""}" src="/image/winia-product/main-images/${productFirstInfo.productMainImage}" alt="${productFirstInfo.productName}">
+            //         <p class="category-title-${productFirstInfo.categoryCode}">${productFirstInfo.categoryName}</p>
+            //     `;
+
+            
 
             if(integratedFlag) {
-                innerHTML += `</li>`;
+                // innerHTML += `</li>`;
+                detailProductUl.appendChild(productCategoryLi);
+                swiperDiv.appendChild(detailProductUl);
+                domObject.appendChild(swiperDiv);
+                const groupImage = document.querySelector(`.product-category-${startIndex} img`);
+                setGroupImageClickEvent(groupImage, productAllInfo[0]);
                 continue;
             }
 
-            innerHTML += `<ul class="product-name-ul">`;
-            productInfoList[startIndex].readProductDetailResponseDtoList.forEach(detailProduct => {
-                innerHTML += `
-                    <li>
-                        <span class="product-category-${detailProduct.categoryCode}">${detailProduct.productName}</span>
-                    </li>
-                    `;
-            });
-            innerHTML += `</ul></li>`;
+            let productNameUl = document.createElement("ul");
+            productNameUl.setAttribute("class", "product-name-ul");
+            // innerHTML += `<ul class="product-name-ul">`;
+
+            for(let j = 0; j < productAllInfo.length; j++) {
+                // if(!integratedFlag && productAllInfo[j].categoryName == productAllInfo[j].productName) {
+                //     continue;
+                // }
+
+                let newLi = document.createElement("li");
+                let newSpan = document.createElement("span");
+                newSpan.setAttribute("class", `product-category-${productAllInfo[j].categoryCode}`);
+                newSpan.appendChild(document.createTextNode(productAllInfo[j].productName));
+                newLi.appendChild(newSpan);
+
+                productNameUl.appendChild(newLi);
+
+                // innerHTML += `
+                // <li>
+                //     <span class="product-category-${productAllInfo[j].categoryCode}">${productAllInfo[j].productName}</span>
+                // </li>
+                // `;
+
+
+
+                // productCodeList.push(productAllInfo[j].productCode);
+            }
+            // productInfoList[startIndex].readProductDetailResponseDtoList.forEach(detailProduct => {
+            //     innerHTML += `
+            //         <li>
+            //             <span class="product-category-${detailProduct.categoryCode}">${detailProduct.productName}</span>
+            //         </li>
+            //         `;
+            // });
+
+
+            // innerHTML += `</ul></li>`;
+
+            productCategoryLi.appendChild(productNameUl);
+            detailProductUl.appendChild(productCategoryLi);
+            swiperDiv.appendChild(detailProductUl);
+            domObject.appendChild(swiperDiv);
+            
+            const productSpans = document.querySelectorAll(`.product-category-${startIndex} span`);
+            setProductClickEvent(productSpans, productAllInfo);
+            const groupImage = document.querySelector(`.product-category-${startIndex} img`);
+            setGroupImageClickEvent(groupImage, productAllInfo[0]);
         }
 
-        innerHTML += `</ul></div>`;
-        domObject.innerHTML += innerHTML;
+        // innerHTML += `</ul></div>`;
+        // domObject.innerHTML += innerHTML;
     }
 
     makeSwiper();
     checkSlideAmount();
 
-    const groupImages = document.querySelectorAll(".product-category img");
-    const productSpans = document.querySelectorAll(".product-name-ul span");
+    // const groupImages = document.querySelectorAll(".product-category img");
+    // const productSpans = document.querySelectorAll(".product-name-ul span");
 
-    setGroupImageClickEvent(groupImages, productInfoList);
-    setProductClickEvent(productSpans);
+    // setGroupImageClickEvent(groupImages, productInfoList);
+    // setProductClickEvent(productSpans, productInfoList);
 }
 
 function setGroupImageClickEvent(domObject, productInfoList) {
-    for(let i = 0; i < domObject.length; i++) {
-        let productInfo = getProductInfo(productInfoList[i]);
-        domObject[i].onclick = () => {
-            if(domObject[i].classList.contains("integrated")) {
-                setModelName(productNameTd, {"productName": productInfo.productName, "categoryCode": productInfo.categoryCode}, "integrated");
-    
-            }else {
-                setModelName(productNameTd, {"productName": null}, "integrated");
-            }
+    domObject.onclick = () => {
+        if(domObject.classList.contains("integrated")) {
+            setModelName(productNameTd,
+                {
+                   "productName": productInfoList.productName,
+                   "categoryCode": productInfoList.categoryCode
+               }, 
+               "integrated");
+
+               productInfoObject.categoryCode = productInfoList.categoryCode;
+               productInfoObject.productCode = productInfoList.productCode;
+        }else {
+            setModelName(productNameTd, {"productName": null}, "integrated");
         }
     }
+
+
+    // for(let i = 0; i < domObject.length; i++) {
+    //     console.log(domObject);
+    //     console.log(productInfoList);
+    //     // let productInfo = getProductFirstInfo(productInfoList[i]);
+    //     domObject[i].onclick = () => {
+    //         if(domObject[i].classList.contains("integrated")) {
+    //             console.log("클릭");
+    //             setModelName(productNameTd,
+    //                  {
+    //                     "productName": productInfoList[i].productName,
+    //                     "categoryCode": productInfoList[i].categoryCode
+    //                 }, 
+    //                 "integrated");
+    
+    //                 productInfoObject.categoryCode = productInfoList[i].categoryCode;
+    //                 productInfoObject.productCode = productInfoList[i].productCode;
+    //         }else {
+    //             console.log("클릭");
+    //             setModelName(productNameTd, {"productName": null}, "integrated");
+    //         }
+    //     }
+    // }
 
     // //  let index = 0;
 
@@ -520,13 +678,21 @@ function getCategoryCodeByDomObject(object, isImage) {
     return categoryCode;
 }
 
-function checkIntegratedProduct(productList) {
-    return productList.readProductDetailResponseDtoList.length == 1 
-    && productList.readProductDetailResponseDtoList.categoryName == productList.readProductDetailResponseDtoList.productName;
+function checkIntegratedProduct(productList, type) {
+    if(type == "default") {
+        return productList.length == 1 && productList[0].categoryName == productList[0].productName;
+    }else if(type == "group") {
+        return productList.readProductDetailResponseDtoList.length == 1
+        && productList.readProductDetailResponseDtoList[0].categoryName == productList.readProductDetailResponseDtoList[0].productName;
+    }
 }
 
-function getProductInfo(productList) {
+function getProductFirstInfo(productList) {
     return productList.readProductDetailResponseDtoList[0];
+}
+
+function getProdutListInfo(productList) {
+    return productList.readProductDetailResponseDtoList;
 }
 
 function addVisibleClass(object) {
@@ -600,16 +766,28 @@ function setImageClickEvent(domObject, productInfoList) {
     }
 }
 
-function setProductClickEvent(domObject) {
-
-    domObject.forEach(object => {
-        object.onclick = () => {
-            let categoryCode = getCategoryCodeByDomObject(object, false);
+function setProductClickEvent(domObject, productInfoList) {
+    console.log(productInfoList);
+    for(let i = 0; i < domObject.length; i++) {
+        domObject[i].onclick = () => {
+            // let categoryCode = getCategoryCodeByDomObject(domObject[i], false);
+            console.log(productInfoList[i].categoryCode);
+            console.log(productInfoList[i].productCode);
+            // const categoryTitle = document.querySelector(`.category-title-${categoryCode}`).textContent;
+            // setModelName(productNameTd, {"productTitle": categoryTitle, "productName": domObject[i].textContent, "categoryCode": categoryCode}, "group");
+            setModelName(productNameTd, {"productTitle": productInfoList[i].categoryName, "productName": domObject[i].textContent, "categoryCode": productInfoList[i].categoryCode}, "group");
             
-            const categoryTitle = document.querySelector(`.category-title-${categoryCode}`).textContent;
-            setModelName(productNameTd, {"productTitle": categoryTitle, "productName": object.textContent, "categoryCode": categoryCode}, "group");
+            productInfoObject.categoryCode = productInfoList[i].categoryCode;
+            productInfoObject.productCode = productInfoList[i].productCode;
         }
-    })
+
+    }
+
+    // domObject.forEach(object => {
+    //     object.onclick = () => {
+            
+    //         }
+    // })
 }
 
 function checkModelNameSpan() {
@@ -902,7 +1080,7 @@ function setReservationTime(engineerList, selectDay) {
     
     let unbookableTimeByEngineerList = getTheUnbookableTime(selectDay);
     
-    if(unbookableTimeByEngineerList.length != 0) {
+    if(unbookableTimeByEngineerList != null) {
         for(engineer of unbookableTimeByEngineerList) {
             let engineerInfo = engineer.engineerReservationInfoDtoList[0];
             
@@ -1018,24 +1196,28 @@ function selectDay(day, object) {
     // setReservationTime(getTheUnbookableTime(day));
 }
 
-const mainConfirmDiv = document.querySelector(".main-confirm-div");
-
 function selectTime(object, engineerInfo) {
     if(!object.classList.contains("unbookable")) {
-        removeSelectTimeClass();
-        object.classList.add("select-time");
-        removeVisibles(stepLocks);
-        removeVisibleClass(mainConfirmDiv);
         reservationFlag = true;
+        if(checkAllRequireItems()){
+            removeSelectTimeClass();
+            object.classList.add("select-time");
+            removeVisibles(stepLocks);
+            removeVisibleClass(mainConfirmDiv);
+    
+            reservationInfoObject.reservationTime = object.textContent;
+            reservationInfoObject.engineerCode = engineerInfo.engineerCode;
+            reservationInfoObject.engineerName = engineerInfo.engineerName;
+    
+            activationStepTitle(stepTitleItems[3], stepTitleDivItems[3]);
+            
+            setFinalInfo();
 
-        reservationInfoObject.reservationTime = object.textContent;
-        reservationInfoObject.engineerInfo = engineerInfo;
-
-        activationStepTitle(stepTitleItems[3], stepTitleDivItems[3]);
-        setFinalInfo();
+        }else {
+            reservationFlag = false;
+        }
     }
 }
-
 
 
 function setFinalInfo() {
@@ -1082,8 +1264,10 @@ function setReservationInfo() {
     const reservationEngineerInfo = document.querySelector(".reservation-engineer-info");
 
     reservationInfo.textContent = `${reservationInfoObject.reservationDay} ${reservationInfoObject.reservationTime}`;
-    reservationEngineerInfo.textContent = `${reservationInfoObject.engineerInfo.engineerName}님/ 부산점`;
+    reservationEngineerInfo.textContent = `${reservationInfoObject.engineerName}님/ 부산점`;
 }
+
+
 
 
 
@@ -1150,7 +1334,9 @@ function checkRequireProductBrand() {
 
 
 function checkRequireProductModel() {
-    if(isEmpty(modelNameSpan)) {
+    const modelTitleSpan = document.querySelector(".model-title-span");
+    modelNameSpan = document.querySelector(".model-name-span");
+    if(isEmpty(modelNameSpan.textContent)) {
         alert("예약신청 제품을 선택해주세요.");
         return false;
     }else if(modelDetailSpan.classList.contains("visible")) {
@@ -1165,9 +1351,12 @@ function checkRequireProductModel() {
         return false;
     }
 
+    productInfoObject.company = company == "winia" ? "위니아 제품" : "위니아 전자 제품";
+    productInfoObject.productCategory = modelTitleSpan != null ? modelTitleSpan.textContent : null;
     productInfoObject.productName = modelNameSpan.textContent;
     productInfoObject.modelName = modelDetailSpan.textContent;
     productInfoObject.trouble = troubleSymptomTd.options[troubleSymptomTd.selectedIndex].text;
+    productInfoObject.description = descriptionInput.value;
 
     const userInfoContent = document.querySelector(".user-info-content");
     removeVisibleClass(userInfoContent);
@@ -1232,7 +1421,6 @@ function checkRequireInput() {
     userInfoObject.mainAddress = mainAddressInput.value;
     userInfoObject.detailAddress = detailAddressInput.value;
 
-
     if(!isEmpty(firstEmail.value) || !isEmpty(secondEmail.value)) {
         let email = firstEmail.value + "@" + secondEmail.value;
         let regEmail = /^[A-Za-z0-9]+@[A-Za-z0-9]+\.com$/;
@@ -1244,7 +1432,8 @@ function checkRequireInput() {
         }
 
         userInfoObject.email = email;
-    }else if(!isEmpty(subPhoneNumber.replaceAll("-", ""))) {
+    }
+    if(!isEmpty(subPhoneNumber.replaceAll("-", ""))) {
         if(!regPhone2.test(subPhoneNumber)) {
             alert("휴대폰번호를 확인해주세요.");
             subMiddlePhoneNumber.focus();
@@ -1272,5 +1461,20 @@ function checkReservationFlag() {
         alert("예약날짜와 시간을 선택해주세요.");
         return false;
     }
+    
+    reservationInfoObject.serviceType = "방문서비스 (A/S)";
     return reservationFlag;
+}
+
+function checkAllRequireItems() {
+    if(!checkRequireProductBrand()) {
+        return false;
+    }else if(!checkRequireProductModel()) {
+        return false;
+    }else if(!checkRequireInput()) {
+        return false;
+    }else if(!checkReservationFlag()) {
+        return false;
+    }
+    return true;
 }

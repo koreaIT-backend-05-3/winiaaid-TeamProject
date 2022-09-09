@@ -8,9 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.filter.CorsFilter;
 
-//@EnableWebSecurity
-//@Configuration
-//@RequiredArgsConstructor
+@EnableWebSecurity
+@Configuration
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -28,13 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
 
-                .formLogin()
-                .loginPage("/signin")
-                .loginProcessingUrl("/auth/signin")
-                .failureHandler(new CustomFailureHandler())
-                .defaultSuccessUrl("/main")
-
-                .and()
+//                .formLogin()
+//                .loginPage("/signin")
+//                .loginProcessingUrl("/auth/signin")
+//                .failureHandler(new CustomFailureHandler())
+//                .defaultSuccessUrl("/main")
+//
+//                .and()
 
                 .logout()
                 .logoutSuccessUrl("/main");
