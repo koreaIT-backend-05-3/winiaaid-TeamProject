@@ -109,19 +109,6 @@ public class ProductServiceImpl implements ProductService {
         return productTroubleDtoList;
     }
 
-
-
-
-    private int setCompanyCode(String company) {
-        int companyCode = 0;
-        if(company.equals("daewoo")) {
-            companyCode = 1;
-        }else if(company.equals("winia")) {
-            companyCode = 2;
-        }
-        return companyCode;
-    }
-
     @Override
     public List<ReadProductModelResponseDto> getProductModelInfoList(int productCode, String modelNumber) throws Exception {
         List<ProductModel> modelEntityList = null;
@@ -138,6 +125,16 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return modelDtoList.size() != 0 ? modelDtoList : null;
+    }
+
+    private int setCompanyCode(String company) {
+        int companyCode = 0;
+        if(company.equals("daewoo")) {
+            companyCode = 1;
+        }else if(company.equals("winia")) {
+            companyCode = 2;
+        }
+        return companyCode;
     }
 
     private List<ReadProductTroubleResponseDto> changeToReadProductTroubleResponseDto(List<ProductTrouble> productList) {

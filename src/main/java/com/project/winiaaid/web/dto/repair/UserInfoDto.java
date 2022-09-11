@@ -1,9 +1,11 @@
 package com.project.winiaaid.web.dto.repair;
 
 import com.project.winiaaid.domain.repair.UserInfoEntity;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class UserInfoDto {
     private int userCode;
     private String userName;

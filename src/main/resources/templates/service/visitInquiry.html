@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/util/paging.css">
     <link rel="stylesheet" href="/static/css/service/visitInquiry.css">
     <title>[위니아에이드] 방문서비스_조회 취소</title>
 </head>
@@ -45,9 +46,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="7">서비스 신청 내역이 없습니다.</td>
-                        </tr>
+                        
                     </tbody>
                 </table>
                 <div class="service-explaination-detail detail-before">
@@ -60,6 +59,7 @@
         </div>
     </main>
     <th:block th:replace="/fragments/footer"></th:block>
+    <script src="/static/js/util/paging.js"></script>
     <script src="/static/js/service/visitInquiry.js"></script>
 </body>
 </html>

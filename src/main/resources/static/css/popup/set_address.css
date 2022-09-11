@@ -144,44 +144,6 @@ table {
     padding-left: 24px;
 }
 
-.page-button-div {
-    display: flex;
-    justify-content: center;
-    margin: 30px 0px;
-}
-
-.page-button-div button {
-    border: 1px solid #e0e0e0;
-    
-    width: 36px;
-    height: 36px;
-    
-    font-weight: 400;
-
-    background-color: #fff;
-    color: #7d7d7d;
-}
-
-.page-button-div .select-page-button {
-    border: 1px solid #0a71cc;
-
-    background-color: #0a71cc;
-    color: #fff;
-
-}
-
-.pre-button {
-    margin-right: 10px;
-}
-
-.page-button:not(.page-button:nth-of-type(5)) {
-    margin-right: 5px;
-}
-
-.next-button {
-    margin-left: 10px;
-}
-
 .address-result-div-2 th, .address-result-div-2 td {
     padding-top: 10px;
     padding-bottom: 10px;

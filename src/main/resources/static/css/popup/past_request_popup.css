@@ -93,32 +93,6 @@ tbody td {
     font-size: 12px;
 }
 
-.page-button-div {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    margin-top: 30px;
-}
-
-.page-button-div button {
-    border: 1px solid #e0e0e0;
-    margin-right: 5px;
-
-    height: 36px;
-    width: 36px;
-
-    background-color: #fff;
-    color: #7d7d7d;
-}
-
-.page-button-div .select-page-button {
-    border: 1px solid #0a71cc;
-
-    background-color: #0a71cc;
-    color: #fff;
-
-}
-
 .service-request-button-div {
     display: flex;
     justify-content: center;

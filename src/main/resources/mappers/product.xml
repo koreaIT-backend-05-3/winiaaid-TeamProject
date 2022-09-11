@@ -62,7 +62,7 @@
     <select id="findTroubleSymptomByProductCode" parameterType="Integer" resultType="com.project.winiaaid.domain.product.ProductTrouble">
         SELECT
             tst.trouble_code,
-            tst.trouble_name
+            tst.trouble_symptom
         FROM
             trouble_symptom_table tst
             LEFT OUTER JOIN trouble_product_category tpc ON(tpc.trouble_code = tst.trouble_code)

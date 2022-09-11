@@ -364,7 +364,7 @@ function setProductTroubleSymptom(troubleSymptomList) {
 
     troubleSymptomList.forEach(trouble => {
         troubleSymptomTd.innerHTML += `
-        <option value="${trouble.troubleCode}">${trouble.troubleName}</option>
+        <option value="${trouble.troubleCode}">${trouble.troubleSymptom}</option>
         `;
     });
 }
