@@ -37,27 +37,24 @@ function setModel(modelList) {
 
         model = getCategoryInfo(model);
         productCategoryUl.innerHTML += `
-        <li class="product-category model-${model[0].modelCode}">
-            <span>${model[0].modelName}</span>
+        <li class="product-category model-${model[0].modelCategoryCode}">
+            <span>${model[0].modelCategoryName}</span>
         </li>
         `;
 
-        modelInfoObject.modelName = model[0].modelName;
-        modelInfoObject.modelNumberInfo = model[0].modelNumberInfo;
-        modelInfoObject.modelNumberInfoDetail = model[0].modelNumberInfoDetail;
+        modelInfoObject.modelName = model[0].modelCategoryName;
+        modelInfoObject.modelNumberInfo = model[0].modelNumberCategoryInfo;
+        modelInfoObject.modelNumberInfoDetail = model[0].modelCategoryNumberInfoDetail;
 
 
         
         model.forEach(model => {
-            modelImageList.push(model.modelImageName);
+            modelImageList.push(model.modelImageCategoryName);
         })
         
         modelInfoObject.modelImageList = modelImageList;
         
-        modelMap.set("model" + model[0].modelCode, modelInfoObject);
-
-        console.log(modelMap.get("model" + model[0].modelCode));
-        console.log(modelInfoObject);
+        modelMap.set("model" + model[0].modelCategoryCode, modelInfoObject);
     }
 
     setCategoryClickEvent();

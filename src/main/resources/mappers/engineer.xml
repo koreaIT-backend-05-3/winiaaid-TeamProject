@@ -28,4 +28,18 @@
             em.engineer_code,
             reservation_time;
     </select>
+
+<!--    <resultMap id="collectionResult" type="com.project.winiaaid.domain.engineer.Engineer">-->
+<!--        <result property="engineer_code" column="engineer_code"/>-->
+<!--        <collection property="times" ofType="com.project.winiaaid.domain.engineer.ReservationTime">-->
+<!--            <result property="time" column="reservation_time"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+<!--    <select id="findEngineerListTest" resultMap="collectionResult">-->
+<!--        SELECT-->
+<!--            *-->
+<!--        FROM-->
+<!--            engineer_reservation_table;-->
+<!--    </select>-->
 </mapper>

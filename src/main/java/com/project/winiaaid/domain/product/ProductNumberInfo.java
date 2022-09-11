@@ -9,19 +9,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductNumberInfo {
-    private int model_code;
-    private String model_name;
-    private String model_number_info;
-    private String model_number_info_detail;
-    private String model_image_name;
+    private int model_category_code;
+    private String model_category_name;
+    private String model_number_categoty_info;
+    private String model_category_number_info_detail;
+    private String model_image_category_name;
 
     public ProductNumberInfoObjectDto toProductNumberInfoObjectDtoDto() {
         return ProductNumberInfoObjectDto.builder()
-                .modelCode(model_code)
-                .modelName(model_name)
-                .modelNumberInfo(model_number_info)
-                .modelNumberInfoDetail(model_number_info_detail)
-                .modelImageName(model_image_name)
+                .modelCategoryCode(model_category_code)
+                .modelCategoryName(model_category_name)
+                .modelNumberCategoryInfo(model_number_categoty_info)
+                .modelCategoryNumberInfoDetail(model_category_number_info_detail)
+                .modelImageCategoryName(model_image_category_name)
                 .build();
     }
 }

@@ -6,9 +6,9 @@ import lombok.Data;
 @Builder
 @Data
 public class ProductNumberInfoObjectDto {
-    private int modelCode;
-    private String modelName;
-    private String modelNumberInfo;
-    private String modelNumberInfoDetail;
-    private String modelImageName;
+    private int modelCategoryCode;
+    private String modelCategoryName;
+    private String modelNumberCategoryInfo;
+    private String modelCategoryNumberInfoDetail;
+    private String modelImageCategoryName;
 }

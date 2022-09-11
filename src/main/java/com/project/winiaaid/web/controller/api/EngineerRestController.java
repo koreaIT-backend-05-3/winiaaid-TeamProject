@@ -1,5 +1,6 @@
 package com.project.winiaaid.web.controller.api;
 
+import com.project.winiaaid.domain.engineer.Engineer;
 import com.project.winiaaid.service.engineer.EngineerService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.engineer.ReadEngineerInfoResponseDto;
@@ -47,4 +48,18 @@ public class EngineerRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "engineerReservationInfo load success", engineerList));
     }
+
+//    @GetMapping("/test")
+//    public ResponseEntity<?> test() {
+//        List<Engineer> engineer = null;
+//
+//        try {
+//            engineer = engineerService.getEngineerList();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "engineerReservationInfo load failed", engineer));
+//        }
+//
+//        return ResponseEntity.ok(new CustomResponseDto<>(1, "engineerReservationInfo load success", engineer));
+//    }
 }

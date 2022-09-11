@@ -4,10 +4,13 @@ const daewoo = document.querySelector(".li-daewoo");
 const stepTitleItems = document.querySelectorAll(".step-title-div");
 const stepTitleDivItems = document.querySelectorAll(".step-div");
 
+const checkLastReqeustButton = document.querySelector(".check-last-request-list-button");
+
 let modelNameSpan = document.querySelector(".model-name-span");
 const modelSearchTr = document.querySelector(".model-search-tr");
 const swiperWrapper = document.querySelector(".swiper-wrapper");
 const productNameTd = document.querySelector(".product-name-td");
+const productNameLi = document.querySelector(".product-name-li");
 const modelDetailSpan = document.querySelector(".model-result-span");
 const modelCheckButtonList = document.querySelectorAll(".model-check-button-list button");
 const modelSearchInput = document.querySelector(".model-search-input");
@@ -50,21 +53,23 @@ let selectReservationDay = null;
 let reservationFlag = false;
 
 let productInfoObject = {
-    "company": null,
-    "categoryCode": 0,
+    // "company": null,
+    "productCategoryCode": 0,
     "productCode": 0,
-    "productCategory": null,
-    "productName": null,
-    "modelName": null,
-    "trouble": null,
+    // "productCategory": null,
+    // "productName": null,
+    "modelCode": 0,
+    // "modelName": null,
+    "troubleCode": 0,
     "description": null
 };
 
 let userInfoObject = {
-    "name": null,
+    "userCode": 0,
+    "userName": null,
     "email": null,
-    "mainPhone": null,
-    "subPhone": null,
+    "mainPhoneNumber": null,
+    "subPhoneNumber": null,
     "postalCode": 0,
     "mainAddress": null,
     "detailAddress": null
@@ -72,7 +77,7 @@ let userInfoObject = {
 
 let reservationInfoObject = {
     "engineerCode": 0,
-    "engineerName": null,
+    // "engineerName": null,
     "reservationDay": null,
     "reservationTime": null,
     "serviceType": null
@@ -86,6 +91,8 @@ setNowDate();
 setCalendarData();
 setChangeMonthButton("pre");
 setReservationableDaySpan();
+
+checkLastReqeustButton.onclick = loadPastRequestInfoPopup;
 
 modelCheckButtonList[0].onclick = () => {
     if(checkModelNameSpan()) {
@@ -130,7 +137,7 @@ stepTitleItems[0].onclick = checkRequireProductBrand;
 stepTitleItems[1].onclick = () => {
     if(!checkRequireProductBrand()) {
         return
-    }else if(!checkRequireProductModel()) {
+    }else if(!checkRequireProductModelAndSaveProductInfo()) {
         return
     }
 }
@@ -138,9 +145,9 @@ stepTitleItems[1].onclick = () => {
 stepTitleItems[2].onclick = () =>{
     if(!checkRequireProductBrand()) {
         return
-    }else if(!checkRequireProductModel()) {
+    }else if(!checkRequireProductModelAndSaveProductInfo()) {
         return
-    }else if(!checkRequireInput()) {
+    }else if(!checkRequireInputAndSaveUserInfo()) {
         return
     }
 }
@@ -148,11 +155,11 @@ stepTitleItems[2].onclick = () =>{
 stepTitleItems[3].onclick = () => {
     if(!checkRequireProductBrand()) {
         return
-    }else if(!checkRequireProductModel()) {
+    }else if(!checkRequireProductModelAndSaveProductInfo()) {
         return
-    }else if(!checkRequireInput()) {
+    }else if(!checkRequireInputAndSaveUserInfo()) {
         return
-    }else if(!checkReservationFlag()) {
+    }else if(!checkReservationFlagAndSaveReservationInfo()) {
         return
     }
 }
@@ -169,15 +176,17 @@ function requestSubmit() {
         url: "/api/v1/service/visit/request",
         contentType: "application/json",
         data: JSON.stringify({
-            "productInfoMap": productInfoObject,
-            "userInfoMap": userInfoObject,
-            "reservationInfoMap": reservationInfoObject
+            "productInfoObject": productInfoObject,
+            "userInfoObject": userInfoObject,
+            "reservationInfoObject": reservationInfoObject
             
         }),
         dataType: "json",
         success: (response) => {
             if(response.data) {
                 alert("서비스 신청 성공");
+            }else {
+                alert("서비스 신청중에 오류가 발생했습니다.");
             }
         },
         error: errorMessage
@@ -254,6 +263,7 @@ function showMainCategory(categoryInfoList) {
 function setModelName(domObject, productInfoObject, type) {
     if(type == "buttonClick") {
         domObject.innerHTML = productInfoObject.productName;
+        productInfoObject.modelCode = 0;
     }else if(type == "default"){
 
         if(haschild(domObject)) {
@@ -296,8 +306,8 @@ function removeSomeChild(domObject) {
 }
 
 function removeAllChild(domObject) {
-    while(domObject.hasChildNodes()) {
-        domObject.removeChild(domObject.firstChild);
+    while(haschild(domObject)) {
+        domObject.removeChild(domObject.lastChild);
     }
 
 }
@@ -329,16 +339,16 @@ function createProductNameSpan(domObject, productInfoObject, categoryIncludeFlag
         domObject.appendChild(newSpan);
     }
     
-    getProductTroubleSymptom(productInfoObject.categoryCode);
+    getProductTroubleSymptom(productInfoObject.productCategoryCode);
     addVisibleClass(modelSearchTr);
     addVisibleClass(modelDetailSpan);
 }
 
-function getProductTroubleSymptom(categoryCode) {
+function getProductTroubleSymptom(productCategoryCode) {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/product/list/trouble/category/${categoryCode}`,
+        url: `/api/v1/product/list/trouble/category/${productCategoryCode}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
@@ -349,10 +359,10 @@ function getProductTroubleSymptom(categoryCode) {
     });
 }
 
-function setProductTroubleSymptom(toubleSymptomList) {
+function setProductTroubleSymptom(troubleSymptomList) {
     initializationTroubleSymptom();
 
-    toubleSymptomList.forEach(trouble => {
+    troubleSymptomList.forEach(trouble => {
         troubleSymptomTd.innerHTML += `
         <option value="${trouble.troubleCode}">${trouble.troubleName}</option>
         `;
@@ -422,7 +432,7 @@ function setProductImages(domObject, productInfoList, type, isGroup) {
             domObject.innerHTML += `
             <li class="category-image-li">
                 <div>
-                    <img src="/image/winia-product/category-images/${categoryInfo.productMainCategoryImage}" alt="${categoryInfo.categoryName}">
+                    <img src="/image/winia-product/category-images/${categoryInfo.productMainCategoryImage}" alt="${categoryInfo.productCategoryName}">
                 </div>
             </li>
             `;
@@ -505,8 +515,8 @@ function setGroupProductDetail(domObject, productInfoList) {
             productImage.setAttribute("alt", productFirstInfo.productName);
 
             let productCategoryNameP = document.createElement("p");
-            productCategoryNameP.setAttribute("class", `category-title-${productFirstInfo.categoryCode}`);
-            productCategoryNameP.appendChild(document.createTextNode(productFirstInfo.categoryName));
+            productCategoryNameP.setAttribute("class", `category-title-${productFirstInfo.productCategoryCode}`);
+            productCategoryNameP.appendChild(document.createTextNode(productFirstInfo.productCategoryName));
 
 
             productCategoryLi.appendChild(productImage);
@@ -541,7 +551,7 @@ function setGroupProductDetail(domObject, productInfoList) {
 
                 let newLi = document.createElement("li");
                 let newSpan = document.createElement("span");
-                newSpan.setAttribute("class", `product-category-${productAllInfo[j].categoryCode}`);
+                newSpan.setAttribute("class", `product-category-${productAllInfo[j].productCategoryCode}`);
                 newSpan.appendChild(document.createTextNode(productAllInfo[j].productName));
                 newLi.appendChild(newSpan);
 
@@ -596,17 +606,17 @@ function setGroupProductDetail(domObject, productInfoList) {
 function setGroupImageClickEvent(domObject, productInfoList) {
     domObject.onclick = () => {
         if(domObject.classList.contains("integrated")) {
-            setModelName(productNameTd,
+            setModelName(productNameLi,
                 {
                    "productName": productInfoList.productName,
-                   "categoryCode": productInfoList.categoryCode
+                   "productCategoryCode": productInfoList.productCategoryCode
                }, 
                "integrated");
 
-               productInfoObject.categoryCode = productInfoList.categoryCode;
+               productInfoObject.productCategoryCode = productInfoList.productCategoryCode;
                productInfoObject.productCode = productInfoList.productCode;
         }else {
-            setModelName(productNameTd, {"productName": null}, "integrated");
+            setModelName(productNameLi, {"productName": null}, "integrated");
         }
     }
 
@@ -680,10 +690,10 @@ function getCategoryCodeByDomObject(object, isImage) {
 
 function checkIntegratedProduct(productList, type) {
     if(type == "default") {
-        return productList.length == 1 && productList[0].categoryName == productList[0].productName;
+        return productList.length == 1 && productList[0].productCategoryName == productList[0].productName;
     }else if(type == "group") {
         return productList.readProductDetailResponseDtoList.length == 1
-        && productList.readProductDetailResponseDtoList[0].categoryName == productList.readProductDetailResponseDtoList[0].productName;
+        && productList.readProductDetailResponseDtoList[0].productCategoryName == productList.readProductDetailResponseDtoList[0].productName;
     }
 }
 
@@ -741,13 +751,13 @@ function setCategoryClickEvent(productInfoList) {
         if(productInfoList[i].groupFlag) {
             categoryImages[i].onclick = () => {
                 getProductDetail(productInfoList[i].productGroup, true);
-                setModelName(productNameTd, {"productTitle": productInfoList[i].categoryName}, "category");
+                setModelName(productNameLi, {"productTitle": productInfoList[i].productCategoryName}, "category");
                 initializationTroubleSymptom();
             }
         }else {
             categoryImages[i].onclick = () => {
-                getProductDetail(productInfoList[i].categoryCode, false);
-                setModelName(productNameTd, {"productTitle": productInfoList[i].categoryName}, "category");
+                getProductDetail(productInfoList[i].productCategoryCode, false);
+                setModelName(productNameLi, {"productTitle": productInfoList[i].productCategoryName}, "category");
                 initializationTroubleSymptom();
             }
         }
@@ -758,10 +768,11 @@ function setImageClickEvent(domObject, productInfoList) {
     for(let i = 0; i < domObject.length; i++) {
         domObject[i].onclick = () => {
             let productDetailName = domObject[i].getAttribute("alt");
-            console.log(productInfoList[i]);
+            
+            productInfoObject.productCategoryCode = productInfoList[i].productCategoryCode;
             productInfoObject.productCode = productInfoList[i].productCode;
 
-            setModelName(productNameTd, {"productName": productDetailName, "categoryCode": productInfoList[0].categoryCode}, "default");
+            setModelName(productNameLi, {"productName": productDetailName, "productCategoryCode": productInfoList[0].productCategoryCode}, "default");
         }
     }
 }
@@ -771,13 +782,15 @@ function setProductClickEvent(domObject, productInfoList) {
     for(let i = 0; i < domObject.length; i++) {
         domObject[i].onclick = () => {
             // let categoryCode = getCategoryCodeByDomObject(domObject[i], false);
-            console.log(productInfoList[i].categoryCode);
-            console.log(productInfoList[i].productCode);
             // const categoryTitle = document.querySelector(`.category-title-${categoryCode}`).textContent;
             // setModelName(productNameTd, {"productTitle": categoryTitle, "productName": domObject[i].textContent, "categoryCode": categoryCode}, "group");
-            setModelName(productNameTd, {"productTitle": productInfoList[i].categoryName, "productName": domObject[i].textContent, "categoryCode": productInfoList[i].categoryCode}, "group");
+            setModelName(productNameLi, {
+                "productTitle": productInfoList[i].productCategoryName, 
+                "productName": domObject[i].textContent, 
+                "productCategoryCode": productInfoList[i].productCategoryCode
+            }, "group");
             
-            productInfoObject.categoryCode = productInfoList[i].categoryCode;
+            productInfoObject.productCategoryCode = productInfoList[i].productCategoryCode;
             productInfoObject.productCode = productInfoList[i].productCode;
         }
 
@@ -828,17 +841,27 @@ function setModelNameList(modelNameList) {
 
     const modelNumberItems = document.querySelectorAll(".model-number");
 
-    setModelClickEvent(modelNumberItems);
+    setModelClickEvent(modelNumberItems, modelNameList);
 
 }
 
-function setModelClickEvent(modelNumberItems) {
-    modelNumberItems.forEach(model => {
-        model.onclick = () => {
-            modelDetailSpan.innerHTML = model.textContent;
+function setModelClickEvent(modelNumberItems, modelNameList) {
+    for(let i = 0; i < modelNumberItems.length; i++) {
+        modelNumberItems[i].onclick = () => {
+            modelDetailSpan.innerHTML = modelNumberItems[i].textContent;
+            productInfoObject.modelCode = modelNameList[i].modelCode;
             removeVisibleClass(modelDetailSpan);
         }
-    })
+    }
+
+    // modelNumberItems.forEach(model => {
+    //     model.onclick = () => {
+    //         modelDetailSpan.innerHTML = model.textContent;
+    //         productInfoObject.modelCode = modelNameList[index].modelCode;
+    //         removeVisibleClass(modelDetailSpan);
+    //     }
+    //     index++;
+    // });
 }
 
 function checkByte(object) {
@@ -1233,8 +1256,8 @@ function setProductInfo() {
     const productInfo = document.querySelector(".product-info");
     const troubleSymptomInfo = document.querySelector(".trouble-symptom-info");
 
-    productInfo.textContent = `${productInfoObject.productName}/ ${productInfoObject.modelName}`;
-    troubleSymptomInfo.textContent = `${productInfoObject.trouble}`;
+    productInfo.textContent = `${modelNameSpan.textContent}/ ${modelDetailSpan.textContent}`;
+    troubleSymptomInfo.textContent = `${troubleSymptomTd.options[troubleSymptomTd.selectedIndex].text}`;
 
 }
 
@@ -1243,8 +1266,8 @@ function setUserInfo() {
     const mainPhoneNumberInfo = document.querySelector(".main-phone-number-info");
     const addressInfo = document.querySelector(".address-info");
 
-    nameInfo.textContent = `${userInfoObject.name}`;
-    mainPhoneNumberInfo.textContent = `${userInfoObject.mainPhone}`;
+    nameInfo.textContent = `${userInfoObject.userName}`;
+    mainPhoneNumberInfo.textContent = `${userInfoObject.mainPhoneNumber}`;
     addressInfo.textContent = `${userInfoObject.mainAddress} ${userInfoObject.detailAddress}`;
 
     if(!isEmpty(userInfoObject.email)){
@@ -1252,10 +1275,10 @@ function setUserInfo() {
 
         emailInfo.textContent = `${userInfoObject.email}`;
     }
-    if(!isEmpty(userInfoObject.subPhone)) {
+    if(!isEmpty(userInfoObject.subPhoneNumber)) {
         const subPhoneNumberInfo = document.querySelector(".sub-phone-number-info");
 
-        subPhoneNumberInfo.textContent = `${userInfoObject.subPhone}`;
+        subPhoneNumberInfo.textContent = `${userInfoObject.subPhoneNumber}`;
     }
 }
 
@@ -1333,7 +1356,7 @@ function checkRequireProductBrand() {
 }
 
 
-function checkRequireProductModel() {
+function checkRequireProductModelAndSaveProductInfo() {
     const modelTitleSpan = document.querySelector(".model-title-span");
     modelNameSpan = document.querySelector(".model-name-span");
     if(isEmpty(modelNameSpan.textContent)) {
@@ -1351,11 +1374,11 @@ function checkRequireProductModel() {
         return false;
     }
 
-    productInfoObject.company = company == "winia" ? "위니아 제품" : "위니아 전자 제품";
-    productInfoObject.productCategory = modelTitleSpan != null ? modelTitleSpan.textContent : null;
-    productInfoObject.productName = modelNameSpan.textContent;
-    productInfoObject.modelName = modelDetailSpan.textContent;
-    productInfoObject.trouble = troubleSymptomTd.options[troubleSymptomTd.selectedIndex].text;
+    // productInfoObject.company = company == "winia" ? "위니아 제품" : "위니아 전자 제품";
+    // productInfoObject.productCategory = modelTitleSpan != null ? modelTitleSpan.textContent : null;
+    // productInfoObject.productName = modelNameSpan.textContent;
+    // productInfoObject.modelName = modelDetailSpan.textContent;
+    productInfoObject.troubleCode = troubleSymptomTd.options[troubleSymptomTd.selectedIndex].value;
     productInfoObject.description = descriptionInput.value;
 
     const userInfoContent = document.querySelector(".user-info-content");
@@ -1366,7 +1389,7 @@ function checkRequireProductModel() {
 
 
 
-function checkRequireInput() {
+function checkRequireInputAndSaveUserInfo() {
     const nameInput = document.querySelector(".name-input");
 
     const mainFirstPhoneNumber = document.querySelector(".phone-box select");
@@ -1416,7 +1439,7 @@ function checkRequireInput() {
         return false;
     }
 
-    userInfoObject.name = nameInput.value;
+    userInfoObject.userName = nameInput.value;
     userInfoObject.postalCode = postalCodeInput.value;
     userInfoObject.mainAddress = mainAddressInput.value;
     userInfoObject.detailAddress = detailAddressInput.value;
@@ -1440,7 +1463,7 @@ function checkRequireInput() {
             return false;
         }
 
-        userInfoObject.subPhone = subPhoneNumber;
+        userInfoObject.subPhoneNumber = subPhoneNumber;
     }
 
     if(mainPhoneNumber != tempPhoneNumber) {
@@ -1449,14 +1472,14 @@ function checkRequireInput() {
         }
 
         tempPhoneNumber = mainPhoneNumber;
-        userInfoObject.mainPhone = mainPhoneNumber;
+        userInfoObject.mainPhoneNumber = mainPhoneNumber;
     }
     removeVisibleClass(reservationDiv);
     activationStepTitle(stepTitleItems[2], stepTitleDivItems[2]);
     return true;
 }
 
-function checkReservationFlag() {
+function checkReservationFlagAndSaveReservationInfo() {
     if(!reservationFlag) {
         alert("예약날짜와 시간을 선택해주세요.");
         return false;
@@ -1469,11 +1492,11 @@ function checkReservationFlag() {
 function checkAllRequireItems() {
     if(!checkRequireProductBrand()) {
         return false;
-    }else if(!checkRequireProductModel()) {
+    }else if(!checkRequireProductModelAndSaveProductInfo()) {
         return false;
-    }else if(!checkRequireInput()) {
+    }else if(!checkRequireInputAndSaveUserInfo()) {
         return false;
-    }else if(!checkReservationFlag()) {
+    }else if(!checkReservationFlagAndSaveReservationInfo()) {
         return false;
     }
     return true;

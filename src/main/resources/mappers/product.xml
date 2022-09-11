@@ -48,15 +48,15 @@
 
     <select id="findListToProductNumberInfo" resultType="com.project.winiaaid.domain.product.ProductNumberInfo">
         SELECT
-            pmt.model_code,
-            pmt.model_name,
-            pmt.model_number_info,
-            pmt.model_number_info_detail,
+            pmc.model_category_code,
+            pmc.model_category_name,
+            pmc.model_number_categoty_info,
+            pmc.model_category_number_info_detail,
 
-            pmi.model_image_name
+            pmci.model_image_category_name
         FROM
-            product_model_table pmt
-            LEFT OUTER JOIN product_model_image pmi ON(pmi.model_code = pmt.model_code);
+            product_model_category pmc
+            LEFT OUTER JOIN product_model_category_image pmci ON(pmci.model_category_code = pmc.model_category_code);
     </select>
     
     <select id="findTroubleSymptomByProductCode" parameterType="Integer" resultType="com.project.winiaaid.domain.product.ProductTrouble">

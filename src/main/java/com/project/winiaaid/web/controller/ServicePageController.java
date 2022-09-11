@@ -15,9 +15,18 @@ public class ServicePageController {
 		return "service/visitRequest";
 	}
 
+	@GetMapping("/visit/inquiry")
+	public String loadVisitInquiryPage() {
+		return "service/visitInquiry";
+	}
+
 	@GetMapping("/popup/modelNamePopup")
 	public String loadModelNamePopupPage() {
 		return "popup/model_name_popup";
 	}
 
+	@GetMapping("/popup/pastRequestPopup")
+	public String loadPastRequestPopupPage() {
+		return "popup/past_request_popup";
+	}
 }

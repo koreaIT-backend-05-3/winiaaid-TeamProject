@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 public class Engineer {
     private int engineer_code;
     private String engineer_name;
+//    private List<ReservationTime> times;
     private LocalDateTime reservation_time;
 
     public EngineerReservationInfoDto toEngineerReservationInfoDto() {

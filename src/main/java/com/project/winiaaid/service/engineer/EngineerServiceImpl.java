@@ -59,6 +59,15 @@ public class EngineerServiceImpl implements EngineerService {
     }
 
 
+//    @Override
+//    public List<Engineer> getEngineerList() throws Exception {
+//        List<Engineer> engineer = null;
+//
+//        engineer = engineerRepository.findEngineerListTest();
+//
+//        System.out.println(engineer);
+//        return engineer;
+//    }
 
     private Iterator<Integer> makeIteratorByEngineerCodeSet(List<Engineer> engineerList) {
         Set<Integer> engineerCodeSet = new HashSet<>();

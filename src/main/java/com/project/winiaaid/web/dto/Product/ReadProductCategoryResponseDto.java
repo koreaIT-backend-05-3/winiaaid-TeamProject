@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @Builder
 public class ReadProductCategoryResponseDto {
-    private int categoryCode;
-    private String categoryName;
+    private int productCategoryCode;
+    private String productCategoryName;
     private boolean groupFlag;
     private int productGroup;
     private String productMainCategoryImage;

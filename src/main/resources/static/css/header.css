@@ -73,6 +73,8 @@ header {
 
     width: 1600px;
     height: 51px;
+
+    cursor: pointer;
 }
 
 .menu li {
@@ -119,6 +121,7 @@ header {
 
 .meun-line-sub li {
     margin: 0 10px;
+    cursor: pointer;
 }
 
 @keyframes fadein {

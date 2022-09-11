@@ -32,8 +32,8 @@ public class Product {
 
 	public ReadProductCategoryResponseDto toReadProductCategoryResponseDto() {
 		return ReadProductCategoryResponseDto.builder()
-				.categoryCode(product_category_code)
-				.categoryName(product_category_name != null ? product_category_name : product_group_category_name)
+				.productCategoryCode(product_category_code)
+				.productCategoryName(product_category_name != null ? product_category_name : product_group_category_name)
 				.productGroup(product_group)
 				.groupFlag(group_flag == 1 ? true : false)
 				.productMainCategoryImage(product_main_category_image)
@@ -42,8 +42,8 @@ public class Product {
 
 	public ReadProductDetailResponseDto toReadProductDetailResponseDto() {
 		return ReadProductDetailResponseDto.builder()
-				.categoryCode(product_category_code)
-				.categoryName(product_category_name)
+				.productCategoryCode(product_category_code)
+				.productCategoryName(product_category_name)
 				.productCode(product_code)
 				.productName(product_detail_name == null ? product_category_name : product_detail_name)
 				.productMainImage(product_main_image)

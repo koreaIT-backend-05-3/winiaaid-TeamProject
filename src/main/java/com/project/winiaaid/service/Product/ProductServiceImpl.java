@@ -180,7 +180,7 @@ public class ProductServiceImpl implements ProductService {
     private Iterator<Integer> makeIteratorByModelCodeSet(List<ProductNumberInfo> productList) {
         Set<Integer> modelCodeSet = new HashSet<>();
 
-        productList.forEach(product -> modelCodeSet.add(product.getModel_code()));
+        productList.forEach(product -> modelCodeSet.add(product.getModel_category_code()));
 
         return modelCodeSet.iterator();
     }
@@ -201,7 +201,7 @@ public class ProductServiceImpl implements ProductService {
                 .productNumberInfoObjectDtoList(
                         productList
                                 .stream()
-                                .filter(productNumberInfo -> productNumberInfo.getModel_code() == modelCode)
+                                .filter(productNumberInfo -> productNumberInfo.getModel_category_code() == modelCode)
                                 .map(productNumberInfo -> productNumberInfo.toProductNumberInfoObjectDtoDto())
                                 .collect(Collectors.toList()))
                 .build();
@@ -216,7 +216,7 @@ public class ProductServiceImpl implements ProductService {
     private List<ReadProductDetailResponseDto> checkIntegratedProduct(List<ReadProductDetailResponseDto> productList) {
         if(productList.size() != 1) {
             productList = productList.stream()
-                    .filter(product -> !product.getCategoryName().equals(product.getProductName()))
+                    .filter(product -> !product.getProductCategoryName().equals(product.getProductName()))
                     .collect(Collectors.toList());
         }
         return productList;

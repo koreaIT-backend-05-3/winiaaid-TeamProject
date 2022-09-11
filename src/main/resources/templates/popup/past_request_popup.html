@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/popup/past_request_popup.css">
+    <title>[위니아에이드] 이전접수목록 확인</title>
+</head>
+<body>
+    <header>
+        <div class="title-div">
+            <h1>이전접수 목록 확인</h1>
+            <div>
+                <i class="fa-solid fa-x cancel-image"></i>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="container">
+            <div class="main-container">
+                <div class="notice-div">
+                    <p class="notice-p">예약 신청 시 접수한 제품을 확인하실 수 있습니다.</p>
+                    <p class="notice-p">이전접수한 제품을 선택하시면 재접수 가능합니다.</p>
+                </div>
+                <p class="notice-list-amount-p">전체 <span class="amount-span">2</span>건</p>
+                <div>
+                    <div class="request-info-div">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        <input class="check-radio" id="check-radio" type="radio">
+                                        <label for="check-radio" class="check-radio">제품명</label>
+                                    </th>
+                                    <td class="product-name-td">에어컨 > 벽걸이에어컨</td>
+                                    <th>모델명</th>
+                                    <td class="product-model-name-td">모름</td>
+                                </tr>
+                                <tr>
+                                    <th>접수번호</th>
+                                    <td class="request-number-td">000315120736</td>
+                                    <th>서비스구분</th>
+                                    <td class="service-type-td">방문서비스 (A/S)</td>
+                                </tr>
+                                <tr>
+                                    <th>구입년월</th>
+                                    <td class="product-purchase-day-td">2022-09-10</td>
+                                    <th>고장증상</th>
+                                    <td class="trouble-symptom-td">기타_기타</td>
+                                </tr>
+                                <tr>
+                                    <th>접수일</th>
+                                    <td class="request-time-td">2022-09-09</td>
+                                    <th>서비스완료일</th>
+                                    <td class="reservation-day-td">2022-09-30 15:00</td>
+                                </tr>
+                                <tr>
+                                    <th>고객명</th>
+                                    <td class="customer-name-td">한대경</td>
+                                    <th>휴대폰번호	</th>
+                                    <td class="phone-number-td">010-4966-3160</td>
+                                </tr>
+                                <tr>
+                                    <th>주소</th>
+                                    <td class="address-td" colspan="3">부산광역시 해운대구 달맞이길117번나길 194(중동, 현우산호맨션) 1동 312호</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="explaination-div">
+                        <p class="important-p">이전접수한 제품/모델 선택 후 재접수 할시 접수번호는 신규 생성됩니다.</p>
+                    </div>
+                    <div class="page-button-div">
+                        <button type="button">1</button>
+                        <button type="button">2</button>
+                        <button type="button">3</button>
+                    </div>
+                    <div class="service-request-button-div">
+                        <button class="request-button" type="button">재접수</button>
+                        <button class="cancel-button" type="button">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/popup/popup.js"></script>
+    <script src="/static/js/popup/past_request_popup.js"></script>
+</body>
+</html>

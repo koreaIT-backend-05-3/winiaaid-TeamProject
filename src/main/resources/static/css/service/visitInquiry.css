@@ -10,6 +10,7 @@ p {
 }
 
 .main-title {
+    margin-top: 20px;
     margin-bottom: 35px;
 
     width: 980px;
@@ -19,6 +20,7 @@ p {
 .main-title h1 {
     font-size: 28px;
     color: #252525;
+    font-weight: 400;
 }
 
 .service-explaination {
