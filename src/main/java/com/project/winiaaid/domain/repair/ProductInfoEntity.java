@@ -21,6 +21,7 @@ public class ProductInfoEntity {
     private int trouble_code;
     private String trouble_symptom;
     private String description;
+    private int company_code;
     private String company_name;
 
     public ProductInfoDto toProductInfoDto() {
@@ -29,9 +30,11 @@ public class ProductInfoEntity {
                 .productCategoryName(product_category_name)
                 .productDetailName(product_detail_name)
                 .modelNumber(model_number)
+                .troubleCode(trouble_code)
                 .troubleSymptom(trouble_symptom)
                 .description(description)
-                .CompanyName(company_name)
+                .companyCode(company_code)
+                .companyName(company_name)
                 .build();
     }
 }

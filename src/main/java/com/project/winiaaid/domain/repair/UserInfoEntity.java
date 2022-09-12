@@ -26,6 +26,9 @@ public class UserInfoEntity {
                 .email(email)
                 .mainPhoneNumber(main_phone_number)
                 .subPhoneNumber(sub_phone_number)
+                .postalCode(postal_code)
+                .mainAddress(main_address)
+                .detailAddress(detail_address)
                 .build();
     }
 }

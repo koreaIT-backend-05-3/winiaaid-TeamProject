@@ -129,6 +129,18 @@ tbody td:nth-of-type(3) {
     color: #0A71CC;
 }
 
+.cancel-td {
+    color: red;
+}
+
+.register-td {
+    color: #0A71CC;
+}
+
+.complete-td {
+    color: #777777;
+}
+
 .service-explaination-detail {
     margin-top: 20px;
 

@@ -55,15 +55,18 @@ header {
 
 .request-info-div {
     margin-bottom: 20px;
+    width: 100%;
 }
 
 table {
     border-bottom: 1px solid #7d7d7d;
+    margin-bottom: 10px;
+    width: 100%;
+    font-weight: 400;
 }
 
 tbody {
     font-size: 13px;
-    font-weight: 400;
 }
 
 tbody tr th:first-child {
@@ -73,7 +76,11 @@ tbody tr th:first-child {
 tbody th {
     border-top: 1px solid #d9d9d9;
     padding: 18px 0 18px 24px;
+
+    width: 103px;
     
+    font-size: 13px;
+
     text-align: left;
 }
 
@@ -83,6 +90,8 @@ tbody td {
     padding-bottom: 10px;
     padding-right: 24px;
     padding-left: 24px;
+
+    font-size: 13px;
 }
 
 .check-radio {

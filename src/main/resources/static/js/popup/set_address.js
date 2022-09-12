@@ -38,11 +38,11 @@ function setAddressToParentWindow() {
     cancelPopup();
 }
 
-function searchAddress(nowPage) {
-    loadPage(nowPage);
+function loadPage(nowPage) {
+    searchAddress(nowPage);
 }
 
-function loadPage(nowPage) {
+function searchAddress(nowPage) {
     let confirmKey = "devU01TX0FVVEgyMDIyMDkwNzAyNTExNTExMjk1ODg=";
     $.ajax({
         url: "https://business.juso.go.kr/addrlink/addrLinkApi.do",

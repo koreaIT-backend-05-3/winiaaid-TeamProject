@@ -19,7 +19,8 @@ public class ProductInfoDto {
     private int troubleCode;
     private String troubleSymptom;
     private String description;
-    private String CompanyName;
+    private int companyCode;
+    private String companyName;
 
     public ProductInfoEntity toProductInfoEntity() {
         return ProductInfoEntity.builder()

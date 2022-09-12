@@ -21,15 +21,17 @@ public class ReservationInfoEntity {
     private LocalDateTime request_date;
     private LocalDateTime reservation_date;
     private String note;
+    private int total_count;
 
     public ReservationInfoDto toReservationInfoDto() {
         return ReservationInfoDto.builder()
                 .engineerName(engineer_name)
                 .serviceType(service_type)
-                .completedFlag(completed_flag == 0 ? "접수 취소" : completed_flag == 1 ? "접수 완료" : "해결")
+                .completedFlag(completed_flag)
                 .requestDate(request_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .reservationDate(reservation_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .note(note)
+                .totalCount(total_count)
                 .build();
     }
 }

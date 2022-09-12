@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductTrouble {
     private int trouble_code;
-    private String trouble_name;
+    private String trouble_symptom;
 
     public ReadProductTroubleResponseDto toReadProductTroubleResponseDto() {
         return ReadProductTroubleResponseDto.builder()
                 .troubleCode(trouble_code)
-                .troubleName(trouble_name)
+                .troubleSymptom(trouble_symptom)
                 .build();
     }
 }

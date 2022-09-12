@@ -14,10 +14,11 @@ public class ReservationInfoDto {
     private String reservationDay;
     private String reservationTime;
     private String serviceType;
-    private String completedFlag;
+    private int completedFlag;
     private String requestDate;
     private String reservationDate;
     private String note;
+    private int totalCount;
 
 
     public ReservationInfoEntity toReservationEntity(LocalDateTime reservation_date) {
@@ -25,6 +26,7 @@ public class ReservationInfoDto {
                 .engineer_code(engineerCode)
                 .reservation_date(reservation_date)
                 .service_type(serviceType)
+                .completed_flag(1)
                 .build();
     }
 }

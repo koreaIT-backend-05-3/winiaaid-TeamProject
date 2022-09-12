@@ -33,12 +33,12 @@ public class RepairServiceRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", status));
     }
 
-    @GetMapping("/repair/history/user/{userCode}")
-    public ResponseEntity<?> getRepairServiceInfo(@PathVariable int userCode) {
+    @GetMapping("/repair/history/{type}/user/{userCode}")
+    public ResponseEntity<?> getRepairServiceInfo(@PathVariable String type, @PathVariable int userCode, @RequestParam String company, @RequestParam int page) {
         List<RepairServiceResponseDto> repairServiceInfoList = null;
 
         try {
-            repairServiceInfoList = repairService.getRepariServiceByUserCode(userCode);
+            repairServiceInfoList = repairService.getRepairServiceByUserCode(type, userCode, company, page);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed application for repairService", repairServiceInfoList));

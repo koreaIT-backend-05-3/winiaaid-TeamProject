@@ -6,6 +6,7 @@ const stepTitleDivItems = document.querySelectorAll(".step-div");
 
 const checkLastReqeustButton = document.querySelector(".check-last-request-list-button");
 
+let categoryImages = null;
 let modelNameSpan = document.querySelector(".model-name-span");
 const modelSearchTr = document.querySelector(".model-search-tr");
 const swiperWrapper = document.querySelector(".swiper-wrapper");
@@ -168,7 +169,15 @@ modifyButton.onclick = requestDivActivation;
 
 requestButton.onclick = requestSubmit;
 
-
+function pastRequestServiceDataLoad(pastHistoryInfoObject) {
+    categoryImages = document.querySelectorAll(".category-image-li img");
+    for(categoryImage of categoryImages) {
+        if(categoryImage.getAttribute("alt") == pastHistoryInfoObject.productCategoryName) {
+            categoryImage.click();
+            // 성공
+        }
+    }
+}
 
 function requestSubmit() {
     $.ajax({
@@ -745,7 +754,7 @@ function removeVisibles(objects) {
 }
 
 function setCategoryClickEvent(productInfoList) {
-    const categoryImages = document.querySelectorAll(".category-image-li img");
+    let categoryImages = document.querySelectorAll(".category-image-li img");
 
     for(let i = 0; i < productInfoList.length; i++){
         if(productInfoList[i].groupFlag) {

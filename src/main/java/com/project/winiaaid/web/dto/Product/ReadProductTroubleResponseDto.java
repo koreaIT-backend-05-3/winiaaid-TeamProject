@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class ReadProductTroubleResponseDto {
     private int troubleCode;
-    private String troubleName;
+    private String troubleSymptom;
 }

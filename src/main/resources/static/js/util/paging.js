@@ -1,5 +1,7 @@
+let nowPage = 1;
+
 function getTotalPage(totalCount, limitedShowCount) {
-    return totalCount % limitedShowCount ? totalCount / limitedShowCount : Math.floor(totalCount / limitedShowCount) + 1;
+    return totalCount % limitedShowCount == 0 ? totalCount / limitedShowCount : Math.floor(totalCount / limitedShowCount) + 1;
 }
 
 function setPage(totalPage) {

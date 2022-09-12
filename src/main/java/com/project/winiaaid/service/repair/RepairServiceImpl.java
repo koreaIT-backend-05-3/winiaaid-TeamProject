@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,11 +35,17 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public List<RepairServiceResponseDto> getRepariServiceByUserCode(int userCode) throws Exception {
+    public List<RepairServiceResponseDto> getRepairServiceByUserCode(String type, int userCode, String company, int page) throws Exception {
         List<RepairServiceInfo> repairServiceInfoEntityList = null;
         List<RepairServiceResponseDto> repairServiceResponseDtoList = null;
+        Map<String, Object> configMap = new HashMap<>();
 
-        repairServiceInfoEntityList = repairRepository.findRepairServiceByUserCode(userCode);
+        configMap.put("limit", type.equals("popup") ? 3 : 10);
+        configMap.put("page", (page - 1) * (Integer) configMap.get("limit"));
+        configMap.put("user_code", userCode);
+        configMap.put("company", company);
+
+        repairServiceInfoEntityList = repairRepository.findRepairServiceByUserCode(configMap);
 
         if(repairServiceInfoEntityList != null) {
             repairServiceResponseDtoList = changeToRepairServiceResponseDto(repairServiceInfoEntityList);
