@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface RepairService {
     public boolean addRepairServiceRequest(RepairServiceRequestDto applyServiceRequestDto) throws Exception;
-    public List<RepairServiceResponseDto> getRepairServiceByUserCode(String type, int userCode, String company, int page) throws Exception;
+    public List<RepairServiceResponseDto> getRepairServiceByUserCode(String type, int userCode, int page) throws Exception;
 }

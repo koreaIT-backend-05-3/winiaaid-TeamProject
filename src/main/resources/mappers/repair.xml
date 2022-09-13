@@ -7,6 +7,7 @@
     <resultMap id="repairServiceInfoMap" type="com.project.winiaaid.domain.repair.RepairServiceInfo">
         <association property="productInfoEntity" javaType="com.project.winiaaid.domain.repair.ProductInfoEntity">
             <id property="repair_service_code" column="repair_service_code"/>
+            <result property="product_group_name" column="product_group_name"/>
             <result property="product_category_name" column="product_category_name"/>
             <result property="product_detail_name" column="product_detail_name"/>
             <result property="model_number" column="model_number"/>
@@ -96,6 +97,8 @@
 
             em.engineer_name,
 
+            pmg.product_category_name AS product_group_name,
+
             rst_total_count.total_count
         FROM
             repair_service_table rst
@@ -105,34 +108,15 @@
             LEFT OUTER JOIN product_model_detail pmd ON(pmd.model_code = rst.model_code)
             LEFT OUTER JOIN trouble_symptom_table tst ON(tst.trouble_code = rst.trouble_code)
             LEFT OUTER JOIN engineer_mst em ON(em.engineer_code = rst.engineer_code)
+            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
             LEFT OUTER JOIN (select
                                 COUNT(*) AS total_count
                             from
                                 repair_service_table rst
-                                <if test='company != "all"'>
-                                    LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = rst.product_category_code)
-                                    LEFT OUTER JOIN product_company_table pct ON(pct.company_code = wpm.company_code)
-                                </if>
                             where
-                                user_code = 0
-                                <choose>
-                                    <when test='company == "winia"'>
-                                        and pct.company_code = 2
-                                    </when>
-                                    <when test='company == "daewoo"'>
-                                        and pct.company_code = 1
-                                    </when>
-                                </choose>) rst_total_count ON(1 = 1)
+                                user_code = 0) rst_total_count ON(1 = 1)
         WHERE
             rst.user_code = #{user_code}
-            <choose>
-                <when test='company == "winia"'>
-                    and pct.company_code = 2
-                </when>
-                <when test='company == "daewoo"'>
-                    and pct.company_code = 1
-                </when>
-            </choose>
         LIMIT #{page}, #{limit};
     </select>
 

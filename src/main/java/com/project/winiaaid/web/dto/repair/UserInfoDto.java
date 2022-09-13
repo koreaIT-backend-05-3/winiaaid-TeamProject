@@ -22,7 +22,7 @@ public class UserInfoDto {
                 .user_name(userName)
                 .email(email)
                 .main_phone_number(mainPhoneNumber)
-                .sub_phone_number(subPhoneNumber == null ? mainPhoneNumber : subPhoneNumber)
+                .sub_phone_number(subPhoneNumber)
                 .postal_code(postalCode)
                 .main_address(mainAddress)
                 .detail_address(detailAddress)

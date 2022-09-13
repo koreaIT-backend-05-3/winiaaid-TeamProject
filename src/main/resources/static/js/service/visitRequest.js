@@ -9,6 +9,8 @@ const checkLastReqeustButton = document.querySelector(".check-last-request-list-
 let categoryImages = null;
 let modelNameSpan = document.querySelector(".model-name-span");
 const modelSearchTr = document.querySelector(".model-search-tr");
+const modelResult = document.querySelector(".model-result");
+const modelResultUl = document.querySelector(".model-result ul");
 const swiperWrapper = document.querySelector(".swiper-wrapper");
 const productNameTd = document.querySelector(".product-name-td");
 const productNameLi = document.querySelector(".product-name-li");
@@ -19,6 +21,14 @@ const modelSearchButton = document.querySelector(".model-search-button");
 const troubleSymptomTd = document.querySelector(".trouble-symptom-td select");
 const descriptionInput = document.querySelector(".description-input");
 
+const userInfoContent = document.querySelector(".user-info-content");
+const nameInput = document.querySelector(".name-input");
+const mainFirstPhoneNumber = document.querySelector(".phone-box select");
+const mainMiddlePhoneNumber = document.querySelector(".middle-number");
+const mainLastPhoneNumber = document.querySelector(".last-number");
+const subFirstPhoneNumber = document.querySelector(".sub-phone-box select");
+const subMiddlePhoneNumber = document.querySelector(".sub-phone-box .middle-number");
+const subLastPhoneNumber = document.querySelector(".sub-phone-box .last-number");
 const firstEmail = document.querySelector(".email-1");
 const secondEmail = document.querySelector(".email-2");
 const emailBoxSelect = document.querySelector(".email-box select")
@@ -51,6 +61,7 @@ let nowDate = null;
 let dateObject = {};
 let selectReservationDay = null;
 
+let historyDataFlag = false;
 let reservationFlag = false;
 
 let productInfoObject = {
@@ -87,6 +98,7 @@ let reservationInfoObject = {
 winia.onclick = checkWiniaProduct;
 daewoo.onclick = checkDaewooProduct;
 
+checkLocalStorageHasPastRequetsServiceData();
 
 setNowDate();
 setCalendarData();
@@ -169,14 +181,146 @@ modifyButton.onclick = requestDivActivation;
 
 requestButton.onclick = requestSubmit;
 
+function checkLocalStorageHasPastRequetsServiceData(){
+    let pastHistoryInfoObject = localStorage.pastHistoryInfoObject;
+    localStorage.clear();
+    if(pastHistoryInfoObject != null) {
+        pastHistoryInfoObject = JSON.parse(pastHistoryInfoObject);
+
+        historyDataFlag = true;
+        pastHistoryInfoObject.companyCode == 1 ? daewoo.click() : winia.click();
+        pastRequestServiceDataLoad(pastHistoryInfoObject);
+    }
+}
+
+function savePastRequestServiceDataToLocalStorageAndReplacePage(pastHistoryInfoObject) {
+    localStorage.pastHistoryInfoObject = JSON.stringify(pastHistoryInfoObject);
+
+    location.replace("/service/visit/request");
+}
+
 function pastRequestServiceDataLoad(pastHistoryInfoObject) {
+    pastRequestServiceCategoryLoad(pastHistoryInfoObject);
+    pastRequestServiceDetailProductLoad(pastHistoryInfoObject);
+    pastRequestServiceModelNumberLoad(pastHistoryInfoObject);
+    pastRequestServiceTroubleSymptomLoad(pastHistoryInfoObject);
+    pastRequestServiceDescriptionLoad(pastHistoryInfoObject);
+
+    removeVisibleClass(userInfoContent);
+
+    pastRequestServiceUserInfoLoad(pastHistoryInfoObject);
+}
+
+function pastRequestServiceCategoryLoad(pastHistoryInfoObject) {
     categoryImages = document.querySelectorAll(".category-image-li img");
     for(categoryImage of categoryImages) {
         if(categoryImage.getAttribute("alt") == pastHistoryInfoObject.productCategoryName) {
             categoryImage.click();
-            // 성공
+            break;
+        }else if(categoryImage.getAttribute("alt") == pastHistoryInfoObject.productGroupName) {
+            categoryImage.click();
+            break;
         }
     }
+}
+
+function pastRequestServiceDetailProductLoad(pastHistoryInfoObject) {
+    const productDetailNameItems= document.querySelectorAll(".detail-product-name");
+    const productDetailImageItems = document.querySelectorAll(".product-detail-image");
+
+    for(productDetailImage of productDetailImageItems) {
+        if(productDetailImage.getAttribute("alt") == pastHistoryInfoObject.productDetailName) {
+            productDetailImage.click();
+            return;
+        }
+    }    
+    for(productDetailName of productDetailNameItems) {
+        if(productDetailName.textContent == pastHistoryInfoObject.productDetailName) {
+            productDetailName.click();
+            return;
+        }
+    }  
+}
+
+function pastRequestServiceModelNumberLoad(pastHistoryInfoObject) {
+    clearDomObject(modelDetailSpan);
+    removeVisibleClass(modelDetailSpan);
+    modelDetailSpan.innerHTML = "모델명 " + pastHistoryInfoObject.productModelNumber;
+}
+
+function pastRequestServiceTroubleSymptomLoad(pastHistoryInfoObject) {
+    const troubleSymptomItems = document.querySelectorAll(".trouble-symptom-td option");
+
+    for(troubleSymptom of troubleSymptomItems) {
+        if(troubleSymptom.value == pastHistoryInfoObject.troubleCode) {
+            troubleSymptom.setAttribute("selected", true);
+        }
+    }
+}
+
+function pastRequestServiceDescriptionLoad(pastHistoryInfoObject) {
+    descriptionInput.value = pastHistoryInfoObject.description;
+}
+
+function pastRequestServiceUserInfoLoad(pastHistoryInfoObject) {
+    nameInput.value = pastHistoryInfoObject.userName;
+
+    const mainPhoneNumberOptionItems = mainFirstPhoneNumber.querySelectorAll("option");
+
+    setFirstPhoneNumber(mainPhoneNumberOptionItems, pastHistoryInfoObject.mainPhoneNumber);
+    setMiddlePhoneNumber(mainMiddlePhoneNumber, pastHistoryInfoObject.mainPhoneNumber);
+    setLastPhoneNumber(mainLastPhoneNumber, pastHistoryInfoObject.mainPhoneNumber);
+    
+    if(pastHistoryInfoObject.subPhoneNumber != null) {
+        const subPhoneNumberOptionItems = subFirstPhoneNumber.querySelectorAll("option");
+       
+        setFirstPhoneNumber(subPhoneNumberOptionItems, pastHistoryInfoObject.subPhoneNumber);
+        setMiddlePhoneNumber(subMiddlePhoneNumber, pastHistoryInfoObject.subPhoneNumber);
+        setLastPhoneNumber(subLastPhoneNumber, pastHistoryInfoObject.subPhoneNumber);
+
+    }
+
+    if(pastHistoryInfoObject.email != null) {
+        setFirstEmail(firstEmail, pastHistoryInfoObject.email);
+        setLastEmail(secondEmail, pastHistoryInfoObject.email);
+    }
+
+    setAddressInfo(pastHistoryInfoObject);
+}
+
+function setFirstPhoneNumber(optionItems, phoneNumber) {
+    let firstPhoneNumber = phoneNumber.substring(0, phoneNumber.indexOf("-"));
+    
+    for(optionItem of optionItems) {
+        if(optionItem.value == firstPhoneNumber) {
+            optionItem.setAttribute("selected", true);
+            break;
+        }
+    }
+}
+
+function setMiddlePhoneNumber(phoneNumberInput, phoneNumber) {
+    let middlePhoneNumber = phoneNumber.substring(phoneNumber.indexOf("-") + 1, phoneNumber.lastIndexOf("-"));
+    phoneNumberInput.value = middlePhoneNumber;
+}
+
+function setLastPhoneNumber(phoneNumberInput, phoneNumber) {
+    let lastPhoneNumber = phoneNumber.substring(phoneNumber.lastIndexOf("-") + 1);
+    phoneNumberInput.value = lastPhoneNumber;
+}
+
+function setFirstEmail(emailInput, email) {
+    emailInput.value = email.substring(0, email.indexOf("@"))
+}
+
+function setLastEmail(emailInput, email) {
+    emailInput.value = email.substring(email.lastIndexOf("@") + 1);
+}
+
+function setAddressInfo(pastHistoryInfoObject) {
+    postalCodeInput.value = pastHistoryInfoObject.postalCode;
+    mainAddressInput.value = pastHistoryInfoObject.mainAddress;
+    detailAddressInput.value = pastHistoryInfoObject.detailAddress;
 }
 
 function requestSubmit() {
@@ -206,10 +350,16 @@ function requestSubmit() {
 /*>>>>>>>>>>>>>>>>> STEP 1 <<<<<<<<<<<<<<<<<<<<<<<<*/ 
 
 function checkWiniaProduct() {
-    if(company != null) {
+    if(historyDataFlag) {
+        historyDataFlag = false;
+        company = "winia";
+        showCompanyProduct();
+
+    }else if(company != null) {
         if(confirm("다시 처음으로 돌아갑니다.\n괜찮으시겠습니까?")) {
             location.replace("/service/visit/request");
         }
+
     }else {
         company = "winia";
     
@@ -220,10 +370,16 @@ function checkWiniaProduct() {
 }
 
 function checkDaewooProduct() {
-    if(company != null) {
+    if(historyDataFlag) {
+        historyDataFlag = false;
+        company = "daewoo";
+        showCompanyProduct();
+
+    }else if(company != null) {
         if(confirm("다시 처음으로 돌아갑니다.\n괜찮으시겠습니까?")) {
             location.replace("/service/visit/request");
         }
+
     }else {
         company = "daewoo";
     
@@ -474,7 +630,7 @@ function setProductDetail(domObject, productInfoList) {
             //     continue;
             // }
             innerHTML += `<li>
-                            <img  src="/image/winia-product/detail-images/${productInfoList[startIndex].productDetailImage}" alt="${productInfoList[startIndex].productName}">
+                            <img class="product-detail-image" src="/image/winia-product/detail-images/${productInfoList[startIndex].productDetailImage}" alt="${productInfoList[startIndex].productName}">
                             <span>${productInfoList[startIndex].productName}</span>
                         </li>
                         `;
@@ -519,12 +675,12 @@ function setGroupProductDetail(domObject, productInfoList) {
             productCategoryLi.setAttribute("class", `product-category-${startIndex}`);
 
             let productImage = document.createElement("img");
-            productImage.setAttribute("class", integratedFlag ? "integrated" : "");
+            productImage.setAttribute("class", integratedFlag ? "integrated product-detail-image" : "");
             productImage.setAttribute("src", `/image/winia-product/main-images/${productFirstInfo.productMainImage}`);
             productImage.setAttribute("alt", productFirstInfo.productName);
 
             let productCategoryNameP = document.createElement("p");
-            productCategoryNameP.setAttribute("class", `category-title-${productFirstInfo.productCategoryCode}`);
+            productCategoryNameP.setAttribute("class", `category-title-${productFirstInfo.productCategoryCode} detail-product-name`);
             productCategoryNameP.appendChild(document.createTextNode(productFirstInfo.productCategoryName));
 
 
@@ -560,7 +716,7 @@ function setGroupProductDetail(domObject, productInfoList) {
 
                 let newLi = document.createElement("li");
                 let newSpan = document.createElement("span");
-                newSpan.setAttribute("class", `product-category-${productAllInfo[j].productCategoryCode}`);
+                newSpan.setAttribute("class", `product-category-${productAllInfo[j].productCategoryCode} detail-product-name`);
                 newSpan.appendChild(document.createTextNode(productAllInfo[j].productName));
                 newLi.appendChild(newSpan);
 
@@ -787,7 +943,6 @@ function setImageClickEvent(domObject, productInfoList) {
 }
 
 function setProductClickEvent(domObject, productInfoList) {
-    console.log(productInfoList);
     for(let i = 0; i < domObject.length; i++) {
         domObject[i].onclick = () => {
             // let categoryCode = getCategoryCodeByDomObject(domObject[i], false);
@@ -1253,9 +1408,6 @@ function selectTime(object, engineerInfo) {
 
 
 function setFinalInfo() {
-    console.log(productInfoObject);
-    console.log(userInfoObject);
-    console.log(reservationInfoObject);
     setProductInfo();
     setUserInfo();
     setReservationInfo()
@@ -1390,7 +1542,6 @@ function checkRequireProductModelAndSaveProductInfo() {
     productInfoObject.troubleCode = troubleSymptomTd.options[troubleSymptomTd.selectedIndex].value;
     productInfoObject.description = descriptionInput.value;
 
-    const userInfoContent = document.querySelector(".user-info-content");
     removeVisibleClass(userInfoContent);
     activationStepTitle(stepTitleItems[1], stepTitleDivItems[1]);
     return true;
@@ -1399,20 +1550,11 @@ function checkRequireProductModelAndSaveProductInfo() {
 
 
 function checkRequireInputAndSaveUserInfo() {
-    const nameInput = document.querySelector(".name-input");
-
-    const mainFirstPhoneNumber = document.querySelector(".phone-box select");
-    const mainMiddlePhoneNumber = document.querySelector(".middle-number");
-    const mainLastPhoneNumber = document.querySelector(".last-number");
-
     let mainFirstNumber = mainFirstPhoneNumber.options[mainFirstPhoneNumber.selectedIndex].value;
     let mainPhoneNumber = mainFirstNumber +"-"+ mainMiddlePhoneNumber.value +"-"+ mainLastPhoneNumber.value;
 
     let regPhone = /^01([0|1|6|7|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 
-    const subFirstPhoneNumber = document.querySelector(".sub-phone-box select");
-    const subMiddlePhoneNumber = document.querySelector(".sub-phone-box .middle-number");
-    const subLastPhoneNumber = document.querySelector(".sub-phone-box .last-number");
 
     let subFirstNumber = subFirstPhoneNumber.options[subFirstPhoneNumber.selectedIndex].value;
     let subPhoneNumber = subFirstNumber +"-"+ subMiddlePhoneNumber.value +"-"+ subLastPhoneNumber.value;

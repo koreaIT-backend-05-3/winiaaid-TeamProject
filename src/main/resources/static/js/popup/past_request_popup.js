@@ -22,7 +22,7 @@ function getRepairServiceHistory(page) {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/history/popup/user/${userCode}?company=${company}&page=${page}`,
+        url: `/api/v1/service/repair/history/popup/user/${userCode}?page=${page}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
@@ -38,26 +38,16 @@ function getRepairServiceHistory(page) {
 function setRepairDataList(repairDataList, totalPage) {
     const requestInfoDiv = document.querySelector(".request-info-div");
 
-    const productNameTd = document.querySelector(".product-name-td");
-    const productModelNumberTd = document.querySelector(".product-model-name-td");
-    const requestNumberTd = document.querySelector(".request-number-td");
-    const serviceTypeTd = document.querySelector(".service-type-td");
-    const productPurchaseDayTd = document.querySelector(".product-purchase-day-td");
-    const troubleSymptomTd = document.querySelector(".trouble-symptom-td");
-    const requestTimeTd = document.querySelector(".request-time-td");
-    const reservationDayTd = document.querySelector(".reservation-day-td");
-    const customerNameTd = document.querySelector(".customer-name-td");
-    const phoneNumberTd = document.querySelector(".phone-number-td");
-    const addressTd = document.querySelector(".address-td");
-
     const amountSpan = document.querySelector(".amount-span");
 
-    amountSpan.textContent = totalPage;
+    amountSpan.textContent = repairDataList[0].reservationInfo.totalCount;
 
     clearDomObject(requestInfoDiv);
 
     for(repairData of repairDataList) {
         let pastHistoryInfoObject = {
+            "companyCode": repairData.productInfo.companyCode,
+            "productGroupName": repairData.productInfo.productGroupName,
             "productCategoryName": repairData.productInfo.productCategoryName,
             "productDetailName": repairData.productInfo.productDetailName,
             "productModelNumber": repairData.productInfo.modelNumber,
@@ -127,7 +117,7 @@ function getCheckedInputIdAndExecuteParentsMethod() {
     for(input of radioInputItems) {
         if(input.checked) {
             let pastHistoryInfoObject = pastHistoryInfoMap.get(input.getAttribute("id").substring(1));
-            window.opener.pastRequestServiceDataLoad(pastHistoryInfoObject);
+            window.opener.savePastRequestServiceDataToLocalStorageAndReplacePage(pastHistoryInfoObject);
             cancelPopup();
         }
     }

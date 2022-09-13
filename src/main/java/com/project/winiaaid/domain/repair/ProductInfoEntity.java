@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductInfoEntity {
 	private String repair_service_code;
+    private String product_group_name;
     private int product_category_code;
     private String product_category_name;
     private int product_code;
@@ -27,6 +28,7 @@ public class ProductInfoEntity {
     public ProductInfoDto toProductInfoDto() {
         return ProductInfoDto.builder()
                 .repairServiceCode(repair_service_code)
+                .productGroupName(product_group_name)
                 .productCategoryName(product_category_name)
                 .productDetailName(product_detail_name)
                 .modelNumber(model_number)

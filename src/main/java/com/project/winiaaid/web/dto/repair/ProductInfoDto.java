@@ -10,6 +10,7 @@ import java.util.UUID;
 @Builder
 public class ProductInfoDto {
     private String repairServiceCode;
+    private String productGroupName;
     private int productCategoryCode;
     private String productCategoryName;
     private int productCode;
