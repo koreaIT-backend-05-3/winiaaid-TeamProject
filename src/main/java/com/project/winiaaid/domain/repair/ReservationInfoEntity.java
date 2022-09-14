@@ -20,7 +20,6 @@ public class ReservationInfoEntity {
     private int completed_flag;
     private LocalDateTime request_date;
     private LocalDateTime reservation_date;
-    private String note;
     private int total_count;
 
     public ReservationInfoDto toReservationInfoDto() {
@@ -30,7 +29,6 @@ public class ReservationInfoEntity {
                 .completedFlag(completed_flag)
                 .requestDate(request_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .reservationDate(reservation_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                .note(note)
                 .totalCount(total_count)
                 .build();
     }

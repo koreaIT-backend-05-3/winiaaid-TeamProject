@@ -35,7 +35,7 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public List<RepairServiceResponseDto> getRepairServiceByUserCode(String type, int userCode, int page) throws Exception {
+    public List<RepairServiceResponseDto> getRepairServiceHistoryInfoByUserCode(String type, int userCode, int page) throws Exception {
         List<RepairServiceInfo> repairServiceInfoEntityList = null;
         List<RepairServiceResponseDto> repairServiceResponseDtoList = null;
         Map<String, Object> configMap = new HashMap<>();

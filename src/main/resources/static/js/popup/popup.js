@@ -13,6 +13,11 @@ function loadPastRequestInfoPopup() {
     "width=700, height=800");
 }
 
+function loadPastAddressListInfoPopup() {
+    window.open("http://localhost:8000/service/popup/pastAddressPopup", "setAddressPopup", 
+    "width=700, height=800");
+}
+
 function cancelPopup() {
     window.close();
 }

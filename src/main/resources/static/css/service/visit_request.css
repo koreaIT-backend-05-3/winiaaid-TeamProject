@@ -622,7 +622,8 @@ table th {
 }
 
 .main-address {
-    width: 587px;
+    /* width: 587px; */
+    width: 487px;
 }
 
 .search-address-button {
@@ -632,6 +633,42 @@ table th {
     height: 31px;
 
     color: #5b5a5a;
+    background-color: #fff;
+}
+
+.address-button {
+    padding: 10px 5px;
+    text-align: center;
+}
+
+.button-area {
+    width: 146px;
+    height: 74px;
+}
+
+.button-area div {
+    display: flex;
+    align-items: center;
+}
+
+.address-button input {
+    margin-right: 2px;
+
+    vertical-align: inherit;
+    width: 15px;
+    height: 31px;
+}
+
+.default-address, .past-address {
+    display: inline-block;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+    padding-top: 5px;
+
+    width: 109px;
+    height: 31px;
+
+    color: #7e7e7e;
     background-color: #fff;
 }
 

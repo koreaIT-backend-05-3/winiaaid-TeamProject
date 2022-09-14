@@ -5,8 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/popup/popup_header.css">
+    <link rel="stylesheet" href="/static/css/popup/popup_footer.css">
     <link rel="stylesheet" href="/static/css/util/paging.css">
-    <link rel="stylesheet" href="/static/css/popup/set_address.css">
+    <link rel="stylesheet" href="/static/css/popup/set_address_popup.css">
     <title>[위니아에이드] 우편번호 검색</title>
 </head>
 <body>
@@ -70,15 +72,15 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="write-cancel-div">
-                    <button class="write-button" type="button">확인</button>
-                    <button class="write-cancel-button" type="button">취소</button>
+                <div class="service-request-button-div">
+                    <button class="request-button" type="button">확인</button>
+                    <button class="cancel-button" type="button">취소</button>
                 </div>
             </div>
         </div>
     </main>
     <script src="/static/js/popup/popup.js"></script>
     <script src="/static/js/util/paging.js"></script>
-    <script src="/static/js/popup/set_address.js"></script>
+    <script src="/static/js/popup/set_address_popup.js"></script>
 </body>
 </html>

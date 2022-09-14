@@ -1,0 +1,27 @@
+.service-request-button-div {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-top: 50px;
+}
+
+.service-request-button-div button {
+    border: none;
+
+    width: 122px;
+    height: 42px;
+    
+    font-size: 16px;
+    
+    color: #fff;
+    cursor: pointer;
+}
+
+.request-button {
+    margin-right: 10px;
+    background-color: #0a71cc;
+}
+
+.cancel-button {
+    background-color: #5b5a5a;
+}

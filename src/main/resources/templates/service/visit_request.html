@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <th:block th:replace="/fragments/head"></th:block>
-    <link rel="stylesheet" href="/static/css/service/visitRequest.css">
+    <link rel="stylesheet" href="/static/css/util/location_notice.css">
+    <link rel="stylesheet" href="/static/css/service/visit_request.css">
     <link href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <title>[위니아에이드] 방문서비스_신청하기</title>
@@ -14,10 +15,10 @@
 	<th:block th:replace="/fragments/header"></th:block>
     <main>
         <div id="container">
-            <div class="location-div">
-
-            </div>
             <div class="main-service">
+                <div class="location-div">
+    
+                </div>
                 <div class="title-div">
                     <h1 class="title-h1">방문서비스 신청</h1>
                 </div>
@@ -173,11 +174,11 @@
                                     <table class="user-info-table">
                                         <tr>
                                             <th class="required-menu">성명</th>
-                                            <td><input type="text" class="name-input"></td>
+                                            <td colspan="2"><input type="text" class="name-input"></td>
                                         </tr>
                                         <tr class="phone-number-tr">
                                             <th class="required-menu">휴대폰번호</th>
-                                            <td>
+                                            <td colspan="2">
                                                 <div class="phone-box">
                                                     <select name="" id="">
                                                         <option value="">선택</option>
@@ -197,7 +198,7 @@
                                         </tr>
                                         <tr>
                                             <th>연락가능번호</th>
-                                            <td>
+                                            <td colspan="2">
                                                 <div class="phone-box sub-phone-box">
                                                     <select name="" id="">
                                                         <option value="">선택</option>
@@ -222,7 +223,7 @@
                                         </tr>
                                         <tr>
                                             <th>이메일</th>
-                                            <td>
+                                            <td colspan="2">
                                                 <div class="email-box">
                                                     <input class="email-1" type="text">
                                                     <span>@</span>
@@ -247,6 +248,18 @@
                                                     <button type="button" class="search-address-button">우편번호</button>
                                                 </div>
                                                 <input type="text" class="detail-address">
+                                            </td>
+                                            <td class="address-button">
+                                                <div class="button-area">
+                                                    <div>
+                                                        <input type="radio" id="default-address" class="default-address-input" name="address-radio">
+                                                        <label class="default-address" for="default-address">기본 주소</label>
+                                                    </div>
+                                                    <div>
+                                                        <input type="radio" id="past-address" class="past-address-input" name="address-radio">
+                                                        <label class="past-address" for="past-address">이전접수 주소록</label>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     </table>
@@ -542,7 +555,8 @@
         </div>
     </main>
     <th:block th:replace="/fragments/footer"></th:block>
+    <script src="/static/js/util/location_notice.js"></script>
     <script src="/static/js/popup/popup.js"></script>
-    <script src="/static/js/service/visitRequest.js"></script>
+    <script src="/static/js/service/visit_request.js"></script>
 </body>
 </html>

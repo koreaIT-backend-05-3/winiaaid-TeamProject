@@ -37,6 +37,8 @@ const searchAddressButton = document.querySelector(".search-address-button");
 const postalCodeInput = document.querySelector(".postal-code");
 const mainAddressInput = document.querySelector(".main-address");
 const detailAddressInput = document.querySelector(".detail-address");
+const defaultAddressInput = document.querySelector(".default-address-input");
+const pastAddressInput = document.querySelector(".past-address-input");
 
 
 let dayDivItems = null;
@@ -140,6 +142,22 @@ searchAddressButton.onclick = loadAddressPopup;
 
 emailBoxSelect.onchange = setEmail;
 
+defaultAddressInput.onchange = isCheckedDefatulAddressRadioInput;
+pastAddressInput.onchange = isCheckedPastAddressRadioInput;
+
+
+function isCheckedDefatulAddressRadioInput() {
+    if(defaultAddressInput.checked) {
+        console.log("유저 주소 불러옴");
+    }
+}
+
+function isCheckedPastAddressRadioInput() {
+    if(pastAddressInput.checked) {
+        loadPastAddressListInfoPopup();
+    }
+}
+
 
 preMonthButton.onclick = setPreMonth;
 
@@ -180,148 +198,6 @@ stepTitleItems[3].onclick = () => {
 modifyButton.onclick = requestDivActivation;
 
 requestButton.onclick = requestSubmit;
-
-function checkLocalStorageHasPastRequetsServiceData(){
-    let pastHistoryInfoObject = localStorage.pastHistoryInfoObject;
-    localStorage.clear();
-    if(pastHistoryInfoObject != null) {
-        pastHistoryInfoObject = JSON.parse(pastHistoryInfoObject);
-
-        historyDataFlag = true;
-        pastHistoryInfoObject.companyCode == 1 ? daewoo.click() : winia.click();
-        pastRequestServiceDataLoad(pastHistoryInfoObject);
-    }
-}
-
-function savePastRequestServiceDataToLocalStorageAndReplacePage(pastHistoryInfoObject) {
-    localStorage.pastHistoryInfoObject = JSON.stringify(pastHistoryInfoObject);
-
-    location.replace("/service/visit/request");
-}
-
-function pastRequestServiceDataLoad(pastHistoryInfoObject) {
-    pastRequestServiceCategoryLoad(pastHistoryInfoObject);
-    pastRequestServiceDetailProductLoad(pastHistoryInfoObject);
-    pastRequestServiceModelNumberLoad(pastHistoryInfoObject);
-    pastRequestServiceTroubleSymptomLoad(pastHistoryInfoObject);
-    pastRequestServiceDescriptionLoad(pastHistoryInfoObject);
-
-    removeVisibleClass(userInfoContent);
-
-    pastRequestServiceUserInfoLoad(pastHistoryInfoObject);
-}
-
-function pastRequestServiceCategoryLoad(pastHistoryInfoObject) {
-    categoryImages = document.querySelectorAll(".category-image-li img");
-    for(categoryImage of categoryImages) {
-        if(categoryImage.getAttribute("alt") == pastHistoryInfoObject.productCategoryName) {
-            categoryImage.click();
-            break;
-        }else if(categoryImage.getAttribute("alt") == pastHistoryInfoObject.productGroupName) {
-            categoryImage.click();
-            break;
-        }
-    }
-}
-
-function pastRequestServiceDetailProductLoad(pastHistoryInfoObject) {
-    const productDetailNameItems= document.querySelectorAll(".detail-product-name");
-    const productDetailImageItems = document.querySelectorAll(".product-detail-image");
-
-    for(productDetailImage of productDetailImageItems) {
-        if(productDetailImage.getAttribute("alt") == pastHistoryInfoObject.productDetailName) {
-            productDetailImage.click();
-            return;
-        }
-    }    
-    for(productDetailName of productDetailNameItems) {
-        if(productDetailName.textContent == pastHistoryInfoObject.productDetailName) {
-            productDetailName.click();
-            return;
-        }
-    }  
-}
-
-function pastRequestServiceModelNumberLoad(pastHistoryInfoObject) {
-    clearDomObject(modelDetailSpan);
-    removeVisibleClass(modelDetailSpan);
-    modelDetailSpan.innerHTML = "모델명 " + pastHistoryInfoObject.productModelNumber;
-}
-
-function pastRequestServiceTroubleSymptomLoad(pastHistoryInfoObject) {
-    const troubleSymptomItems = document.querySelectorAll(".trouble-symptom-td option");
-
-    for(troubleSymptom of troubleSymptomItems) {
-        if(troubleSymptom.value == pastHistoryInfoObject.troubleCode) {
-            troubleSymptom.setAttribute("selected", true);
-        }
-    }
-}
-
-function pastRequestServiceDescriptionLoad(pastHistoryInfoObject) {
-    descriptionInput.value = pastHistoryInfoObject.description;
-}
-
-function pastRequestServiceUserInfoLoad(pastHistoryInfoObject) {
-    nameInput.value = pastHistoryInfoObject.userName;
-
-    const mainPhoneNumberOptionItems = mainFirstPhoneNumber.querySelectorAll("option");
-
-    setFirstPhoneNumber(mainPhoneNumberOptionItems, pastHistoryInfoObject.mainPhoneNumber);
-    setMiddlePhoneNumber(mainMiddlePhoneNumber, pastHistoryInfoObject.mainPhoneNumber);
-    setLastPhoneNumber(mainLastPhoneNumber, pastHistoryInfoObject.mainPhoneNumber);
-    
-    if(pastHistoryInfoObject.subPhoneNumber != null) {
-        const subPhoneNumberOptionItems = subFirstPhoneNumber.querySelectorAll("option");
-       
-        setFirstPhoneNumber(subPhoneNumberOptionItems, pastHistoryInfoObject.subPhoneNumber);
-        setMiddlePhoneNumber(subMiddlePhoneNumber, pastHistoryInfoObject.subPhoneNumber);
-        setLastPhoneNumber(subLastPhoneNumber, pastHistoryInfoObject.subPhoneNumber);
-
-    }
-
-    if(pastHistoryInfoObject.email != null) {
-        setFirstEmail(firstEmail, pastHistoryInfoObject.email);
-        setLastEmail(secondEmail, pastHistoryInfoObject.email);
-    }
-
-    setAddressInfo(pastHistoryInfoObject);
-}
-
-function setFirstPhoneNumber(optionItems, phoneNumber) {
-    let firstPhoneNumber = phoneNumber.substring(0, phoneNumber.indexOf("-"));
-    
-    for(optionItem of optionItems) {
-        if(optionItem.value == firstPhoneNumber) {
-            optionItem.setAttribute("selected", true);
-            break;
-        }
-    }
-}
-
-function setMiddlePhoneNumber(phoneNumberInput, phoneNumber) {
-    let middlePhoneNumber = phoneNumber.substring(phoneNumber.indexOf("-") + 1, phoneNumber.lastIndexOf("-"));
-    phoneNumberInput.value = middlePhoneNumber;
-}
-
-function setLastPhoneNumber(phoneNumberInput, phoneNumber) {
-    let lastPhoneNumber = phoneNumber.substring(phoneNumber.lastIndexOf("-") + 1);
-    phoneNumberInput.value = lastPhoneNumber;
-}
-
-function setFirstEmail(emailInput, email) {
-    emailInput.value = email.substring(0, email.indexOf("@"))
-}
-
-function setLastEmail(emailInput, email) {
-    emailInput.value = email.substring(email.lastIndexOf("@") + 1);
-}
-
-function setAddressInfo(pastHistoryInfoObject) {
-    postalCodeInput.value = pastHistoryInfoObject.postalCode;
-    mainAddressInput.value = pastHistoryInfoObject.mainAddress;
-    detailAddressInput.value = pastHistoryInfoObject.detailAddress;
-}
 
 function requestSubmit() {
     $.ajax({
@@ -1503,6 +1379,151 @@ function activationStepTitle(stepTitle, stepDiv) {
 function disableStepTitle(stepTitle, stepDiv){
     stepTitle.classList.remove("activation-step-title");
     stepDiv.classList.remove("activation-step-div");
+}
+
+
+/*>>>>>>>>>>>>>>>>> 이전 접수 목록 불러오기 <<<<<<<<<<<<<<<<<<<*/
+
+function checkLocalStorageHasPastRequetsServiceData(){
+    let pastHistoryInfoObject = localStorage.pastHistoryInfoObject;
+    localStorage.clear();
+    if(pastHistoryInfoObject != null) {
+        pastHistoryInfoObject = JSON.parse(pastHistoryInfoObject);
+
+        historyDataFlag = true;
+        pastHistoryInfoObject.companyCode == 1 ? daewoo.click() : winia.click();
+        pastRequestServiceDataLoad(pastHistoryInfoObject);
+    }
+}
+
+function savePastRequestServiceDataToLocalStorageAndReplacePage(pastHistoryInfoObject) {
+    localStorage.pastHistoryInfoObject = JSON.stringify(pastHistoryInfoObject);
+
+    location.replace("/service/visit/request");
+}
+
+function pastRequestServiceDataLoad(pastHistoryInfoObject) {
+    pastRequestServiceCategoryLoad(pastHistoryInfoObject);
+    pastRequestServiceDetailProductLoad(pastHistoryInfoObject);
+    pastRequestServiceModelNumberLoad(pastHistoryInfoObject);
+    pastRequestServiceTroubleSymptomLoad(pastHistoryInfoObject);
+    pastRequestServiceDescriptionLoad(pastHistoryInfoObject);
+
+    removeVisibleClass(userInfoContent);
+
+    pastRequestServiceUserInfoLoad(pastHistoryInfoObject);
+}
+
+function pastRequestServiceCategoryLoad(pastHistoryInfoObject) {
+    categoryImages = document.querySelectorAll(".category-image-li img");
+    for(categoryImage of categoryImages) {
+        if(categoryImage.getAttribute("alt") == pastHistoryInfoObject.productCategoryName) {
+            categoryImage.click();
+            break;
+        }else if(categoryImage.getAttribute("alt") == pastHistoryInfoObject.productGroupName) {
+            categoryImage.click();
+            break;
+        }
+    }
+}
+
+function pastRequestServiceDetailProductLoad(pastHistoryInfoObject) {
+    const productDetailNameItems= document.querySelectorAll(".detail-product-name");
+    const productDetailImageItems = document.querySelectorAll(".product-detail-image");
+
+    for(productDetailImage of productDetailImageItems) {
+        if(productDetailImage.getAttribute("alt") == pastHistoryInfoObject.productDetailName) {
+            productDetailImage.click();
+            return;
+        }
+    }    
+    for(productDetailName of productDetailNameItems) {
+        if(productDetailName.textContent == pastHistoryInfoObject.productDetailName) {
+            productDetailName.click();
+            return;
+        }
+    }  
+}
+
+function pastRequestServiceModelNumberLoad(pastHistoryInfoObject) {
+    clearDomObject(modelDetailSpan);
+    removeVisibleClass(modelDetailSpan);
+    modelDetailSpan.innerHTML = "모델명 " + pastHistoryInfoObject.productModelNumber;
+}
+
+function pastRequestServiceTroubleSymptomLoad(pastHistoryInfoObject) {
+    const troubleSymptomItems = document.querySelectorAll(".trouble-symptom-td option");
+
+    for(troubleSymptom of troubleSymptomItems) {
+        if(troubleSymptom.value == pastHistoryInfoObject.troubleCode) {
+            troubleSymptom.setAttribute("selected", true);
+        }
+    }
+}
+
+function pastRequestServiceDescriptionLoad(pastHistoryInfoObject) {
+    descriptionInput.value = pastHistoryInfoObject.description;
+}
+
+function pastRequestServiceUserInfoLoad(pastHistoryInfoObject) {
+    nameInput.value = pastHistoryInfoObject.userName;
+
+    const mainPhoneNumberOptionItems = mainFirstPhoneNumber.querySelectorAll("option");
+
+    setFirstPhoneNumber(mainPhoneNumberOptionItems, pastHistoryInfoObject.mainPhoneNumber);
+    setMiddlePhoneNumber(mainMiddlePhoneNumber, pastHistoryInfoObject.mainPhoneNumber);
+    setLastPhoneNumber(mainLastPhoneNumber, pastHistoryInfoObject.mainPhoneNumber);
+    
+    if(pastHistoryInfoObject.subPhoneNumber != null) {
+        const subPhoneNumberOptionItems = subFirstPhoneNumber.querySelectorAll("option");
+       
+        setFirstPhoneNumber(subPhoneNumberOptionItems, pastHistoryInfoObject.subPhoneNumber);
+        setMiddlePhoneNumber(subMiddlePhoneNumber, pastHistoryInfoObject.subPhoneNumber);
+        setLastPhoneNumber(subLastPhoneNumber, pastHistoryInfoObject.subPhoneNumber);
+
+    }
+
+    if(pastHistoryInfoObject.email != null) {
+        setFirstEmail(firstEmail, pastHistoryInfoObject.email);
+        setLastEmail(secondEmail, pastHistoryInfoObject.email);
+    }
+
+    setAddressInfo(pastHistoryInfoObject);
+}
+
+function setFirstPhoneNumber(optionItems, phoneNumber) {
+    let firstPhoneNumber = phoneNumber.substring(0, phoneNumber.indexOf("-"));
+    
+    for(optionItem of optionItems) {
+        if(optionItem.value == firstPhoneNumber) {
+            optionItem.setAttribute("selected", true);
+            break;
+        }
+    }
+}
+
+function setMiddlePhoneNumber(phoneNumberInput, phoneNumber) {
+    let middlePhoneNumber = phoneNumber.substring(phoneNumber.indexOf("-") + 1, phoneNumber.lastIndexOf("-"));
+    phoneNumberInput.value = middlePhoneNumber;
+}
+
+function setLastPhoneNumber(phoneNumberInput, phoneNumber) {
+    let lastPhoneNumber = phoneNumber.substring(phoneNumber.lastIndexOf("-") + 1);
+    phoneNumberInput.value = lastPhoneNumber;
+}
+
+function setFirstEmail(emailInput, email) {
+    emailInput.value = email.substring(0, email.indexOf("@"))
+}
+
+function setLastEmail(emailInput, email) {
+    emailInput.value = email.substring(email.lastIndexOf("@") + 1);
+}
+
+function setAddressInfo(pastHistoryInfoObject) {
+    postalCodeInput.value = pastHistoryInfoObject.postalCode;
+    mainAddressInput.value = pastHistoryInfoObject.mainAddress;
+    detailAddressInput.value = pastHistoryInfoObject.detailAddress;
 }
 
 

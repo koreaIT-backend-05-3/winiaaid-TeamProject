@@ -1,36 +1,3 @@
-header {
-    height: 68px;
-    width: 100%;
-    
-    background-color: #0a71cc;
-}
-
-.title-div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 25px;
-    width: 100%;
-}
-
-.title-div h1 {
-    padding-left: 30px;
-    font-size: 18px;
-    color: #fff;
-}
-
-.cancel-image {
-    padding-right: 30px;
-    font-size: 20px;
-    font-weight: 300;
-    color: #fff;
-
-    cursor: pointer;
-}
-
-
-/*>>>>>>>>>>>>>>>>>> main <<<<<<<<<<<<<<<<<<<*/
-
 #container {
     padding: 30px;
 
@@ -173,6 +140,7 @@ table {
 
     padding: 5px;
     width: 348px;
+    height: 31px;
 
     background-color: #fcfcfc;
 }
@@ -188,33 +156,6 @@ table {
     height: 31px;
     color: #7e7e7e;
     background-color: #fcfcfc;
-}
-
-.write-cancel-div {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-}
-
-.write-cancel-div button {
-    border: none;
-
-    width: 122px;
-    height: 42px;
-    
-    font-size: 16px;
-    
-    color: #fff;
-    cursor: pointer;
-}
-
-.write-button {
-    margin-right: 10px;
-    background-color: #0a71cc;
-}
-
-.write-cancel-button {
-    background-color: #5b5a5a;
 }
 
 .visible {

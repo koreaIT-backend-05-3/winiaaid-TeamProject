@@ -12,13 +12,21 @@ public class ServicePageController {
 
 	@GetMapping("/visit/request")
 	public String loadVisitRequestPage() {
-		return "service/visitRequest";
+		return "service/visit_request";
+	}
+
+	@GetMapping("/visit/request/updateView")
+	public String loadVisitRequestUpdateViewPage() {
+		return "service/visit_request_update";
 	}
 
 	@GetMapping("/visit/inquiry")
 	public String loadVisitInquiryPage() {
-		return "service/visitInquiry";
+		return "service/visit_inquiry";
 	}
+
+	@GetMapping("/visit/inquiry/detail")
+	public String loadVisitInquiryDetailPage() { return "service/visit_inquiry_detail";}
 
 	@GetMapping("/popup/modelNamePopup")
 	public String loadModelNamePopupPage() {
@@ -28,5 +36,10 @@ public class ServicePageController {
 	@GetMapping("/popup/pastRequestPopup")
 	public String loadPastRequestPopupPage() {
 		return "popup/past_request_popup";
+	}
+
+	@GetMapping("/popup/pastAddressPopup")
+	public String loadPastAddressPopupPage() {
+		return "popup/past_address_popup";
 	}
 }

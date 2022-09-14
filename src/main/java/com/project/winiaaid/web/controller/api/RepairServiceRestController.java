@@ -7,6 +7,7 @@ import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,16 +35,23 @@ public class RepairServiceRestController {
     }
 
     @GetMapping("/repair/history/{type}/user/{userCode}")
-    public ResponseEntity<?> getRepairServiceInfo(@PathVariable String type, @PathVariable int userCode, @RequestParam int page) {
+    public ResponseEntity<?> getRepairServiceHistoryInfo(@PathVariable String type, @PathVariable int userCode, @RequestParam int page) {
         List<RepairServiceResponseDto> repairServiceInfoList = null;
 
         try {
-            repairServiceInfoList = repairService.getRepairServiceByUserCode(type, userCode, page);
+            repairServiceInfoList = repairService.getRepairServiceHistoryInfoByUserCode(type, userCode, page);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed application for repairService", repairServiceInfoList));
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for repairService", repairServiceInfoList));
+    }
+
+    @GetMapping("/repair/detail/history/{repairServiceCode}")
+    public ResponseEntity<?> getRepairServiceDetailHistoryInfo(@PathVariable String repairServiceCode) {
+        RepairServiceResponseDto repairServiceResponseDto = null;
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Detailed application history load successful", repairServiceResponseDto));
     }
 }

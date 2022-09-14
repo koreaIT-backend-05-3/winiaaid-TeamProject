@@ -25,6 +25,9 @@ function getRepairServiceHistory(page) {
 
 function setRepairServiceHistoryData(repairDataList) {
     const tbody = document.querySelector("tbody");
+    const requestCount = document.querySelector(".request-count");
+
+    requestCount.textContent = repairDataList[0].reservationInfo.totalCount;
 
     clearDomObject(tbody);
 

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/popup/popup_header.css">
+    <link rel="stylesheet" href="/static/css/popup/popup_footer.css">
+    <link rel="stylesheet" href="/static/css/util/paging.css">
+    <link rel="stylesheet" href="/static/css/popup/past_address_popup.css">
+    <title>[위니아에이드] 이전접수주소록</title>
+</head>
+<body>
+    <header>
+        <div class="title-div">
+            <h1>이전접수 목록 확인</h1>
+            <div>
+                <i class="fa-solid fa-x cancel-image"></i>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="container">
+            <div class="main-content">
+                <div class="notice-div">
+                    <p class="notice-p">서비스신청 시 접수한 주소를 확인하실 수 있습니다.</p>
+                    <p class="notice-p">서비스 받으실 주소를 선택 하시면 주소가 등록됩니다.</p>
+                </div>
+                <p class="notice-list-amount-p">전체 <span class="amount-span"></span>건</p>
+                <div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>선택</th>
+                                    <th>우편번호</th>
+                                    <th>주소</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="radio" name="address-radio">
+                                    </td>
+                                    <td>
+                                        48115
+                                    </td>
+                                    <td class="address-td">
+                                        부산광역시 해운대구 달맞이길117번나길 194(중동, 현우산호맨션) 1동 312호
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="radio" name="address-radio">
+                                    </td>
+                                    <td>
+                                        48115
+                                    </td>
+                                    <td class="address-td">
+                                        부산광역시 해운대구 달맞이길117번나길 194(중동, 현우산호맨션) 1동 312호
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="page-button-div">
+
+                    </div>
+                    <div class="service-request-button-div">
+                        <button class="request-button" type="button">확인</button>
+                        <button class="cancel-button" type="button">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/popup/popup.js"></script>
+    <script src="/static/js/util/paging.js"></script>
+    <script src="/static/js/popup/past_address_popup.js"></script>
+</body>
+</html>

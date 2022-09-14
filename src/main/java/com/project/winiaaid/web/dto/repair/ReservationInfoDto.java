@@ -17,7 +17,6 @@ public class ReservationInfoDto {
     private int completedFlag;
     private String requestDate;
     private String reservationDate;
-    private String note;
     private int totalCount;
 
 

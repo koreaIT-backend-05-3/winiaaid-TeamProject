@@ -6,8 +6,8 @@ const mainAddressCheck = document.querySelector(".main-address-check");
 const detailAddressCheck = document.querySelector(".detail-address-check");
 
 const searchKeyword = document.querySelector(".search-address-div input");
-const writeButton = document.querySelector(".write-button");
-const writeCancelButton = document.querySelector(".write-cancel-button");
+const writeButton = document.querySelector(".request-button");
+const writeCancelButton = document.querySelector(".cancel-button");
 
 let nowPage = 1;
 
