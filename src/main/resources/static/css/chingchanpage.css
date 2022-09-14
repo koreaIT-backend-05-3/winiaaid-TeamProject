@@ -1,0 +1,203 @@
+/* li,ul{
+    list-style: none;
+} */
+
+li{
+    font-size: 13px;
+    color: #5b5a5a;
+    list-style-type: disc;
+}
+li::marker{
+    color: #0A71CC;
+}
+
+#chingchan-body{
+    width: 100%;
+    height: 493px;
+    /* background-color: yellow; */
+    left: 0;
+}
+/* .menu{
+    width: 100%;
+    height: 25px;
+    margin: 0 0 50px;
+    padding: 25px 0 0;
+    background-color: aquamarine;
+    font-size: 13px;
+    color: #252525;
+} */
+.menu-info{
+    width: 980px;
+    height: 140px;
+    margin-bottom: 50px;
+    padding: 30px;
+    background-color: #fcfcfc;
+}
+.menu-info p{
+    font-size: 18px;
+    line-height: 1.5rem;
+}
+.menu-li-ul{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+#chingchan-body-inner{
+    margin: 0 auto;
+    width: 1400px;
+    height: 493px;
+    /* background-color: violet; */
+}
+#chingchan-body-inner-info{
+    margin: 0 auto;
+    width: 980px;
+    height: 1006px;
+    /* background-color: darkblue; */
+    /* display: flex;
+    justify-content: center; */
+}
+h2{
+    font-size: 28px;
+    /* background-color: violet; */
+    width: 980px;
+    height: 30.8px;
+    margin-bottom: 50px;
+    font-weight: 400;
+}
+.info-group{
+    display: flex;
+    justify-content: space-between;
+}
+#btn-group{
+    width: 122px;
+    height: 89px;
+    display: flex;
+    flex-direction: column;
+    /* background-color: red; */
+    padding: 0;
+
+}
+.write-button{
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    width: 122px;
+    height: 42px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #0a71cc;
+}
+.myhistory-button{
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    width: 122px;
+    height: 42px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #5b5a5a;
+    margin: 5px 0 0;
+}
+/* ====================================search================================ */
+
+#list-style1{
+    width: 980px;
+    height: 722px;
+    /* background-color: darkorange; */
+}
+#board-search{
+    width: 980px;
+    height: 31px;
+    /* background-color: tomato; */
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.board-btn-group{
+
+}
+.select-btn{
+    width: 121px;
+    height: 31px;
+    color: #7e7e7e;
+    background-color: #fcfcfc;
+    border: 1px solid #ccc;
+}
+.input-box{
+    width: 160px;
+    height: 31px;
+    padding: 5px;
+    background-color: #fcfcfc;
+    border: 1px solid #ccc;
+}
+.search-btn{
+    width: 73px;
+    height: 32px;
+    color: #7e7e7e;
+    background-color: #ffffff;
+    border:1px solid #ccc
+}
+.table{
+    width: 980px;
+    height: 500px;
+    background-color: slateblue;
+}
+/* .paging{
+    width: 980px;
+    height: 36px;
+    margin-top: 30px;
+    background-color: springgreen;
+    display: flex;
+    justify-content: center;
+}
+.prebutton{
+    width: 36px;
+    height: 36px;
+    color: #7d7d7d;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    margin-left: 5px;
+}
+.backbutton{
+    width: 36px;
+    height: 36px;
+    color: #7d7d7d;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    margin-left: 5px;
+}
+.button{
+    width: 36px;
+    height: 36px;
+    color: #7d7d7d;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    margin-left: 5px;
+} */
+.content-table-head{
+    width: 100%;
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+    table-layout: fixed;
+    /* background-color: turquoise; */
+}
+.content-table-head th, td:nth-of-type(2){
+    padding: 18px 0px;
+}
+.content-table-body tr{
+    border-top: 1px solid #dbdbdb;
+}
+.content-table-body td:not(.content-table-body td:nth-of-type(2)){
+    padding: 18px 24px;
+}
+
+.content-title{
+    width: 696px;
+}
+.content-name{
+    width: 127px;
+    text-align: center;
+}
+.content-date{
+    width: 157px;
+    text-align: center;
+}
