@@ -12,4 +12,5 @@ public interface RepairService {
     public List<RepairServiceResponseDto> getRepairServiceHistoryInfoByUserCode(String type, int userCode, int page) throws Exception;
     public RepairServiceResponseDto getRepairServiceDetailHistoryInfo(String repairServiceCode) throws Exception;
     public List<AddressResponseDto> getPastReceptionAddressListByUserCode(int userCode, int page) throws Exception;
+    public boolean cancelRepairServiceByRepairServiceCode(String repairServiceCode) throws Exception;
 }

@@ -76,4 +76,18 @@ public class RepairServiceRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully loaded past reception addresses", addressInfoList));
     }
+
+    @PutMapping("/repair/cancel/{repairServiceCode}")
+    public ResponseEntity<?> cancelRepairServiceByRepairServiceCode(@PathVariable String repairServiceCode) {
+        boolean status = false;
+
+        try {
+            status = repairService.cancelRepairServiceByRepairServiceCode(repairServiceCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CustomResponseDto<>(-1, "Failed to cancel the registration history", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully canceled application history", status));
+    }
 }

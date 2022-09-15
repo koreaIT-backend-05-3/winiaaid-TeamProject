@@ -40,17 +40,72 @@ function setRepairServiceHistoryData(repairDataList) {
         for(repairData of repairDataList) {
             let completedFlag = repairData.reservationInfo.completedFlag;
             tbody.innerHTML += `
-            <tr>
+            <tr class="history-list">
                 <td>${repairData.productInfo.companyName}</td>
                 <td><span class="repair-service-code-span">${repairData.productInfo.repairServiceCode}</span></td>
                 <td>${repairData.reservationInfo.serviceType}</td>
                 <td>${repairData.productInfo.productCategoryName == repairData.productInfo.productDetailName ? "" : repairData.productInfo.productCategoryName + " > "} ${repairData.productInfo.productDetailName}</td>
                 <td>${repairData.reservationInfo.requestDate}</td>
                 <td class="${completedFlag == 0 ? "cancel-td" : completedFlag == 1 ? "register-td" : "complete-td"}">${completedFlag == 0 ? "접수 취소" : completedFlag == 1 ? "접수 완료" : "방문 완료"}</td>
-                <td>${completedFlag == 1 ? "<div class='reservation-modify-button-div'><button type='button'>예약변경</button><button type='button'>예약취소</button></div>" : ""}</td>
+                <td>${completedFlag == 1 ? "<div class='reservation-modify-button-div'><button class='modify-button' type='button'>예약변경</button><button class='cancel-button' type='button'>예약취소</button></div>" : ""}</td>
             </tr>
             `;
         }
+
+        const repairServiceCodeSpanItems = document.querySelectorAll(".repair-service-code-span");
+        
+        setRepairServiceCodeSpanClickEvent(repairServiceCodeSpanItems);
+        setButtonClickEvent();
+    }
+}
+
+function setRepairServiceCodeSpanClickEvent(repairServiceCodeSpanItems) {
+
+    for(repairServiceCodeSpan of repairServiceCodeSpanItems) {
+        repairServiceCodeSpan.onclick = (e) => {
+            location.href = `/service/visit/inquiry/detail/${e.target.textContent}`;
+        }
+    }
+}
+
+function setButtonClickEvent(index) {
+    const reservationHistoryItems = document.querySelectorAll(".history-list");
+    
+    for(reservationHistory of reservationHistoryItems) {
+        const modifyButton = reservationHistory.querySelector(".modify-button");
+        const cancelButton = reservationHistory.querySelector(".cancel-button");
+
+        if(modifyButton != null) {
+            const repairServiceCode = reservationHistory.querySelector(".repair-service-code-span").textContent;
+            modifyButton.onclick = () => modifyReservationService(repairServiceCode);
+        
+            cancelButton.onclick = () => cancelReservationService(repairServiceCode);
+
+        }
+    }
+    
+}
+
+function modifyReservationService() {
+    
+}
+
+function cancelReservationService(repairServiceCode) {
+    if(confirm("약속일자, 시간, 엔지니어 변경은 '예약변경'에서 가능합니다.\n서비스 예약을 취소하시겠습니까?")) {
+        $.ajax({
+            type: "put",
+            url: `/api/v1/service/repair/cancel/${repairServiceCode}`,
+            dataType: "json",
+            success: (response) => {
+                if(response.data) {
+                    alert("접수 내역을 취소하였습니다.");
+                    location.href = "/service/visit/inquiry";
+                }else {
+                    alert("접수 내역 취소 실퍠");
+                }
+            },
+            error: errorMessage
+        });
     }
 }
 

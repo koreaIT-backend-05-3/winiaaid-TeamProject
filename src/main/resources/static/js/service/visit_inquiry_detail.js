@@ -1,8 +1,12 @@
+const goListButton = document.querySelector(".go-list-button");
+
 let repairServiceCode = null;
 
 repairServiceCode = getRepairServiceCodeByUri();
 
 loadReservationDetailInfo();
+
+goListButton.onclick = goVisitInquiryPage;
 
 function getRepairServiceCodeByUri() {
     return location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
@@ -68,7 +72,7 @@ function setReservationDetailInfo(reservationDetailInfo) {
             </tr>
             <tr>
                 <th>진행상태</th>
-                <td ${completeFlag == 0 ? "class='service-cancel'" : completeFlag == 1 ? "class='service-receive'" : "class='service-complete'"}>${completeFlag == 0 ? "접수 취소" : completeFlag == 1 ? "접수 완료" : "해결"}</td>
+                <td ${completeFlag == 0 ? "class='service-cancel'" : completeFlag == 1 ? "class='service-receive'" : "class='service-complete'"}>${completeFlag == 0 ? "접수 취소" : completeFlag == 1 ? "접수 완료" : "방문 완료"}</td>
                 <th>고장증상</th>
                 <td>${productInfoObject.troubleSymptom}</td>
             </tr>
@@ -79,5 +83,24 @@ function setReservationDetailInfo(reservationDetailInfo) {
                 <td>${completeFlag == 1 ? '<div class="reservation-modify-button-div"><button type="button">예약변경</button><button type="button">예약취소</button></div>' : ''}</td>
             </tr>
         `;
+
+        userInfoTable.innerHTML = `
+            <tr>
+                <th>성명</th>
+                <td>${userInfoObject.userName}</td>
+                <th>휴대폰번호</th>
+                <td class="emphasis-td">${userInfoObject.mainPhoneNumber}</td>
+            </tr>
+            <tr>
+                <th>연락가능번호</th>
+                <td>${userInfoObject.subPhoneNumber == null ? userInfoObject.mainPhoneNumber : userInfoObject.subPhoneNumber}</td>
+                <th>이메일</th>
+                <td>${userInfoObject.email == null ? "" : userInfoObject.email}</td>
+            </tr>
+        `;
     }
+}
+
+function goVisitInquiryPage() {
+    location.href = "/service/visit/inquiry";
 }

@@ -89,6 +89,11 @@ public class RepairServiceImpl implements RepairService {
         return addressResponseDtoList;
     }
 
+    @Override
+    public boolean cancelRepairServiceByRepairServiceCode(String repairServiceCode) throws Exception {
+        return repairRepository.cancelRepairServiceByRepairServiceCode(repairServiceCode) > 0;
+    }
+
     private LocalDateTime changeStringToLocalDateTime(String reservationDay, String reservationTime) {
         String reservationDate = reservationDay.replaceAll("\\.", "-") + " " + reservationTime + ":00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

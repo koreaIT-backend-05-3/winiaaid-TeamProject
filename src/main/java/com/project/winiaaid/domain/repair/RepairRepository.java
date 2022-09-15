@@ -11,4 +11,5 @@ public interface RepairRepository {
     public List<RepairServiceInfo> findRepairServiceByUserCode(Map<String, Object> config_map) throws Exception;
     public RepairServiceInfo findRepairServiceDetailHistoryInfo(String repair_service_code) throws Exception;
     public List<Address> findPastReceptionAddressListByUserCode(Map<String, Object> config_map) throws Exception;
+    public int cancelRepairServiceByRepairServiceCode(String repair_service_code) throws Exception;
 }
