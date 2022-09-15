@@ -30,18 +30,20 @@
         FROM
             winia_product_mst wpm
             LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_category_code = wpm.product_category_code)
-        WHERE
-        <choose>
-            <when test='type.equals("group")'>
-                wpm.product_group = #{code}
-                AND wpm.company_code = #{company_code}
-                AND main_group_flag != 1
-            </when>
-            <otherwise>
-                wpm.product_category_code = #{code}
-                AND wpm.company_code = #{company_code}
-            </otherwise>
-        </choose>
+        <if test="type == 'group' or type == 'default'">
+            WHERE
+            <choose>
+                <when test="type == 'group'">
+                    wpm.product_group = #{code}
+                    AND wpm.company_code = #{company_code}
+                    AND main_group_flag != 1
+                </when>
+                <when test="type == 'default'">
+                    wpm.product_category_code = #{code}
+                    AND wpm.company_code = #{company_code}
+                </when>
+            </choose>
+        </if>
         ORDER BY
             wpm.product_category_code;
     </select>

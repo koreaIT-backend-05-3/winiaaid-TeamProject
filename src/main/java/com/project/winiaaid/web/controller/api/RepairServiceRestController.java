@@ -3,6 +3,7 @@ package com.project.winiaaid.web.controller.api;
 import com.project.winiaaid.domain.repair.RepairServiceInfo;
 import com.project.winiaaid.service.repair.RepairService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
+import com.project.winiaaid.web.dto.repair.AddressResponseDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -42,16 +43,37 @@ public class RepairServiceRestController {
             repairServiceInfoList = repairService.getRepairServiceHistoryInfoByUserCode(type, userCode, page);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed application for repairService", repairServiceInfoList));
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to apply for repair service.", repairServiceInfoList));
         }
 
-        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for repairService", repairServiceInfoList));
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for repair service", repairServiceInfoList));
     }
 
     @GetMapping("/repair/detail/history/{repairServiceCode}")
     public ResponseEntity<?> getRepairServiceDetailHistoryInfo(@PathVariable String repairServiceCode) {
         RepairServiceResponseDto repairServiceResponseDto = null;
 
+        try {
+            repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(repairServiceCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CustomResponseDto<>(1, "Failed to load detailed application history", repairServiceResponseDto));
+        }
+
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Detailed application history load successful", repairServiceResponseDto));
+    }
+
+    @GetMapping("/address/history/user/{userCode}")
+    public ResponseEntity<?> getPastReceptionAddress(@PathVariable int userCode, @RequestParam int page) {
+        List<AddressResponseDto> addressInfoList = null;
+
+        try {
+            addressInfoList = repairService.getPastReceptionAddressListByUserCode(userCode, page);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CustomResponseDto<>(1, "Failed to load past reception address.", addressInfoList));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully loaded past reception addresses", addressInfoList));
     }
 }

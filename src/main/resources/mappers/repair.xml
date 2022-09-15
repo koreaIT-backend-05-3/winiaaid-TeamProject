@@ -32,7 +32,6 @@
             <result property="completed_flag" column="completed_flag"/>
             <result property="request_date" column="request_date"/>
             <result property="reservation_date" column="reservation_date"/>
-            <result property="note" column="note"/>
             <result property="total_count" column="total_count"/>
         </association>
     </resultMap>
@@ -40,8 +39,11 @@
     <insert id="addRepairServiceRequest" parameterType="com.project.winiaaid.domain.repair.RepairServiceInfo">
         insert into
             repair_service_table
-        values(
-            #{productInfoEntity.repair_service_code},
+        SELECT
+            #{productInfoEntity.product_code},
+            IFNULL(MAX(id2), 0) + 1,
+            RPAD(#{productInfoEntity.temp_repair_service_code}, CHAR_LENGTH(#{productInfoEntity.temp_repair_service_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1,
+
             #{productInfoEntity.product_category_code},
             #{productInfoEntity.product_code},
             #{productInfoEntity.model_code},
@@ -61,9 +63,11 @@
             #{reservationInfoEntity.service_type},
             #{reservationInfoEntity.completed_flag},
             #{reservationInfoEntity.reservation_date},
-            NOW(),
-            null
-        );
+            #{reservationInfoEntity.request_date}
+        FROM
+            repair_service_table
+        WHERE
+            id1 = #{productInfoEntity.product_code};
     </insert>
 
     <select id="findRepairServiceByUserCode" parameterType="HashMap" resultMap="repairServiceInfoMap">
@@ -78,7 +82,6 @@
             rst.completed_flag,
             rst.request_date,
             rst.reservation_date,
-            rst.note,
             rst.main_address,
             rst.detail_address,
             rst.postal_code,
@@ -118,6 +121,74 @@
         WHERE
             rst.user_code = #{user_code}
         LIMIT #{page}, #{limit};
+    </select>
+
+    <select id="findRepairServiceDetailHistoryInfo" parameterType="String" resultMap="repairServiceInfoMap">
+        SELECT
+            rst.repair_service_code,
+            rst.description,
+            rst.user_name,
+            rst.main_phone_number,
+            rst.sub_phone_number,
+            rst.email,
+            rst.service_type,
+            rst.completed_flag,
+            rst.request_date,
+            rst.reservation_date,
+            rst.main_address,
+            rst.detail_address,
+            rst.postal_code,
+            rst.trouble_code,
+
+            wpm.product_category_name,
+
+            wpd.product_detail_name,
+
+            pct.company_code,
+            pct.company_name,
+
+            pmd.model_number,
+
+            tst.trouble_symptom,
+
+            em.engineer_name,
+
+            pmg.product_category_name AS product_group_name
+        FROM
+            repair_service_table rst
+            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = rst.product_category_code)
+            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = rst.product_code)
+            LEFT OUTER JOIN product_company_table pct ON(pct.company_code = wpm.company_code)
+            LEFT OUTER JOIN product_model_detail pmd ON(pmd.model_code = rst.model_code)
+            LEFT OUTER JOIN trouble_symptom_table tst ON(tst.trouble_code = rst.trouble_code)
+            LEFT OUTER JOIN engineer_mst em ON(em.engineer_code = rst.engineer_code)
+            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
+        WHERE
+            rst.repair_service_code = #{repair_service_code};
+    </select>
+
+    <select id="findPastReceptionAddressListByUserCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.repair.Address">
+        SELECT
+            rst.postal_code,
+            rst.main_address,
+            rst.detail_address,
+
+            tct.total_count
+        FROM
+            repair_service_table rst
+            LEFT OUTER JOIN (select
+                                COUNT(DISTINCT postal_code, main_address, detail_address) AS total_count
+                            from
+                                repair_service_table
+                            where
+                                user_code = #{user_code}) tct ON(1 = 1)
+        WHERE
+            rst.user_code = #{user_code}
+        GROUP BY
+            postal_code,
+            main_address,
+            detail_address
+        LIMIT #{page}, 4;
     </select>
 
 </mapper>

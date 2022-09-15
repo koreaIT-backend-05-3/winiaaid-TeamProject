@@ -12,7 +12,7 @@ public class UserInfoDto {
     private String email;
     private String mainPhoneNumber;
     private String subPhoneNumber;
-    private int postalCode;
+    private String postalCode;
     private String mainAddress;
     private String detailAddress;
 

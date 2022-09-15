@@ -9,8 +9,6 @@ const searchKeyword = document.querySelector(".search-address-div input");
 const writeButton = document.querySelector(".request-button");
 const writeCancelButton = document.querySelector(".cancel-button");
 
-let nowPage = 1;
-
 cancelImage.onclick = cancelPopup;
 
 searchKeyword.onkeypress = (e) => {
@@ -50,7 +48,7 @@ function searchAddress(nowPage) {
         data: {
             currentPage: nowPage,
             countPerPage: 10,
-            confmKey: "devU01TX0FVVEgyMDIyMDkwNzAyNTExNTExMjk1ODg=",
+            confmKey: "devU01TX0FVVEgyMDIyMDkxNTAyMDYyODExMjk3MzQ=",
             keyword: searchKeyword.value,
             resultType: "json",
             hstryYn: "Y"

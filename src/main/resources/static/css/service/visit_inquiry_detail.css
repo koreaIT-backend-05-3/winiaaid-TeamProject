@@ -65,6 +65,18 @@ table td {
     color: #0a71cc;
 }
 
+.service-cancel {
+    color: red;
+}
+
+.service-receive {
+    color: #0a71cc;
+}
+
+.service-complete {
+    color: #777777;
+}
+
 .reservation-modify-button-div button {
     width: 90px;
     height: 35px;

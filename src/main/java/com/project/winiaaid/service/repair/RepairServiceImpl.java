@@ -1,7 +1,9 @@
 package com.project.winiaaid.service.repair;
 
+import com.project.winiaaid.domain.repair.Address;
 import com.project.winiaaid.domain.repair.RepairRepository;
 import com.project.winiaaid.domain.repair.RepairServiceInfo;
+import com.project.winiaaid.web.dto.repair.AddressResponseDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,8 @@ public class RepairServiceImpl implements RepairService {
                         applyServiceRequestDto.getReservationInfoObject().getReservationTime())
         );
 
+        log.info(">>>>>>>: {}", repairServiceInfo);
+
         return repairRepository.addRepairServiceRequest(repairServiceInfo) > 0;
     }
 
@@ -46,11 +50,43 @@ public class RepairServiceImpl implements RepairService {
 
         repairServiceInfoEntityList = repairRepository.findRepairServiceByUserCode(configMap);
 
-        if(repairServiceInfoEntityList != null) {
-            repairServiceResponseDtoList = changeToRepairServiceResponseDto(repairServiceInfoEntityList);
+        if(repairServiceInfoEntityList != null && repairServiceInfoEntityList.size() != 0) {
+            repairServiceResponseDtoList = changeToRepairServiceResponseDtoList(repairServiceInfoEntityList);
         }
 
-        return repairServiceInfoEntityList.size() != 0 ? repairServiceResponseDtoList : null;
+        return repairServiceResponseDtoList;
+    }
+
+    @Override
+    public RepairServiceResponseDto getRepairServiceDetailHistoryInfo(String repairServiceCode) throws Exception {
+        RepairServiceInfo repairServiceInfoEntity = null;
+        RepairServiceResponseDto repairServiceResponseDto = null;
+
+        repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(repairServiceCode);
+
+        if(repairServiceInfoEntity != null) {
+            repairServiceResponseDto = changeToRepairServiceResponseDto(repairServiceInfoEntity);
+        }
+
+        return repairServiceResponseDto;
+    }
+
+    @Override
+    public List<AddressResponseDto> getPastReceptionAddressListByUserCode(int userCode, int page) throws Exception {
+        List<Address> addressList = null;
+        List<AddressResponseDto> addressResponseDtoList = null;
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("user_code", userCode);
+        configMap.put("page", (page - 1) * 4);
+
+        addressList = repairRepository.findPastReceptionAddressListByUserCode(configMap);
+
+        if(addressList != null && addressList.size() != 0) {
+            addressResponseDtoList = changeToAddressResponseDtoList(addressList);
+        }
+
+        return addressResponseDtoList;
     }
 
     private LocalDateTime changeStringToLocalDateTime(String reservationDay, String reservationTime) {
@@ -60,9 +96,19 @@ public class RepairServiceImpl implements RepairService {
         return LocalDateTime.parse(reservationDate, formatter);
     }
 
-    private List<RepairServiceResponseDto> changeToRepairServiceResponseDto(List<RepairServiceInfo> repairServiceInfoList) {
+    private RepairServiceResponseDto changeToRepairServiceResponseDto(RepairServiceInfo repairServiceInfo) {
+        return repairServiceInfo.toRepairServiceResponseDto();
+    }
+
+    private List<RepairServiceResponseDto> changeToRepairServiceResponseDtoList(List<RepairServiceInfo> repairServiceInfoList) {
         return repairServiceInfoList.stream()
                 .map(repairServiceInfo -> repairServiceInfo.toRepairServiceResponseDto())
+                .collect(Collectors.toList());
+    }
+
+    private List<AddressResponseDto> changeToAddressResponseDtoList(List<Address> addressList) {
+        return addressList.stream()
+                .map(address -> address.toAddressResponseDto())
                 .collect(Collectors.toList());
     }
 }

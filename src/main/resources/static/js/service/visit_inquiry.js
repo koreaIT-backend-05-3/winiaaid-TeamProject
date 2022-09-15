@@ -42,12 +42,12 @@ function setRepairServiceHistoryData(repairDataList) {
             tbody.innerHTML += `
             <tr>
                 <td>${repairData.productInfo.companyName}</td>
-                <td>${repairData.productInfo.repairServiceCode}</td>
+                <td><span class="repair-service-code-span">${repairData.productInfo.repairServiceCode}</span></td>
                 <td>${repairData.reservationInfo.serviceType}</td>
                 <td>${repairData.productInfo.productCategoryName == repairData.productInfo.productDetailName ? "" : repairData.productInfo.productCategoryName + " > "} ${repairData.productInfo.productDetailName}</td>
                 <td>${repairData.reservationInfo.requestDate}</td>
                 <td class="${completedFlag == 0 ? "cancel-td" : completedFlag == 1 ? "register-td" : "complete-td"}">${completedFlag == 0 ? "접수 취소" : completedFlag == 1 ? "접수 완료" : "방문 완료"}</td>
-                <td>${repairData.reservationInfo.note == null ? "" : repairData.reservationInfo.note}</td>
+                <td>${completedFlag == 1 ? "<div class='reservation-modify-button-div'><button type='button'>예약변경</button><button type='button'>예약취소</button></div>" : ""}</td>
             </tr>
             `;
         }

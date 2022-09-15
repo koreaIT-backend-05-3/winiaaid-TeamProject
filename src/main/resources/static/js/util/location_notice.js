@@ -16,7 +16,7 @@ function setLocationNotice() {
                 <span>방문서비스 조회/변경/취소</span>
             </li>
         </ul>`;
-    }else if(uri == "request") {
+    }else if(uri == "request" || "updateView") {
         locationDiv.innerHTML = `
         <i class="fa-solid fa-house"></i>
         <ul>

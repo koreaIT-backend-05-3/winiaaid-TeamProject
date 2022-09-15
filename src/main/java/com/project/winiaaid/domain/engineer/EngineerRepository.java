@@ -8,5 +8,5 @@ import java.util.List;
 public interface EngineerRepository {
     public List<Engineer> findEngineerList() throws Exception;
     public List<Engineer> findEngineerReservationInfo(String date) throws Exception;
-    public List<Engineer> findEngineerListTest() throws Exception;
+//    public List<Engineer> findEngineerListTest() throws Exception;
 }

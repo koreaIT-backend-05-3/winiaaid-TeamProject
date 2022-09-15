@@ -16,7 +16,7 @@ public class UserInfoEntity {
     private String email;
     private String main_phone_number;
     private String sub_phone_number;
-    private int postal_code;
+    private String postal_code;
     private String main_address;
     private String detail_address;
 

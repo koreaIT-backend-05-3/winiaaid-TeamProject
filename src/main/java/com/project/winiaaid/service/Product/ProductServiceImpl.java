@@ -3,6 +3,7 @@ package com.project.winiaaid.service.product;
 import com.project.winiaaid.domain.product.*;
 import com.project.winiaaid.web.dto.product.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -21,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
 
         productList = productRepository.findListToProductMainCategory(setCompanyCode(company));
 
-        if(productList != null) {
+        if(productList != null && productList.size() != 0) {
             productCategoryList = changeToReadProductCategoryResponseDto(productList);
         }
 
@@ -39,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
 
         productList = productRepository.findListToProductDetailInfo(infoMap);
 
-        if(productList != null) {
+        if(productList != null && productList.size() != 0) {
             if(type.equals("default")){
                 productInfoList = changeToReadProductDetailResponseDto(productList);
 
@@ -65,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        return productList.size() == 0 ? null : type.equals("default") ? productInfoList : productObjectList;
+        return type.equals("default") ? productInfoList : productObjectList;
     }
 
     @Override
@@ -76,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
 
         productNumberInfoList = productRepository.findListToProductNumberInfo();
 
-        if(productNumberInfoList != null) {
+        if(productNumberInfoList != null && productNumberInfoList.size() != 0) {
             productNumberInfoObjectResponseDtoList = new ArrayList<>();
             readProductNumberInfoResponseDtoList = new ArrayList<>();
 
@@ -102,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
 
         productTroubleEntityList = productRepository.findTroubleSymptomByProductCode(categoryCode);
 
-        if(productTroubleEntityList != null) {
+        if(productTroubleEntityList != null && productTroubleEntityList.size() != 0) {
             productTroubleDtoList = changeToReadProductTroubleResponseDto(productTroubleEntityList);
         }
 
@@ -120,11 +122,11 @@ public class ProductServiceImpl implements ProductService {
 
         modelEntityList = productRepository.findModelNumberListByModelNumber(modelMap);
 
-        if(modelEntityList != null) {
+        if(modelEntityList != null && modelEntityList.size() != 0) {
             modelDtoList = changeToReadProductModelResponseDto(modelEntityList);
         }
 
-        return modelDtoList.size() != 0 ? modelDtoList : null;
+        return modelDtoList;
     }
 
     private int setCompanyCode(String company) {
@@ -149,14 +151,18 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    private Map<String, Object> setInfoMap(String company, String type, int productCode) {
-        Map<String, Object> infoMap = new HashMap<>();
+    private Map<String, Object> setInfoMap(String company, String type, int productCode) throws Exception {
+        if(type.equals("default") || type.equals("group")) {
+            Map<String, Object> infoMap = new HashMap<>();
 
-        infoMap.put("company_code", setCompanyCode(company));
-        infoMap.put("type", type);
-        infoMap.put("code", productCode);
+            infoMap.put("company_code", setCompanyCode(company));
+            infoMap.put("type", type);
+            infoMap.put("code", productCode);
 
-        return infoMap;
+            return infoMap;
+        }else {
+            throw new Exception("URI ADDRESS ERROR");
+        }
     }
 
     private List<ReadProductDetailResponseDto> changeToReadProductDetailResponseDto(List<Product> productList) {

@@ -1,3 +1,5 @@
+const uri = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+
 const winia = document.querySelector(".li-winia");
 const daewoo = document.querySelector(".li-daewoo");
 
@@ -84,7 +86,7 @@ let userInfoObject = {
     "email": null,
     "mainPhoneNumber": null,
     "subPhoneNumber": null,
-    "postalCode": null,
+    "postalCode": 0,
     "mainAddress": null,
     "detailAddress": null
 };
@@ -106,6 +108,17 @@ setNowDate();
 setCalendarData();
 setChangeMonthButton("pre");
 setReservationableDaySpan();
+
+if(isModifyPage()) {
+    savePreviousInfoToLocalStorage();
+    checkLocalStorageHasPastRequetsServiceData();
+}
+
+function savePreviousInfoToLocalStorage() {
+
+}
+
+
 
 checkLastReqeustButton.onclick = loadPastRequestInfoPopup;
 
@@ -134,7 +147,7 @@ modelSearchButton.onclick = searchModelByModelName;
 
 
 
-descriptionInput.onkeyup = (e) => checkByte(e.target, 40);
+descriptionInput.onkeyup = (e) => checkByte(e.target);
 
 
 searchAddressButton.onclick = loadAddressPopup;
@@ -145,6 +158,9 @@ emailBoxSelect.onchange = setEmail;
 defaultAddressInput.onclick = isCheckedDefatulAddressRadioInput;
 pastAddressInput.onclick = isCheckedPastAddressRadioInput;
 
+function isModifyPage() {
+    return uri == "updateView";
+}
 
 function isCheckedDefatulAddressRadioInput() {
     if(defaultAddressInput.checked) {
@@ -903,6 +919,32 @@ function setModelClickEvent(modelNumberItems, modelNameList) {
     //     }
     //     index++;
     // });
+}
+
+function checkByte(object) {
+    const maxByte = 40;
+    const text = object.value;
+    const textSize = text.length;
+    
+    let totalByte=0;
+    for(let i = 0; i < textSize; i++){
+    	const each_char = text.charAt(i);
+        const uni_char = escape(each_char);
+        if(uni_char.length>4){
+            totalByte += 2;
+        }else{
+            totalByte += 1;
+        }
+    }
+
+    const allowedByteDisplay = document.querySelector(".allowed-byte-display");
+
+    if(totalByte > maxByte) {
+        object.value = text.substring(0, textSize - 1);
+        alert("최대 40Bytes(한글 20자, 영문 40자)까지 입력 가능합니다");
+    }
+
+    allowedByteDisplay.textContent = totalByte;
 }
 
 function clearModelName(domObject) {

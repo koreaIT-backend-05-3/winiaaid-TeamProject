@@ -23,7 +23,7 @@ public class EngineerServiceImpl implements EngineerService {
 
         engineerList = engineerRepository.findEngineerList();
 
-        if(engineerList != null) {
+        if(engineerList != null && engineerList.size() != 0) {
             engineerInfoResponseDtoList = changeToReadEngineerInfoResponseDto(engineerList);
         }
 
@@ -37,7 +37,7 @@ public class EngineerServiceImpl implements EngineerService {
 
         engineerList = engineerRepository.findEngineerReservationInfo(date);
 
-        if(engineerList != null) {
+        if(engineerList != null && engineerList.size() != 0) {
             engineerResponseDtoList = new ArrayList<>();
 
             Iterator<Integer> iterator = makeIteratorByEngineerCodeSet(engineerList);
@@ -55,7 +55,7 @@ public class EngineerServiceImpl implements EngineerService {
             }
         }
 
-        return engineerList.size() != 0 ? engineerResponseDtoList : null;
+        return engineerResponseDtoList;
     }
 
 

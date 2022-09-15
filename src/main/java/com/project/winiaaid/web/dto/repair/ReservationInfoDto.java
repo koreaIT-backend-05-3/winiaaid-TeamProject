@@ -23,6 +23,7 @@ public class ReservationInfoDto {
     public ReservationInfoEntity toReservationEntity(LocalDateTime reservation_date) {
         return ReservationInfoEntity.builder()
                 .engineer_code(engineerCode)
+                .request_date(LocalDateTime.now())
                 .reservation_date(reservation_date)
                 .service_type(serviceType)
                 .completed_flag(1)

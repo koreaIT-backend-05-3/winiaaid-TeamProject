@@ -9,4 +9,6 @@ import java.util.Map;
 public interface RepairRepository {
     public int addRepairServiceRequest(RepairServiceInfo repairServiceInfo) throws Exception;
     public List<RepairServiceInfo> findRepairServiceByUserCode(Map<String, Object> config_map) throws Exception;
+    public RepairServiceInfo findRepairServiceDetailHistoryInfo(String repair_service_code) throws Exception;
+    public List<Address> findPastReceptionAddressListByUserCode(Map<String, Object> config_map) throws Exception;
 }
