@@ -36,6 +36,7 @@ li::marker{
 .menu-info p{
     font-size: 18px;
     line-height: 1.5rem;
+    font-weight: 400;
 }
 .menu-li-ul{
     margin-top: 20px;
@@ -74,6 +75,7 @@ h2{
     flex-direction: column;
     /* background-color: red; */
     padding: 0;
+    font-weight: 400;
 
 }
 .write-button{
@@ -85,6 +87,7 @@ h2{
     font-size: 16px;
     color: #ffffff;
     background-color: #0a71cc;
+    font-weight: 400;
 }
 .myhistory-button{
     cursor: pointer;
@@ -96,6 +99,7 @@ h2{
     color: #ffffff;
     background-color: #5b5a5a;
     margin: 5px 0 0;
+    font-weight: 400;
 }
 /* ====================================search================================ */
 
