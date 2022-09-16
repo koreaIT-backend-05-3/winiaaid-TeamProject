@@ -10,13 +10,13 @@
 .li-info li::marker{
     color: #0A71CC;
 }
-#chingchan-write-body{
+#bulpyeon-write-body{
     width: 980px;
     height: 957px;
     margin: 0 auto;
     /* background-color: violet; */
 }
-#chingchan-write-body h2{
+#bulpyeon-write-body h2{
     width: 980px;
     height: 30.8px;
     font-size: 28px;
@@ -36,19 +36,19 @@
     color: #252525;
     text-align: end;
 }
-.chingchan-write-table{
+.bulpyeon-write-table{
     width: 980px;
     /* background-color: blue; */
     border-top: 1px solid #7d7d7d;
     border-bottom: 1px solid #7d7d7d;
 }
-.chingchan-write-table th, td{
+.bulpyeon-write-table th, td{
     width: 147px;
     height: 39px;
     /* background-color: aqua; */
     padding: 10px 30px;
 }
-.chingchan-write-table tr:not(.chingchan-write-table tr:first-child){
+.bulpyeon-write-table tr:not(.chingchan-write-table tr:first-child){
     border-top: 1px solid #dbdbdb;
 }
 .brand-th{
@@ -58,6 +58,14 @@
 .brand-td{
     width: 833px;
     height: 57px;
+}
+.susin-th{
+    width: 147px;
+
+}
+.susin-td{
+    width: 833px;
+
 }
 .title-th{
     width: 147px;
