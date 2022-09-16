@@ -4,9 +4,256 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>[위니아에이드] 메인</title>
+
+    <th:block th:replace="/fragments/head"></th:block>
+    <link href="/static/css/main_page.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 </head>
 <body>
-    
+	<th:block th:replace="/fragments/header"></th:block>
+    <div id="wrap">
+        <main id="contents">
+            <section class="service-banner">
+                <div class="main-slide">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <a href="#"><img src="/static/images/slide01.jpg" alt=""></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#"><img src="/static/images/slide02.jpg" alt=""></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#"><img src="/static/images/slide03.jpg" alt=""></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#"><img src="/static/images/slide04.jpg" alt=""></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#"><img src="/static/images/slide05.jpg" alt=""></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#"><img src="/static/images/slide06.jpg" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+                <div class="customer-service">
+                    <div class="icon-menu">
+                        <a href="#"><img src="/static/images/icon_menu01.jpg" alt="자주하는 질문"></a>
+                        <a href="#"><img src="/static/images/icon_menu02.jpg" alt="자가진단"></a>
+                        <a href="#"><img src="/static/images/icon_menu03.jpg" alt="상담문의"></a>
+                        <a href="#"><img src="/static/images/icon_menu04.jpg" alt="방문서비스 신청"></a>
+                    </div>
+                    <div class="service-number">
+                        <div class="service-number-box">
+                            <p class="center-name">위니아 콜센터</p>
+                            <p class="center-number">1588-9588</p>
+                            <p class="call-info">(통화요금 발신자 부담)</p>
+                        </div>
+                        <div class="service-number-box">
+                            <p class="center-name">위니아전자(구 대우전자) 콜센터</p>
+                            <p class="center-number">1588-1588</p>
+                            <p class="call-info">(통화요금 발신자 부담)</p>
+                        </div>
+                        <div class="service-number-box">
+                            <p class="center-name">애플 콜센터</p>
+                            <p class="center-number">1577-5448</p>
+                            <p class="call-info">(통화요금 발신자 부담)</p>
+                        </div>
+                        <div class="service-number-box">
+                            <p class="center-name">테팔 콜센터</p>
+                            <p class="center-number">1833-4220</p>
+                            <p class="call-info">(통화요금 발신자 부담)</p>
+                        </div>
+                    </div>
+                    <div class="search-center">
+                        <div class="select-title">
+                            <button class="service active" type="button">서비스센터</button>
+                            <button class="shop" type="button">판매점 찾기</button>
+                        </div>
+                        <form class="select-region">
+                            <select class="select-sido">
+                                <option value="">도/시 선택</option>
+                                <option value="1">강원도</option>
+                                <option value="2">경기도</option>
+                                <option value="3">경상남도</option>
+                                <option value="4">경상북도</option>
+                                <option value="5">광주광역시</option>
+                                <option value="6">대구광역시</option>
+                                <option value="7">대전광역시</option>
+                                <option value="8">부산광역시</option>
+                                <option value="9">서울특별시</option>
+                                <option value="10">세종특별자치시</option>
+                                <option value="11">울산광역시</option>
+                                <option value="12">인천광역시</option>
+                                <option value="13">전라남도</option>
+                                <option value="14">전라북도</option>
+                                <option value="15">제주특별자치도</option>
+                                <option value="16">충청남도</option>
+                                <option value="17">충청북도</option>
+                            </select>
+                            <input type="text" placeholder="지역 입력" class="input-region">
+                            <button class="search-button" type="button">검색</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <section class="solution">
+                <h2>제품별 간단 문제 해결 방법</h2>
+                <div class="select-product">
+                    <ul class="category">
+                        <li>
+                            <button type="button" class="kimchi-fridge">김치냉장고</button>
+                        </li>
+                        <li>
+                            <button type="button" class="air-contidioner">에어컨</button>
+                        </li>
+                        <li>
+                            <button type="button" class="rice-cooker">전기밥솥</button>
+                        </li>
+                        <li>
+                            <button type="button" class="kitchen-appliances">주방가전</button>
+                        </li>
+                        <li>
+                            <button type="button" class="household-appliances">생활가전</button>
+                        </li>
+                    </ul>
+                    <div class="category-items-slide">
+                        <ul class="slide-wrapper">
+                            <li class="item"></li>
+                            <li class="item2"></li>
+                        </ul>
+                        <button class="slide-button-prev visible"></button>
+                        <button class="slide-button-next visible"></button>
+                    </div>
+                </div>
+            </section>
+            <section class="guide-banner">
+                <h2>위니아에이드의 친절 가이드</h2>
+                <div class="guide-banner-image">
+                    <a href="#"><img src="/static/images/guide_banner01.jpg" alt="동영상가이드"></a>
+                    <a href="#"><img src="/static/images/guide_banner02.jpg" alt="제품설명서"></a>
+                    <a href="#"><img src="/static/images/guide_banner03.jpg" alt="김치냉장고 리콜신청"></a>
+                    <a href="#"><img src="/static/images/guide_banner04.jpg" alt="소모품 구입"></a>
+                    <a href="#"><img src="/static/images/guide_banner05.jpg" alt="제품배송/설치일정"></a>
+                    <a href="#"><img src="/static/images/guide_banner06.jpg" alt="전기요금 계산"></a>
+                    <a href="#"><img src="/static/images/guide_banner07.jpg" alt="에어컨 이전설치비용 계산"></a>
+                    <a href="#"><img src="/static/images/guide_banner08.jpg" alt="카카오 챗봇상담"></a>
+                </div>
+            </section>
+            <section class="board">
+                <div class="notice-event">
+                    <div class="board-title">
+                        <button class="notice active" type="button">공지사항</button>
+                        <button class="event" type="button">이벤트</button>
+                    </div>
+                    <div class="board-preview">
+                        <ul class="notice-preview active">
+                            <li>
+                                <a href="#" class="title">2022년 6월 모바일 설문 참여 우수 응답고객 당첨자발표</a>
+                                <span class="date">2022.07.20</span>
+                            </li>
+                            <li>
+                                <a href="#" class="title">카드뉴스] 에어컨 기사님이 안전하게 작업할 수 있도록 배려해 주세요.</a>
+                                <span class="date">2022.07.20</span>
+                            </li>
+                            <li>
+                                <a href="#" class="title">2022년 6월 모바일 설문 참여 우수 응답고객 당첨자발표</a>
+                                <span class="date">2022.07.20</span>
+                            </li>
+                        </ul>
+                        <ul class="event-preview">
+                            <li>
+                                <a href="#" class="title">2022년 6월 모바일 설문 참여 우수 응답고객 당첨자발표(이벤트)</a>
+                                <span class="date">2022.07.20</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="more">
+                        <div class="more-notice active"><a href="#">더보기</a></div>
+                        <div class="more-event"><a href="#">더보기</a></div>
+                    </div>
+                </div>
+                <div class="voice-of-customer">
+                    <div class="txt">
+                        <p>고객의 소리</p>
+                        <span>위니아에이드는<br>고객의 서비스 만족을<br>위해 노력합니다.</span>
+                    </div>
+                    <div class="image">
+                        <a href="#"><img src="/static/images/request_img1.png" alt="칭찬합니다"></a>
+                        <a href="#"><img src="/static/images/request_img2.png" alt="불편합니다"></a>
+                        <a href="#"><img src="/static/images/request_img3.png" alt="만족도 평가"></a>
+                    </div>
+                </div>
+            </section>
+            <section class="shortcut-banners">
+                <a href="#"><img src="/static/images/shortcuts1.jpg" alt="Apple 제품 서비스 예약"></a>
+                <a href="#"><img src="/static/images/shortcuts2.jpg" alt="수어상담 서비스 신청하기"></a>
+                <a href="#"><img src="/static/images/shortcuts3.jpg" alt="사업제휴 문의하기"></a>
+            </section>
+            <section class="partner-company">
+                <h2>파트너사</h2>
+                <div class="partner-slide-wrap">
+                <div class="partner-slide">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <a href="https://www.apple.com/" target="_blank"><img src="/static/images/f_logo_01.jpg" alt="apple"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="https://www.electrolux.co.kr/" target="_blank"><img src="/static/images/f_logo_02.jpg" alt="electrolux"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="https://www.tefal.co.kr/" target="_blank"><img src="/static/images/f_logo_03.jpg" alt="tefal"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="https://www2.braunhousehold.com/ko-kr" target="_blank"><img src="/static/images/f_logo_04.jpg" alt="braunhousehold"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="http://www.blackanddecker.co.kr/" target="_blank"><img src="/static/images/f_logo_05.jpg" alt="blackanddecker"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="https://asia.playstation.com/ko-kr/" target="_blank"><img src="/static/images/f_logo_06.jpg" alt="playstation"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="http://ebrams.co.kr/" target="_blank"><img src="/static/images/f_logo_07.jpg" alt="ebrams"></a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#"><img src="/static/images/f_logo_08.jpg" alt="ALCATEL ONE TOUCH"></a>
+                        </div>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
+            </section>
+        </main>
+        <th:block th:replace="/fragments/footer"></th:block>
+        <aside class="quick-menu">
+            <ul>
+                <li>
+                    <a href="#"><img src="/static/images/quick_menu01.jpg" alt="Apple제품 서비스 예약"></a>
+                </li>
+                <li>
+                    <a href="#"><img src="/static/images/quick_menu02.jpg" alt="카카오 챗봇상담"></a>
+                </li>
+                <li>
+                    <a href="#"><img src="/static/images/quick_menu03.jpg" alt="위니아e샵"></a>
+                </li>
+                <li>
+                    <a href="#"><img src="/static/images/quick_menu04.jpg" alt="위니아크린샵"></a>
+                </li>
+                <li>
+                    <a href="#"><img src="/static/images/quick_menu05.jpg" alt="사업제휴"></a>
+                </li>
+            </ul>
+            <button class="go-top" type="button">맨 위로</button>
+        </aside>
+    </div>
+    <script src="/static/js/main_page.js"></script>
 </body>
 </html>

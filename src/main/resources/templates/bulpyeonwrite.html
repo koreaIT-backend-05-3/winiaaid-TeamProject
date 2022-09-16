@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[위니아에이드] 불편합니다</title>
-    <link rel="stylesheet" href="../static/css/bulpyeonwrite.css">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="/static/css/bulpyeonwrite.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
     <div id="bulpyeon-write-body">
@@ -16,38 +17,45 @@
         <!-- 테이블 -->
         <table class="bulpyeon-write-table">
                 <tr>
+                    <!-- username -->
                     <th>성명</th>
-                    <td>강주현</td>
+                    <td class="name">강주현</td>
                 </tr>
                 <tr>
+                    <!-- email -->
                     <th>이메일</th>
-                    <td>rkdwngus666@naver.com</td>
+                    <td class="email">rkdwngus666@naver.com</td>
                 </tr>
                 <tr>
+                    <!-- mainPhoneNumber -->
                     <th>휴대폰번호</th>
-                    <td>010-2670-9459</td>
+                    <td class="phone-number">010-2670-9459</td>
                 </tr>
                 <tr>
+                    <!-- companyCode -->
                     <th class="brand-th"><i class="fa-solid fa-check"></i>접수대상 브랜드</th>
                     <td class="brand-td">
-                        <input name="company" type="radio" id="company1"><label for="company1">위니아 제품</label>
-                        <input name="company" type="radio" id="company2"><label for="company2">위니아전자(구 대우전자) 제품</label>
+                        <input name="company" type="radio" id="company1" value="2"><label for="company1">위니아 제품</label>
+                        <input name="company" type="radio" id="company2" value="1"><label for="company2">위니아전자(구 대우전자) 제품</label>
                     </td>
                 </tr>
                 <tr>
+                    <!-- responseFlag -->
                     <th class="susin-th"><i class="fa-solid fa-check"></i>답변 수신 여부</th>
                     <td class="susin-td">
-                        <input name="company" type="radio" id="company1"><label for="company1">수신함</label>
-                        <input name="company" type="radio" id="company2"><label for="company2">수신안함</label>
+                        <input name="receive" type="radio" id="receive1" value="1"><label for="receive1">수신함</label>
+                        <input name="receive" type="radio" id="receive2" value="0"><label for="receive2">수신안함</label>
                     </td>
                 </tr>
                 <tr>
+                    <!-- boardTitle -->
                     <th class="title-th"><i class="fa-solid fa-check"></i>제목</th>
                     <td class="title-td">
                         <input class="title-input" type="text" placeholder="제목을 입력해주세요." style="border: 1px solid #dbdbdb ; background-color: #fcfcfc;">
                     </td>
                 </tr>
                 <tr>
+                    <!-- boardContent -->
                     <th class="content-th"><i class="fa-solid fa-check"></i>내용</th>
                     <td class="content-td">
                         <textarea placeholder="내용을 입력해주세요." style="border: 1px solid #dbdbdb ; background-color: #fcfcfc;"></textarea>
@@ -56,13 +64,14 @@
                     
                 </tr>
                 <tr>
+                    <!-- files -->
                     <th class="file-th">첨부파일</th>
                     <td class="file-td">
-                        <div class="fileupload">
-                            <input class="fileupload1" type="file" >
-                            <input class="fileupload2" type="file" >
-                            <input class="fileupload3" type="file" >
-                        </div>
+                        <form class="fileupload" enctype="multipart/form-data">
+                            <input name="files" class="fileupload1" type="file" >
+                            <input name="files" class="fileupload2" type="file" >
+                            <input name="files" class="fileupload3" type="file" >
+                        </form>
                         <p id="file-p">※첨부가능 확장가는 아래와 같으며, 총 50MB 까지 가능합니다.(첨부 3개 제한)<br> -그림 파일 (jpg, jpeg, gif, png)<br> - 문서 파일 (txt, doc, docx, xls, xlsx, ppt, pptx, pdf, hwp)<br> - 압축 파일 (zip)<br>- 동영상 파일(avi, mp4)</p>
                     </td>
                 </tr>
@@ -84,5 +93,6 @@
         </center>
     </div>
     <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
+    <script src="/static/js/board/board_write.js"></script>
 </body>
 </html>

@@ -1,0 +1,152 @@
+/* 체크표시 속성 */
+.fa-check{
+    color: #0A71CC;
+}
+.li-info li{
+    font-size: 13px;
+    color: #5b5a5a;
+    list-style-type: disc;
+}
+.li-info li::marker{
+    color: #0A71CC;
+}
+#jean-write-body{
+    width: 980px;
+    height: 957px;
+    margin: 0 auto;
+    /* background-color: violet; */
+}
+#jean-write-body h2{
+    width: 980px;
+    height: 30.8px;
+    font-size: 28px;
+    line-height: 1.1em;
+    font-weight: 400;
+    color: #252525;
+    /* background-color: aqua; */
+    margin-bottom: 60px;
+}
+
+.pilsu{
+    right: 0;
+    top: -30px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: #252525;
+    text-align: end;
+}
+.jean-write-table{
+    width: 980px;
+    /* background-color: blue; */
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+}
+.jean-write-table th, td{
+    width: 147px;
+    height: 39px;
+    /* background-color: aqua; */
+    padding: 10px 30px;
+}
+.jean-write-table tr:not(.chingchan-write-table tr:first-child){
+    border-top: 1px solid #dbdbdb;
+}
+.brand-th{
+    width: 147px;
+    height: 57px;
+}
+.brand-td{
+    width: 833px;
+    height: 57px;
+}
+.susin-th{
+    width: 147px;
+
+}
+.susin-td{
+    width: 833px;
+
+}
+.title-th{
+    width: 147px;
+    height: 52px;
+}
+.title-td{
+    width: 833px;
+    height: 52px;
+}
+.title-input{
+    width: 100%;
+    padding: 5px;
+}
+.content-th{
+    width: 833px;
+    height: 236px;
+}
+.content-td{
+    width: 833px;
+    height: 236px;
+}
+#content-p{
+    margin-left: 0px;
+    color: #7e7e7e;
+    font-size: 15px;
+}
+textarea{
+    resize: none;
+    width: 100%;
+    height: 192px;
+    padding: 5px;
+}
+
+.file-th{
+    width: 833px;
+    height: 198px;
+}
+.file-td{
+    width: 833px;
+    height: 198px;
+}
+#file-p{
+    margin-left: 0px;
+    color: #7e7e7e;
+    font-size: 15px;
+    padding-left:15px ;
+}
+.fileupload{
+    height: 87px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#btn-group{
+    /* background-color: #7d7d7d; */
+    margin-top: 50px;
+    padding: 0;
+    font-weight: 400;
+
+}
+.upload-button{
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    width: 122px;
+    height: 42px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #0a71cc;
+    font-weight: 400;
+}
+.cancle-button{
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    width: 122px;
+    height: 42px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #5b5a5a;
+    margin: 5px 0 0;
+    font-weight: 400;
+}
