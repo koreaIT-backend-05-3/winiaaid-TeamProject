@@ -88,6 +88,7 @@ table td {
 
 .reservation-modify-button-div button:first-child {
     border: 1px solid #0a71cc;
+    margin-right: 5px;
     color: #0a71cc;
 }
 

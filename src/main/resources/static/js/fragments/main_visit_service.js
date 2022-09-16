@@ -1,4 +1,4 @@
-const uri = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+const uri = location.pathname;
 
 const winia = document.querySelector(".li-winia");
 const daewoo = document.querySelector(".li-daewoo");
@@ -68,16 +68,16 @@ let selectReservationDay = null;
 let historyDataFlag = false;
 let reservationFlag = false;
 
+let pastHistoryInfoObject = null;
+let reservatedDayFlag = false;
+
 let productInfoObject = {
-    // "company": null,
     "productCategoryCode": 0,
     "productCode": 0,
-    // "productCategory": null,
-    // "productName": null,
     "modelCode": 0,
-    // "modelName": null,
     "troubleCode": 0,
-    "description": null
+    "description": null,
+    "sameProductFlag": false
 };
 
 let userInfoObject = {
@@ -93,7 +93,6 @@ let userInfoObject = {
 
 let reservationInfoObject = {
     "engineerCode": 0,
-    // "engineerName": null,
     "reservationDay": null,
     "reservationTime": null,
     "serviceType": null
@@ -109,14 +108,12 @@ setCalendarData();
 setChangeMonthButton("pre");
 setReservationableDaySpan();
 
-if(isModifyPage()) {
-    savePreviousInfoToLocalStorage();
-    checkLocalStorageHasPastRequetsServiceData();
-}
+// if(isModifyPage()) {
+//     savePreviousInfoToLocalStorage();
+//     checkLocalStorageHasPastRequetsServiceData();
+// }
 
-function savePreviousInfoToLocalStorage() {
 
-}
 
 
 
@@ -158,9 +155,9 @@ emailBoxSelect.onchange = setEmail;
 defaultAddressInput.onclick = isCheckedDefatulAddressRadioInput;
 pastAddressInput.onclick = isCheckedPastAddressRadioInput;
 
-function isModifyPage() {
-    return uri == "updateView";
-}
+// function isModifyPage() {
+//     return uri.contains("updateView");
+// }
 
 function isCheckedDefatulAddressRadioInput() {
     if(defaultAddressInput.checked) {
@@ -215,7 +212,50 @@ modifyButton.onclick = requestDivActivation;
 
 requestButton.onclick = requestSubmit;
 
+cancelButton.onclick = goHistoryBack;
+
+function goHistoryBack() {
+    history.back();
+}
+
 function requestSubmit() {
+    if(modifyFlag) {
+        const repairServiceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+        
+        reservationInfoModify(repairServiceCode);
+
+    }else {
+        reservationRequest();
+    }
+}
+
+function reservationInfoModify(repairServiceCode) {
+    productInfoObject.repairServiceCode = repairServiceCode;
+    productInfoObject.sameProductFlag = pastProductCode == productInfoObject.productCode;
+
+    $.ajax({
+        type: "put",
+        url: `/api/v1/service/repair/modify/${repairServiceCode}`,
+        contentType: "application/json",
+        data: JSON.stringify({
+            "productInfoObject": productInfoObject,
+            "userInfoObject": userInfoObject,
+            "reservationInfoObject": reservationInfoObject
+        }),
+        dataType: "json",
+        success: (response) => {
+            if(response.data) {
+                alert("예약 날짜가 변경되었습니다.");
+                location.replace(`/service/visit/inquiry/detail/${repairServiceCode}`);
+            }else {
+                alert("예약 정보 변경중 오류가 발생했습니다.");
+            }
+        },
+        error: errorMessage
+    });
+}
+
+function reservationRequest() {
     $.ajax({
         type: "post",
         url: "/api/v1/service/visit/request",
@@ -224,7 +264,6 @@ function requestSubmit() {
             "productInfoObject": productInfoObject,
             "userInfoObject": userInfoObject,
             "reservationInfoObject": reservationInfoObject
-            
         }),
         dataType: "json",
         success: (response) => {
@@ -673,6 +712,10 @@ function setGroupImageClickEvent(domObject, productInfoList) {
 
                productInfoObject.productCategoryCode = productInfoList.productCategoryCode;
                productInfoObject.productCode = productInfoList.productCode;
+
+               if(pastProductCode == 0) {
+                   pastProductCode = productInfoList.productCode;
+               }
         }else {
             setModelName(productNameLi, {"productName": null}, "integrated");
         }
@@ -830,6 +873,10 @@ function setImageClickEvent(domObject, productInfoList) {
             productInfoObject.productCategoryCode = productInfoList[i].productCategoryCode;
             productInfoObject.productCode = productInfoList[i].productCode;
 
+            if(pastProductCode == 0) {
+                pastProductCode = productInfoList[i].productCode;
+            }
+
             setModelName(productNameLi, {"productName": productDetailName, "productCategoryCode": productInfoList[0].productCategoryCode}, "default");
         }
     }
@@ -849,6 +896,10 @@ function setProductClickEvent(domObject, productInfoList) {
             
             productInfoObject.productCategoryCode = productInfoList[i].productCategoryCode;
             productInfoObject.productCode = productInfoList[i].productCode;
+
+            if(pastProductCode == 0) {
+                pastProductCode = productInfoList[i].productCode;
+            }
         }
 
     }
@@ -1122,6 +1173,7 @@ function setReservationableDaySpan() {
     showDateSpan.innerHTML = `${nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1}월 ${nowDate.getDate()}일 ~ ${nowDate.getMonth() + 2 < 10 ? "0" + (nowDate.getMonth() + 2) : nowDate.getMonth() + 2}월 ${nowDate.getDate()}일`;
 }
 
+
 function getTheUnbookableTime(selectDay) {
     let unbookableTimeByEngineerList = null;
 
@@ -1133,6 +1185,10 @@ function getTheUnbookableTime(selectDay) {
 
     selectReservationDay = date.replaceAll(".", "");
 
+    if(modifyFlag) {
+        reservatedDayFlag = selectReservationDay == pastHistoryInfoObject.reservationDay.replaceAll("-", "");
+    }
+
     console.log(date);
     $.ajax({
         async: false,
@@ -1141,7 +1197,6 @@ function getTheUnbookableTime(selectDay) {
         dataType: "json",
         success: (response) => {
             unbookableTimeByEngineerList = response.data;
-            console.log(unbookableTimeByEngineerList);
         },
         error: errorMessage
     });
@@ -1186,6 +1241,16 @@ function setReservationTime(engineerList, selectDay) {
                     }
 
                 }
+            }
+            if(reservatedDayFlag) {
+                if(engineerInfo.engineerCode == pastHistoryInfoObject.engineerCode) {
+                    for(timeTable of timeTables) {
+                        if(timeTable.textContent == pastHistoryInfoObject.reservationTime) {
+                            timeTable.classList.remove("unbookable");
+                        }
+                    }
+                }
+
             }
             
             // if(reservationDayList.length != 0) {
@@ -1273,7 +1338,6 @@ function selectDay(day, object) {
     object.classList.add("select-day");
 
     setReservationTime(getEngineerList(), day);
-    // setReservationTime(getTheUnbookableTime(day));
 }
 
 function selectTime(object, engineerInfo) {
@@ -1402,7 +1466,7 @@ function disableStepTitle(stepTitle, stepDiv){
 /*>>>>>>>>>>>>>>>>> 이전 접수 목록 불러오기 <<<<<<<<<<<<<<<<<<<*/
 
 function checkLocalStorageHasPastRequetsServiceData(){
-    let pastHistoryInfoObject = localStorage.pastHistoryInfoObject;
+    pastHistoryInfoObject = localStorage.pastHistoryInfoObject;
     localStorage.clear();
     if(pastHistoryInfoObject != null) {
         pastHistoryInfoObject = JSON.parse(pastHistoryInfoObject);

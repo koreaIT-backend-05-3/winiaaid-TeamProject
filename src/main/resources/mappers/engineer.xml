@@ -18,15 +18,15 @@
             em.engineer_code,
             em.engineer_name,
 
-            ert.reservation_time
+            ert.reservation_date
         FROM
             engineer_mst em
             LEFT OUTER JOIN engineer_reservation_table ert ON(ert.engineer_code = em.engineer_code)
         WHERE
-            reservation_time LIKE concat("%", #{date}, "%")
+            reservation_date LIKE concat("%", #{date}, "%")
         order by
             em.engineer_code,
-            reservation_time;
+            reservation_date;
     </select>
 
 <!--    <resultMap id="collectionResult" type="com.project.winiaaid.domain.engineer.Engineer">-->

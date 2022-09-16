@@ -27,11 +27,7 @@ public class RepairServiceImpl implements RepairService {
 
     @Override
     public boolean addRepairServiceRequest(RepairServiceRequestDto applyServiceRequestDto) throws Exception {
-        RepairServiceInfo repairServiceInfo = applyServiceRequestDto.toRepairServiceInfoEntity(
-                changeStringToLocalDateTime(
-                        applyServiceRequestDto.getReservationInfoObject().getReservationDay(),
-                        applyServiceRequestDto.getReservationInfoObject().getReservationTime())
-        );
+        RepairServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(applyServiceRequestDto);
 
         log.info(">>>>>>>: {}", repairServiceInfo);
 
@@ -90,8 +86,28 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
+    public String modifyRepairReservationInfoByRepairServiceCode(RepairServiceRequestDto repairServiceRequestDto) throws Exception {
+        RepairServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(repairServiceRequestDto);
+
+        log.info("전: {}", repairServiceInfo.getProductInfoEntity().getRepair_service_code());
+        repairRepository.updateRepairReservationInfoByRepairServiceCode(repairServiceInfo);
+
+        log.info("후: {}", repairServiceInfo.getProductInfoEntity().getRepair_service_code());
+        return repairServiceInfo.getProductInfoEntity().getRepair_service_code();
+    }
+
+    @Override
     public boolean cancelRepairServiceByRepairServiceCode(String repairServiceCode) throws Exception {
         return repairRepository.cancelRepairServiceByRepairServiceCode(repairServiceCode) > 0;
+    }
+
+    private RepairServiceInfo changeToRepairServiceInfoEntity(RepairServiceRequestDto repairServiceRequestDto) {
+        return repairServiceRequestDto.toRepairServiceInfoEntity(
+                changeStringToLocalDateTime(
+                        repairServiceRequestDto.getReservationInfoObject().getReservationDay(),
+                        repairServiceRequestDto.getReservationInfoObject().getReservationTime()
+                )
+        );
     }
 
     private LocalDateTime changeStringToLocalDateTime(String reservationDay, String reservationTime) {

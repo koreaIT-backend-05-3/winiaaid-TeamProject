@@ -7,6 +7,7 @@ import com.project.winiaaid.web.dto.repair.AddressResponseDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/v1/service")
 public class RepairServiceRestController {
 
@@ -29,7 +31,7 @@ public class RepairServiceRestController {
             status = repairService.addRepairServiceRequest(repairServiceRequestDto);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.ok(new CustomResponseDto<>(-1, "Service application failed", status));
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Service application failed", status));
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", status));
@@ -57,7 +59,7 @@ public class RepairServiceRestController {
             repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(repairServiceCode);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.ok(new CustomResponseDto<>(1, "Failed to load detailed application history", repairServiceResponseDto));
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(1, "Failed to load detailed application history", repairServiceResponseDto));
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Detailed application history load successful", repairServiceResponseDto));
@@ -71,10 +73,25 @@ public class RepairServiceRestController {
             addressInfoList = repairService.getPastReceptionAddressListByUserCode(userCode, page);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.ok(new CustomResponseDto<>(1, "Failed to load past reception address.", addressInfoList));
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(1, "Failed to load past reception address.", addressInfoList));
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully loaded past reception addresses", addressInfoList));
+    }
+
+    @PutMapping("/repair/modify/{repairServiceCode}")
+    public ResponseEntity<?> updateRepairServiceInfoByRepairServiceCode(@RequestBody RepairServiceRequestDto repairServiceRequestDto){
+        String repairServiceCode = null;
+        log.info("{}", repairServiceRequestDto);
+
+        try {
+            repairServiceCode = repairService.modifyRepairReservationInfoByRepairServiceCode(repairServiceRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to modify reservation information", repairServiceCode));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful modify of reservation information", repairServiceCode));
     }
 
     @PutMapping("/repair/cancel/{repairServiceCode}")
@@ -85,7 +102,7 @@ public class RepairServiceRestController {
             status = repairService.cancelRepairServiceByRepairServiceCode(repairServiceCode);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.ok(new CustomResponseDto<>(-1, "Failed to cancel the registration history", status));
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to cancel the registration history", status));
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully canceled application history", status));

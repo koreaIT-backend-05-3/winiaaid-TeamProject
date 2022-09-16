@@ -80,7 +80,7 @@ function setReservationDetailInfo(reservationDetailInfo) {
                 <th>상세내용</th>
                 <td>${productInfoObject.description}</td>
                 <th>예약변경/취소 및 평가하기</th>
-                <td>${completeFlag == 1 ? '<div class="reservation-modify-button-div"><button type="button">예약변경</button><button type="button">예약취소</button></div>' : ''}</td>
+                <td>${completeFlag == 1 ? '<div class="reservation-modify-button-div"><button class="modify-button" type="button">예약변경</button><button class="cancel-button" type="button">예약취소</button></div>' : ''}</td>
             </tr>
         `;
 
@@ -98,9 +98,21 @@ function setReservationDetailInfo(reservationDetailInfo) {
                 <td>${userInfoObject.email == null ? "" : userInfoObject.email}</td>
             </tr>
         `;
+
+        if(completeFlag == 1) {
+            setButtonClickEvent();
+        }
     }
 }
 
 function goVisitInquiryPage() {
     location.href = "/service/visit/inquiry";
+}
+
+function setButtonClickEvent() {
+    const modifyButton = document.querySelector(".modify-button");
+    const cancelButton = document.querySelector(".cancel-button");
+
+    modifyButton.onclick = () => modifyReservationService(repairServiceCode);
+    cancelButton.onclick = () => cancelReservationService(repairServiceCode);
 }

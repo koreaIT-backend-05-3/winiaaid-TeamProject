@@ -25,6 +25,7 @@ public class ProductInfoEntity {
     private String description;
     private int company_code;
     private String company_name;
+    private boolean same_product_flag;
 
     public ProductInfoDto toProductInfoDto() {
         return ProductInfoDto.builder()

@@ -25,6 +25,7 @@ public class ReservationInfoEntity {
 
     public ReservationInfoDto toReservationInfoDto() {
         return ReservationInfoDto.builder()
+                .engineerCode(engineer_code)
                 .engineerName(engineer_name)
                 .serviceType(service_type)
                 .completedFlag(completed_flag)

@@ -27,6 +27,7 @@
             <result property="detail_address" column="detail_address"/>
         </association>
         <association property="reservationInfoEntity" javaType="com.project.winiaaid.domain.repair.ReservationInfoEntity">
+            <result property="engineer_code" column="engineer_code"/>
             <result property="engineer_name" column="engineer_name"/>
             <result property="service_type" column="service_type"/>
             <result property="completed_flag" column="completed_flag"/>
@@ -139,6 +140,7 @@
             rst.detail_address,
             rst.postal_code,
             rst.trouble_code,
+            rst.engineer_code,
 
             wpm.product_category_name,
 
@@ -190,6 +192,28 @@
             detail_address
         LIMIT #{page}, 4;
     </select>
+
+    <update id="updateRepairReservationInfoByRepairServiceCode" parameterType="com.project.winiaaid.domain.repair.RepairServiceInfo">
+        UPDATE
+            repair_service_table rst
+        SET
+            user_code = #{userInfoEntity.user_code},
+            user_name = #{userInfoEntity.user_name},
+            main_phone_number = #{userInfoEntity.main_phone_number},
+            sub_phone_number = #{userInfoEntity.sub_phone_number},
+            email = #{userInfoEntity.email},
+            postal_code = #{userInfoEntity.postal_code},
+            main_address = #{userInfoEntity.main_address},
+            detail_address = #{userInfoEntity.detail_address},
+
+            engineer_code = #{reservationInfoEntity.engineer_code},
+            service_type = #{reservationInfoEntity.service_type},
+            completed_flag = #{reservationInfoEntity.completed_flag},
+            reservation_date = #{reservationInfoEntity.reservation_date},
+            request_date = #{reservationInfoEntity.request_date}
+        WHERE
+            repair_service_code = #{productInfoEntity.repair_service_code};
+    </update>
 
     <update id="cancelRepairServiceByRepairServiceCode" parameterType="String">
         UPDATE

@@ -19,14 +19,14 @@ public class Engineer {
     private int engineer_code;
     private String engineer_name;
 //    private List<ReservationTime> times;
-    private LocalDateTime reservation_time;
+    private LocalDateTime reservation_date;
 
     public EngineerReservationInfoDto toEngineerReservationInfoDto() {
         return EngineerReservationInfoDto.builder()
                 .engineerCode(engineer_code)
                 .engineerName(engineer_name)
-                .reservationDay(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(reservation_time))
-                .reservationTime(DateTimeFormatter.ofPattern("HH:mm").format(reservation_time))
+                .reservationDay(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(reservation_date))
+                .reservationTime(DateTimeFormatter.ofPattern("HH:mm").format(reservation_date))
                 .build();
     }
 

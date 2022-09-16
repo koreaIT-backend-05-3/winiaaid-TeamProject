@@ -6,5 +6,5 @@ import java.time.LocalDateTime;
 
 @Data
 public class ReservationTime {
-    private LocalDateTime time;
+    private LocalDateTime date;
 }

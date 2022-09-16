@@ -2,6 +2,7 @@ package com.project.winiaaid.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ public class ServicePageController {
 		return "service/visit_request";
 	}
 
-	@GetMapping("/visit/request/updateView")
-	public String loadVisitRequestUpdateViewPage() {
+	@GetMapping("/visit/request/updateView/{repairServiceCode}")
+	public String loadVisitRequestUpdateViewPage(@PathVariable String repairServiceCode) {
 		return "service/visit_request_update";
 	}
 
