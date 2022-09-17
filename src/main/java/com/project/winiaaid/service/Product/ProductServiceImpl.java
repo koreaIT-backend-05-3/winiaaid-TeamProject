@@ -35,7 +35,6 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = null;
         List<ReadProductDetailResponseDto> productInfoList = null;
         List<ReadProductObjectResponseDto> productObjectList = null;
-        ReadProductObjectResponseDto readProductObjectResponseDto = null;
 
         Map<String, Object> infoMap = setInfoMap(company, type, productCode);
 

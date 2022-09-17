@@ -52,7 +52,7 @@
         SELECT
             pmc.model_category_code,
             pmc.model_category_name,
-            pmc.model_number_categoty_info,
+            pmc.model_number_category_info,
             pmc.model_category_number_info_detail,
 
             pmci.model_image_category_name
