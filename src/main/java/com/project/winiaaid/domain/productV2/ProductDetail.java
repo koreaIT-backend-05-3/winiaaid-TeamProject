@@ -20,15 +20,11 @@ public class ProductDetail {
     private LocalDateTime create_date;
     private LocalDateTime update_date;
 
-    public ProductDetailDto toProductDetailDto(String productCategoryName) {
-        if(!productCategoryName.equals(product_detail_name)) {
+    public ProductDetailDto toProductDetailDto() {
         return ProductDetailDto.builder()
                 .productCode(product_code)
                 .productDetailName(product_detail_name)
                 .productDetailImage(product_detail_image)
                 .build();
-        }else {
-            return null;
-        }
     }
 }

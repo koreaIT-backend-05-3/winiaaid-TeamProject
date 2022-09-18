@@ -36,8 +36,7 @@ public class Product {
                 .productMainCategoryImage(product_main_category_image)
                 .productMainImage(product_main_image)
                 .productDetailList(product_detail_list.stream()
-                        .map(productDetail -> productDetail.toProductDetailDto(product_category_name))
-                        .filter(productDetail -> productDetail != null)
+                        .map(ProductDetail::toProductDetailDto)
                         .collect(Collectors.toList()))
                 .build();
     }

@@ -26,12 +26,11 @@ public class RepairServiceImpl implements RepairService {
     private final RepairRepository repairRepository;
 
     @Override
-    public boolean addRepairServiceRequest(RepairServiceRequestDto applyServiceRequestDto) throws Exception {
+    public String addRepairServiceRequest(RepairServiceRequestDto applyServiceRequestDto) throws Exception {
         RepairServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(applyServiceRequestDto);
+        repairRepository.addRepairServiceRequest(repairServiceInfo);
 
-        log.info(">>>>>>>: {}", repairServiceInfo);
-
-        return repairRepository.addRepairServiceRequest(repairServiceInfo) > 0;
+        return repairServiceInfo.getProductInfoEntity().getRepair_service_code();
     }
 
     @Override
@@ -89,10 +88,8 @@ public class RepairServiceImpl implements RepairService {
     public String modifyRepairReservationInfoByRepairServiceCode(RepairServiceRequestDto repairServiceRequestDto) throws Exception {
         RepairServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(repairServiceRequestDto);
 
-        log.info("전: {}", repairServiceInfo.getProductInfoEntity().getRepair_service_code());
         repairRepository.updateRepairReservationInfoByRepairServiceCode(repairServiceInfo);
 
-        log.info("후: {}", repairServiceInfo.getProductInfoEntity().getRepair_service_code());
         return repairServiceInfo.getProductInfoEntity().getRepair_service_code();
     }
 

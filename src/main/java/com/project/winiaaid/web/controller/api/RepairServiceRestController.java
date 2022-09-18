@@ -25,16 +25,17 @@ public class RepairServiceRestController {
 
     @PostMapping("/visit/request")
     public ResponseEntity<?> applyForService(@RequestBody RepairServiceRequestDto repairServiceRequestDto) {
-        boolean status = false;
+        String repairServiceCode = null;
 
+        log.info("repairServiceCode: {}", repairServiceCode);
         try {
-            status = repairService.addRepairServiceRequest(repairServiceRequestDto);
+            repairServiceCode = repairService.addRepairServiceRequest(repairServiceRequestDto);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Service application failed", status));
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Service application failed", repairServiceCode));
         }
 
-        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", status));
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", repairServiceCode));
     }
 
     @GetMapping("/repair/history/{type}/user/{userCode}")

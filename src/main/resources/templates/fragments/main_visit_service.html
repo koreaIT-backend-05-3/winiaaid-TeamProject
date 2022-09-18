@@ -26,35 +26,7 @@
                     <img src="/image/images/fare-Information.jpg" alt="서비스 요금안내">
                 </div>
                 <div>
-                    <ul class="select-manufacturer">
-                        <div class="step-lock visible"></div>
-                        <li class="li-winia">
-                            <a href="#">
-                                <div class="category-info">
-                                    <h1>위니아 제품</h1>
-                                    <ul>
-                                        <li>-위니아 김치냉장고</li>
-                                        <li>-위니아 에어컨</li>
-                                        <li>-딤채쿡, 에어워셔</li>
-                                        <li>-기타 위니아 제품</li>
-                                    </ul>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="li-daewoo">
-                            <a href="#">
-                                <div class="category-info">
-                                    <h1>위니아전자 (구 대우전자) 제품</h1>
-                                    <ul>
-                                        <li>-Klasse/위니아전자 세탁기, 건조기</li>
-                                        <li>-Klasse/위니아전자 냉장고</li>
-                                        <li>-Klasse/위니아전자 에어컨</li>
-                                        <li>-기타 위니아전자 제품</li>
-                                    </ul>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+                    <th:block th:replace="/fragments/company_show"></th:block>
                     <div class="main-request-div">
                         <ul class="request-ul">
                             <li class="step-group">
@@ -67,14 +39,7 @@
                                 </div>
                                 <div class="service-request-div detail-content-div visible">
                                     <div class="step-lock visible"></div>
-                                    <ul class="category-image-ul"></ul>
-                                    <div class="product-area">
-                                        <div class="swiper-container">
-                                            <div class="swiper-wrapper"></div>
-                                            <div class="swiper-prev slide-div visible">&lt;</div>
-                                            <div class="swiper-next slide-div visible">&gt;</div>
-                                        </div>
-                                    </div>
+                                    <th:block th:replace="/fragments/product_show"></th:block>
                                     <div class="write-div">
                                         <div class="comment-span-div">
                                             <span class="required-menu">필수 입력 사항</span>

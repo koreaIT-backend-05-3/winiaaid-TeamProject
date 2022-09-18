@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.winiaaid.domain.solution.SolutionRepository">
+    <select id="findSolutionListByProductCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.solution.Solution">
+        SELECT
+            st.solution_title,
+            st.solution_content,
+            st.create_date,
+
+            stt.solution_name,
+
+            wpd.product_detail_name,
+
+            wpm.product_category_name
+        FROM
+            solution_product_table spt
+            LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
+            LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
+            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
+            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+        WHERE
+            spt.product_code = #{product_code}
+            AND st.solution_board_type = #{type};
+    </select>
+</mapper>

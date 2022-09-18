@@ -1,6 +1,4 @@
 const repairServiceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
-const modifyFlag = true;
-let pastProductCode = 0;
 
 lockItems();
 getReservationInfo();
@@ -47,7 +45,7 @@ function setPastReservationInfo(reservationInfo) {
 function savePreviousInfoToLocalStorage(pastHistoryInfoObject) {
     localStorage.pastHistoryInfoObject = JSON.stringify(pastHistoryInfoObject);
     
-    checkLocalStorageHasPastRequetsServiceData();
+    changeUpdateView();
 }
 
 function changeRequestButtonToModifyButton() {

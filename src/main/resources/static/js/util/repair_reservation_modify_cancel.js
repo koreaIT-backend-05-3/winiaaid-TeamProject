@@ -16,7 +16,11 @@ function cancelReservationService(repairServiceCode) {
                     alert("접수 내역 취소 실퍠");
                 }
             },
-            error: errorMessage
+            error: (request, status, error) => {
+                console.log(request.status);
+                console.log(request.responseText);
+                console.log(error);
+            }
         });
     }
 }

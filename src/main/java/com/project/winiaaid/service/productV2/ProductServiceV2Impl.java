@@ -2,11 +2,14 @@ package com.project.winiaaid.service.productV2;
 
 import com.project.winiaaid.domain.productV2.ModelNumberInfo;
 import com.project.winiaaid.domain.productV2.Product;
+import com.project.winiaaid.domain.productV2.ProductDetail;
 import com.project.winiaaid.domain.productV2.ProductRepositoryV2;
+import com.project.winiaaid.web.dto.productV2.ProductDetailDto;
 import com.project.winiaaid.web.dto.productV2.ReadModelNumberInfoResponseDto;
 import com.project.winiaaid.web.dto.productV2.ReadProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -24,7 +27,7 @@ public class ProductServiceV2Impl implements ProductServiceV2 {
     @Override
     public List<? extends Object> getProductDetailInfoList(String company, String type, int productCode) throws Exception {
         List<Product> productList = null;
-        List<ReadProductResponseDto> readModelNumberInfoResponseDtoList = null;
+        List<ReadProductResponseDto> readProductResponseDtoList = null;
 //        List<ReadProductDetailResponseDto> productInfoList = null;
 //        List<ReadProductObjectResponseDto> productObjectList = null;
 
@@ -33,9 +36,17 @@ public class ProductServiceV2Impl implements ProductServiceV2 {
         productList = productRepositoryV2.findListToProductDetailInfo(infoMap);
 
         if(productList != null && productList.size() != 0) {
-            readModelNumberInfoResponseDtoList = productList.stream()
+            readProductResponseDtoList = productList.stream()
                     .map(Product::toReadProductResponseDto)
                     .collect(Collectors.toList());
+
+            readProductResponseDtoList.stream()
+                    .forEach(product -> {
+                        if(product.getProductDetailList().size() != 1) {
+                            product.getProductDetailList().removeIf(productDetail -> productDetail.getProductDetailName().equals(product.getProductCategoryName()));
+                            };
+                    });
+
 //            if(type.equals("default")){
 //                productInfoList = changeToReadProductDetailResponseDto(productList);
 //
@@ -62,7 +73,7 @@ public class ProductServiceV2Impl implements ProductServiceV2 {
         }
 
 //        return type.equals("default") ? productInfoList : productObjectList;
-        return readModelNumberInfoResponseDtoList;
+        return readProductResponseDtoList;
     }
 
     @Override
