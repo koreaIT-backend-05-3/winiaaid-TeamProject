@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/service/recall_request_complete.css">
+    <title>[위니아에이드] 김치냉장고 리콜</title>
+</head>
+<body>
+    <div id="wrap">
+        <header>header</header>
+        <div class="location">
+            <ul>
+                <li class="home">
+                    <a href="/main"><img src="/static/images/icon_home.png" alt="메인페이지"></a>
+                </li>
+                <li>
+                    서비스 신청/변경
+                </li>
+            </ul>
+        </div>
+        <main id="contents">
+            <h2 class="title">김치냉장고 리콜 신청</h2>
+            <div class="info">
+                    <img src="/static/images/request-complete.png" alt="리콜 신청 완료">
+                    <p>김치냉장고 리콜 신청이 접수되었습니다.</p>
+            </div>
+            <div class="service-reservation-detail">
+                <h3>서비스 예약정보</h3>
+                <table>
+                    <colgroup>
+                        <col style="width: 11%;">
+                        <col style="width: 39%;">
+                        <col style="width: 11%;">
+                        <col style="width: 39%;">
+                    </colgroup>
+                    <tr>
+                        <th>접수번호</th>
+                        <td class="recall-code">DFC220919034222</td>
+                        <th>서비스구분</th>
+                        <td class="service-type">김치냉장고 리콜 신청</td>
+                    </tr>
+                    <tr>
+                        <th>딤채모델명</th>
+                        <td class="model-name">DB-1105D(CW)</td>
+                        <th>접수일</th>
+                        <td class="request-date">2022-09-19 18:47</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="client-information">
+                <h3>신청자 정보</h3>
+                <table>
+                    <colgroup>
+                        <col style="width: 11%;">
+                        <col style="width: 39%;">
+                        <col style="width: 11%;">
+                        <col style="width: 39%;">
+                    </colgroup>
+                    <tr>
+                        <th>성명</th>
+                        <td colspan="3" class="user-name">홍길동</td>
+                    </tr>
+                    <tr>
+                        <th>휴대폰번호</th>
+                        <td class="main-phone-number">010-1111-1111</td>
+                        <th>연락가능번호</th>
+                        <td class="sub-phone-number">010-1111-1111</td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td colspan="3" class="address">경상남도 양산시</td>
+                    </tr>
+                </table>
+            </div>
+            <p class="inquiry-notice">비회원일 경우 진행사항 확인 시 <span>서비스 받으실 고객명</span>과 접수번호 <span>(DFC220919034222)</span>가 필요합니다.</p>
+            <button class="check-button">확인</button>
+        </main>
+        <footer>footer</footer>
+    </div>
+</body>
+</html>

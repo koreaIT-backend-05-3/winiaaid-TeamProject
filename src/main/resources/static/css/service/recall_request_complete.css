@@ -1,0 +1,158 @@
+/* location */
+.location{
+    width: 1400px;
+    margin: 0 auto 25px;
+    padding-top: 25px;
+}
+
+.location ul::after{
+    display: block;
+    clear: both;
+    content: '';
+}
+
+.location ul li{
+    float: left;
+    font-size: 13px;
+    color: #252525;
+    padding-left: 15px;
+    margin-left: 15px;
+    position: relative;
+}
+
+.location ul li.home{
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.location ul li.home a{
+    display: block;
+}
+
+.location ul li:not(li.home)::before{
+    width: 6px;
+    height: 10px;
+    content: '';
+    background: url(/static/images/arrow_location.png) no-repeat center;
+    position: absolute;
+    left: 0;
+    top: 4px;
+}
+
+/* contents */
+#contents{
+    width: 980px;
+    margin: 0 auto 100px;
+}
+
+.title{
+    font-size: 28px;
+    font-weight: 400;
+    color: #252525;
+    margin-bottom: 35px;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.info img{
+    width: 155px;
+    height: 155px;
+    margin-bottom: 35px;
+}
+
+.info p{
+    font-size: 26px;
+    font-weight: 400;
+    color: #252525;
+    margin-bottom: 35px;
+}
+
+#contents h3{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #252525;
+    margin-bottom: 15px;
+}
+
+table{
+    table-layout: fixed;
+    width: 100%;
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+}
+
+table tr:not(:last-of-type){
+    border-bottom: 1px solid #d9d9d9;
+}
+
+table th, table td{
+    text-align: left;
+    padding: 20px 10px 20px 20px;
+}
+
+table th{
+    color: #252525;
+    font-weight: 500;
+}
+
+table td{
+    color: #5b5a5a;
+    font-weight: 400;
+}
+
+.service-reservation-detail{
+    margin-bottom: 50px;
+}
+
+.service-reservation-detail .service-type{
+    color: #0a71cc;
+}
+
+.client-information{
+    margin-bottom: 20px;
+}
+
+.inquiry-notice{
+    font-size: 13px;
+    font-weight: 400;
+    color: #5b5a5a;
+    padding-left: 10px;
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.inquiry-notice::before{
+    width: 4px;
+    height: 4px;
+    content: '';
+    border-radius: 50%;
+    background-color: #0a71cc;
+    position: absolute;
+    left: 0;
+    top: 7px;
+}
+
+.inquiry-notice span{
+    font-size: 13px;
+    font-weight: 400;
+    color: #0a71cc;
+}
+
+.check-button{
+    display: block;
+    margin: 0 auto;
+    width: 122px;
+    height: 42px;
+    line-height: 40px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    border: none;
+    background-color: #0a71cc;
+}

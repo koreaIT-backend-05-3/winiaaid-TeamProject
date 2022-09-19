@@ -1,0 +1,448 @@
+/* location */
+.location{
+    width: 1400px;
+    margin: 0 auto 25px;
+    padding-top: 25px;
+}
+
+.location ul::after{
+    display: block;
+    clear: both;
+    content: '';
+}
+
+.location ul li{
+    float: left;
+    font-size: 13px;
+    color: #252525;
+    padding-left: 15px;
+    margin-left: 15px;
+    position: relative;
+}
+
+.location ul li.home{
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.location ul li.home a{
+    display: block;
+}
+
+.location ul li:not(li.home)::before{
+    width: 6px;
+    height: 10px;
+    content: '';
+    background: url(/static/images/arrow_location.png) no-repeat center;
+    position: absolute;
+    left: 0;
+    top: 4px;
+}
+
+/* contents */
+#contents{
+    width: 980px;
+    margin: 0 auto 100px;
+}
+
+.title{
+    font-size: 28px;
+    font-weight: 400;
+    color: #252525;
+    margin-bottom: 35px;
+}
+
+.info-text{
+    position: relative;
+    padding: 30px;
+    margin-bottom: 50px;
+}
+
+.info-text p{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: #252525;
+    margin-bottom: 20px;
+}
+
+.info-text ul li{
+    font-size: 13px;
+    font-weight: 400;
+    color: #5b5a5a;
+    position: relative;
+    padding-left: 10px;
+}
+
+.info-text ul li::before{
+    width: 4px;
+    height: 4px;
+    content: '';
+    border-radius: 50%;
+    background-color: #0a71cc;
+    position: absolute;
+    left: 0;
+    top: 7px;
+}
+
+span{
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: #7e7e7e;
+    padding-left: 15px;
+    position: relative;
+}
+
+span::before{
+    content: '※';
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.inquiry-button{
+    position: absolute;
+    top: 30px;
+    right: 30px;
+}
+
+.inquiry-button a{
+    display: block;
+    width: 211px;
+    height: 42px;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    background-color: #0a71cc;
+}
+
+/* recall-form */
+.recall-form h3{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #252525;
+    margin-bottom: 15px;
+}
+
+.recall-form .icon-required{
+    font-size: 13px;
+    font-weight: 400;
+    color: #252525;
+    text-align: left;
+    background: url(/static/images/icon_required.png) no-repeat 11px 50%;
+}
+
+.recall-form .required{
+    padding-left: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.recall-form table{
+    table-layout: fixed;
+    width: 100%;
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+}
+
+.recall-form table th, .recall-form table td{
+    padding: 10px 30px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 400;
+    color: #252525;
+}
+
+.recall-form table tr:not(:last-of-type){
+    border-bottom: 1px solid #d9d9d9;;
+}
+
+.recall-form input[type="text"]{
+    height: 31px;
+    padding: 5px;
+    background-color: #fcfcfc;
+    border: 1px solid #e7e7e7;
+}
+
+.recall-form .select-model{
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.recall-form .search-model-inputs{
+    visibility: collapse;
+}
+
+.recall-form .select-model .model-result{
+    margin-bottom: 10px;
+}
+
+.recall-form .button-white{
+    height: 31px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 29px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #7e7e7e;
+}
+
+.recall-form .button-white:hover{
+    text-decoration: underline;
+}
+
+.recall-form .search-model{
+    width: 83px;
+}
+
+.recall-form .check-model{
+    width: 108px;
+}
+
+.recall-form .write-model{
+    width: 258px;
+}
+
+.recall-form .search-button{
+    width: 73px;
+    margin-left: 1.5px;
+}
+
+.result{
+    max-height: 105px;
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    overflow-y: scroll;
+}
+
+.result ul{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.result ul li{
+    width: 33.3333%;
+    height: 30px;
+    line-height: 28px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #5b5a5a;
+    cursor: pointer;
+    position: relative;
+}
+
+.result ul li:not(:nth-child(3n+1))::before{
+    width: 1px;
+    height: 15px;
+    content: '';
+    background-color: #ccc;
+    position: absolute;
+    left: -10px;
+    top: 7px;
+}
+
+.recall-form .client-information{
+    position: relative;
+}
+
+.client-information{
+    margin-bottom: 50px;
+}
+
+.client-information .user-name-input{
+    width: 270px;
+}
+
+.client-information .phone-number.number1{
+    width: 132px;
+    height: 31px;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: left;
+    color: #7e7e7e;
+    background-color: #fcfcfc;
+    border: 1px solid #e7e7e7;
+}
+
+.client-information .phone-number{
+    width: 126px;
+    text-align: center;
+}
+
+.client-information b{
+    display: inline-block;
+    height: 31px;
+    font-size: 14px;
+    line-height: 29px;
+    font-weight: 400;
+}
+
+.client-information .main-phone-number span{
+    margin-top: 5px;
+}
+
+.client-information .postal-code{
+    display: block;
+    width: 72px;
+    float: left;
+}
+
+.client-information .address-main{
+    display: block;
+    width: 513px;
+    margin-left: 5px;
+    float: left;
+}
+
+.client-information .search-address-button{
+    display: block;
+    width: 73px;
+    margin-left: 5px;
+    float: left;
+}
+
+.client-information .address td>div::after{
+    display: block;
+    clear: both;
+    content: '';
+}
+
+.client-information .address-detail{
+    margin-top: 5px;
+    width: 100%;
+}
+
+/* agreement */
+.agreement h3{
+    font-size: 16px;
+    padding-left: 15px;
+    position: relative
+}
+
+.agreement h3::before{
+    width: 11px;
+    height: 9px;
+    content: '';
+    background: url(/static/images/icon_required.png) no-repeat center;
+    position: absolute;
+    left: 0;
+    top: 5px;
+}
+
+.agreement .text-area{
+    height: 160px;
+    overflow-y: scroll;
+    border: 1px solid #d9d9d9;
+    padding: 5px 10px 0 10px;
+    margin-bottom: 10px;
+}
+
+.agreement .text-area p{
+    font-size: 12px;
+    font-weight: 400;
+    color: #7d7d7d;
+}
+
+.agreement .check-agree{
+    text-align: right;
+    
+}
+
+.agreement .check-agree input{
+    vertical-align: middle;
+    margin-top: -2px;
+    cursor: pointer;
+}
+
+.agreement .check-agree label{
+    font-size: 13px;
+    font-weight: 400;
+    color: #5b5a5a;
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+.agree-protection{
+    margin-bottom: 15px;
+}
+
+.agree-protection .text-area p{
+    margin-bottom: 25px;
+}
+
+.agree-privacy-handling{
+    margin-bottom: 20px;
+}
+
+.agree-privacy-handling table{
+    margin-bottom: 25px;
+}
+
+.agree-privacy-handling table th, .agree-privacy-handling table td{
+    padding: 3px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    color: #7d7d7d;
+    border: 1px solid #d9d9d9;
+}
+
+/* counsel-notice */
+.counsel-notice{
+    margin-bottom: 50px;
+}
+
+.counsel-notice dt{
+    font-size: 15px;
+    font-weight: 400;
+    color: #7d7d7d;
+    margin-bottom: 20px;
+}
+
+.counsel-notice dd{
+    font-size: 13px;
+    font-weight: 400;
+    color: #5b5a5a;
+    padding-left: 10px;
+    position: relative;
+}
+
+.counsel-notice dd::before{
+    width: 4px;
+    height: 4px;
+    content: '';
+    border-radius: 50%;
+    background-color: #0a71cc;
+    position: absolute;
+    left: 0;
+    top: 7px;
+}
+
+.buttons{
+    text-align: center;
+}
+
+.buttons button{
+    width: 122px;
+    height: 42px;
+    line-height: 40px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    border: none;
+}
+
+.buttons button.submit-button{
+    background-color: #0a71cc;
+}
+
+.buttons button.cancel-button{
+    background-color: #5b5a5a;
+}

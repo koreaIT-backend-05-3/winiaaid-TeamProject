@@ -1,0 +1,202 @@
+/* location */
+.location{
+    width: 1400px;
+    margin: 0 auto 25px;
+    padding-top: 25px;
+}
+
+.location ul::after{
+    display: block;
+    clear: both;
+    content: '';
+}
+
+.location ul li{
+    float: left;
+    font-size: 13px;
+    color: #252525;
+    padding-left: 15px;
+    margin-left: 15px;
+    position: relative;
+}
+
+.location ul li.home{
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.location ul li.home a{
+    display: block;
+}
+
+.location ul li:not(li.home)::before{
+    width: 6px;
+    height: 10px;
+    content: '';
+    background: url(/static/images/arrow_location.png) no-repeat center;
+    position: absolute;
+    left: 0;
+    top: 4px;
+}
+
+/* contents */
+#contents{
+    width: 980px;
+    margin: 0 auto 100px;
+}
+
+.title{
+    font-size: 28px;
+    font-weight: 400;
+    color: #252525;
+    margin-bottom: 35px;
+}
+
+.info-text{
+    padding: 30px;
+    margin-bottom: 50px;
+}
+
+.info-text p{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: #252525;
+    margin-bottom: 20px;
+}
+
+
+/* recall-history */
+.recall-history{
+    margin-bottom: 60px;
+}
+
+.recall-history h3{
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.recall-history h3 span.remaining-number{
+    font-weight: 500;
+    color: #0a71cc;
+}
+
+.recall-history table{
+    width: 100%;
+    table-layout: fixed;
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+    margin-bottom: 20px;
+}
+
+.recall-history table th{
+    padding: 18px 0;
+    border-bottom: 1px solid #d9d9d9;
+    color: #252525;
+    font-weight: 400;
+    text-align: center;
+}
+
+.recall-history table td{
+    padding: 28px 0;
+    font-weight: 400;
+    color: #5b5a5a;
+    text-align: center;
+}
+
+.recall-history .data-none td{
+    padding: 98px 0;
+    font-size: 16px;
+}
+
+.recall-history .recall-code{
+    text-decoration: underline;
+}
+
+.recall-history .service-type{
+    color: #0a71cc;
+}
+
+.recall-history .model-name{
+    text-align: left;
+}
+
+.recall-history .progress-status{
+    color: #0a71cc;
+}
+
+.recall-history .cancel{
+    width: 78px;
+    height: 31px;
+    border: 1px solid #e20000;
+    font-weight: 400;
+    color: #e20000;
+    line-height: 29px;
+    background-color: transparent;
+}
+
+.inquiry-notice{
+    font-size: 13px;
+    font-weight: 400;
+    color: #5b5a5a;
+    padding-left: 10px;
+    position: relative;
+}
+
+.inquiry-notice::before{
+    width: 4px;
+    height: 4px;
+    content: '';
+    border-radius: 50%;
+    background-color: #0a71cc;
+    position: absolute;
+    left: 0;
+    top: 7px;
+}
+
+.inquiry-notice span{
+    font-size: 13px;
+    font-weight: 400;
+    color: #0a71cc;
+}
+
+/* paging */
+.paging{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+.paging ul::after{
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.paging ul li{
+    float: left;
+    margin-right: 5px;
+}
+
+.paging ul li:last-child{
+    margin-right: 0;
+}
+
+.paging ul li button{
+    width: 36px;
+    height: 36px;
+    border: 1px solid #d9d9d9;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 34px;
+    color: #5b5a5a;
+    text-align: center;
+    background-color: transparent;
+}
+
+.paging ul li.on button{
+    background-color: #0a71cc;
+    border: 1px solid #0a71cc;
+    color: #fff;
+}

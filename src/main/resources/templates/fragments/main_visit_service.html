@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <main>
+        <div id="container">
+            <div class="main-service">
+                <div class="location-div">
+    
+                </div>
+                <div class="title-div">
+                    <h1 class="title-h1">방문서비스 신청</h1>
+                </div>
+                <div class="menu-info">
+                    <span>원하시는 날짜와 시간에 맞추어 전문 엔지니어가 방문 서비스해 드리고 있으며,</span>
+                    <span>방문 30분 전에 담당엔지니어가 고객님께 전화 드려 방문 예정임을 알려드립니다.</span>
+                    <div class="guest-user-div">
+                        <ul>
+                            <li><a href="/auth/signin">로그인</a>을 하시면 간편 예약 서비스 및 홈페이지에서 이용한 서비스 이력을 확인하실 수 있습니다.</li>
+                            <li><span>에어컨 이전설치</span>(분리 또는 재설치)와 <span>냉장고 이전설치는 콜센터 대표번호</span>로 접수하여 주시기 바랍니다.</span></li>
+                            <li><span>세탁기 이전설치</span> 서비스 제공되지 않습니다.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="etc-group">
+                    <img src="/image/images/frequently_asked_question_service.jpg" alt="자주하는 질문">
+                    <img src="/image/images/self_examination.jpg" alt="자가진단">
+                    <img src="/image/images/fare-Information.jpg" alt="서비스 요금안내">
+                </div>
+                <div>
+                    <th:block th:replace="/fragments/company_show"></th:block>
+                    <div class="main-request-div">
+                        <ul class="request-ul">
+                            <li class="step-group">
+                                <div class="step-title-div">
+                                    <div class="step-div">
+                                        <span>STEP</span>
+                                        <span>01</span>
+                                    </div>
+                                    <h3>제품/증상을 선택해주세요.</h3>
+                                </div>
+                                <div class="service-request-div detail-content-div visible">
+                                    <div class="step-lock visible"></div>
+                                    <th:block th:replace="/fragments/product_show"></th:block>
+                                    <div class="write-div">
+                                        <div class="comment-span-div">
+                                            <span class="required-menu">필수 입력 사항</span>
+                                        </div>
+                                        <table class="request-service-table">
+                                            <tr class="product-info-div">
+                                                <th class="required-menu">선택제품</th>
+                                                <td class="product-name-td">
+                                                    <ul>
+                                                        <li class="product-name-li"></li>
+                                                    </ul>
+                                                    <div class="check-last-request-list-div">
+                                                        <button class="check-last-request-list-button" type="button">&gt; 이전접수 목록 확인</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required-menu">제품모델명</th>
+                                                <td>
+                                                    <span class="model-result-span"></span>
+                                                    <div class="model-check-button-list">
+                                                        <button type="button">모델명 검색</button>
+                                                        <button type="button">모델명 모름</button>
+                                                        <button type="button">모델명 확인벙법</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="model-search-tr visible">
+                                                <th></th>
+                                                <td>
+                                                    <div class="model-search-div">
+                                                        <input type="text" class="model-search-input">
+                                                        <button type="button" class="model-search-button">검색</button>
+                                                    </div>
+                                                    <p class="important-p search-notice-p">모델명은 최소 2자리 이상 입력해 주세요. 예) BC, DHE, RCS, WSP, K175, 175</p>
+                                                    <div class="model-result visible">
+                                                        <ul></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required-menu">접수구분</th>
+                                                <td class="request-type-td">
+                                                    <input type="radio" id="request-type" checked>
+                                                    <label for="request-type">A/S</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required-menu">고장증상 선택</th>
+                                                <td class="trouble-symptom-td">
+                                                    <select name="" id="">
+                                                        <option value="">선택</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr class="description-tr">
+                                                <th class="required-menu">접수내용 1</th>
+                                                <td>
+                                                    <input type="text" class="description-input">
+                                                    <div class="description-div">
+                                                        <span class="allowed-byte"><span class="allowed-byte-display"></span>/40bytes</span>
+                                                        <p class="important-p">최대 40Bytes(한글 20자, 영문 40자)까지 가능</p>
+                                                        <p class="important-p"><span class="emphasis-span">에어컨 이전설치</span>(분리 또는 재설치)와<span class="emphasis-span">냉장고 이전설치</span>는 <span class="emphasis-span">콜센터 대표번호</span>로 접수하여 주시기 바랍니다.</p>
+                                                        <p class="important-p"><span class="emphasis-span">세탁기 이전설치 </span>서비스는 제공되지 않습니다.</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step-group">
+                                <div class="step-title-div">
+                                    <div class="step-div">
+                                        <span>STEP</span>
+                                        <span>02</span>
+                                    </div>
+                                    <h3>서비스 신청자 정보를 입력해주세요.</h3>
+                                </div>
+                                <div class="user-info-content detail-content-div visible">
+                                    <div class="step-lock visible"></div>
+                                    <div class="comment-span-div">
+                                        <span class="required-menu">필수 입력 사항</span>
+                                    </div>
+                                    <table class="user-info-table">
+                                        <tr>
+                                            <th class="required-menu">성명</th>
+                                            <td colspan="2"><input type="text" class="name-input"></td>
+                                        </tr>
+                                        <tr class="phone-number-tr">
+                                            <th class="required-menu">휴대폰번호</th>
+                                            <td colspan="2">
+                                                <div class="phone-box">
+                                                    <select name="" id="">
+                                                        <option value="">선택</option>
+                                                        <option value="010">010</option>
+                                                        <option value="011">011</option>
+                                                        <option value="016">016</option>
+                                                        <option value="017">017</option>
+                                                        <option value="019">019</option>
+                                                    </select>
+                                                    <span>-</span>
+                                                    <input class="middle-number" type="tel" maxlength="4">
+                                                    <span>-</span>
+                                                    <input class="last-number" type="tel" maxlength="4">
+                                                </div>
+                                                <p class="important-p phone-notice-p">통화가 되지 않을 경우 예약이 취소될 수 있으니 전화번호를 정확하게 입력해주세요.</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>연락가능번호</th>
+                                            <td colspan="2">
+                                                <div class="phone-box sub-phone-box">
+                                                    <select name="" id="">
+                                                        <option value="">선택</option>
+                                                        <option value="010">010</option>
+                                                        <option value="011">011</option>
+                                                        <option value="016">016</option>
+                                                        <option value="017">017</option>
+                                                        <option value="019">019</option>
+                                                        <option value="070">070</option>
+                                                        <option value="02">02</option>
+                                                        <option value="031">031</option>
+                                                        <option value="032">032</option>
+                                                        <option value="033">033</option>
+                                                        <option value="041">041</option>
+                                                    </select>
+                                                    <span>-</span>
+                                                    <input class="middle-number" type="tel" maxlength="4">
+                                                    <span>-</span>
+                                                    <input class="last-number" type="tel" maxlength="4">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>이메일</th>
+                                            <td colspan="2">
+                                                <div class="email-box">
+                                                    <input class="email-1" type="text">
+                                                    <span>@</span>
+                                                    <input class="email-2" type="text">
+                                                    <select name="" id="">
+                                                        <option value="custom">직접입력</option>
+                                                        <option value="naver.com">naver.com</option>
+                                                        <option value="daum.com">daum.com</option>
+                                                        <option value="nate.com">nate.com</option>
+                                                        <option value="gmail.com">gmail.com</option>
+                                                        <option value="yahoo.com">yahoo.com</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="required-menu">주소</th>
+                                            <td class="address-td">
+                                                <div>
+                                                    <input type="text" class="postal-code" readonly>
+                                                    <input type="text" class="main-address" readonly>
+                                                    <button type="button" class="search-address-button">우편번호</button>
+                                                </div>
+                                                <input type="text" class="detail-address">
+                                            </td>
+                                            <td class="address-button">
+                                                <div class="button-area">
+                                                    <div>
+                                                        <input type="radio" id="default-address" class="default-address-input" name="address-radio">
+                                                        <label class="default-address" for="default-address">기본 주소</label>
+                                                    </div>
+                                                    <div>
+                                                        <input type="radio" id="past-address" class="past-address-input" name="address-radio">
+                                                        <label class="past-address" for="past-address">이전접수 주소록</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="user-agree-div">
+                                        <div>
+                                            <h1 class="required-menu">개인정보의 수집 및 이용동의</h1>
+                                            <div class="consent-to-use-div">
+                                                <p>1. 개인정보 수집에 대한 동의</p>
+                                                <p>위니아에이드는 적법하고 공정한 수단에 의하여 판매제품과 관련한 제반서비스 계약의 성립 및 이행제공을 위하여 필요한 최소한의 개인정보를 수집합니다.</p>
+                                                <p>위니아에이드는 개인정보의 수집과 이용, 개인정보의 제공, 민감정보의 처리, 고유식별번호 처리 등에 대하여 동의를 받습니다.</p>
+                                                <p>위니아에이드는 귀하께서 위니아에이드의 개인정보 취급방침 또는 이용 약관의 내용의 내용을 고지하고 "동의"버튼 또는 "취소"버튼을 클릭할 수 있는 절차를 마련하여, "동의"버튼을 클릭하면 개인정보 수집에 대해 동의한 것으로 봅니다.</p>
+                                                <br>
+                                                <p>2. 개인정보의 수집목적 및 이용목적</p>
+                                                <p>위니아에이드는 다음과 같은 목적을 위하여 개인정보를 수집하고 있습니다. 위니아에이드 사이트의 각종서비스를 이용하는데 있어 원활한 서비스신청 및 회원님께 편리하고 유익한 정보를 제공하기 위한 최소한의 정보를 필수 사항으로 수집합니다. 또한 고객을 위한 쇼핑몰 상품, 기타 신상품 또는 이벤트의 정보안내 서비스와 마케팅활동 및 업무수행을 위한 텔레마케팅 서비스 또는 온라인 마케팅서비스, 대형할인점, 백화점 등을 포함한 업무제휴업체, 가맹점, 또는 위니아에이드의 업무를 대행하는 업체의 마케팅활동 및 업무수행을 위한 개인정보 제공을 수집할 수 있습니다.</p>
+                                                <p>단, 이용자의 기본적 인권 침해의 우려가 있는 민감한 개인정보(인종 및 민족, 사상 및 신조, 출신지 및 본적지, 정치적 성향 및 범죄기록, 건강상태 및 성생활 등)는 수집하지 않습니다.</p>
+                                                <p>회원님이 제공하신 모든 정보는 상기 목적에 필요한 용도 이외로는 사용되지 않으며 수집 정보의 범위나 사용 목적, 용도가 변경될 시에는 반드시 사전 동의를 구할 것입니다.</p>
+                                                <br>
+                                                <p>3. 개인 정보 수집 항목 및 보유, 이용기간</p>
+                                                <p>위니아에이드 사이트의 서비스 제공을 위해 제공받는 정보는 성명, 주소, 전화번호, 휴대전화번호, 비밀번호, e-mail 주소, 제품정보, 기타 회사가 최소한의 정보로 필요하다고 인정하는 사항 입니다.</p>
+                                                <p>귀하가 위니아에이드에서 제공하는 서비스를 이용하는 동안 위니아에이드는 귀하의 개인정보를 계속적으로 보유하며 서비스 제공 등을 위해 이용합니다.</p>
+                                                <p>귀하의 개인정보는 개인정보의 수집목적 또는 제공받은 목적이 달성되면 파기됩니다.</p>
+                                                <p>상기 조항에도 불구하고 완료되지 않은 업무수행을 위해서나, 관계 법령의 규정에 따라 보존할 필요성이 있을 경우에는 귀하의 개인정보를 계속 관리할 수 있습니다.</p>
+                                                <p>이와 다른 목적으로 귀하의 개인정보를 계속 보유하여야 할 필요가 있을 경우에는 귀하의 동의를 받겠습니다.</p>
+                                                <p>위니아에이드는 개인정보 보유, 이용기간 종료 시 귀중한 개인정보를 안전하게 처리하며, 유출을 방지하기 위하여 다음과 같은 방법을 통하여 개인정보를 파기합니다.</p>
+                                                <p>- 종이에 출력된 개인정보는 분쇄기로 분쇄하거나 소각을 통하여 파기합니다.</p>
+                                                <p>- 전자적 파일 형태로 저장된 개인정보는 재생할 수 없는 기술적 방법을 사용하여 삭제합니다.</p>
+                                            </div>
+                                            <div class="input-checkbox">
+                                                <input type="checkbox" class="agree-consent-to-use-box" id="agree-consent-to-use-box">
+                                                <label for="agree-consent-to-use-box">개인정보 수집 및 이용에 동의합니다.</label>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h1 class="required-menu">개인정보의 위탁처리</h1>
+                                            <div class="consignment-processing-div">
+                                                <p>위니아에이드는 개인정보의 처리와 관련하여 아래와 같이 업무를 위탁하고 있으며, 관계 법령에 따라 위탁계약 시 개인정보가 안전하게 관리될 수 있도록 필요한 사항을 규정하고 있습니다.</p>
+                                                <p>만일, 수탁업체가 변경될 경우, 위니아에이드는 변경된 수탁업체 명을 홈페이지의 '공지'란 팝업화면 내지 개인정보취급방침에 포함하여 공개하도록 합니다.</p>
+                                                <table>
+                                                    <tr>
+                                                        <th>위탁업무</th>
+                                                        <th>수탁자</th>
+                                                        <th>수탁 업체 업종</th>
+                                                        <th>위탁하는 업무의 내용</th>
+                                                        <th>공유정보</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="4">전산시스템운영</td>
+                                                        <td>㈜엠피알디</td>
+                                                        <td>IT 업체</td>
+                                                        <td>시스템운영, 개발, 유지보수 등</td>
+                                                        <td>회원정보, 게시물정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>㈜위니아</td>
+                                                        <td>생산</td>
+                                                        <td>시스템운영, 개발, 유지보수 등</td>
+                                                        <td>회원정보, 게시물정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>㈜위니아전자</td>
+                                                        <td>생산</td>
+                                                        <td>시스템운영, 개발, 유지보수 등</td>
+                                                        <td>회원정보, 게시물정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>㈜대유홀딩스</td>
+                                                        <td>IT 업체</td>
+                                                        <td>시스템운영, 개발, 유지보수 등</td>
+                                                        <td>회원정보, 게시물정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>실명확인</td>
+                                                        <td>나이스평가정부㈜</td>
+                                                        <td>신용조회</td>
+                                                        <td>본인인증</td>
+                                                        <td>회원정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="5">상품배송</td>
+                                                        <td>CJ대한통운㈜</td>
+                                                        <td>배송</td>
+                                                        <td>상품 배송 업무, 배송위치 및 도착정보 등</td>
+                                                        <td>회원정보, 주문정보, 배송정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>㈜한진</td>
+                                                        <td>배송</td>
+                                                        <td>상품 배송 업무, 배송위치 및 도착정보 등</td>
+                                                        <td>회원정보, 주문정보, 배송정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>로젠주식회사㈜</td>
+                                                        <td>배송</td>
+                                                        <td>상품 배송 업무, 배송위치 및 도착정보 등</td>
+                                                        <td>회원정보, 주문정보, 배송정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>롯데글로벌로지스㈜</td>
+                                                        <td>배송</td>
+                                                        <td>상품 배송 업무, 배송위치 및 도착정보 등</td>
+                                                        <td>회원정보, 주문정보, 배송정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>아스텍</td>
+                                                        <td>배송</td>
+                                                        <td>상품 배송 업무, 배송위치 및 도착정보 등</td>
+                                                        <td>회원정보, 주문정보, 배송정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>김치</td>
+                                                        <td>담채식품</td>
+                                                        <td>생산</td>
+                                                        <td>주문상품 생산</td>
+                                                        <td>회원정보, 주문정보, 배송정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2">가전</td>
+                                                        <td>㈜위니아</td>
+                                                        <td>생산</td>
+                                                        <td>김치냉장고, 에어컨 등 제조</td>
+                                                        <td>회원정보, 주문정보, 배송정보</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>㈜위니아전자</td>
+                                                        <td>생산</td>
+                                                        <td>김치냉장고, 에어컨 등 제조</td>
+                                                        <td>회원정보, 주문정보, 배송정보</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="input-checkbox">
+                                                <input type="checkbox" class="agree-consignment-processing-box" id="agree-consignment-processing-box">
+                                                <label for="agree-consignment-processing-box">개인정보 수집 및 이용에 동의합니다.</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step-group">
+                                <div class="step-title-div">
+                                    <div class="step-div">
+                                        <span>STEP</span>
+                                        <span>03</span>
+                                    </div>
+                                    <h3>날짜와 시간을 선택해주세요.</h3>
+                                </div>
+                                <div class="reservation-div detail-content-div visible">
+                                    <div class="step-lock visible"></div>
+                                    <div class="main-h2-div">
+                                        <div class="select-day-h2-div"><h2>예약날짜 선택</h2></div>
+                                        <div class="select-time-h2-div"><h2>예약시간 선택</h2></div>
+                                    </div>
+                                    <div>
+                                        <div class="schedule-div">
+                                            <div class="calendar-div">
+                                                <div class="select-month-div">
+                                                    <button type="button" class="pre-month-button month-button">◃</button>
+                                                    <div class="now-date"></div>
+                                                    <button type="button" class="next-month-button month-button">▹</button>
+                                                </div>
+                                                <table class="canlendar-table">
+                                                    <thead class="calendar-head">
+                                                        <tr>
+                                                            <th>일</th>
+                                                            <th>월</th>
+                                                            <th>화</th>
+                                                            <th>수</th>
+                                                            <th>목</th>
+                                                            <th>금</th>
+                                                            <th>토</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="calendar-body"></tbody>
+                                                </table>
+                                                <div class="show-date-div">
+                                                    <span>예약가능일</span>
+                                                    <span class="show-date-span"></span>
+                                                </div>
+                                            </div>
+                                            <div class="reservation-time-div">
+                                                <div class="main-time-content">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="schedule-explaination-div">
+                                            <div class="white-display-div"></div>
+                                            <span>예약가능일/시간</span>
+                                            <div class="blue-display-div"></div>
+                                            <span>선택일/시간</span>
+                                        </div>
+                                    </div>
+                                    <ul class="schedule-explaination-dtl-ul">
+                                        <li>
+                                            <span class="">엔지니어 이름을 클릭하시면 사진을 보실 수 있습니다.</span>
+                                        </li>
+                                        <li>
+                                            <span class="emphasis-span">무상 보증기간이 경과되었거나, 보증기간 이내라도 고객 부주의로 인한 고장은 비용이 발생됩니다.</span>
+                                            <br>
+                                            <span class="emphasis-span">출장점검비는 제품수리 여부와 상관없이 18,000원이 적용됩니다.</span>
+                                            <br>
+                                            <span class="emphasis-span">단, 평일 18시 이후, 토/일/공휴일 방문 시에는 출장비 22,000원이 적용됩니다.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="step-group">
+                                <div class="step-title-div">
+                                    <div class="step-div">
+                                        <span>STEP</span>
+                                        <span>04</span>
+                                    </div>
+                                    <h3>예약정보확인/완료.</h3>
+                                </div>
+                                <div class="main-confirm-div visible">
+                                    <div class="confirm-info">
+                                        <div class="detail-content">
+                                            <h4>제품</h4>
+                                            <div class="text-info">
+                                                <dl>
+                                                    <dt>선택제품/모델명</dt>
+                                                    <dd class="product-info">벽걸이드럼세탁기/ 모름</dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>고장증상</dt>
+                                                    <dd class="trouble-symptom-info">고객요청_이전설치</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div class="detail-content">
+                                            <h4>서비스 신청자 정보</h4>
+                                            <div class="text-info applicant">
+                                                <dl class="flex-row">
+                                                    <div>
+                                                        <dt>성명</dt>
+                                                        <dd class="name-info"></dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt>휴대폰번호</dt>
+                                                        <dd class="main-phone-number-info"></dd>
+                                                    </div>
+                                                </dl>
+                                                <dl class="flex-row">
+                                                    <div>
+                                                        <dt>이메일</dt>
+                                                        <dd class="email-info"></dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt>연락가능번호</dt>
+                                                        <dd class="sub-phone-number-info"></dd>
+                                                    </div>
+                                                </dl>
+                                                <dl class="flex-column">
+                                                    <dt>주소</dt>
+                                                    <dd class="address-info"></dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div class="detail-content">
+                                            <h4>예약일시</h4>
+                                            <div class="text-info">
+                                                <dl>
+                                                    <dt>예약일시</dt>
+                                                    <dd class="reservation-info">2022.09.22 15:00</dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>엔지니어</dt>
+                                                    <dd class="reservation-engineer-info"></dd>
+                                                </dl>
+                                                <div class="modify-button">
+                                                    <button type="button">예약정보변경</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="confirm-explaination">
+                                        <li>
+                                            <span class="emphasis-span">출장점검비는 제품수리 여부와 상관없이 18,000원이 적용됩니다.</span>
+                                            <br>
+                                            <span class="emphasis-span">단, 평일 18시 이후, 토/일/공휴일 방문 시에는 출장비 22,000원이 적용됩니다.</span>
+                                        </li>
+                                    </ul>
+                                    <div class="request-and-cancel-button-div">
+                                        <button class="request-button" type="button">예약 신청</button>
+                                        <button class="cancel-button" type="button">예약 취소</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</html>
