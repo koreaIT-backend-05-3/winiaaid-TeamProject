@@ -45,17 +45,17 @@
                                     <th>질문유형</th>
                                     <td>
                                         <select class="solution-type">
-                                            <option value="0">질문유형선택</option>
-                                            <option value="1">기능</option>
-                                            <option value="2">관리방법</option>
-                                            <option value="3">내용물</option>
-                                            <option value="4">사용법</option>
-                                            <option value="5">성능</option>
-                                            <option value="6">소음</option>
-                                            <option value="7">외관/구조</option>
-                                            <option value="8">증상</option>
-                                            <option value="9">오류코드</option>
-                                            <option value="10">기타</option>
+                                            <option value="1">전체</option>
+                                            <option value="2">기능</option>
+                                            <option value="3">관리방법</option>
+                                            <option value="4">내용물</option>
+                                            <option value="5">사용법</option>
+                                            <option value="6">성능</option>
+                                            <option value="7">소음</option>
+                                            <option value="8">외관/구조</option>
+                                            <option value="9">증상</option>
+                                            <option value="10">오류코드</option>
+                                            <option value="11">기타</option>
                                         </select>
                                         <p class="explaination-p">※ 선택하신 제품에 대한 질문유형을 선택해 주세요.</p>
                                     </td>
@@ -81,83 +81,20 @@
                 <div class="solution-result">
                     <div class="search-result-header">
                         <div class="search-amount">
-                            <span>전체 <span class="search-count-span">15</span>건</span>
+                            <span>전체 <span class="search-count-span">0</span>건</span>
                         </div>
                         <p class="explaination-p">최근 3개월 동안 가장 많이 본 순서대로 컨텐츠가 보여집니다.</p>
                         <button class="latest-sort-button" type="button">등록일순</button>
                     </div>
                     <ul class="search-result">
-                        <li class="list-unit">
-                            <div class="faq-result">
-                                <p class="title">에어컨에서 찬바람이 나오지 않습니다</p>
-                                <dl>
-                                    <dt>제품</dt>
-                                    <dd>
-                                        <ul>
-                                            <li>에어컨 > 벽걸이에어컨</li>
-                                        </ul>
-                                    </dd>
-                                </dl>
-                                <dl class="faq-type">
-                                    <dt>유형</dt>
-                                    <dd>성능</dd>
-                                </dl>
-                            </div>
-                            <div class="detail-service">
-                                <button class="send-message" type="button">문자발송</button>
-                                <p class="post-date">2022.05.29</p>
-                            </div>
-                        </li>
-                        <li class="list-unit">
-                            <div class="faq-result">
-                                <p class="title">에어컨에서 찬바람이 나오지 않습니다</p>
-                                <dl>
-                                    <dt>제품</dt>
-                                    <dd>
-                                        <ul>
-                                            <li>에어컨 > 벽걸이에어컨</li>
-                                        </ul>
-                                    </dd>
-                                </dl>
-                                <dl class="faq-type">
-                                    <dt>유형</dt>
-                                    <dd>성능</dd>
-                                </dl>
-                            </div>
-                            <div class="detail-service">
-                                <button class="send-message" type="button">문자발송</button>
-                                <p class="post-date">2022.05.29</p>
-                            </div>
-                        </li>
-                        <li class="list-unit">
-                            <div class="faq-result">
-                                <p class="title">에어컨에서 찬바람이 나오지 않습니다</p>
-                                <dl>
-                                    <dt>제품</dt>
-                                    <dd>
-                                        <ul>
-                                            <li class="product-name-result">에어컨 > 벽걸이에어컨</li>
-                                        </ul>
-                                    </dd>
-                                </dl>
-                                <dl class="faq-type">
-                                    <dt>유형</dt>
-                                    <dd>성능</dd>
-                                </dl>
-                            </div>
-                            <div class="detail-service">
-                                <button class="send-message" type="button">문자발송</button>
-                                <p class="post-date">2022.05.29</p>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </main>
     <th:block th:replace="/fragments/footer"></th:block>
+    <script src="/static/js/solution/faq_list.js"></script>
     <script src="/static/js/fragments/company_show.js"></script>
     <script src="/static/js/fragments/product_show.js"></script>
-    <script src="/static/js/solution/faq_list.js"></script>
 </body>
 </html>

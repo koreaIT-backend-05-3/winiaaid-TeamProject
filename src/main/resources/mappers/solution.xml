@@ -6,6 +6,8 @@
 <mapper namespace="com.project.winiaaid.domain.solution.SolutionRepository">
     <select id="findSolutionListByProductCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.solution.Solution">
         SELECT
+            spt.views,
+
             st.solution_title,
             st.solution_content,
             st.create_date,
@@ -14,15 +16,72 @@
 
             wpd.product_detail_name,
 
-            wpm.product_category_name
+            wpm.product_category_name,
+
+            tct.total_count
         FROM
             solution_product_table spt
             LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
             LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
             LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
             LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+            LEFT OUTER JOIN (SELECT
+                                COUNT(*) AS total_count
+                            FROM
+                                solution_table st
+                                LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
+                            WHERE
+                                spt.product_code = #{product_code}
+                                AND st.solution_board_type = #{solution_board_type}
+                                <if test="solution_type_code != 0">
+                                    AND st.solution_type_code = #{solution_type_code}
+                                </if>
+                                ) tct ON (1 = 1)
         WHERE
             spt.product_code = #{product_code}
-            AND st.solution_board_type = #{type};
+            AND st.solution_board_type = #{solution_board_type}
+            <if test="solution_type_code != 0">
+                AND st.solution_type_code = #{solution_type_code}
+            </if>
+        GROUP BY
+            spt.views desc;
+    </select>
+
+    <select id="findAllSolutionListByCompanyCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.solution.Solution">
+        SELECT
+            spt.views,
+
+            st.solution_title,
+            st.solution_content,
+            st.create_date,
+
+            stt.solution_name,
+
+            wpd.product_detail_name,
+
+            wpm.product_category_name,
+
+            tct.total_count
+        FROM
+            solution_product_table spt
+            LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
+            LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
+            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
+            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+            LEFT OUTER JOIN (SELECT
+                                COUNT(*) AS total_count
+                            FROM
+                                solution_table st
+                                LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
+                                LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
+                                LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+                            WHERE
+                                wpm.company_code = #{company_code}
+                                AND st.solution_board_type = #{solution_board_type}) tct ON (1 = 1)
+        WHERE
+            wpm.company_code = #{company_code}
+            AND st.solution_board_type = #{solution_board_type}
+        GROUP BY
+            spt.views desc;
     </select>
 </mapper>

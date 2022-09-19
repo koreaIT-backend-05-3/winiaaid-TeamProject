@@ -11,6 +11,8 @@ function checkWiniaProduct() {
         company = "winia";
         showCompanyProduct();
 
+        getWiniaAllProductFaqSolution();
+
     }else if(historyDataFlag) {
         historyDataFlag = false;
         company = "winia";
@@ -34,6 +36,8 @@ function checkDaewooProduct() {
     if(checkFaQPageAndSelfPage()) {
         company = "daewoo";
         showCompanyProduct();
+        
+        getDaewooAllProductFaqSolution();
 
     }else if(historyDataFlag) {
         historyDataFlag = false;

@@ -48,6 +48,8 @@ function setCategoryClickEvent(productInfoList) {
                 if(!checkFaQPageAndSelfPage()) {
                     initializationTroubleSymptom();
 
+                }else {
+                    selectProductCategoryCode = productInfoList[i].productCategoryCode;
                 }
             }
         }else {
@@ -58,6 +60,8 @@ function setCategoryClickEvent(productInfoList) {
                 if(!checkFaQPageAndSelfPage()) {
                     initializationTroubleSymptom();
 
+                }else {
+                    selectProductCategoryCode = productInfoList[i].productCategoryCode;
                 }
             }
         }
@@ -293,7 +297,8 @@ function createProductNameSpan(domObject, productInfoObject, categoryIncludeFlag
     }
     
     if(checkFaQPageAndSelfPage()) {
-        getSolution(productInfoObject.keyCode);
+        selectProductCode = productInfoObject.keyCode;
+        getSolutionListByProductCode(productInfoObject.keyCode);
 
     }else {
         getProductTroubleSymptom(productInfoObject.keyCode);
@@ -301,19 +306,6 @@ function createProductNameSpan(domObject, productInfoObject, categoryIncludeFlag
         addVisibleClass(modelDetailSpan);
     }
 }
-
-function getSolution(productCode) {
-    $.ajax({
-        type: "get",
-        url: `/api/v1/solution/faq/${productCode}`,
-        dataType: "json",
-        success: (response) => {
-            console.log(response.data);
-        },
-        error: errorMessage
-    });
-}
-
 
 function setGroupProductDetail(domObject, productInfoList) {
     let totalPage = productInfoList.length % 6 == 0 ? productInfoList.length / 6 : Math.floor(productInfoList.length / 6) + 1;

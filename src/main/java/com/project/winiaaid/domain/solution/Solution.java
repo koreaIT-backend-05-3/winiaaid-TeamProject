@@ -13,6 +13,7 @@ public class Solution {
     private String solution_title;
     private String solution_content;
     private String solution_name;
+    private int total_count;
     private LocalDateTime create_date;
     private LocalDateTime update_date;
 
@@ -23,6 +24,7 @@ public class Solution {
                 .solutionTitle(solution_title)
                 .solutionContent(solution_content)
                 .solutionName(solution_name)
+                .totalCount(total_count)
                 .createDate(create_date)
                 .updateDate(update_date)
                 .build();
