@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.project.winiaaid.domain.board.BoardRepository">
+	<insert id="insertBoard" parameterType="com.project.winiaaid.domain.board.Board">
+		INSERT INTO
+			board_mst
+		SELECT
+			#{board_type},
+			IFNULL(MAX(id2), 0) + 1,
+			RPAD(#{temp_board_code}, CHAR_LENGTH(#{temp_board_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1,
+			#{board_type},
+			#{user_code},
+			#{company_code},
+			#{response_flag},
+			#{board_title},
+			#{board_content},
+			#{progress_status},
+			NULL,
+			NOW(),
+			NOW()
+		FROM
+			board_mst
+		WHERE
+			id1 = #{board_type};
+	</insert>
+	
+	<insert id="insertBoardFile" parameterType="java.util.List">
+		insert into
+			board_file
+		values
+			<foreach collection="file_list" item="file" separator="," open="" close="">
+			(
+				0,
+				#{file.file_name},
+				#{file.board_code},
+				now(),
+				now()
+			)
+			</foreach>
+	</insert>
+</mapper>

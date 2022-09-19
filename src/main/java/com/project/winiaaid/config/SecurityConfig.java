@@ -13,19 +13,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-
         http.httpBasic()
                 .and()
                 .csrf().disable();
 
-        http.authorizeHttpRequests()
-                .anyRequest()
-                .permitAll()
-
-                .and()
-
-                .formLogin()
+        http.authorizeRequests()
+        		.anyRequest()
+        		.permitAll()
+		        .and()
+		        .formLogin()
                 .loginPage("/signin")
                 .loginProcessingUrl("/auth/signin")
                 .failureHandler(new CustomFailureHandler())
