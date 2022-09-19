@@ -287,14 +287,6 @@ function setProductTroubleSymptom(troubleSymptomList) {
     });
 }
 
-function getProductFirstInfo(productList) {
-    return productList.readProductDetailResponseDtoList[0];
-}
-
-function getProdutListInfo(productList) {
-    return productList.readProductDetailResponseDtoList;
-}
-
 function toggleVisibleClass(object) {
     object.classList.toggle("visible");
 }

@@ -38,6 +38,24 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
+    public List<ReadSolutionResponseDto> getSolutionListByProductCategoryCode(int productCategoryCode, String boardType, int solutionType) throws Exception {
+        List<Solution> solutionEntityList = null;
+        List<ReadSolutionResponseDto> readSolutionDtoList = null;
+        Map<String, Object> configMap = null;
+        ConfigMap configMapper = new ConfigMapImpl();
+
+        configMap = configMapper.setConfigMap(productCategoryCode, boardType, solutionType);
+
+        solutionEntityList = solutionRepository.findSolutionListByProductCategoryCode(configMap);
+
+        if(solutionEntityList != null && solutionEntityList.size() > 0){
+            readSolutionDtoList = changeToReadSolutionResponseDtoList(solutionEntityList);
+        }
+
+        return readSolutionDtoList;
+    }
+
+    @Override
     public List<ReadSolutionResponseDto> getSolutionListByProductCode(int productCode, String boardType, int solutionType) throws Exception {
         List<Solution> solutionEntityList = null;
         List<ReadSolutionResponseDto> readSolutionDtoList = null;

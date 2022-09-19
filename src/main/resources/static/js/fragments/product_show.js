@@ -50,6 +50,7 @@ function setCategoryClickEvent(productInfoList) {
 
                 }else {
                     selectProductCategoryCode = productInfoList[i].productCategoryCode;
+                    getSolutionListByProductCategoryCode();
                 }
             }
         }else {
@@ -62,6 +63,7 @@ function setCategoryClickEvent(productInfoList) {
 
                 }else {
                     selectProductCategoryCode = productInfoList[i].productCategoryCode;
+                    getSolutionListByProductCategoryCode();
                 }
             }
         }
@@ -244,7 +246,6 @@ function setModelName(domObject, productInfoObject, type) {
         }
 
     }else if(type == "category") {
-        console.log(domObject);
         removeAllChild(domObject);
 
         createProductTitleSpan(domObject, productInfoObject);
@@ -271,8 +272,18 @@ function removeAllChild(domObject) {
 
 function createProductTitleSpan(domObject, productInfoObject) {
     let newSpan = document.createElement("span");
+    let newText = null;
     newSpan.setAttribute("class", "model-title-span");
-    let newText = document.createTextNode(productInfoObject.productTitle);
+    if(checkFaQPageAndSelfPage()) {
+        newText = document.createTextNode(productInfoObject.productTitle);
+        selectProductCategoryCode = productInfoObject.productCategoryCode;
+
+        if(productInfoObject.isCategory) {
+            getSolutionListByProductCategoryCode(productInfoObject.productCategoryCode);
+        }
+    }else {
+        newText = document.createTextNode(productInfoObject.productTitle);
+    }
 
     newSpan.appendChild(newText);
     domObject.appendChild(newSpan);
@@ -298,7 +309,7 @@ function createProductNameSpan(domObject, productInfoObject, categoryIncludeFlag
     
     if(checkFaQPageAndSelfPage()) {
         selectProductCode = productInfoObject.keyCode;
-        getSolutionListByProductCode(productInfoObject.keyCode);
+        getSolutionListByProductCode();
 
     }else {
         getProductTroubleSymptom(productInfoObject.keyCode);
@@ -380,6 +391,7 @@ function setGroupProductDetail(domObject, productInfoList) {
             domObject.appendChild(swiperDiv);
             
             const productSpans = document.querySelectorAll(`.product-category-${startIndex} span`);
+            console.log(productAllInfo);
             setProductClickEvent(productSpans, checkFaQPageAndSelfPage() ? productInfoList[startIndex] : productAllInfo);
             const groupImage = document.querySelector(`.product-category-${startIndex} img`);
             setGroupImageClickEvent(groupImage, checkFaQPageAndSelfPage() ? productInfoList[startIndex] : productAllInfo[0]);
@@ -410,6 +422,15 @@ function setGroupImageClickEvent(domObject, productInfoList) {
                    productInfoObject.productCode = productInfoList.productCode;
                }
 
+        }else if(checkFaQPageAndSelfPage()){
+            setModelName(productNameLi,
+                {
+                   "productTitle": productInfoList.productCategoryName,
+                   "isCategory": true,
+                //    "keyCode": productInfoList.productDetailList[0].productCode,
+                   "productCategoryCode": checkFaQPageAndSelfPage() ? productInfoList.productCategoryCode :  productInfoList[i].productCategoryCode
+               }, 
+               "category");
         }else {
             setModelName(productNameLi, {"productName": null}, "integrated");
         }
@@ -421,8 +442,9 @@ function setProductClickEvent(domObject, productInfoList) {
     for(let i = 0; i < domObject.length; i++) {
         domObject[i].onclick = () => {
             setModelName(productNameLi, {
-                "productTitle": productInfoList.productCategoryName, 
-                "productName": domObject[i].textContent, 
+                "productTitle": checkFaQPageAndSelfPage() ? productInfoList.productCategoryName : productInfoList[i].productCategoryName, 
+                "isCategory": false,
+                "productName": domObject[i].textContent,
                 "keyCode": checkFaQPageAndSelfPage() ? productInfoList.productDetailList[i].productCode : productInfoList[i].productCategoryCode
             }, "group");
             
@@ -452,6 +474,14 @@ function addVisibleClass(object) {
 
 function removeVisibleClass(object) {
     object.classList.remove("visible");
+}
+
+function getProductFirstInfo(productList) {
+    return productList.readProductDetailResponseDtoList[0];
+}
+
+function getProdutListInfo(productList) {
+    return productList.readProductDetailResponseDtoList;
 }
 
 function errorMessage(request, status, error) {

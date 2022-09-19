@@ -22,13 +22,17 @@ public class SolutionRestController {
     private final SolutionService solutionService;
 
     @Log
-    @GetMapping("/list/product-code/{productCode}")
+    @GetMapping("/list/{codeType}/{code}")
     @UriCheck
-    public ResponseEntity<?> getSolutionByProductCode(@PathVariable int productCode, @RequestParam("board-type") String boardType, @RequestParam("solution-type") int solutionType) {
+    public ResponseEntity<?> getSolutionByProductCode(@PathVariable String codeType, @PathVariable int code, @RequestParam("board-type") String boardType, @RequestParam("solution-type") int solutionType) {
         List<ReadSolutionResponseDto> solutionList = null;
 
         try {
-            solutionList = solutionService.getSolutionListByProductCode(productCode, boardType, solutionType);
+            if(codeType.equals("product-category-code")) {
+                solutionList = solutionService.getSolutionListByProductCategoryCode(code, boardType, solutionType);
+            }else {
+                solutionList = solutionService.getSolutionListByProductCode(code, boardType, solutionType);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load solution", solutionList));
@@ -36,6 +40,8 @@ public class SolutionRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Solution Successful", solutionList));
     }
+
+
 
     @GetMapping("/list/{company}")
     @CompanyCheck

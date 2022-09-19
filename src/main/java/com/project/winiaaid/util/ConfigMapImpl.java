@@ -16,10 +16,10 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setConfigMap(Object productCode, String boardType, int solutionType) {
+    public Map<String, Object> setConfigMap(int keyCode, String boardType, int solutionType) {
         Map<String, Object> configMap = new HashMap<>();
 
-        configMap.put("product_code", productCode);
+        configMap.put("keyCode", keyCode);
         configMap.put("solution_board_type", boardType.equals("faq") ? 1 : 2);
         configMap.put("solution_type_code", solutionType);
 

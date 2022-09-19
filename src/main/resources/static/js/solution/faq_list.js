@@ -1,20 +1,18 @@
 const solutionTypeSelect = document.querySelector(".solution-type");
 
 let boardType = null;
-let solutionType = 0;
+let solutionType = 1;
 
 let selectProductCategoryCode = 0;
 let selectProductCode = 0;
 
-solutionTypeSelect.onchange = () => {
-    solutionType = getSolutionTypeCode();
-    console.log(solutionType);
-    console.log(selectProductCategoryCode);
-    console.log(selectProductCode);
-}
-
 
 boardType = checkBoardType();
+
+solutionTypeSelect.onchange = () => {
+    solutionType = getSolutionTypeCode();
+}
+
 
 
 function checkBoardType() {
@@ -22,9 +20,7 @@ function checkBoardType() {
 }
 
 function getSolutionTypeCode() {
-    const solutionType = document.querySelector(".solution-type");
-
-    return solutionType.options[solutionType.selectedIndex].value;
+    return solutionTypeSelect.options[solutionTypeSelect.selectedIndex].value;
 }
 
 function getWiniaAllProductFaqSolution() {
@@ -51,10 +47,27 @@ function getDaewooAllProductFaqSolution() {
     });
 }
 
-function getSolutionListByProductCode(productCode) {
+function getSolutionListByProductCategoryCode() {
+    initializationSolutionTypeOption();
+    solutionType = getSolutionTypeCode();
+    console.log(solutionType);
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/product-code/${productCode}?board-type=${boardType}&solution-type=${solutionType}`,
+        url: `/api/v1/solution/list/product-category-code/${selectProductCategoryCode}?board-type=${boardType}&solution-type=${solutionType}`,
+        dataType: "json",
+        success: (response) => {
+            setSolutionList(response.data);
+        },
+        error: errorMessage
+    });
+}
+
+function getSolutionListByProductCode() {
+    solutionType = getSolutionTypeCode();
+    console.log(solutionType);
+    $.ajax({
+        type: "get",
+        url: `/api/v1/solution/list/product-code/${selectProductCode}?board-type=${boardType}&solution-type=${solutionType}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -67,6 +80,7 @@ function setSolutionList(solutionList) {
     const solutionSearchResult = document.querySelector(".search-result");
     if(solutionList != null) {
         setSearchTotalCount(solutionList[0].totalCount);
+        setSolutionTypeOption();
         clearDomObject(solutionSearchResult);
 
         for(solution of solutionList) {
@@ -114,4 +128,28 @@ function noticeNoResult(solutionSearchResult) {
         <div class="data-none"><p>검색된 결과가 없습니다.</p><div>
     </li>`;
 
+}
+
+function setSolutionTypeOption() {
+    solutionTypeSelect.innerHTML = `
+        <option value="1">전체</option>
+        <option value="2">기능</option>
+        <option value="3">관리방법</option>
+        <option value="4">내용물</option>
+        <option value="5">사용법</option>
+        <option value="6">성능</option>
+        <option value="7">소음</option>
+        <option value="8">외관/구조</option>
+        <option value="9">증상</option>
+        <option value="10">오류코드</option>
+        <option value="11">기타</option>
+    `;
+}
+
+function initializationSolutionTypeOption() {
+    solutionTypeSelect.options[0].setAttribute("selected", true);
+}
+
+function removeSolutionTypeOption() {
+    solutionTypeSelect.innerHTML = `<option value="1">전체</option>`;
 }
