@@ -49,8 +49,11 @@ function setCategoryClickEvent(productInfoList) {
                     initializationTroubleSymptom();
 
                 }else {
-                    selectProductCategoryCode = productInfoList[i].productCategoryCode;
-                    getSolutionListByProductCategoryCode();
+                    selectProductGroupCode = productInfoList[i].productGroup;
+                    selectProductCategoryCode = 0;
+                    selectProductCode = 0;
+                    getSolutionListByProductGroupCode();
+                    removeVisibleClass(productArea);
                 }
             }
         }else {
@@ -63,7 +66,10 @@ function setCategoryClickEvent(productInfoList) {
 
                 }else {
                     selectProductCategoryCode = productInfoList[i].productCategoryCode;
+                    selectProductCode = 0;
+                    selectProductGroupCode = 0;
                     getSolutionListByProductCategoryCode();
+                    removeVisibleClass(productArea);
                 }
             }
         }
@@ -277,6 +283,8 @@ function createProductTitleSpan(domObject, productInfoObject) {
     if(checkFaQPageAndSelfPage()) {
         newText = document.createTextNode(productInfoObject.productTitle);
         selectProductCategoryCode = productInfoObject.productCategoryCode;
+        selectProductCode = 0;
+        selectProductGroupCode = 0;
 
         if(productInfoObject.isCategory) {
             getSolutionListByProductCategoryCode(productInfoObject.productCategoryCode);
@@ -309,6 +317,8 @@ function createProductNameSpan(domObject, productInfoObject, categoryIncludeFlag
     
     if(checkFaQPageAndSelfPage()) {
         selectProductCode = productInfoObject.keyCode;
+        selectProductCategoryCode = 0;
+        selectProductGroupCode = 0;
         getSolutionListByProductCode();
 
     }else {
@@ -391,7 +401,7 @@ function setGroupProductDetail(domObject, productInfoList) {
             domObject.appendChild(swiperDiv);
             
             const productSpans = document.querySelectorAll(`.product-category-${startIndex} span`);
-            console.log(productAllInfo);
+
             setProductClickEvent(productSpans, checkFaQPageAndSelfPage() ? productInfoList[startIndex] : productAllInfo);
             const groupImage = document.querySelector(`.product-category-${startIndex} img`);
             setGroupImageClickEvent(groupImage, checkFaQPageAndSelfPage() ? productInfoList[startIndex] : productAllInfo[0]);

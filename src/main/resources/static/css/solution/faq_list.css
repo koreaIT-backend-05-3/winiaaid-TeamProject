@@ -79,6 +79,7 @@ td {
 
 .search-keyword-td button {
     border: 1px solid #ccc;
+    margin-bottom: 5px;
 
     width: 73px;
     height: 31px;
