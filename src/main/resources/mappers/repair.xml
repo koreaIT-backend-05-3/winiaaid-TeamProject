@@ -40,10 +40,10 @@
     <insert id="addRepairServiceRequest" parameterType="com.project.winiaaid.domain.repair.RepairServiceInfo">
         insert into
             repair_service_table
-        SELECT
+        VALUES(
             #{productInfoEntity.product_code},
-            IFNULL(MAX(id2), 0) + 1,
-            RPAD(#{productInfoEntity.temp_repair_service_code}, CHAR_LENGTH(#{productInfoEntity.temp_repair_service_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1,
+            #{productInfoEntity.id2},
+            #{productInfoEntity.repair_service_code},
 
             #{productInfoEntity.product_category_code},
             #{productInfoEntity.product_code},
@@ -65,11 +65,18 @@
             #{reservationInfoEntity.completed_flag},
             #{reservationInfoEntity.reservation_date},
             #{reservationInfoEntity.request_date}
-        FROM
-            repair_service_table
-        WHERE
-            id1 = #{productInfoEntity.product_code};
+        );
     </insert>
+
+    <select id="findRepairServiceCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.repair.RepairServiceCode">
+        select
+            IFNULL(MAX(id2), 0) + 1 as id2,
+            RPAD(#{temp_repair_service_code}, CHAR_LENGTH(#{temp_repair_service_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1 as repair_service_code
+        from
+            repair_service_table
+        where
+            id1 = #{product_code};
+    </select>
 
     <select id="findRepairServiceByUserCode" parameterType="HashMap" resultMap="repairServiceInfoMap">
         SELECT

@@ -249,7 +249,7 @@ function reservationRequest() {
         success: (response) => {
             if(response.data) {
                 alert("서비스 신청 성공");
-                location.replace(`/service/visit/request/updateView/${response.data}`);
+                location.replace(`/service/visit/inquiry/detail/${response.data}`);
             }else {
                 alert("서비스 신청중에 오류가 발생했습니다.");
             }
@@ -902,12 +902,14 @@ function pastRequestServiceDetailProductLoad(pastHistoryInfoObject) {
 
     for(productDetailImage of productDetailImageItems) {
         if(productDetailImage.getAttribute("alt") == pastHistoryInfoObject.productDetailName) {
+            console.log(productDetailImage.getAttribute("alt"));
             productDetailImage.click();
             return;
         }
     }    
     for(productDetailName of productDetailNameItems) {
         if(productDetailName.textContent == pastHistoryInfoObject.productDetailName) {
+            console.log("체크");
             productDetailName.click();
             return;
         }

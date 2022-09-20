@@ -46,7 +46,6 @@ function checkWiniaProduct() {
 
 function checkDaewooProduct() {
     if(checkFaQPageAndSelfPage()) {
-        console.log("들어옴")
         company = "daewoo";
         showCompanyProduct();
         

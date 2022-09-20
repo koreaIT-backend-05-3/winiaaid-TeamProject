@@ -78,12 +78,11 @@ function setCategoryClickEvent(productInfoList) {
 
 function getProductDetail(code, isGroup) {
     let type = isGroup ? "group" : "default";
-    let url = checkFaQPageAndSelfPage() ? `/api/v2/product/list/category/${company}/${type}/${code}` : `/api/v1/product/list/category/${company}/${type}/${code}`;
 
     $.ajax({
         async: false,
         type: "get",
-        url: url,
+        url: `/api/v2/product/list/category/${company}/${type}/${code}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
@@ -132,14 +131,10 @@ function showHaveNotProductMark() {
 function setProductDetail(domObject, productInfoList) {
     let totalPage = 0;
     let size = 0;
-    console.log(productInfoList);
-    if(checkFaQPageAndSelfPage()) {
-        totalPage = productInfoList[0].productDetailList.length % 6 == 0 ? productInfoList[0].productDetailList.length : Math.floor(productInfoList[0].productDetailList.length / 6) + 1;
-        size = productInfoList[0].productDetailList.length;
-    }else {
-        totalPage = productInfoList.length % 6 == 0 ? productInfoList.length / 6 : Math.floor(productInfoList.length / 6) + 1;
-        size = productInfoList.length;
-    }
+
+    totalPage = productInfoList[0].productDetailList.length % 6 == 0 ? productInfoList[0].productDetailList.length : Math.floor(productInfoList[0].productDetailList.length / 6) + 1;
+    size = productInfoList[0].productDetailList.length;
+    
     for(let i = 0; i < totalPage; i++) {
         let innerHTML = "";
         let startIndex = 6 * i;
@@ -150,8 +145,8 @@ function setProductDetail(domObject, productInfoList) {
 
         for(startIndex; startIndex < endIndex; startIndex++) {
             innerHTML += `<li>
-                            <img class="product-detail-image" src="/image/winia-product/detail-images/${checkFaQPageAndSelfPage() ? productInfoList[0].productDetailList[startIndex].productDetailImage : productInfoList[startIndex].productDetailImage}" alt="${checkFaQPageAndSelfPage() ? productInfoList[0].productDetailList[startIndex].productDetailName : productInfoList[startIndex].productName}">
-                            <span>${checkFaQPageAndSelfPage() ? productInfoList[0].productDetailList[startIndex].productDetailName : productInfoList[startIndex].productName}</span>
+                            <img class="product-detail-image" src="/image/winia-product/detail-images/${productInfoList[0].productDetailList[startIndex].productDetailImage}" alt="${productInfoList[0].productDetailList[startIndex].productDetailName}">
+                            <span>${productInfoList[0].productDetailList[startIndex].productDetailName}</span>
                         </li>
                         `;
         }
@@ -162,18 +157,12 @@ function setProductDetail(domObject, productInfoList) {
     
     makeSwiper();
     checkSlideAmount();
-    setImageClickEvent(document.querySelectorAll(".detail-product-ul img"), checkFaQPageAndSelfPage() ? productInfoList[0].productDetailList : productInfoList);
+    setImageClickEvent(document.querySelectorAll(".detail-product-ul img"), productInfoList[0]);
    
 }
 
 function checkIntegratedProduct(productList) {
-    if(checkFaQPageAndSelfPage()) {
-        return productList.productDetailList.length == 1 && productList.productDetailList[0].productDetailName == productList.productCategoryName;
-
-    }else {
-        return productList.readProductDetailResponseDtoList.length == 1
-        && productList.readProductDetailResponseDtoList[0].productCategoryName == productList.readProductDetailResponseDtoList[0].productName;
-    }
+    return productList.productDetailList.length == 1 && productList.productDetailList[0].productDetailName == productList.productCategoryName;
 }
 
 function makeSwiper() {
@@ -200,14 +189,14 @@ function setImageClickEvent(domObject, productInfoList) {
         domObject[i].onclick = () => {
             let productDetailName = domObject[i].getAttribute("alt");
             
-            productInfoObject.productCategoryCode = productInfoList[i].productCategoryCode;
-            productInfoObject.productCode = productInfoList[i].productCode;
+            console.log(productInfoList);
+            productInfoObject.productCategoryCode = productInfoList.productCategoryCode;
+            productInfoObject.productCode = productInfoList.productDetailList[i].productCode;
 
             if(checkFaQPageAndSelfPage()) {
                 productNameLi = document.querySelector(".product-name-result");
             }
-
-            setModelName(productNameLi, {"productName": productDetailName, "keyCode": checkFaQPageAndSelfPage() ? productInfoList[i].productCode : productInfoList[0].productCategoryCode}, "default");
+            setModelName(productNameLi, {"productName": productDetailName, "keyCode": checkFaQPageAndSelfPage() ? productInfoList.productDetailList[i].productCode : productInfoList.productCategoryCode}, "default");
         }
     }
 }
@@ -330,8 +319,6 @@ function createProductNameSpan(domObject, productInfoObject, categoryIncludeFlag
 
 function setGroupProductDetail(domObject, productInfoList) {
     let totalPage = productInfoList.length % 6 == 0 ? productInfoList.length / 6 : Math.floor(productInfoList.length / 6) + 1;
-    let productFirstInfo = {};
-    let productAllInfo = [];
 
     for(let i = 0; i < totalPage; i++) {
         let innerHTML = "";
@@ -347,23 +334,18 @@ function setGroupProductDetail(domObject, productInfoList) {
         
         for(startIndex; startIndex < endIndex; startIndex++) {
             let integratedFlag = checkIntegratedProduct(productInfoList[startIndex]);
-
-            if(!checkFaQPageAndSelfPage()) {
-                productFirstInfo = getProductFirstInfo(productInfoList[startIndex]);
-                productAllInfo = getProdutListInfo(productInfoList[startIndex]);
-            }
             
             let productCategoryLi = document.createElement("li");
             productCategoryLi.setAttribute("class", `product-category-${startIndex}`);
 
             let productImage = document.createElement("img");
             productImage.setAttribute("class", integratedFlag ? "integrated product-detail-image" : "");
-            productImage.setAttribute("src", `/image/winia-product/main-images/${checkFaQPageAndSelfPage() ? productInfoList[startIndex].productMainImage : productFirstInfo.productMainImage}`);
-            productImage.setAttribute("alt", checkFaQPageAndSelfPage() ? productInfoList[startIndex].productDetailName : productFirstInfo.productName);
+            productImage.setAttribute("src", `/image/winia-product/main-images/${productInfoList[startIndex].productMainImage}`);
+            productImage.setAttribute("alt", productInfoList[startIndex].productCategoryName);
 
             let productCategoryNameP = document.createElement("p");
-            productCategoryNameP.setAttribute("class", `category-title-${checkFaQPageAndSelfPage() ? productInfoList[startIndex].productCategoryCode : productFirstInfo.productCategoryCode} detail-product-name`);
-            productCategoryNameP.appendChild(document.createTextNode(checkFaQPageAndSelfPage() ? productInfoList[startIndex].productCategoryName : productFirstInfo.productCategoryName));
+            productCategoryNameP.setAttribute("class", `category-title-${productInfoList[startIndex].productCategoryCode} detail-product-name`);
+            productCategoryNameP.appendChild(document.createTextNode(productInfoList[startIndex].productCategoryName));
 
 
             productCategoryLi.appendChild(productImage);
@@ -375,20 +357,20 @@ function setGroupProductDetail(domObject, productInfoList) {
                 swiperDiv.appendChild(detailProductUl);
                 domObject.appendChild(swiperDiv);
                 const groupImage = document.querySelector(`.product-category-${startIndex} img`);
-                setGroupImageClickEvent(groupImage, checkFaQPageAndSelfPage() ? productInfoList[startIndex] : productAllInfo[0]);
+                setGroupImageClickEvent(groupImage, productInfoList[startIndex]);
                 continue;
             }
 
             let productNameUl = document.createElement("ul");
             productNameUl.setAttribute("class", "product-name-ul");
 
-            let size = checkFaQPageAndSelfPage() ? productInfoList[startIndex].productDetailList.length : productAllInfo.length;
+            let size = productInfoList[startIndex].productDetailList.length;
 
             for(let j = 0; j < size; j++) {
                 let newLi = document.createElement("li");
                 let newSpan = document.createElement("span");
-                newSpan.setAttribute("class", `product-category-${checkFaQPageAndSelfPage() ? productInfoList[startIndex].productCategoryCode : productAllInfo[j].productCategoryCode} detail-product-name`);
-                newSpan.appendChild(document.createTextNode(checkFaQPageAndSelfPage() ? productInfoList[startIndex].productDetailList[j].productDetailName : productAllInfo[j].productName));
+                newSpan.setAttribute("class", `product-category-${productInfoList[startIndex].productCategoryCode} detail-product-name`);
+                newSpan.appendChild(document.createTextNode(productInfoList[startIndex].productDetailList[j].productDetailName));
                 newLi.appendChild(newSpan);
 
                 productNameUl.appendChild(newLi);
@@ -402,9 +384,9 @@ function setGroupProductDetail(domObject, productInfoList) {
             
             const productSpans = document.querySelectorAll(`.product-category-${startIndex} span`);
 
-            setProductClickEvent(productSpans, checkFaQPageAndSelfPage() ? productInfoList[startIndex] : productAllInfo);
+            setProductClickEvent(productSpans, productInfoList[startIndex]);
             const groupImage = document.querySelector(`.product-category-${startIndex} img`);
-            setGroupImageClickEvent(groupImage, checkFaQPageAndSelfPage() ? productInfoList[startIndex] : productAllInfo[0]);
+            setGroupImageClickEvent(groupImage, productInfoList[startIndex]);
         }
 
     }
@@ -429,7 +411,7 @@ function setGroupImageClickEvent(domObject, productInfoList) {
 
                if(!checkFaQPageAndSelfPage()) {
                    productInfoObject.productCategoryCode = productInfoList.productCategoryCode;
-                   productInfoObject.productCode = productInfoList.productCode;
+                   productInfoObject.productCode = productInfoList.productDetailList[0].productCode;
                }
 
         }else if(checkFaQPageAndSelfPage()){
@@ -437,8 +419,7 @@ function setGroupImageClickEvent(domObject, productInfoList) {
                 {
                    "productTitle": productInfoList.productCategoryName,
                    "isCategory": true,
-                //    "keyCode": productInfoList.productDetailList[0].productCode,
-                   "productCategoryCode": checkFaQPageAndSelfPage() ? productInfoList.productCategoryCode :  productInfoList[i].productCategoryCode
+                   "productCategoryCode": productInfoList.productCategoryCode
                }, 
                "category");
         }else {
@@ -452,15 +433,15 @@ function setProductClickEvent(domObject, productInfoList) {
     for(let i = 0; i < domObject.length; i++) {
         domObject[i].onclick = () => {
             setModelName(productNameLi, {
-                "productTitle": checkFaQPageAndSelfPage() ? productInfoList.productCategoryName : productInfoList[i].productCategoryName, 
+                "productTitle": productInfoList.productCategoryName, 
                 "isCategory": false,
                 "productName": domObject[i].textContent,
-                "keyCode": checkFaQPageAndSelfPage() ? productInfoList.productDetailList[i].productCode : productInfoList[i].productCategoryCode
+                "keyCode": checkFaQPageAndSelfPage() ? productInfoList.productDetailList[i].productCode : productInfoList.productCategoryCode
             }, "group");
             
             if(!checkFaQPageAndSelfPage()) {
-                productInfoObject.productCategoryCode = productInfoList[i].productCategoryCode;
-                productInfoObject.productCode = productInfoList[i].productCode;
+                productInfoObject.productCategoryCode = productInfoList.productCategoryCode;
+                productInfoObject.productCode = productInfoList.productDetailList[i].productCode;
                 
             }
 
@@ -484,14 +465,6 @@ function addVisibleClass(object) {
 
 function removeVisibleClass(object) {
     object.classList.remove("visible");
-}
-
-function getProductFirstInfo(productList) {
-    return productList.readProductDetailResponseDtoList[0];
-}
-
-function getProdutListInfo(productList) {
-    return productList.readProductDetailResponseDtoList;
 }
 
 function errorMessage(request, status, error) {

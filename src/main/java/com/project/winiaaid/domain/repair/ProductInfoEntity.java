@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductInfoEntity {
+    private int id2;
 	private String repair_service_code;
     private int temp_repair_service_code;
     private String product_group_name;
