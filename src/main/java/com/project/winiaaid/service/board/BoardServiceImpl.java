@@ -5,8 +5,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
+import java.util.UUID;import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import com.project.winiaaid.domain.board.Board;
 import com.project.winiaaid.domain.board.BoardFile;
 import com.project.winiaaid.domain.board.BoardRepository;
 import com.project.winiaaid.web.dto.board.CreateBoardRequestDto;
+import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -62,5 +66,23 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return board.getBoard_code();
 		
+	}
+
+	@Override
+	public List<ReadBoardResponseDto> getBoardListByUserCode(int userCode) throws Exception {
+		List<Board>boardEntityList=null;
+		List<ReadBoardResponseDto>boardDtoList=null;
+		Map<String, Object> configMap = new HashMap<String, Object>();
+		
+		configMap.put("user_code", userCode);
+		boardEntityList=boardRepository.findBoardListByUserCode(configMap);
+		
+		if(boardEntityList.size()!=0 && boardEntityList != null) {
+			boardDtoList = boardEntityList.stream()
+					.map(Board::toBoardResponseDto)
+					.collect(Collectors.toList());
+			
+		}
+		return boardDtoList;
 	}
 }

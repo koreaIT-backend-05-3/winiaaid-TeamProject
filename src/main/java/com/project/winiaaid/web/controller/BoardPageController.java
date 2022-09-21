@@ -9,4 +9,5 @@ public class BoardPageController {
 	public String loadBoardWritePage() {
 		return "bulpyeonwrite";
 	};
+	
 }
