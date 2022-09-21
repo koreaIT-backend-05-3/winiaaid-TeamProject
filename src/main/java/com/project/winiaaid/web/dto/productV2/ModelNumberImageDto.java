@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class ModelNumberImageDto {
-    private String modelImageCategoryName;
+    private String modelCategoryImageName;
 }

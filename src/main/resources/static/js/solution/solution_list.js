@@ -5,6 +5,7 @@ const searchInput = document.querySelector(".search-keyword");
 const searchKeywordButton = document.querySelector(".search-keyword-td button");
 const solutionSearchResult = document.querySelector(".search-result");
 const searchKeywordResultNoticeDiv = document.querySelector(".search-keyword-result-notice");
+const latestSortButton = document.querySelector(".latest-sort-button");
 
 let boardType = null;
 let solutionType = 1;
@@ -13,55 +14,28 @@ let selectProductCategoryCode = 0;
 let selectProductGroupCode = 0;
 let selectProductCode = 0;
 
+let latestSortFlag = false;
+
 
 boardType = checkBoardType();
 
 solutionTypeSelect.onchange = () => {
     solutionType = getSolutionTypeCode();
     console.log("check solutionType: " + solutionType);
-    if(selectProductCode != 0) {
-        console.log("제품")
-        console.log(selectProductCode)
-        getSolutionListByProductCode();
-    }else if(selectProductGroupCode != 0) {
-        console.log("그룹")
-        console.log(selectProductGroupCode)
-        getSolutionListByProductGroupCode();
-    }else {
-        console.log("카테고리")
-        console.log(selectProductCategoryCode)
-        getSolutionListByProductCategoryCode();
-    }
+    getSolutionListByKeyCode();
 }
 
-searchInput.onkeypress = (event) => {
-    if(event.keyCode == 13) {
-        searchKeywordButton.click;
+searchInput.onkeypress = (e) => {
+    if(e.keyCode == 13) {
+        searchKeywordButton.click();
     }
 }
 
 searchKeywordButton.onclick = () => {
-    if(selectProductCode != 0) {
-        console.log("확인");
-        searchSolutionByKeyWordAndProductCode();
-    }else if(selectProductGroupCode != 0) {
-        console.log("확인");
-        searchSolutionByKeyWordAndProductGroupCode();
-    }else if(selectProductCategoryCode != 0) {
-        console.log("확인");
-        searchSolutionByKeyWordAndProductCategoryCode();
-    }else {
-        if(company == "winia") {
-            console.log("확인");
-            searchWiniaAllProductSolutionByKeyWord();
-        }else {
-            console.log("확인");
-            searchDaewooAllProductSolutionByKeyWord();
-        }
-    }
+    getSolutionListByKeyCodeAndKeyword();
 };
 
-
+latestSortButton.onclick = sortChange;
 
 function checkBoardType() {
     return location.pathname.indexOf("faq") != -1 ? "faq" : "self";
@@ -71,12 +45,67 @@ function getSolutionTypeCode() {
     return solutionTypeSelect.options[solutionTypeSelect.selectedIndex].value;
 }
 
+function getSolutionListByKeyCode() {
+
+    console.log("제품코드: " + selectProductCode);
+    console.log("그룹코드: " + selectProductGroupCode);
+    console.log("카테고리: " + selectProductCategoryCode);
+    
+    if(selectProductCode != 0) {
+        console.log("제품");
+        console.log(selectProductCode);
+        getSolutionListByProductCode();
+    }else if(selectProductGroupCode != 0) {
+        console.log("그룹");
+        console.log(selectProductGroupCode);
+        getSolutionListByProductGroupCode();
+    }else if(selectProductCategoryCode != 0){
+        console.log("카테고리");
+        console.log(selectProductCategoryCode);
+        getSolutionListByProductCategoryCode();
+    }else {
+        if(company == "winia") {
+            console.log("winia");
+            getWiniaAllProductFaqSolution();
+        }else {
+            console.log("daewoo");
+            getDaewooAllProductFaqSolution();
+        }
+    }
+}
+
+function getSolutionListByKeyCodeAndKeyword() {
+
+    console.log("제품코드: " + selectProductCode);
+    console.log("그룹코드: " + selectProductGroupCode);
+    console.log("카테고리: " + selectProductCategoryCode);
+    
+    if(selectProductCode != 0) {
+        console.log("제품");
+        searchSolutionByKeyWordAndProductCode();
+    }else if(selectProductGroupCode != 0) {
+        console.log("그룹");
+        searchSolutionByKeyWordAndProductGroupCode();
+    }else if(selectProductCategoryCode != 0) {
+        console.log("카테고리");
+        searchSolutionByKeyWordAndProductCategoryCode();
+    }else {
+        if(company == "winia") {
+            console.log("winia");
+            searchWiniaAllProductSolutionByKeyWord();
+        }else {
+            console.log("daewoo");
+            searchDaewooAllProductSolutionByKeyWord();
+        }
+    }
+}
+
 function getWiniaAllProductFaqSolution() {
     removeSolutionTypeOption();
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/winia?board-type=faq`,
+        url: `/api/v1/solution/list/winia?board-type=faq&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -91,7 +120,7 @@ function getDaewooAllProductFaqSolution() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/daewoo?board-type=faq`,
+        url: `/api/v1/solution/list/daewoo?board-type=faq&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -106,7 +135,7 @@ function getSolutionListByProductCategoryCode() {
     
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-category-code/${selectProductCategoryCode}?board-type=${boardType}&solution-type=${solutionType}`,
+        url: `/api/v1/solution/list/${company}/product-category-code/${selectProductCategoryCode}?board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -123,7 +152,7 @@ function getSolutionListByProductGroupCode() {
     
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-group-code/${selectProductGroupCode}?board-type=${boardType}&solution-type=${solutionType}`,
+        url: `/api/v1/solution/list/${company}/product-group-code/${selectProductGroupCode}?board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -139,7 +168,7 @@ function searchSolutionByKeyWordAndProductGroupCode() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-group-code/${selectProductGroupCode}/search?keyword=${keyword}&board-type=${boardType}&solution-type=${solutionType}`,
+        url: `/api/v1/solution/list/${company}/product-group-code/${selectProductGroupCode}/search?keyword=${keyword}&board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -156,7 +185,7 @@ function getSolutionListByProductCode() {
     console.log("solutionType: " + solutionType);
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}?board-type=${boardType}&solution-type=${solutionType}`,
+        url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}?board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -177,7 +206,7 @@ function setSolutionList(solutionList) {
                     <div class="faq-result">
                         <p class="title">${solution.solutionTitle}</p>
                         <dl>
-                            <dt>제품</dt>
+                            <dt>제품 ${solution.views}</dt>
                             <dd>
                                 <ul>
                                     <li>${solution.productCategoryName}${solution.productCategoryName == solution.productDetailName ? "" : " > " + solution.productDetailName}</li>
@@ -251,7 +280,7 @@ function searchWiniaAllProductSolutionByKeyWord() {
     
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/winia/search?keyword=${keyword}&board-type=${boardType}`,
+        url: `/api/v1/solution/list/winia/search?keyword=${keyword}&board-type=${boardType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -268,7 +297,7 @@ function searchDaewooAllProductSolutionByKeyWord() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/daewoo/search?keyword=${keyword}&board-type=${boardType}`,
+        url: `/api/v1/solution/list/daewoo/search?keyword=${keyword}&board-type=${boardType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -285,7 +314,7 @@ function searchSolutionByKeyWordAndProductCategoryCode() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-category-code/${selectProductCategoryCode}/search?keyword=${keyword}&board-type=${boardType}&solution-type=${solutionType}`,
+        url: `/api/v1/solution/list/${company}/product-category-code/${selectProductCategoryCode}/search?keyword=${keyword}&board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -302,7 +331,7 @@ function searchSolutionByKeyWordAndProductCode() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}/search?keyword=${keyword}&board-type=${boardType}&solution-type=${solutionType}`,
+        url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}/search?keyword=${keyword}&board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -335,4 +364,31 @@ function setSearchKeywordNotice() {
     const keyword = document.querySelector(".keyword");
 
     keyword.textContent = searchInput.value;
+}
+
+function sortChange() {
+    if(latestSortFlag) {
+        latestSortFlag = false;
+    }else {
+        latestSortFlag = true;
+    }
+
+    if(isEmpty(searchInput.value)) {
+        getSolutionListByKeyCode();
+    }else {
+        getSolutionListByKeyCodeAndKeyword();
+    }
+    changeSortButton();
+}
+
+function changeSortButton() {
+    if(latestSortFlag) {
+        latestSortButton.textContent = "조회순";
+    }else {
+        latestSortButton.textContent = "등록일순";
+    }
+}
+
+function isEmpty(value) {
+    return value == "" || value == undefined || value == null;
 }

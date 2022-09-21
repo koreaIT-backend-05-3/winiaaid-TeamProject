@@ -9,7 +9,7 @@ import java.util.List;
 public class ReadModelNumberInfoResponseDto {
     private int modelCategoryCode;
     private String modelCategoryName;
-    private String modelNumberCategoryInfo;
+    private String modelCategoryNumberInfo;
     private String modelCategoryNumberInfoDetail;
     private List<ModelNumberImageDto> modelNumberImageDtoList;
 }

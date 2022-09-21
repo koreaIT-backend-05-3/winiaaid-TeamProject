@@ -16,7 +16,7 @@ function loadModelCategory() {
     $.ajax({
         async: false,
         type: "get",
-        url: "/api/v1/product/list/model/number/info",
+        url: "/api/v2/product/list/model/number/info",
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
@@ -35,26 +35,25 @@ function setModel(modelList) {
         let modelInfoObject = {};
         let modelImageList = new Array();
 
-        model = getCategoryInfo(model);
         productCategoryUl.innerHTML += `
-        <li class="product-category model-${model[0].modelCategoryCode}">
-            <span>${model[0].modelCategoryName}</span>
+        <li class="product-category model-${model.modelCategoryCode}">
+            <span>${model.modelCategoryName}</span>
         </li>
         `;
 
-        modelInfoObject.modelName = model[0].modelCategoryName;
-        modelInfoObject.modelNumberInfo = model[0].modelNumberCategoryInfo;
-        modelInfoObject.modelNumberInfoDetail = model[0].modelCategoryNumberInfoDetail;
+        modelInfoObject.modelName = model.modelCategoryName;
+        modelInfoObject.modelNumberInfo = model.modelCategoryNumberInfo;
+        modelInfoObject.modelNumberInfoDetail = model.modelCategoryNumberInfoDetail;
 
 
         
-        model.forEach(model => {
-            modelImageList.push(model.modelImageCategoryName);
+        model.modelNumberImageDtoList.forEach(modelImage => {
+            modelImageList.push(modelImage.modelCategoryImageName);
         })
         
         modelInfoObject.modelImageList = modelImageList;
         
-        modelMap.set("model" + model[0].modelCategoryCode, modelInfoObject);
+        modelMap.set("model" + model.modelCategoryCode, modelInfoObject);
     }
 
     setCategoryClickEvent();
@@ -100,10 +99,6 @@ function addSelectCategoryClass(category) {
 
 function removeSelectCategoryClass(productCategories) {
     productCategories.forEach(category => category.classList.remove("select-category"))
-}
-
-function getCategoryInfo(modelList) {
-    return modelList.productNumberInfoObjectDtoList;
 }
 
 function clearDomObject(domObject) {

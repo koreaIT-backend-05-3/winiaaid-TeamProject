@@ -28,8 +28,6 @@ public class ProductServiceV2Impl implements ProductServiceV2 {
     public List<? extends Object> getProductDetailInfoList(String company, String type, int productCode) throws Exception {
         List<Product> productList = null;
         List<ReadProductResponseDto> readProductResponseDtoList = null;
-//        List<ReadProductDetailResponseDto> productInfoList = null;
-//        List<ReadProductObjectResponseDto> productObjectList = null;
 
         Map<String, Object> infoMap = setInfoMap(company, type, productCode);
 
@@ -47,32 +45,8 @@ public class ProductServiceV2Impl implements ProductServiceV2 {
                             };
                     });
 
-//            if(type.equals("default")){
-//                productInfoList = changeToReadProductDetailResponseDto(productList);
-//
-//                productInfoList = checkIntegratedProduct(productInfoList);
-//
-//            }else {
-//                productObjectList = new ArrayList<>();
-//
-//                Iterator<Integer> iterator = makeIteratorByCategoryCodeSet(productList);
-//
-//                while(iterator.hasNext()) {
-//                    int categoryCode = iterator.next();
-//
-//                    ReadProductObjectResponseDto productObjectResponseDto = buildProductObjectDtoByCategoryCode(categoryCode, productList);
-//
-//                    productObjectResponseDto.setReadProductDetailResponseDtoList(
-//                            checkIntegratedProduct(productObjectResponseDto.getReadProductDetailResponseDtoList())
-//                    );
-//
-//
-//                    productObjectList.add(productObjectResponseDto);
-//                }
-//            }
         }
 
-//        return type.equals("default") ? productInfoList : productObjectList;
         return readProductResponseDtoList;
     }
 

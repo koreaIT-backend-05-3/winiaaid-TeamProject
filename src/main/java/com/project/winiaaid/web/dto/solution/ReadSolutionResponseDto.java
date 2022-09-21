@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ReadSolutionResponseDto {
+    private int views;
     private String productCategoryName;
     private String productDetailName;
     private String solutionTitle;

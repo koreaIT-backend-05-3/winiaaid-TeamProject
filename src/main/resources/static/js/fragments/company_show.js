@@ -22,9 +22,8 @@ function checkWiniaProduct() {
         productResult.innerHTML = `<span>위니아 제품</span>`;
 
         selectProductCategoryCode = 0;
-        selectProductProductCode = 0;
+        selectProductCode = 0;
         selectProductGroupCode = 0;
-
     }else if(historyDataFlag) {
         historyDataFlag = false;
         company = "winia";
@@ -57,7 +56,7 @@ function checkDaewooProduct() {
         productResult.innerHTML = `<span>대우전자 제품</span>`;
 
         selectProductCategoryCode = 0;
-        selectProductProductCode = 0;
+        selectProductCode = 0;
         selectProductGroupCode = 0;
     }else if(historyDataFlag) {
         historyDataFlag = false;

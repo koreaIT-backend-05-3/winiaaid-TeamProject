@@ -1,0 +1,12 @@
+.title-div {
+    margin-bottom: 35px;
+}
+
+thead {
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+}
+
+tbody {
+    border-bottom: 1px solid #7d7d7d;;
+}

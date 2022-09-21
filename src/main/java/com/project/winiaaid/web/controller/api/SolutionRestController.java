@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ public class SolutionRestController {
 
     private final SolutionService solutionService;
 
+//    @Log
     @GetMapping("/list/{company}")
     @CompanyCheck
     @UriCheck
@@ -35,8 +37,6 @@ public class SolutionRestController {
 
         ObjectMapper mapper = CreateObjectMapper.getInstance().getMapper();
         readSolutionKeywordRequestDto = mapper.convertValue(parametersMap, ReadSolutionKeywordRequestDto.class);
-
-        log.info("들어옴?: {}", readSolutionKeywordRequestDto);
 
         try {
             solutionList = solutionService.getAllSolutionListByCompanyAndKeyword(company, readSolutionKeywordRequestDto);
@@ -75,6 +75,7 @@ public class SolutionRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Solution Successful", solutionList));
     }
 
+    @Log
     @GetMapping("/list/{company}/search")
     @CompanyCheck
     @UriCheck

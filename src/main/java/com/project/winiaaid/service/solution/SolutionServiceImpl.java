@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,9 +29,9 @@ public class SolutionServiceImpl implements SolutionService{
 
         configMap = configMapper.setConfigMap(company, readSolutionKeywordRequestDto);
 
-        log.info("test33: {}", configMap);
-
         solutionEntityList = solutionRepository.findAllSolutionListByCompanyCode(configMap);
+
+        log.info("configMap: " + configMap);
 
         if(solutionEntityList != null && solutionEntityList.size() > 0){
             readSolutionDtoList = changeToReadSolutionResponseDtoList(solutionEntityList);
@@ -47,6 +48,7 @@ public class SolutionServiceImpl implements SolutionService{
 
         configMap = configMapper.setConfigMap(productCategoryCode,readSolutionKeywordRequestDto);
 
+        log.info("내가 꼭 잡는다");
         solutionEntityList = solutionRepository.findSolutionListByProductCategoryCode(configMap);
 
         if(solutionEntityList != null && solutionEntityList.size() > 0){
@@ -64,6 +66,7 @@ public class SolutionServiceImpl implements SolutionService{
 
         configMap = configMapper.setConfigMap(productGroupCode, company, readSolutionKeywordRequestDto);
 
+        log.info("내가 꼭 잡는다");
         solutionEntityList = solutionRepository.findSolutionListByProductGroupCode(configMap);
 
         if(solutionEntityList != null && solutionEntityList.size() > 0){
@@ -81,6 +84,9 @@ public class SolutionServiceImpl implements SolutionService{
 
         configMap = configMapper.setConfigMap(productCode, readSolutionKeywordRequestDto);
 
+        log.info("내가 꼭 잡는다");
+        log.info("check: {}", configMap);
+
         solutionEntityList = solutionRepository.findSolutionListByProductCode(configMap);
 
         if(solutionEntityList != null && solutionEntityList.size() > 0){
@@ -95,5 +101,4 @@ public class SolutionServiceImpl implements SolutionService{
                 .map(Solution::toReadSolutionResponseDto)
                 .collect(Collectors.toList());
     }
-
 }

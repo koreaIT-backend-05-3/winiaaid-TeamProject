@@ -14,11 +14,13 @@ public class Solution {
     private String solution_content;
     private String solution_name;
     private int total_count;
+    private int views;
     private LocalDateTime create_date;
     private LocalDateTime update_date;
 
     public ReadSolutionResponseDto toReadSolutionResponseDto() {
         return ReadSolutionResponseDto.builder()
+                .views(views)
                 .productCategoryName(product_category_name)
                 .productDetailName(product_detail_name)
                 .solutionTitle(solution_title)

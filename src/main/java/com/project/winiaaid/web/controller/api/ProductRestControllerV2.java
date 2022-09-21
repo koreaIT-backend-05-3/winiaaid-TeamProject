@@ -27,7 +27,7 @@ public class ProductRestControllerV2 {
 
         try {
             productDetailList = productServiceV2.getProductDetailInfoList(company, type, code);
-            System.out.println(productDetailList);
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "load productList fail", productDetailList));

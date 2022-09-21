@@ -50,14 +50,9 @@ header {
     align-items: center;
 }
 
-/* .top-logo ul {
-    display: flex;
-    justify-content: flex-start;
+.top-logo {
+    cursor: pointer;
 }
-
-.top-logo li {
-    margin-left: 0px;
-} */
 
 .menu {
     width: 1400px;

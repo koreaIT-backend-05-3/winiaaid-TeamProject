@@ -10,4 +10,6 @@ public class ReadSolutionKeywordRequestDto {
     private String boardType;
     @JsonProperty("solution-type")
     private int solutionType;
+    @JsonProperty("sort-type")
+    private String sortType;
 }

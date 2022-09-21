@@ -10,6 +10,6 @@ public class SolutionPageController {
 
     @GetMapping("/faq/list")
     public String loadFaQPage() {
-        return "solution/faq_list";
+        return "solution/solution_list";
     }
 }
