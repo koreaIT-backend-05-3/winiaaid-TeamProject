@@ -45,5 +45,16 @@ public class BoardRestController {
 		
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation Successfull", boardList));
 	}
-	
+	@GetMapping("/{boardCode}")
+	public ResponseEntity<?> getBoardByBoardCode(@PathVariable int boardCode){
+		ReadBoardResponseDto boardDto = null;
+		try {
+			boardDto = boardService.getBoardByBoardCode(boardCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Load Board failed", boardDto));
+		}
+		
+		return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Board Successfull", boardDto));
+	}
 }

@@ -85,4 +85,17 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return boardDtoList;
 	}
+
+	@Override
+	public ReadBoardResponseDto getBoardByBoardCode(int boardCode) throws Exception {
+		Board boardEntity = null;
+		ReadBoardResponseDto boardDto = null;
+		
+		boardEntity = boardRepository.findBoardByBoardCode(boardCode);
+		
+		if(boardEntity!=null) {
+			boardDto = boardEntity.toBoardResponseDto();
+		}
+		return boardDto;
+	}
 }

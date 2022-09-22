@@ -69,4 +69,24 @@
 			bm.user_code = 0;
 	
 	</select>
+	<select id="findBoardByBoardCode" parameterType="Integer" resultType="com.project.winiaaid.domain.board.Board">
+		SELECT
+			bm.company_code,
+			bm.board_title,
+			bm.board_content,
+			bm.progress_status,
+			bm.create_date,
+			bf.file_name,
+			um.user_name
+		FROM
+			board_mst bm
+			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
+			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
+			
+		WHERE
+			bm.board_code = #{board_code};
+	</select>
+
+
 </mapper>
+

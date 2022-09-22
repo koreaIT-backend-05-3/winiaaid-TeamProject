@@ -13,5 +13,8 @@ public class BoardPageController {
 	public String loadBoardWritePage() {
 		return "bulpyeonwrite";
 	};
-	
+	@GetMapping("/customer/complaint/detail/{boardCode}")
+	public String loadBoardDtailPage() {
+		return "bupyeondetailview";
+	}
 }
