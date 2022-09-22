@@ -166,6 +166,11 @@ h2{
     border: 1px solid #e0e0e0;
     margin-left: 5px;
 } */
+
+.total-count-span {
+    font-weight: 400;
+    color: #0A71CC;
+}
 .content-table-head{
     width: 100%;
     border-top: 1px solid #7d7d7d;

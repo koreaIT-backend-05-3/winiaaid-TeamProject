@@ -5,6 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class BoardPageController {
+	@GetMapping("/customer/complaint/list")
+	public String loadComplaintPage() {
+		return "bulpyeonpage";
+	}
 	@GetMapping("/customer/complaint/registView")
 	public String loadBoardWritePage() {
 		return "bulpyeonwrite";

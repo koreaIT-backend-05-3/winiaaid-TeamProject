@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ReadBoardResponseDto {
-	private String name;
+	private String userName;
 	private int companyCode;
 	private String boardTitle;
 	private String boardContent;

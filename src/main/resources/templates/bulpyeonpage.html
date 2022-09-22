@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[위니아에이드] 불편합니다</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/bulpyeonpage.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/bulpyeonpage.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
     <!-- body -->
@@ -32,7 +33,7 @@
                 </div>
                 <div id="list-style1">
                     <div id="board-search">
-                        <p>전체 <span>0</span>건</p>
+                        <p>전체 <span class="total-count-span">0</span>건</p>
                         <ul class="board-btn-group">
                             <select name="select" class="select-btn">
                                 <option value="all">전체</option>
@@ -53,21 +54,7 @@
 
                         </thead>
                         <tbody class="content-table-body">
-                            <tr>
-                                <td>제목</td>
-                                <td class="content-name">작성자</td>
-                                <td class="content-date">등록일</td>
-                            </tr>
-                            <tr>
-                                <td>제목</td>
-                                <td class="content-name">작성자</td>
-                                <td class="content-date">등록일</td>
-                            </tr>
-                            <tr>
-                                <td>제목</td>
-                                <td class="content-name">작성자</td>
-                                <td class="content-date">등록일</td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                     <!-- <div class="paging">
@@ -83,5 +70,6 @@
             </div>
         </div>
     </div>
+    <script src="/static/js/board/bulpyeon.js"></script>
 </body>
 </html>

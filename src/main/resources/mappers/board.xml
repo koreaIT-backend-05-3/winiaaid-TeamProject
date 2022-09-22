@@ -51,10 +51,20 @@
 			bm.board_content,
 			bm.progress_status,
 			bm.create_date,
-			bf.file_name
+			bf.file_name,
+			um.user_name,
+			tc.total_count
 		FROM
 			board_mst bm
 			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
+			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
+			LEFT OUTER JOIN (select
+											count(*) as total_count
+										from
+											board_mst
+										where
+											user_code = 0) tc on(1=1)
+			
 		WHERE
 			bm.user_code = 0;
 	

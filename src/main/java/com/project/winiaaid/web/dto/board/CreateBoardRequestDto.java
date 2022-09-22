@@ -14,7 +14,7 @@ import lombok.Data;
 public class CreateBoardRequestDto {
 	private int usercode;
 	private int boardType;
-	private String name;
+	private String userName;
 	private String email;
 	private String mainPhoneNumber;
 	private int companyCode;
@@ -31,7 +31,7 @@ public class CreateBoardRequestDto {
 				.temp_board_code(setTempBoardCode())
 				.user_code(usercode)
 				.board_type(boardType)
-				.name(name)
+				.user_name(userName)
 				.email(email)
 				.main_phone_number(mainPhoneNumber)
 				.company_code(companyCode)

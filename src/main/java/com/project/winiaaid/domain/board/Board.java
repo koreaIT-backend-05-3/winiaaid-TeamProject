@@ -20,7 +20,7 @@ public class Board {
 	private String temp_board_code;
 	private int board_type;
 	private int user_code;
-	private String name;
+	private String user_name;
 	private String email;
 	private String main_phone_number;
 	private int company_code;
@@ -34,7 +34,7 @@ public class Board {
 	
 	public ReadBoardResponseDto toBoardResponseDto() {
 		return ReadBoardResponseDto.builder()
-				.name(name)
+				.userName(user_name)
 				.companyCode(company_code)
 				.boardTitle(board_title)
 				.boardContent(board_content)
