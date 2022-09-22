@@ -12,4 +12,9 @@ public class SolutionPageController {
     public String loadFaQPage() {
         return "solution/solution_list";
     }
+
+    @GetMapping("faq/detail/{solutionBoardCode}")
+    public String loadFaQDetailPage() {
+        return "solution/solution_detail";
+    }
 }

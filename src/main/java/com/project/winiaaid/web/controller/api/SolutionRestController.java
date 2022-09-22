@@ -7,15 +7,14 @@ import com.project.winiaaid.handler.aop.annotation.UriCheck;
 import com.project.winiaaid.service.solution.SolutionService;
 import com.project.winiaaid.util.CreateObjectMapper;
 import com.project.winiaaid.web.dto.CustomResponseDto;
+import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public class SolutionRestController {
 
     private final SolutionService solutionService;
 
-//    @Log
+    @Log
     @GetMapping("/list/{company}")
     @CompanyCheck
     @UriCheck
@@ -122,5 +121,19 @@ public class SolutionRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Solution Successful", solutionList));
+    }
+
+    @GetMapping("/detail/{solutionBoardCode}")
+    public ResponseEntity<?> getSolutionDetailBySolutionBoardCode(@PathVariable int solutionBoardCode) {
+        ReadSolutionDetailResponseDto solutionDetail = null;
+
+        try {
+            solutionDetail = solutionService.getSolutionDetailBySolutionBoardCode(solutionBoardCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load solution detail", solutionDetail));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Load solution detail successful", solutionDetail));
     }
 }

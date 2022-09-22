@@ -5,16 +5,13 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Data
 @Builder
-public class ReadSolutionResponseDto {
-    private int solutionBoardCode;
-    private String productCategoryName;
-    private String productDetailName;
+@Data
+public class ReadSolutionDetailResponseDto {
     private String solutionTitle;
     private String solutionContent;
+    private String productCategoryName;
+    private String productDetailName;
     private String solutionName;
-    private int totalCount;
     private LocalDateTime createDate;
-    private LocalDateTime updateDate;
 }

@@ -3,6 +3,7 @@ package com.project.winiaaid.service.solution;
 import com.project.winiaaid.domain.solution.Solution;
 import com.project.winiaaid.domain.solution.SolutionRepository;
 import com.project.winiaaid.util.ConfigMap;
+import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,7 @@ public class SolutionServiceImpl implements SolutionService{
 
         configMap = configMapper.setConfigMap(company, readSolutionKeywordRequestDto);
 
-        solutionEntityList = solutionRepository.findAllSolutionListByCompanyCode(configMap);
-
-        log.info("configMap: " + configMap);
+        solutionEntityList = solutionRepository.findAllSolutionListByCompanyCodeAndKeyword(configMap);
 
         if(solutionEntityList != null && solutionEntityList.size() > 0){
             readSolutionDtoList = changeToReadSolutionResponseDtoList(solutionEntityList);
@@ -48,8 +47,7 @@ public class SolutionServiceImpl implements SolutionService{
 
         configMap = configMapper.setConfigMap(productCategoryCode,readSolutionKeywordRequestDto);
 
-        log.info("내가 꼭 잡는다");
-        solutionEntityList = solutionRepository.findSolutionListByProductCategoryCode(configMap);
+        solutionEntityList = solutionRepository.findSolutionListByProductCategoryCodeAndKeyword(configMap);
 
         if(solutionEntityList != null && solutionEntityList.size() > 0){
             readSolutionDtoList = changeToReadSolutionResponseDtoList(solutionEntityList);
@@ -66,8 +64,7 @@ public class SolutionServiceImpl implements SolutionService{
 
         configMap = configMapper.setConfigMap(productGroupCode, company, readSolutionKeywordRequestDto);
 
-        log.info("내가 꼭 잡는다");
-        solutionEntityList = solutionRepository.findSolutionListByProductGroupCode(configMap);
+        solutionEntityList = solutionRepository.findSolutionListByProductGroupCodeAndKeyword(configMap);
 
         if(solutionEntityList != null && solutionEntityList.size() > 0){
             readSolutionDtoList = changeToReadSolutionResponseDtoList(solutionEntityList);
@@ -84,10 +81,7 @@ public class SolutionServiceImpl implements SolutionService{
 
         configMap = configMapper.setConfigMap(productCode, readSolutionKeywordRequestDto);
 
-        log.info("내가 꼭 잡는다");
-        log.info("check: {}", configMap);
-
-        solutionEntityList = solutionRepository.findSolutionListByProductCode(configMap);
+        solutionEntityList = solutionRepository.findSolutionListByProductCodeAndKeyword(configMap);
 
         if(solutionEntityList != null && solutionEntityList.size() > 0){
             readSolutionDtoList = changeToReadSolutionResponseDtoList(solutionEntityList);
@@ -96,9 +90,27 @@ public class SolutionServiceImpl implements SolutionService{
         return readSolutionDtoList;
     }
 
+    @Override
+    public ReadSolutionDetailResponseDto getSolutionDetailBySolutionBoardCode(int solutionBoardCode) throws Exception {
+        Solution solutionEntity = null;
+        ReadSolutionDetailResponseDto solutionDto = null;
+
+        solutionEntity = solutionRepository.findSolutionDetailBySolutionBoardCode(solutionBoardCode);
+
+        if(solutionEntity != null){
+            solutionDto = changeToReadSolutionDetailResponseDto(solutionEntity);
+        }
+
+        return solutionDto;
+    }
+
     private List<ReadSolutionResponseDto> changeToReadSolutionResponseDtoList(List<Solution> solutionList) {
         return solutionList.stream()
                 .map(Solution::toReadSolutionResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    private ReadSolutionDetailResponseDto changeToReadSolutionDetailResponseDto(Solution solutionEntity) {
+        return solutionEntity.toReadSolutionDetailResponseDto();
     }
 }

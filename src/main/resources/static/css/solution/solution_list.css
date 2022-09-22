@@ -114,6 +114,114 @@ td {
     cursor: pointer;
 }
 
+.send-message-modal {
+    width: 370px;
+    height: 371px;
+
+    position: fixed;
+    top: 420px;
+    
+    z-index: 9999;
+    opacity: 1;
+}
+
+.modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 50px;
+    width: 100%;
+    
+    background-color: #0a71cc;
+}
+
+.modal-head h1 {
+    padding-left: 30px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.cancel-image {
+    padding-right: 30px;
+    font-size: 20px;
+    font-weight: 300;
+    color: #fff;
+
+    cursor: pointer;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-right: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
+    border-left: 1px solid #e1e1e1;
+    padding: 20px 30px;
+
+    background-color: #fff;
+}
+
+.modal-body .title {
+    display: flex;
+}
+
+.fa-mobile {
+    margin-right: 20px;
+    font-size: 60px;
+    color: #0a71cc;
+}
+
+.modal-body .title p, .modal-body .title span {
+    font-size: 20px;
+}
+
+.modal-body .title span {
+    color: #0a71cc;
+}
+
+.input-div {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.input-div input {
+    border: 1px solid #606060;
+    padding: 5px;
+
+    width: 100%;
+    height: 31px;
+
+    background: #fff;
+}
+
+.input-div input:nth-of-type(1) {
+    margin-bottom: 10px;
+}
+
+.button-div button {
+    margin: 0px 15px;
+    padding: 10px 25px;
+
+    color: #fff;
+}
+
+.button-div button:first-child {
+    border: 1px solid #828282;
+    background: #828282;
+}
+
+.button-div button:last-child {
+    border: 1px solid #0a71cd;
+    background: #0a71cd;
+}
+
+.button-div button:hover {
+    text-decoration: underline;
+}
+
 .solution-result {
     width: 980px;
 }
@@ -166,13 +274,19 @@ td {
 
 .title {
     margin-bottom: 18px;
+
+    cursor: pointer;
 }
 
-.faq-result dl {
+.title:hover {
+    text-decoration: underline;
+}
+
+.solution-content dl {
     display: flex;
 }
 
-.faq-result dt {
+.solution-content dt {
     width: 80px;
     height: 18px;
 
@@ -180,7 +294,7 @@ td {
     color: #7d7d7d;
 }
 
-.faq-result dd {
+.solution-content dd {
     width: 800px;
     height: 18px;
 

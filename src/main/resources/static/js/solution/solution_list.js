@@ -197,16 +197,18 @@ function getSolutionListByProductCode() {
 
 function setSolutionList(solutionList) {
     if(solutionList != null) {
+        let solutionDataMap = new Map();
+
         setSearchTotalCount(solutionList[0].totalCount);
         clearDomObject(solutionSearchResult);
 
         for(solution of solutionList) {
             solutionSearchResult.innerHTML += `
                 <li class="list-unit">
-                    <div class="faq-result">
+                    <div class="solution-content">
                         <p class="title">${solution.solutionTitle}</p>
                         <dl>
-                            <dt>제품 ${solution.views}</dt>
+                            <dt>제품</dt>
                             <dd>
                                 <ul>
                                     <li>${solution.productCategoryName}${solution.productCategoryName == solution.productDetailName ? "" : " > " + solution.productDetailName}</li>
@@ -226,7 +228,9 @@ function setSolutionList(solutionList) {
             `;
         }
 
-        
+        setSolutionTitleClickEvent(solutionList);
+        setSolutionInfoInMapBySolutionBoardCode(solutionDataMap, solutionList);
+        setSendMessageButtonClickEvent(solutionList);
     }else {
         noticeNoResult();
         setSearchTotalCount(0);
@@ -237,6 +241,41 @@ function setSearchTotalCount(totalCount) {
     const searchTotalCountSpanItems = document.querySelectorAll(".search-count-span")
 
     searchTotalCountSpanItems.forEach(span => span.textContent = totalCount);
+}
+
+function setSolutionTitleClickEvent(solutionInfoDataList) {
+    const solutionTitleItems = document.querySelectorAll(".solution-content .title");
+
+    for(let i = 0; i < solutionTitleItems.length; i++) {
+        solutionTitleItems[i].onclick = () =>
+            loadSolutionDetailPage(solutionInfoDataList[i].solutionBoardCode);
+    }
+}
+
+function loadSolutionDetailPage(solutionBoardCode) {
+    location.href = `/solution/faq/detail/${solutionBoardCode}`;
+}
+
+function setSolutionInfoInMapBySolutionBoardCode(solutionDataMap, solutionInfoDataList) {
+    for(solutionInfoData of solutionInfoDataList) {
+        let solutionInfoObject = {
+            "solutionTitle": solutionInfoData.solutionTitle,
+            "solutionContent": solutionInfoData.solutionContent
+        }
+
+        solutionDataMap.set(solutionInfoData.solutionBoardCode, solutionInfoObject);
+    }
+}
+
+function setSendMessageButtonClickEvent(solutionInfoDataList) {
+    const sendMessageButtonItems = document.querySelectorAll(".send-message");
+    
+    for(let i = 0 ; i < sendMessageButtonItems.length; i++) {
+        sendMessageButtonItems[i].onclick = () => {
+            console.log(solutionInfoDataList[i].solutionTitle);
+            console.log(solutionInfoDataList[i].solutionContent);
+        }
+    }
 }
 
 function noticeNoResult() {
