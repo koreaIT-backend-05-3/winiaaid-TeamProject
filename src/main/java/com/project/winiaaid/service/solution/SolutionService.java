@@ -12,4 +12,5 @@ public interface SolutionService {
     public List<ReadSolutionResponseDto> getSolutionListByProductGroupCodeAndKeyword(int productGroupCode, String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception;
     public List<ReadSolutionResponseDto> getSolutionListByProductCodeAndKeyword(int productCode, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDtoe) throws Exception;
     public ReadSolutionDetailResponseDto getSolutionDetailBySolutionBoardCode(int solutionBoardCode) throws Exception;
+    public boolean updateViewCountBySolutionBoardCode(int solutionBoardCode) throws Exception;
 }

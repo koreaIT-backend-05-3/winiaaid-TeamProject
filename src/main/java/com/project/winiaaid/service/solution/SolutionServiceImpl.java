@@ -104,6 +104,11 @@ public class SolutionServiceImpl implements SolutionService{
         return solutionDto;
     }
 
+    @Override
+    public boolean updateViewCountBySolutionBoardCode(int solutionBoardCode) throws Exception {
+        return solutionRepository.updateViewCountBySolutionBoardCode(solutionBoardCode) > 0;
+    }
+
     private List<ReadSolutionResponseDto> changeToReadSolutionResponseDtoList(List<Solution> solutionList) {
         return solutionList.stream()
                 .map(Solution::toReadSolutionResponseDto)

@@ -1,13 +1,19 @@
 const goListButton = document.querySelector(".go-list-button");
 const imageItems = document.querySelectorAll(".etc-group img");
 
-goListButton.onclick = goList;
+let solutionBoardCode = getSolutionBoardCode();
 
+
+increamentViewCount();
 getSolutionDetailData();
 setImageByUri();
 getImageItemsSrc();
 
+goListButton.onclick = goList;
+
 function goList() {
+    savePreviousInfoToLocalStorage();
+
     if(checkFaqUri()) {
         location.href = "/solution/faq/list";
     }else {
@@ -16,7 +22,6 @@ function goList() {
 }
 
 function getSolutionDetailData() {
-    let solutionBoardCode = getSolutionBoardCode();
 
     $.ajax({
         type: "get",
@@ -24,6 +29,7 @@ function getSolutionDetailData() {
         dataType: "json",
         success: (response) => {
             setSolutionDetailData(response.data);
+            setSolutionDataObject(response.data);
         },
         error: (request, status, error) => {
             alert("요청중에 오류가 발생했습니다.");
@@ -90,7 +96,19 @@ function setSolutionDetailData(solutionDetailData) {
             </tr>
         </tbody>
             `;
+
+        setSendMessageButtonClickEvent(solutionDetailData);
     }
+}
+
+function setSolutionDataObject(solutionDetailData) {
+    solutionInfoObject.productGroupName = solutionDetailData.productGroupName;
+    solutionInfoObject.productCategoryName = solutionDetailData.productCategoryName;
+    solutionInfoObject.productDetailName = solutionDetailData.productDetailName;
+}
+
+function savePreviousInfoToLocalStorage() {
+    localStorage.pastSolutionListHistoryInfoObject = JSON.stringify(solutionInfoObject);
 }
 
 function isEmpty(value) {
@@ -127,4 +145,20 @@ function checkSrcAndSetClickEvent(imageSrc) {
     }else if(imageSrc.indexOf("visit_repair_service") != -1) {
         location.href = "/service/visit/request";
     }
+}
+
+function increamentViewCount() {
+    $.ajax({
+        type: "put",
+        url: `/api/v1/solution/increase/view-count/${solutionBoardCode}`,
+        dataType: "json",
+        success: (response) => {
+            
+        },
+        error: (request, status, error) => {
+            console.log(request.status);
+            console.log(request.responseText);
+            console.log(error);
+        }
+    });
 }

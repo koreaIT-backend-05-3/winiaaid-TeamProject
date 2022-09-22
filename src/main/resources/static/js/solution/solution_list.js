@@ -7,6 +7,7 @@ const solutionSearchResult = document.querySelector(".search-result");
 const searchKeywordResultNoticeDiv = document.querySelector(".search-keyword-result-notice");
 const latestSortButton = document.querySelector(".latest-sort-button");
 
+
 let boardType = null;
 let solutionType = 1;
 
@@ -16,8 +17,10 @@ let selectProductCode = 0;
 
 let latestSortFlag = false;
 
-
 boardType = checkBoardType();
+
+checkPreviousInfoInLocalStorage();
+
 
 solutionTypeSelect.onchange = () => {
     solutionType = getSolutionTypeCode();
@@ -183,6 +186,10 @@ function searchSolutionByKeyWordAndProductGroupCode() {
 function getSolutionListByProductCode() {
     solutionType = getSolutionTypeCode();
     console.log("solutionType: " + solutionType);
+    console.log(company);
+    console.log(selectProductCode);
+    console.log(boardType);
+    console.log(latestSortFlag);
     $.ajax({
         type: "get",
         url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}?board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
@@ -229,7 +236,6 @@ function setSolutionList(solutionList) {
         }
 
         setSolutionTitleClickEvent(solutionList);
-        setSolutionInfoInMapBySolutionBoardCode(solutionDataMap, solutionList);
         setSendMessageButtonClickEvent(solutionList);
     }else {
         noticeNoResult();
@@ -243,39 +249,8 @@ function setSearchTotalCount(totalCount) {
     searchTotalCountSpanItems.forEach(span => span.textContent = totalCount);
 }
 
-function setSolutionTitleClickEvent(solutionInfoDataList) {
-    const solutionTitleItems = document.querySelectorAll(".solution-content .title");
-
-    for(let i = 0; i < solutionTitleItems.length; i++) {
-        solutionTitleItems[i].onclick = () =>
-            loadSolutionDetailPage(solutionInfoDataList[i].solutionBoardCode);
-    }
-}
-
 function loadSolutionDetailPage(solutionBoardCode) {
     location.href = `/solution/faq/detail/${solutionBoardCode}`;
-}
-
-function setSolutionInfoInMapBySolutionBoardCode(solutionDataMap, solutionInfoDataList) {
-    for(solutionInfoData of solutionInfoDataList) {
-        let solutionInfoObject = {
-            "solutionTitle": solutionInfoData.solutionTitle,
-            "solutionContent": solutionInfoData.solutionContent
-        }
-
-        solutionDataMap.set(solutionInfoData.solutionBoardCode, solutionInfoObject);
-    }
-}
-
-function setSendMessageButtonClickEvent(solutionInfoDataList) {
-    const sendMessageButtonItems = document.querySelectorAll(".send-message");
-    
-    for(let i = 0 ; i < sendMessageButtonItems.length; i++) {
-        sendMessageButtonItems[i].onclick = () => {
-            console.log(solutionInfoDataList[i].solutionTitle);
-            console.log(solutionInfoDataList[i].solutionContent);
-        }
-    }
 }
 
 function noticeNoResult() {
@@ -430,4 +405,52 @@ function changeSortButton() {
 
 function isEmpty(value) {
     return value == "" || value == undefined || value == null;
+}
+
+function checkPreviousInfoInLocalStorage() {
+    let pastSolutionListHistoryInfoObject = localStorage.pastSolutionListHistoryInfoObject;
+    localStorage.clear();
+
+    if(pastSolutionListHistoryInfoObject != null) {
+        pastSolutionListHistoryInfoObject = JSON.parse(pastSolutionListHistoryInfoObject);
+
+        pastSolutionListHistoryInfoObject.companyCode == 1 ? daewoo.click() : winia.click();
+        pastRequestServiceCategoryLoad(pastSolutionListHistoryInfoObject);
+        pastRequestServiceDetailProductLoad(pastSolutionListHistoryInfoObject);
+    }
+}
+
+function pastRequestServiceCategoryLoad(pastSolutionListHistoryInfoObject) {
+    categoryImages = document.querySelectorAll(".category-image-li img");
+    for(categoryImage of categoryImages) {
+        console.log(pastSolutionListHistoryInfoObject.productGroupName);
+        console.log(pastSolutionListHistoryInfoObject.productCategoryName);
+        if(categoryImage.getAttribute("alt") == pastSolutionListHistoryInfoObject.productGroupName) {
+            categoryImage.click();
+            break;
+        }else if(categoryImage.getAttribute("alt") == pastSolutionListHistoryInfoObject.productCategoryName) {
+            categoryImage.click();
+            break;
+        }
+    }
+}
+
+function pastRequestServiceDetailProductLoad(pastSolutionListHistoryInfoObject) {
+    const productDetailNameItems= document.querySelectorAll(".detail-product-name");
+    const productDetailImageItems = document.querySelectorAll(".product-detail-image");
+
+    for(productDetailImage of productDetailImageItems) {
+        if(productDetailImage.getAttribute("alt") == pastSolutionListHistoryInfoObject.productDetailName) {
+            console.log(productDetailImage.getAttribute("alt"));
+            productDetailImage.click();
+            return;
+        }
+    }    
+    for(productDetailName of productDetailNameItems) {
+        if(productDetailName.textContent == pastSolutionListHistoryInfoObject.productDetailName) {
+            console.log("체크");
+            productDetailName.click();
+            return;
+        }
+    }  
 }

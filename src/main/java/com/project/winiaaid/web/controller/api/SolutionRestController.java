@@ -136,4 +136,18 @@ public class SolutionRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Load solution detail successful", solutionDetail));
     }
+
+    @PutMapping("/increase/view-count/{solutionBoardCode}")
+    public ResponseEntity<?> increaseInViewsBySolutionBoardCode(@PathVariable int solutionBoardCode) {
+        boolean status = false;
+
+        try {
+            status = solutionService.updateViewCountBySolutionBoardCode(solutionBoardCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to increase view count", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful increase in views", status));
+    }
 }

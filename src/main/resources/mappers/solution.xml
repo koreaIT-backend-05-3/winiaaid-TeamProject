@@ -480,14 +480,30 @@
 
             wpd.product_detail_name,
 
-            wpm.product_category_name
+            wpm.product_category_name,
+            wpm.company_code,
+
+            pmg.product_category_name as product_group_name,
+
+            sf.file_name
         FROM
             solution_table st
             LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
             LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
             LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
             LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
+            LEFT OUTER JOIN solution_file sf ON(sf.solution_code = st.solution_code)
         WHERE
             solution_board_code = #{solution_board_code};
     </select>
+
+    <update id="updateViewCountBySolutionBoardCode" parameterType="Integer">
+        update
+            solution_product_table
+        set
+            views = views + 1
+        where
+            solution_board_code = #{solution_board_code};
+    </update>
 </mapper>

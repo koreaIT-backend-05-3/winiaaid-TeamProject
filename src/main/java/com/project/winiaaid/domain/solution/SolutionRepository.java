@@ -12,4 +12,5 @@ public interface SolutionRepository {
     public List<Solution> findSolutionListByProductGroupCodeAndKeyword(Map<String, Object> confing_map) throws Exception;
     public List<Solution> findSolutionListByProductCodeAndKeyword(Map<String, Object> confing_map) throws Exception;
     public Solution findSolutionDetailBySolutionBoardCode(int solution_board_code) throws Exception;
+    public int updateViewCountBySolutionBoardCode(int solution_board_code) throws Exception;
 }

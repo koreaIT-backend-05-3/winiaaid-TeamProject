@@ -1026,11 +1026,7 @@ function checkRequireProductModelAndSaveProductInfo() {
         descriptionInput.focus();
         return false;
     }
-
-    // productInfoObject.company = company == "winia" ? "위니아 제품" : "위니아 전자 제품";
-    // productInfoObject.productCategory = modelTitleSpan != null ? modelTitleSpan.textContent : null;
-    // productInfoObject.productName = modelNameSpan.textContent;
-    // productInfoObject.modelName = modelDetailSpan.textContent;
+    
     productInfoObject.troubleCode = troubleSymptomTd.options[troubleSymptomTd.selectedIndex].value;
     productInfoObject.description = descriptionInput.value;
 

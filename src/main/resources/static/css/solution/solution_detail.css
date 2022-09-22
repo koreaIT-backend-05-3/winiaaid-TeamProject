@@ -100,6 +100,14 @@ tbody td {
     text-decoration: underline;
 }
 
+.send-message-modal-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 980px;
+}
+
 .etc-group-service {
     margin-top: 70px;
 }
@@ -126,4 +134,8 @@ tbody td {
 .etc-group img:not(.etc-group img:nth-child(1)) {
     margin-left: 7px;
     width: 320px;
+}
+
+.visible {
+    display: none;
 }
