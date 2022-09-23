@@ -11,6 +11,16 @@ import java.util.Map;
 public class ConfigMapImpl implements ConfigMap{
 
     @Override
+    public Map<String, Object> setConfigMap(int solutionBoardCode, String solutionBoardType) {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("solution_board_code", solutionBoardCode);
+        configMap.put("solution_board_type", solutionBoardType.equals("faq") ? 1 : 2);
+
+        return configMap;
+    }
+
+    @Override
     public Map<String, Object> setConfigMap(String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) {
         Map<String, Object> configMap = new HashMap<>();
 

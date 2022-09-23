@@ -123,12 +123,13 @@ public class SolutionRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Solution Successful", solutionList));
     }
 
+    @UriCheck
     @GetMapping("/detail/{solutionBoardCode}")
-    public ResponseEntity<?> getSolutionDetailBySolutionBoardCode(@PathVariable int solutionBoardCode) {
+    public ResponseEntity<?> getSolutionDetailBySolutionBoardCode(@PathVariable int solutionBoardCode, @RequestParam("board-type") String boardType) {
         ReadSolutionDetailResponseDto solutionDetail = null;
 
         try {
-            solutionDetail = solutionService.getSolutionDetailBySolutionBoardCode(solutionBoardCode);
+            solutionDetail = solutionService.getSolutionDetailBySolutionBoardCode(solutionBoardCode, boardType);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load solution detail", solutionDetail));

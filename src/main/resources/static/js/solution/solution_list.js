@@ -7,6 +7,8 @@ const solutionSearchResult = document.querySelector(".search-result");
 const searchKeywordResultNoticeDiv = document.querySelector(".search-keyword-result-notice");
 const latestSortButton = document.querySelector(".latest-sort-button");
 
+const solutionTypeUnitItems = document.querySelectorAll(".type-unit li");
+
 
 let boardType = null;
 let solutionType = 1;
@@ -17,8 +19,9 @@ let selectProductCode = 0;
 
 let latestSortFlag = false;
 
-boardType = checkBoardType();
+boardType = getBoardType();
 
+setSolutionListTypeView();
 checkPreviousInfoInLocalStorage();
 
 
@@ -34,14 +37,17 @@ searchInput.onkeypress = (e) => {
     }
 }
 
+solutionTypeUnitItems[0].onclick = loadFaqPage;
+solutionTypeUnitItems[1].onclick = loadSelfCheckPage;
+
 searchKeywordButton.onclick = () => {
     getSolutionListByKeyCodeAndKeyword();
 };
 
 latestSortButton.onclick = sortChange;
 
-function checkBoardType() {
-    return location.pathname.indexOf("faq") != -1 ? "faq" : "self";
+function getBoardType() {
+    return location.pathname.indexOf("faq") != -1 ? "faq" : "selfCheck";
 }
 
 function getSolutionTypeCode() {
@@ -69,10 +75,10 @@ function getSolutionListByKeyCode() {
     }else {
         if(company == "winia") {
             console.log("winia");
-            getWiniaAllProductFaqSolution();
+            getWiniaAllProductSolution();
         }else {
             console.log("daewoo");
-            getDaewooAllProductFaqSolution();
+            getDaewooAllProductSolution();
         }
     }
 }
@@ -103,12 +109,12 @@ function getSolutionListByKeyCodeAndKeyword() {
     }
 }
 
-function getWiniaAllProductFaqSolution() {
+function getWiniaAllProductSolution() {
     removeSolutionTypeOption();
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/winia?board-type=faq&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/winia?board-type=${boardType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -118,12 +124,12 @@ function getWiniaAllProductFaqSolution() {
     });
 }
 
-function getDaewooAllProductFaqSolution() {
+function getDaewooAllProductSolution() {
     removeSolutionTypeOption();
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/daewoo?board-type=faq&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/daewoo?board-type=${boardType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -249,8 +255,17 @@ function setSearchTotalCount(totalCount) {
     searchTotalCountSpanItems.forEach(span => span.textContent = totalCount);
 }
 
+function setSolutionTitleClickEvent(solutionInfoDataList) {
+    const solutionTitleItems = document.querySelectorAll(".solution-content .title");
+
+    for(let i = 0; i < solutionTitleItems.length; i++) {
+        solutionTitleItems[i].onclick = () =>
+            loadSolutionDetailPage(solutionInfoDataList[i].solutionBoardCode);
+    }
+}
+
 function loadSolutionDetailPage(solutionBoardCode) {
-    location.href = `/solution/faq/detail/${solutionBoardCode}`;
+    location.href = `/solution/${boardType == "faq" ? "faq" : "self-check"}/detail/${solutionBoardCode}`;
 }
 
 function noticeNoResult() {
@@ -403,6 +418,26 @@ function changeSortButton() {
     }
 }
 
+function setSolutionListTypeView() {
+    const titleH1 = document.querySelector(".title-div h1");
+
+    if(getBoardType() == "faq") {
+        solutionTypeUnitItems[0].classList.add("selected-solution-type")
+        titleH1.textContent = "자주하는 질문";
+    }else {
+        solutionTypeUnitItems[1].classList.add("selected-solution-type")
+        titleH1.textContent = "자가진단";
+    }
+}
+
+function loadFaqPage() {
+    location.href = "/solution/faq/list"
+}
+
+function loadSelfCheckPage() {
+    location.href = "/solution/self-check/list"
+}
+
 function isEmpty(value) {
     return value == "" || value == undefined || value == null;
 }
@@ -414,6 +449,7 @@ function checkPreviousInfoInLocalStorage() {
     if(pastSolutionListHistoryInfoObject != null) {
         pastSolutionListHistoryInfoObject = JSON.parse(pastSolutionListHistoryInfoObject);
 
+        console.log(pastSolutionListHistoryInfoObject.companyCode);
         pastSolutionListHistoryInfoObject.companyCode == 1 ? daewoo.click() : winia.click();
         pastRequestServiceCategoryLoad(pastSolutionListHistoryInfoObject);
         pastRequestServiceDetailProductLoad(pastSolutionListHistoryInfoObject);
@@ -422,9 +458,9 @@ function checkPreviousInfoInLocalStorage() {
 
 function pastRequestServiceCategoryLoad(pastSolutionListHistoryInfoObject) {
     categoryImages = document.querySelectorAll(".category-image-li img");
+    console.log(pastSolutionListHistoryInfoObject.productGroupName);
+    console.log(pastSolutionListHistoryInfoObject.productCategoryName);
     for(categoryImage of categoryImages) {
-        console.log(pastSolutionListHistoryInfoObject.productGroupName);
-        console.log(pastSolutionListHistoryInfoObject.productCategoryName);
         if(categoryImage.getAttribute("alt") == pastSolutionListHistoryInfoObject.productGroupName) {
             categoryImage.click();
             break;
@@ -438,7 +474,7 @@ function pastRequestServiceCategoryLoad(pastSolutionListHistoryInfoObject) {
 function pastRequestServiceDetailProductLoad(pastSolutionListHistoryInfoObject) {
     const productDetailNameItems= document.querySelectorAll(".detail-product-name");
     const productDetailImageItems = document.querySelectorAll(".product-detail-image");
-
+    console.log(pastSolutionListHistoryInfoObject.productDetailName)
     for(productDetailImage of productDetailImageItems) {
         if(productDetailImage.getAttribute("alt") == pastSolutionListHistoryInfoObject.productDetailName) {
             console.log(productDetailImage.getAttribute("alt"));

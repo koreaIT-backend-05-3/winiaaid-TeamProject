@@ -116,6 +116,12 @@ td {
     cursor: pointer;
 }
 
+.type-unit .selected-solution-type {
+    border: 1px solid #0A71CC;
+
+    color: #0A71CC;
+}
+
 .send-message-modal-div {
     display: flex;
     justify-content: center;

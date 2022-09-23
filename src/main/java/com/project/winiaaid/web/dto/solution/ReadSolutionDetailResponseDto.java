@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Data
@@ -15,5 +16,6 @@ public class ReadSolutionDetailResponseDto {
     private String productDetailName;
     private String solutionName;
     private String productGroupName;
+    private List<SolutionFileDto> solutionFileList;
     private LocalDateTime createDate;
 }

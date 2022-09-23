@@ -5,7 +5,9 @@ import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class Solution {
@@ -19,7 +21,7 @@ public class Solution {
     private int total_count;
     private int views;
     private String product_group_name;
-    private List<SolutionFile> solutionFileList;
+    private List<SolutionFile> solution_file_list;
     private LocalDateTime create_date;
     private LocalDateTime update_date;
 
@@ -46,6 +48,10 @@ public class Solution {
                 .productDetailName(product_detail_name)
                 .solutionName(solution_name)
                 .productGroupName(product_group_name)
+                .solutionFileList(solution_file_list != null ?
+                        solution_file_list.stream()
+                        .map(SolutionFile::toSolutionFileDto)
+                        .collect(Collectors.toList()) : new ArrayList<>())
                 .createDate(create_date)
                 .build();
     }

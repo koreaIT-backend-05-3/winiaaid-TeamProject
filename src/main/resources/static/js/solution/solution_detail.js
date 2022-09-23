@@ -17,15 +17,21 @@ function goList() {
     if(checkFaqUri()) {
         location.href = "/solution/faq/list";
     }else {
-        location.href = "/solution/self/list";
+        location.href = "/solution/self-check/list";
     }
 }
 
+function getBoardType() {
+    return location.pathname.indexOf("faq") != -1 ? "faq" : "selfCheck";
+}
+
 function getSolutionDetailData() {
+    let boardType = getBoardType();
+    setSolutionListTypeView(boardType);
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/detail/${solutionBoardCode}`,
+        url: `/api/v1/solution/detail/${solutionBoardCode}?board-type=${boardType}`,
         dataType: "json",
         success: (response) => {
             setSolutionDetailData(response.data);
@@ -97,11 +103,18 @@ function setSolutionDetailData(solutionDetailData) {
         </tbody>
             `;
 
+        const tbodyTd = document.querySelector("tbody td");
+
+        for(imageFile of solutionDetailData.solutionFileList) {
+            tbodyTd.innerHTML += `<img src="/image/solution_images/${imageFile.fileName}" alt="${imageFile.fileName}">`;
+        }
+
         setSendMessageButtonClickEvent(solutionDetailData);
     }
 }
 
 function setSolutionDataObject(solutionDetailData) {
+    solutionInfoObject.companyCode = solutionDetailData.companyCode;
     solutionInfoObject.productGroupName = solutionDetailData.productGroupName;
     solutionInfoObject.productCategoryName = solutionDetailData.productCategoryName;
     solutionInfoObject.productDetailName = solutionDetailData.productDetailName;
@@ -161,4 +174,14 @@ function increamentViewCount() {
             console.log(error);
         }
     });
+}
+
+function setSolutionListTypeView(boardType) {
+    const titleH1 = document.querySelector(".title-div h1");
+
+    if(boardType == "faq") {
+        titleH1.textContent = "자주하는 질문";
+    }else {
+        titleH1.textContent = "자가진단";
+    }
 }

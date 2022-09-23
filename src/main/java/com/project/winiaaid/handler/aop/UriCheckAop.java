@@ -10,6 +10,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Aspect
 @Component
 @Slf4j
@@ -44,18 +46,33 @@ public class UriCheckAop {
 
     @Around("enableCheckBoardTypeFromUri()")
     public Object checkUriType(ProceedingJoinPoint joinPoint) throws Throwable {
+        String methodName = null;
         Object result = null;
-        Object[] args = joinPoint.getArgs();
-        CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
+        Object[] args = null;
+
+        args = joinPoint.getArgs();
+        CodeSignature codeSignature = null;
+        codeSignature = (CodeSignature) joinPoint.getSignature();
+        methodName = codeSignature.getName();
 
         int index = 0;
 
-        for(Object arg : args) {
-            if(codeSignature.getParameterNames()[index].equals("boardType")) {
-                checkBoardTypeAndThrowException(arg);
-                break;
+        if(methodName.equals(("getSolutionDetailBySolutionBoardCode"))) {
+            for(Object arg : args) {
+                if(codeSignature.getParameterNames()[index].equals("boardType")) {
+                    checkBoardTypeAndThrowException(arg);
+                    break;
+                }
+                index++;
             }
-            index++;
+        }else {
+            for(Object arg : args) {
+                if(codeSignature.getParameterNames()[index].equals("parametersMap")) {
+                    checkBoardTypeAndThrowException(((Map) arg).get("board-type"));
+                    break;
+                }
+                index++;
+            }
         }
 
         result = joinPoint.proceed();
@@ -64,7 +81,8 @@ public class UriCheckAop {
     }
 
     private void checkBoardTypeAndThrowException(Object boardType) {
-        if(!(boardType.equals("faq") || boardType.equals("self"))) {
+        log.info("Checking board type: {}", boardType);
+        if(!(boardType.equals("faq") || boardType.equals("selfCheck"))) {
             throw new CustomApiUriTypeException("URI type ERROR");
         }
     }

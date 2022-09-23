@@ -20,15 +20,6 @@ sendMessageCancelButton.onclick = () => addVisibleClass(sendMessageModal);
 
 sendMessageSubmitButton.onclick = checkPhoneNumber;
 
-function setSolutionTitleClickEvent(solutionInfoDataList) {
-    const solutionTitleItems = document.querySelectorAll(".solution-content .title");
-
-    for(let i = 0; i < solutionTitleItems.length; i++) {
-        solutionTitleItems[i].onclick = () =>
-            loadSolutionDetailPage(solutionInfoDataList[i].solutionBoardCode);
-    }
-}
-
 function setSendMessageButtonClickEvent(solutionInfoDataList) {
     clearValue(phoneNumberInput);
 

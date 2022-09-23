@@ -2,6 +2,7 @@ package com.project.winiaaid.service.solution;
 
 import com.project.winiaaid.domain.solution.Solution;
 import com.project.winiaaid.domain.solution.SolutionRepository;
+import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
@@ -90,12 +91,18 @@ public class SolutionServiceImpl implements SolutionService{
         return readSolutionDtoList;
     }
 
+    @Log
     @Override
-    public ReadSolutionDetailResponseDto getSolutionDetailBySolutionBoardCode(int solutionBoardCode) throws Exception {
+    public ReadSolutionDetailResponseDto getSolutionDetailBySolutionBoardCode(int solutionBoardCode, String solutionBoardType) throws Exception {
         Solution solutionEntity = null;
         ReadSolutionDetailResponseDto solutionDto = null;
+        Map<String, Object> configMap = null;
 
-        solutionEntity = solutionRepository.findSolutionDetailBySolutionBoardCode(solutionBoardCode);
+        configMap = configMapper.setConfigMap(solutionBoardCode, solutionBoardType);
+
+        log.info("configMap: {}", configMap);
+
+        solutionEntity = solutionRepository.findSolutionDetailBySolutionBoardCode(configMap);
 
         if(solutionEntity != null){
             solutionDto = changeToReadSolutionDetailResponseDto(solutionEntity);
