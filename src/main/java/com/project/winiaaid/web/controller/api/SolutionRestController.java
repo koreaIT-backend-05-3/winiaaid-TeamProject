@@ -4,8 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.winiaaid.handler.aop.annotation.CompanyCheck;
 import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.handler.aop.annotation.UriCheck;
+import com.project.winiaaid.handler.exception.CustomApiUriTypeException;
 import com.project.winiaaid.service.solution.SolutionService;
-import com.project.winiaaid.util.CreateObjectMapper;
+import com.project.winiaaid.util.CustomObjectMapper;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
@@ -24,6 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SolutionRestController {
 
+    private final CustomObjectMapper customObjectMapper;
     private final SolutionService solutionService;
 
     @Log
@@ -34,8 +36,7 @@ public class SolutionRestController {
         List<ReadSolutionResponseDto> solutionList = null;
         ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto = null;
 
-        ObjectMapper mapper = CreateObjectMapper.getInstance().getMapper();
-        readSolutionKeywordRequestDto = mapper.convertValue(parametersMap, ReadSolutionKeywordRequestDto.class);
+        readSolutionKeywordRequestDto = customObjectMapper.createReadSolutionKeywordRequestDtoByObjectMapper(parametersMap);
 
         try {
             solutionList = solutionService.getAllSolutionListByCompanyAndKeyword(company, readSolutionKeywordRequestDto);
@@ -55,8 +56,9 @@ public class SolutionRestController {
         List<ReadSolutionResponseDto> solutionList = null;
         ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto = null;
 
-        ObjectMapper mapper = CreateObjectMapper.getInstance().getMapper();
-        readSolutionKeywordRequestDto = mapper.convertValue(parametersMap, ReadSolutionKeywordRequestDto.class);
+        readSolutionKeywordRequestDto = customObjectMapper.createReadSolutionKeywordRequestDtoByObjectMapper(parametersMap);
+
+        log.info("check: {}", readSolutionKeywordRequestDto);
 
         try {
             if(codeType.equals("product-category-code")) {
@@ -82,8 +84,7 @@ public class SolutionRestController {
         List<ReadSolutionResponseDto> solutionList = null;
         ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto = null;
 
-        ObjectMapper mapper = CreateObjectMapper.getInstance().getMapper();
-        readSolutionKeywordRequestDto = mapper.convertValue(parametersMap, ReadSolutionKeywordRequestDto.class);
+        readSolutionKeywordRequestDto = customObjectMapper.createReadSolutionKeywordRequestDtoByObjectMapper(parametersMap);
 
         log.info("test1: {}", readSolutionKeywordRequestDto);
         try {
@@ -104,8 +105,7 @@ public class SolutionRestController {
         List<ReadSolutionResponseDto> solutionList = null;
         ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto = null;
 
-        ObjectMapper mapper = CreateObjectMapper.getInstance().getMapper();
-        readSolutionKeywordRequestDto = mapper.convertValue(parametersMap, ReadSolutionKeywordRequestDto.class);
+        readSolutionKeywordRequestDto = customObjectMapper.createReadSolutionKeywordRequestDtoByObjectMapper(parametersMap);
 
         try {
             if(codeType.equals("product-category-code")) {

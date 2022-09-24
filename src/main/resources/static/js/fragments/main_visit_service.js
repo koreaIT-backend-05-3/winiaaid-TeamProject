@@ -591,26 +591,12 @@ function setReservationTime(engineerList, selectDay) {
     let unbookableTimeByEngineerList = getTheUnbookableTime(selectDay);
     
     if(unbookableTimeByEngineerList != null) {
-        for(engineer of unbookableTimeByEngineerList) {
-            let engineerInfo = engineer.engineerReservationInfoDtoList[0];
+        for(engineerReservationInfo of unbookableTimeByEngineerList) {
+            timeTables = document.querySelectorAll(`.time-table-${engineerReservationInfo.engineerCode} label`);
             
-            timeTables = document.querySelectorAll(`.time-table-${engineerInfo.engineerCode} label`);
-            
-            // let reservationListIndex = 0;
-    
-            // let reservationDayList = new Array();
-    
-            // engineer.engineerReservationInfoDtoList.forEach(info => {
-            //     if(info.reservationDay.replaceAll("-", "") == selectReservationDay) {
-            //         reservationDayList.push(info);
-            //     }
-            // });
-    
-            // console.log(reservationDayList);
-            for(engineerInfo of engineer.engineerReservationInfoDtoList) {
-                console.log(engineerInfo);
+            for(reservationTime of engineerReservationInfo.reservationTimeList) {
                 for(timeTable of timeTables) {
-                    if(engineerInfo.reservationTime == timeTable.textContent) {
+                    if(reservationTime == timeTable.textContent) {
                         timeTable.classList.add("unbookable");
                         break;
                     }
@@ -627,18 +613,6 @@ function setReservationTime(engineerList, selectDay) {
                 }
 
             }
-            
-            // if(reservationDayList.length != 0) {
-            //     for(timeTable of timeTables) {
-            //         if(timeTable.textContent == reservationDayList[reservationListIndex].reservationTime) {
-            //             timeTable.classList.add("unbookable")
-            //             reservationListIndex++;
-            //         }
-            //         if(reservationListIndex == reservationDayList.length) {
-            //             break;
-            //         }
-            //     }
-            // }
         }
     }
 

@@ -82,7 +82,7 @@ function getProductDetail(code, isGroup) {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v2/product/list/category/${company}/${type}/${code}`,
+        url: `/api/v1/product/list/category/${company}/${type}/${code}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {

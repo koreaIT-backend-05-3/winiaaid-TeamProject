@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 @Builder
 public class ReadEngineerReservationResponseDto {
-    private List<EngineerReservationInfoDto> engineerReservationInfoDtoList;
+    private List<ReadEngineerReservationInfoResponseDto> engineerReservationInfoDtoList;
 }

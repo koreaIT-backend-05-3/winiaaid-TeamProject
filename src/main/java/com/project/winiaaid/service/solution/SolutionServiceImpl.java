@@ -65,6 +65,8 @@ public class SolutionServiceImpl implements SolutionService{
 
         configMap = configMapper.setConfigMap(productGroupCode, company, readSolutionKeywordRequestDto);
 
+        log.info("checking configMap: {}", configMap);
+
         solutionEntityList = solutionRepository.findSolutionListByProductGroupCodeAndKeyword(configMap);
 
         if(solutionEntityList != null && solutionEntityList.size() > 0){

@@ -1,13 +1,17 @@
 package com.project.winiaaid.web.dto.repair;
 
 import com.project.winiaaid.domain.repair.ReservationInfoEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReservationInfoDto {
     private int engineerCode;
     private String engineerName;

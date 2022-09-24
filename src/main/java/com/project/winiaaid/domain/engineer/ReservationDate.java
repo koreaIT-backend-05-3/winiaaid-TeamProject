@@ -5,6 +5,6 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class ReservationTime {
-    private LocalDateTime date;
+public class ReservationDate {
+    private LocalDateTime reservation_date;
 }

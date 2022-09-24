@@ -335,6 +335,7 @@
                 WHERE
                     wpm.product_group = #{keyCode}
                     AND st.solution_board_type = #{solution_board_type}
+                    AND wpm.company_code = #{company_code}
                     AND NOT st.create_date > #{limit_date}
                     <if test="solution_type_code != 1">
                         AND st.solution_type_code = #{solution_type_code}

@@ -1,4 +1,4 @@
-package com.project.winiaaid.domain.productV2;
+package com.project.winiaaid.domain.product;
 
 import com.project.winiaaid.web.dto.productV2.ProductDetailDto;
 import lombok.AllArgsConstructor;
