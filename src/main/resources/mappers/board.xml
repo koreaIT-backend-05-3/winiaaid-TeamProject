@@ -42,7 +42,7 @@
 			</foreach>
 	</insert>
 	
-	<select id="findBoardListByUserCode" parameterType="hashmap" resultType="com.project.winiaaid.domain.board.Board">
+	<select id="findBoardListByBoardType" parameterType="hashmap" resultType="com.project.winiaaid.domain.board.Board">
 		SELECT
 			bm.board_code,
 			bm.user_code,
@@ -59,14 +59,23 @@
 			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
 			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
 			LEFT OUTER JOIN (select
-											count(*) as total_count
-										from
-											board_mst
-										where
-											user_code = 0) tc on(1=1)
+								count(*) as total_count
+							from
+								board_mst
+							where
+							<if test="board_type != 2">
+								user_code = #{user_code}
+								AND
+							</if>
+							board_type = #{board_type}) tc on(1=1)
 			
 		WHERE
-			bm.user_code = 0;
+			<if test="board_type != 2">
+				bm.user_code = #{user_code}
+				AND
+			</if>
+			bm.board_type = #{board_type}
+		LIMIT #{page}, 10;
 	
 	</select>
 	<select id="findBoardByBoardCode" parameterType="Integer" resultType="com.project.winiaaid.domain.board.Board">

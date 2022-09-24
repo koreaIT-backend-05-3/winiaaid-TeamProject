@@ -5,18 +5,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class BoardPageController {
-	@GetMapping("/customer/complaint/list")
+	@GetMapping({"/customer/complaint/list", "/customer/praise/list", "/customer/suggestion/list"})
 	public String loadComplaintPage() {
-		return "complaint_list";
+		return "board/complaint_list";
 	}
 
-	@GetMapping("/customer/complaint/regist-view")
+	@GetMapping({"/customer/complaint/regist-view", "/customer/praise/regist-view", "/customer/complaint/suggestion-view"})
 	public String loadBoardWritePage() {
-		return "complaint_write";
+		return "board/complaint_write";
 	}
 
-	@GetMapping("/customer/complaint/detail/{boardCode}")
+	@GetMapping({"/customer/complaint/detail/{boardCode}", "/customer/praise/detail/{boardCode}", "/customer/complaint/detail/{boardCode}"})
 	public String loadBoardDetailPage() {
-		return "complaint_detail";
+		return "board/complaint_detail";
 	}
 }
