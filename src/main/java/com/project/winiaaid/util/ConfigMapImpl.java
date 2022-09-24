@@ -1,5 +1,6 @@
 package com.project.winiaaid.util;
 
+import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +59,17 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("solution_type_code", readSolutionKeywordRequestDto.getSolutionType());
         configMap.put("sort_type", readSolutionKeywordRequestDto.getSortType());
         configMap.put("limit_date", createLocalDateTimeThreeMonthsAgo());
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setConfigMap(ReadBoardRequestDto readBoardRequestDto) {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("user_code", readBoardRequestDto.getUserCode());
+        configMap.put("board_type", readBoardRequestDto.getBoardType().equals("complaint") ? 1 : readBoardRequestDto.getBoardType().equals("praise") ? 2 : 3);
+        configMap.put("page", (readBoardRequestDto.getPage() - 1) * 10);
 
         return configMap;
     }

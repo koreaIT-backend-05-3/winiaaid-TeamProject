@@ -96,15 +96,15 @@ function loadRefrigeratorRecallPage() {
 }
 
 function loadComplaintBoardPage() {
-    location.href = "/complaint/list";
+    location.href = "/customer/complaint/list";
 }
 
 function loadPraiseBoardPage() {
-    location.href = "/praise/list";
+    location.href = "/customer/praise/list";
 }
 
 function loadSuggestionBoardPage() {
-    location.href = "/suggestion/list";
+    location.href = "/customer/suggestion/list";
 }
 
 function loadUserRequestHistoryPage() {

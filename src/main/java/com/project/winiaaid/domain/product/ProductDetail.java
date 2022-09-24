@@ -1,5 +1,7 @@
 package com.project.winiaaid.domain.product;
 
+
+import com.project.winiaaid.web.dto.product.ProductDetailDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

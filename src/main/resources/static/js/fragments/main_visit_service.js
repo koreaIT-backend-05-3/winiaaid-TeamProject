@@ -604,8 +604,10 @@ function setReservationTime(engineerList, selectDay) {
                 }
             }
             if(reservatedDayFlag) {
-                if(engineerInfo.engineerCode == pastHistoryInfoObject.engineerCode) {
+                if(engineerReservationInfo.engineerCode == pastHistoryInfoObject.engineerCode) {
+                    console.log(pastHistoryInfoObject.engineerCode);
                     for(timeTable of timeTables) {
+                        console.log(pastHistoryInfoObject.reservationTime);
                         if(timeTable.textContent == pastHistoryInfoObject.reservationTime) {
                             timeTable.classList.remove("unbookable");
                         }

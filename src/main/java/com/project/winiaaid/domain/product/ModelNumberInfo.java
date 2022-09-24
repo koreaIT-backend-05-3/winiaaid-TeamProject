@@ -1,5 +1,6 @@
 package com.project.winiaaid.domain.product;
 
+import com.project.winiaaid.web.dto.product.ReadModelNumberInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

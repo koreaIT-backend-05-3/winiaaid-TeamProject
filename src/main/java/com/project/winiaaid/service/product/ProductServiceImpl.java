@@ -2,14 +2,17 @@ package com.project.winiaaid.service.product;
 
 import com.project.winiaaid.domain.product.*;
 import com.project.winiaaid.web.dto.product.ReadProductCategoryResponseDto;
-import com.project.winiaaid.web.dto.product.ReadProductDetailResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductModelResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductTroubleResponseDto;
+import com.project.winiaaid.web.dto.product.ReadModelNumberInfoResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -141,93 +144,12 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    private Iterator<Integer> makeIteratorByCategoryCodeSet(List<Product> productList) {
-        Set<Integer> codeSet = new HashSet<>();
-        productList.forEach(product -> {
-                codeSet.add(product.getProduct_category_code());
-        });
 
-        return codeSet.iterator();
-    }
-
-    private Iterator<Integer> makeIteratorByModelCodeSet(List<ModelNumberInfo> productList) {
-        Set<Integer> modelCodeSet = new HashSet<>();
-
-        productList.forEach(product -> modelCodeSet.add(product.getModel_category_code()));
-
-        return modelCodeSet.iterator();
-    }
 
     private List<ReadProductModelResponseDto> changeToReadProductModelResponseDto(List<ProductModel> productModelList) {
         return productModelList.stream()
                 .map(productModel -> productModel.toReadProductModelResponseDto())
                 .collect(Collectors.toList());
     }
-
-    private List<ReadProductDetailResponseDto> checkIntegratedProduct(List<ReadProductDetailResponseDto> productList) {
-        if(productList.size() != 1) {
-            productList = productList.stream()
-                    .filter(product -> !product.getProductCategoryName().equals(product.getProductName()))
-                    .collect(Collectors.toList());
-        }
-        return productList;
-    }
-
-
-//    @Override
-//    public List<? extends Object> getProductDetailInfoList(String company, String type, int productCode) throws Exception {
-//        List<Product> productList = null;
-//        List<ReadProductDetailResponseDto> productInfoList = null;
-//        List<ReadProductObjectResponseDto> productObjectList = null;
-//
-//        Map<String, Object> infoMap = setInfoMap(company, type, productCode);
-//
-//        productList = productRepository.findListToProductDetailInfo(infoMap);
-//
-//        if(productList != null && productList.size() != 0) {
-//            if(type.equals("default")){
-//                productInfoList = changeToReadProductDetailResponseDto(productList);
-//
-//                productInfoList = checkIntegratedProduct(productInfoList);
-//
-//            }else {
-//                productObjectList = new ArrayList<>();
-//
-//                Iterator<Integer> iterator = makeIteratorByCategoryCodeSet(productList);
-//
-//                while(iterator.hasNext()) {
-//                    int categoryCode = iterator.next();
-//
-//                    ReadProductObjectResponseDto productObjectResponseDto = buildProductObjectDtoByCategoryCode(categoryCode, productList);
-//
-//                    productObjectResponseDto.setReadProductDetailResponseDtoList(
-//                            checkIntegratedProduct(productObjectResponseDto.getReadProductDetailResponseDtoList())
-//                    );
-//
-//
-//                    productObjectList.add(productObjectResponseDto);
-//                }
-//            }
-//        }
-//
-//        return type.equals("default") ? productInfoList : productObjectList;
-//    }
-
-    //    private List<ReadProductDetailResponseDto> changeToReadProductDetailResponseDto(List<Product> productList) {
-//        return productList.stream()
-//                .map(product -> product.toReadProductDetailResponseDto())
-//                .collect(Collectors.toList());
-//    }
-
-    //    private ReadProductObjectResponseDto buildProductObjectDtoByCategoryCode(int categoryCode, List<Product> productList) {
-//        return ReadProductObjectResponseDto.builder()
-//                .readProductDetailResponseDtoList(
-//                        productList
-//                                .stream()
-//                                .filter(product -> product.getProduct_category_code() == categoryCode)
-//                                .map(product -> product.toReadProductDetailResponseDto())
-//                                .collect(Collectors.toList()))
-//                .build();
-//    }
 
 }

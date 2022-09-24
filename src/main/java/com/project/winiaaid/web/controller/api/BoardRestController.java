@@ -2,13 +2,13 @@ package com.project.winiaaid.web.controller.api;
 
 
 import java.util.List;
+import java.util.Map;
 
+import com.project.winiaaid.handler.aop.annotation.Log;
+import com.project.winiaaid.util.CustomObjectMapper;
+import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.project.winiaaid.service.board.BoardService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
@@ -22,7 +22,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/board")
 public class BoardRestController {
 	private final BoardService boardService;
-//	포스트맵핑 - 게시글 생성
+	private final CustomObjectMapper customObjectMapper;
+
+
 	@PostMapping("/write")
 	public ResponseEntity<?> writeBoard(CreateBoardRequestDto createBoardRequestDto){
 		try {
@@ -33,11 +35,17 @@ public class BoardRestController {
 		
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation Successfull", null));
 	}
-	@GetMapping("/list/user/{userCode}")
-	public ResponseEntity<?> getBoardListByUserCode(@PathVariable int userCode){
+
+	@Log
+	@GetMapping("/list")
+	public ResponseEntity<?> getBoardListByBoardType(@RequestParam Map<String, Object> parametersMap){
 		List<ReadBoardResponseDto> boardList = null;
+		ReadBoardRequestDto readBoardRequestDto = null;
+
+		readBoardRequestDto = customObjectMapper.createReadBoardRequestDtoByObjectMapper(parametersMap);
+
 		try {
-			boardList = boardService.getBoardListByUserCode(userCode);
+			boardList = boardService.getBoardListByBoardType(readBoardRequestDto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Post Creation failed", boardList));
@@ -45,9 +53,11 @@ public class BoardRestController {
 		
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation Successfull", boardList));
 	}
+
 	@GetMapping("/{boardCode}")
 	public ResponseEntity<?> getBoardByBoardCode(@PathVariable int boardCode){
 		ReadBoardResponseDto boardDto = null;
+
 		try {
 			boardDto = boardService.getBoardByBoardCode(boardCode);
 		} catch (Exception e) {

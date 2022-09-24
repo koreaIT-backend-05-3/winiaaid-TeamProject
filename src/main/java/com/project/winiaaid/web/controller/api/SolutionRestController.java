@@ -1,10 +1,8 @@
 package com.project.winiaaid.web.controller.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.winiaaid.handler.aop.annotation.CompanyCheck;
 import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.handler.aop.annotation.UriCheck;
-import com.project.winiaaid.handler.exception.CustomApiUriTypeException;
 import com.project.winiaaid.service.solution.SolutionService;
 import com.project.winiaaid.util.CustomObjectMapper;
 import com.project.winiaaid.web.dto.CustomResponseDto;

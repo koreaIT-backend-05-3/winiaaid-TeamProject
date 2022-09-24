@@ -521,5 +521,4 @@
         where
             solution_board_code = #{solution_board_code};
     </update>
->>>>>>> daegyeong
 </mapper>

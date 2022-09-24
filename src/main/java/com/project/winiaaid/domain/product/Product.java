@@ -1,7 +1,7 @@
 package com.project.winiaaid.domain.product;
 
 import com.project.winiaaid.web.dto.product.ReadProductCategoryResponseDto;
-import com.project.winiaaid.web.dto.product.ReadProductDetailResponseDto;
+import com.project.winiaaid.web.dto.product.ReadProductResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,17 +51,4 @@ public class Product {
 						.collect(Collectors.toList()))
 				.build();
 	}
-
-
-//
-//	public ReadProductDetailResponseDto toReadProductDetailResponseDto() {
-//		return ReadProductDetailResponseDto.builder()
-//				.productCategoryCode(product_category_code)
-//				.productCategoryName(product_category_name)
-//				.productCode(product_code)
-//				.productName(product_detail_name == null ? product_category_name : product_detail_name)
-//				.productMainImage(product_main_image)
-//				.productDetailImage(product_detail_image == null ? product_main_image : product_detail_image)
-//				.build();
-//	}
 }

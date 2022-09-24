@@ -1,33 +1,33 @@
 package com.project.winiaaid.service.board;
 
+import com.project.winiaaid.domain.board.Board;
+import com.project.winiaaid.domain.board.BoardFile;
+import com.project.winiaaid.domain.board.BoardRepository;
+import com.project.winiaaid.util.ConfigMap;
+import com.project.winiaaid.web.dto.board.CreateBoardRequestDto;
+import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
+import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;import java.util.stream.Collector;
+import java.util.UUID;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.project.winiaaid.domain.board.Board;
-import com.project.winiaaid.domain.board.BoardFile;
-import com.project.winiaaid.domain.board.BoardRepository;
-import com.project.winiaaid.web.dto.board.CreateBoardRequestDto;
-import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-
 public class BoardServiceImpl implements BoardService {
 	private final BoardRepository boardRepository;
+	private final ConfigMap configMapper;
+
 	@Value("${file.path}")
 	private String filePath;
 	
@@ -69,15 +69,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<ReadBoardResponseDto> getBoardListByUserCode(int userCode) throws Exception {
-		List<Board>boardEntityList=null;
-		List<ReadBoardResponseDto>boardDtoList=null;
-		Map<String, Object> configMap = new HashMap<String, Object>();
+	public List<ReadBoardResponseDto> getBoardListByBoardType(ReadBoardRequestDto readBoardRequestDto) throws Exception {
+		List<Board>boardEntityList = null;
+		List<ReadBoardResponseDto>boardDtoList = null;
+		Map<String, Object> configMap = null;
+
+		configMap = configMapper.setConfigMap(readBoardRequestDto);
+
+		boardEntityList = boardRepository.findBoardListByBoardType(configMap);
 		
-		configMap.put("user_code", userCode);
-		boardEntityList=boardRepository.findBoardListByUserCode(configMap);
-		
-		if(boardEntityList.size()!=0 && boardEntityList != null) {
+		if(boardEntityList.size() != 0 && boardEntityList != null) {
 			boardDtoList = boardEntityList.stream()
 					.map(Board::toBoardResponseDto)
 					.collect(Collectors.toList());
