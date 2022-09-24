@@ -1,0 +1,58 @@
+#main{
+    width: 100%;
+    height: 638px;
+    min-height: 500px;
+    padding-bottom: 60px;
+}
+.main-inner{
+    width: 980px;
+    margin: 0 auto;
+}
+
+.main-inner h2{
+    margin: 60px 0 40px;
+    font-size: 25px;
+    font-weight: 300;
+    text-align: center;
+    line-height: 25px;
+}
+
+.main-inner .section{
+    width: 100%;
+    height: 141px;
+    font-size: 13px;
+}
+
+.main-inner .section p{
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+.main-inner .section .box{
+    width: 100%;
+    height: 104px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #d4d4d4;
+}
+
+input[type=checkbox] + label{
+    margin: 0 15px 0 5px;
+}
+
+.main-inner .withdrwal_list{
+    margin-top: 20px;
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+    width: 100%;
+    height: 154px;
+}
+
+table{
+    border-collapse: collapse;
+    border-spacing: 2px;
+}
+
+thead{
+    display: table-header-group;
+}
