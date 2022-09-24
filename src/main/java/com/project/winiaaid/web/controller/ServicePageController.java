@@ -42,8 +42,7 @@ public class ServicePageController {
 	@GetMapping("/popup/pastAddressPopup")
 	public String loadPastAddressPopupPage() {
 		return "popup/past_address_popup";
-
-
+	}
 
 	
 	@GetMapping("/recall/request")

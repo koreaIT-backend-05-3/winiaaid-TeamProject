@@ -5,8 +5,6 @@ import com.project.winiaaid.web.dto.product.ReadProductCategoryResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductDetailResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductModelResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductTroubleResponseDto;
-import com.project.winiaaid.web.dto.productV2.ReadModelNumberInfoResponseDto;
-import com.project.winiaaid.web.dto.productV2.ReadProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
