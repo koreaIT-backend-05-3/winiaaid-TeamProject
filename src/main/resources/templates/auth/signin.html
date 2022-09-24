@@ -8,7 +8,7 @@
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     <link rel="stylesheet" type="text/css" href="/static/css/auth/signin.css">
-    <script src="/static/js/auth/signup.js"></script>
+    <script src="/static/js/auth/signin.js"></script>
 </head>
 
 <body>
@@ -39,13 +39,13 @@
                     <div class="user-area-inner">
                         <form id="loginForm" name="loginForm">
                             <label for="username" class="input-user">
-                                <input type="text" id="username" name="user-id" placeholder="아이디를 입력하세요">
+                                <input type="text" id="username" name="username" placeholder="아이디를 입력하세요">
                             </label>
                             <label for="password" class="input-user">
-                                <input type="text" id="username" name="user-pwd" placeholder="비밀번호를 입력하세요"
+                                <input type="text" id="username" name="password" placeholder="비밀번호를 입력하세요"
                                     maxlength="10">
                             </label>
-                            <button type="button" id="button-login" class="button-login">로그인</button>
+                            <button type="submit" id="button-login" class="button-login">로그인</button>
                             <p class="save-id">
                                 <input type="checkbox" id="save-id">
                                 <label for="save-id">아이디 저장</label>
