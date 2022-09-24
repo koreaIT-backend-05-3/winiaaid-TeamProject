@@ -1,7 +1,7 @@
 #main{
     width: 100%;
-    height: 638px;
     min-height: 500px;
+    height: 700px;
     padding-bottom: 60px;
 }
 .main-inner{
@@ -40,19 +40,50 @@ input[type=checkbox] + label{
     margin: 0 15px 0 5px;
 }
 
-.main-inner .withdrwal_list{
+.main-inner .withdrwal-list{
     margin-top: 20px;
     border-top: 1px solid #444;
     border-bottom: 1px solid #444;
     width: 100%;
-    height: 154px;
 }
 
-table{
-    border-collapse: collapse;
-    border-spacing: 2px;
+.main-inner .withdrwal-list .withdrwal-header{
+    width: 100%;
+    height: 52px;
+    padding: 15px 20px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #d4d4d4;
 }
 
-thead{
-    display: table-header-group;
+.main-inner .withdrwal-list .withdrwal-textbox{
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.main-inner .withdrwal-list .withdrwal-textbox li{
+    margin-bottom: 5px;
+}
+
+
+.main-inner .withdrwal-list .withdrwal-textbox li label{
+    display: inline-block;
+    margin-left: 5px;
+    width: 160px;
+}
+
+.button-center {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.button{
+    display: inline-block;
+    height: 40px;
+    padding: 0 20px;
+    font-weight: bold;
+    line-height: 40px;
+    color: #fff;
+}
+.blue{
+    background-color: #3652a2;
 }
