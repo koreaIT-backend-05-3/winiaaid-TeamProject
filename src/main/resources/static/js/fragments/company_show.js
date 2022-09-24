@@ -1,3 +1,7 @@
+const productArea = document.querySelector(".product-area");
+const productResult = document.querySelector(".product-result");
+const explainationP = document.querySelector(".explaination-p");
+
 const winia = document.querySelector(".li-winia");
 const daewoo = document.querySelector(".li-daewoo");
 
@@ -10,8 +14,16 @@ function checkWiniaProduct() {
     if(checkFaQPageAndSelfPage()) {
         company = "winia";
         showCompanyProduct();
+        
+        addVisibleClass(productArea);
+        addVisibleClass(explainationP);
+        removeVisibleClass(productResult);
+        getWiniaAllProductSolution();
+        productResult.innerHTML = `<span>위니아 제품</span>`;
 
-        getWiniaAllProductFaqSolution();
+        selectProductCategoryCode = 0;
+        selectProductCode = 0;
+        selectProductGroupCode = 0;
 
     }else if(historyDataFlag) {
         historyDataFlag = false;
@@ -37,7 +49,16 @@ function checkDaewooProduct() {
         company = "daewoo";
         showCompanyProduct();
         
-        getDaewooAllProductFaqSolution();
+        addVisibleClass(productArea);
+        addVisibleClass(explainationP);
+        removeVisibleClass(productResult);
+        
+        getDaewooAllProductSolution();
+        productResult.innerHTML = `<span>대우전자 제품</span>`;
+
+        selectProductCategoryCode = 0;
+        selectProductCode = 0;
+        selectProductGroupCode = 0;
 
     }else if(historyDataFlag) {
         historyDataFlag = false;

@@ -249,7 +249,7 @@ function reservationRequest() {
         success: (response) => {
             if(response.data) {
                 alert("서비스 신청 성공");
-                location.replace(`/service/visit/request/updateView/${response.data}`);
+                location.replace(`/service/visit/inquiry/detail/${response.data}`);
             }else {
                 alert("서비스 신청중에 오류가 발생했습니다.");
             }
@@ -285,14 +285,6 @@ function setProductTroubleSymptom(troubleSymptomList) {
         <option value="${trouble.troubleCode}">${trouble.troubleSymptom}</option>
         `;
     });
-}
-
-function getProductFirstInfo(productList) {
-    return productList.readProductDetailResponseDtoList[0];
-}
-
-function getProdutListInfo(productList) {
-    return productList.readProductDetailResponseDtoList;
 }
 
 function toggleVisibleClass(object) {
@@ -599,26 +591,12 @@ function setReservationTime(engineerList, selectDay) {
     let unbookableTimeByEngineerList = getTheUnbookableTime(selectDay);
     
     if(unbookableTimeByEngineerList != null) {
-        for(engineer of unbookableTimeByEngineerList) {
-            let engineerInfo = engineer.engineerReservationInfoDtoList[0];
+        for(engineerReservationInfo of unbookableTimeByEngineerList) {
+            timeTables = document.querySelectorAll(`.time-table-${engineerReservationInfo.engineerCode} label`);
             
-            timeTables = document.querySelectorAll(`.time-table-${engineerInfo.engineerCode} label`);
-            
-            // let reservationListIndex = 0;
-    
-            // let reservationDayList = new Array();
-    
-            // engineer.engineerReservationInfoDtoList.forEach(info => {
-            //     if(info.reservationDay.replaceAll("-", "") == selectReservationDay) {
-            //         reservationDayList.push(info);
-            //     }
-            // });
-    
-            // console.log(reservationDayList);
-            for(engineerInfo of engineer.engineerReservationInfoDtoList) {
-                console.log(engineerInfo);
+            for(reservationTime of engineerReservationInfo.reservationTimeList) {
                 for(timeTable of timeTables) {
-                    if(engineerInfo.reservationTime == timeTable.textContent) {
+                    if(reservationTime == timeTable.textContent) {
                         timeTable.classList.add("unbookable");
                         break;
                     }
@@ -635,18 +613,6 @@ function setReservationTime(engineerList, selectDay) {
                 }
 
             }
-            
-            // if(reservationDayList.length != 0) {
-            //     for(timeTable of timeTables) {
-            //         if(timeTable.textContent == reservationDayList[reservationListIndex].reservationTime) {
-            //             timeTable.classList.add("unbookable")
-            //             reservationListIndex++;
-            //         }
-            //         if(reservationListIndex == reservationDayList.length) {
-            //             break;
-            //         }
-            //     }
-            // }
         }
     }
 
@@ -910,6 +876,7 @@ function pastRequestServiceDetailProductLoad(pastHistoryInfoObject) {
 
     for(productDetailImage of productDetailImageItems) {
         if(productDetailImage.getAttribute("alt") == pastHistoryInfoObject.productDetailName) {
+
             productDetailImage.click();
             return;
         }
@@ -1033,10 +1000,6 @@ function checkRequireProductModelAndSaveProductInfo() {
         return false;
     }
 
-    // productInfoObject.company = company == "winia" ? "위니아 제품" : "위니아 전자 제품";
-    // productInfoObject.productCategory = modelTitleSpan != null ? modelTitleSpan.textContent : null;
-    // productInfoObject.productName = modelNameSpan.textContent;
-    // productInfoObject.modelName = modelDetailSpan.textContent;
     productInfoObject.troubleCode = troubleSymptomTd.options[troubleSymptomTd.selectedIndex].value;
     productInfoObject.description = descriptionInput.value;
 

@@ -13,7 +13,15 @@
             engineer_mst;
     </select>
 
-    <select id="findEngineerReservationInfo" resultType="com.project.winiaaid.domain.engineer.Engineer">
+    <resultMap id="engineerCollectionResult" type="com.project.winiaaid.domain.engineer.Engineer">
+        <result property="engineer_code" column="engineer_code"/>
+        <result property="engineer_name" column="engineer_name"/>
+        <collection property="reservation_date_list" ofType="com.project.winiaaid.domain.engineer.ReservationDate">
+            <result property="reservation_date" column="reservation_date"/>
+        </collection>
+    </resultMap>
+
+    <select id="findEngineerReservationInfo" resultMap="engineerCollectionResult">
         SELECT
             em.engineer_code,
             em.engineer_name,
@@ -24,22 +32,9 @@
             LEFT OUTER JOIN engineer_reservation_table ert ON(ert.engineer_code = em.engineer_code)
         WHERE
             reservation_date LIKE concat("%", #{date}, "%")
-        order by
+        ORDER BY
             em.engineer_code,
             reservation_date;
     </select>
 
-<!--    <resultMap id="collectionResult" type="com.project.winiaaid.domain.engineer.Engineer">-->
-<!--        <result property="engineer_code" column="engineer_code"/>-->
-<!--        <collection property="times" ofType="com.project.winiaaid.domain.engineer.ReservationTime">-->
-<!--            <result property="time" column="reservation_time"/>-->
-<!--        </collection>-->
-<!--    </resultMap>-->
-
-<!--    <select id="findEngineerListTest" resultMap="collectionResult">-->
-<!--        SELECT-->
-<!--            *-->
-<!--        FROM-->
-<!--            engineer_reservation_table;-->
-<!--    </select>-->
 </mapper>

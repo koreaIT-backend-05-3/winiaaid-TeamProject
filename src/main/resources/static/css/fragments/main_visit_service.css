@@ -79,14 +79,8 @@ input {
     width: 320px;
 }
 
-
-
 .main-request-div {
     width: 985px;
-<<<<<<< HEAD:src/main/resources/static/css/fragments/main_visit_service.css
-    /* height: 1000px; */
-=======
->>>>>>> origin/juyechan:src/main/resources/static/css/service/visitRequest.css
 }
 
 .request-ul {

@@ -38,6 +38,7 @@ public class RepairServiceRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", repairServiceCode));
     }
 
+    // type
     @GetMapping("/repair/history/{type}/user/{userCode}")
     public ResponseEntity<?> getRepairServiceHistoryInfo(@PathVariable String type, @PathVariable int userCode, @RequestParam int page) {
         List<RepairServiceResponseDto> repairServiceInfoList = null;

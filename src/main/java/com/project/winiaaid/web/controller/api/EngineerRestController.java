@@ -4,6 +4,7 @@ import com.project.winiaaid.domain.engineer.Engineer;
 import com.project.winiaaid.service.engineer.EngineerService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.engineer.ReadEngineerInfoResponseDto;
+import com.project.winiaaid.web.dto.engineer.ReadEngineerReservationInfoResponseDto;
 import com.project.winiaaid.web.dto.engineer.ReadEngineerReservationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,11 +35,10 @@ public class EngineerRestController {
 
     @GetMapping("/reservation/{day}/time")
     public ResponseEntity<?> getUnbookableTime(@PathVariable String day) {
-        List<ReadEngineerReservationResponseDto> engineerList = null;
+        List<ReadEngineerReservationInfoResponseDto> engineerList = null;
 
         String date = day.substring(0, 4) + "-" + day.substring(4, 6) + "-" + day.substring(6);
 
-        System.out.println(date);
         try {
             engineerList = engineerService.getEngineerReservationInfo(date);
         } catch (Exception e) {
@@ -49,17 +49,4 @@ public class EngineerRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "engineerReservationInfo load success", engineerList));
     }
 
-//    @GetMapping("/test")
-//    public ResponseEntity<?> test() {
-//        List<Engineer> engineer = null;
-//
-//        try {
-//            engineer = engineerService.getEngineerList();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "engineerReservationInfo load failed", engineer));
-//        }
-//
-//        return ResponseEntity.ok(new CustomResponseDto<>(1, "engineerReservationInfo load success", engineer));
-//    }
 }

@@ -2,6 +2,7 @@ package com.project.winiaaid.service.repair;
 
 import com.project.winiaaid.domain.repair.Address;
 import com.project.winiaaid.domain.repair.RepairRepository;
+import com.project.winiaaid.domain.repair.RepairServiceCode;
 import com.project.winiaaid.domain.repair.RepairServiceInfo;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
@@ -28,9 +29,22 @@ public class RepairServiceImpl implements RepairService {
     @Override
     public String addRepairServiceRequest(RepairServiceRequestDto applyServiceRequestDto) throws Exception {
         RepairServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(applyServiceRequestDto);
+        RepairServiceCode serviceCode = null;
+        Map<String, Object> configMap = new HashMap<String, Object>();
+
+        configMap.put("temp_repair_service_code", repairServiceInfo.getProductInfoEntity().getTemp_repair_service_code());
+        configMap.put("product_code", repairServiceInfo.getProductInfoEntity().getProduct_code());
+
+        serviceCode = repairRepository.findRepairServiceCode(configMap);
+
+        log.info("repairServiceCode: {}", serviceCode);
+
+        repairServiceInfo.getProductInfoEntity().setRepair_service_code(serviceCode.getRepair_service_code());
+        repairServiceInfo.getProductInfoEntity().setId2(serviceCode.getId2());
+
         repairRepository.addRepairServiceRequest(repairServiceInfo);
 
-        return repairServiceInfo.getProductInfoEntity().getRepair_service_code();
+        return serviceCode.getRepair_service_code();
     }
 
     @Override

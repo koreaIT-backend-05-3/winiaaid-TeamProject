@@ -4,6 +4,70 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.winiaaid.domain.product.ProductRepository">
+
+    <resultMap id="productCollectionResult" type="com.project.winiaaid.domain.product.Product">
+        <id property="product_category_code" column="product_category_code"/>
+        <result property="product_category_name" column="product_category_name"/>
+        <result property="product_main_image" column="product_main_image"/>
+        <collection property="product_detail_list" ofType="com.project.winiaaid.domain.product.ProductDetail">
+            <id property="product_code" column="product_code"/>
+            <result property="product_detail_name" column="product_detail_name"/>
+            <result property="product_detail_image" column="product_detail_image"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="productModelCollectionResult" type="com.project.winiaaid.domain.product.ModelNumberInfo">
+        <id property="model_category_code" column="model_category_code"/>
+        <result property="model_category_name" column="model_category_name"/>
+        <result property="model_category_number_info" column="model_category_number_info"/>
+        <result property="model_category_number_info_detail" column="model_category_number_info_detail"/>
+        <collection property="model_number_image_list" ofType="com.project.winiaaid.domain.product.ModelNumberImage">
+            <result property="model_category_image_name" column="model_category_image_name"/>
+        </collection>
+    </resultMap>
+
+    <select id="findListToProductDetailInfo" parameterType="HashMap" resultMap="productCollectionResult">
+        SELECT
+            wpm.product_category_code,
+            wpm.product_category_name,
+            wpm.product_main_image,
+            wpd.product_code,
+            wpd.product_detail_name,
+            wpd.product_detail_image
+        FROM
+            winia_product_mst wpm
+            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_category_code = wpm.product_category_code)
+            <if test="type == 'group' or type == 'default'">
+                WHERE
+                <choose>
+                    <when test="type == 'group'">
+                        wpm.product_group = #{code}
+                        AND wpm.company_code = #{company_code}
+                        AND main_group_flag != 1
+                    </when>
+                    <when test="type == 'default'">
+                        wpm.product_category_code = #{code}
+                        AND wpm.company_code = #{company_code}
+                    </when>
+                </choose>
+            </if>
+        ORDER BY
+            wpm.product_category_code;
+    </select>
+
+    <select id="findListToProductNumberInfo" resultMap="productModelCollectionResult">
+        SELECT
+            pmc.model_category_code,
+            pmc.model_category_name,
+            pmc.model_category_number_info,
+            pmc.model_category_number_info_detail,
+
+            pmci.model_category_image_name
+        FROM
+            product_model_category pmc
+            LEFT OUTER JOIN product_model_category_image pmci ON(pmci.model_category_code = pmc.model_category_code);
+    </select>
+
     <select id="findListToProductMainCategory" parameterType="Integer" resultType="com.project.winiaaid.domain.product.Product">
         SELECT
             pmc.product_category_code,
@@ -19,47 +83,47 @@
             pmc.company_code = #{company_code};
     </select>
 
-    <select id="findListToProductDetailInfo" parameterType="HashMap" resultType="com.project.winiaaid.domain.product.Product">
-        SELECT
-            wpm.product_category_code,
-            wpm.product_category_name,
-            wpm.product_main_image,
-            wpd.product_code,
-            wpd.product_detail_name,
-            wpd.product_detail_image
-        FROM
-            winia_product_mst wpm
-            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_category_code = wpm.product_category_code)
-        <if test="type == 'group' or type == 'default'">
-            WHERE
-            <choose>
-                <when test="type == 'group'">
-                    wpm.product_group = #{code}
-                    AND wpm.company_code = #{company_code}
-                    AND main_group_flag != 1
-                </when>
-                <when test="type == 'default'">
-                    wpm.product_category_code = #{code}
-                    AND wpm.company_code = #{company_code}
-                </when>
-            </choose>
-        </if>
-        ORDER BY
-            wpm.product_category_code;
-    </select>
+<!--    <select id="findListToProductDetailInfo" parameterType="HashMap" resultType="com.project.winiaaid.domain.product.Product">-->
+<!--        SELECT-->
+<!--            wpm.product_category_code,-->
+<!--            wpm.product_category_name,-->
+<!--            wpm.product_main_image,-->
+<!--            wpd.product_code,-->
+<!--            wpd.product_detail_name,-->
+<!--            wpd.product_detail_image-->
+<!--        FROM-->
+<!--            winia_product_mst wpm-->
+<!--            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_category_code = wpm.product_category_code)-->
+<!--        <if test="type == 'group' or type == 'default'">-->
+<!--            WHERE-->
+<!--            <choose>-->
+<!--                <when test="type == 'group'">-->
+<!--                    wpm.product_group = #{code}-->
+<!--                    AND wpm.company_code = #{company_code}-->
+<!--                    AND main_group_flag != 1-->
+<!--                </when>-->
+<!--                <when test="type == 'default'">-->
+<!--                    wpm.product_category_code = #{code}-->
+<!--                    AND wpm.company_code = #{company_code}-->
+<!--                </when>-->
+<!--            </choose>-->
+<!--        </if>-->
+<!--        ORDER BY-->
+<!--            wpm.product_category_code;-->
+<!--    </select>-->
 
-    <select id="findListToProductNumberInfo" resultType="com.project.winiaaid.domain.product.ProductNumberInfo">
-        SELECT
-            pmc.model_category_code,
-            pmc.model_category_name,
-            pmc.model_number_category_info,
-            pmc.model_category_number_info_detail,
+<!--    <select id="findListToProductNumberInfo" resultType="com.project.winiaaid.domain.product.ModelNumberInfo">-->
+<!--        SELECT-->
+<!--            pmc.model_category_code,-->
+<!--            pmc.model_category_name,-->
+<!--            pmc.model_number_category_info,-->
+<!--            pmc.model_category_number_info_detail,-->
 
-            pmci.model_image_category_name
-        FROM
-            product_model_category pmc
-            LEFT OUTER JOIN product_model_category_image pmci ON(pmci.model_category_code = pmc.model_category_code);
-    </select>
+<!--            pmci.model_image_category_name-->
+<!--        FROM-->
+<!--            product_model_category pmc-->
+<!--            LEFT OUTER JOIN product_model_category_image pmci ON(pmci.model_category_code = pmc.model_category_code);-->
+<!--    </select>-->
     
     <select id="findTroubleSymptomByProductCode" parameterType="Integer" resultType="com.project.winiaaid.domain.product.ProductTrouble">
         SELECT

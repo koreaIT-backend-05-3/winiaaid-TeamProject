@@ -2,6 +2,9 @@ package com.project.winiaaid.web.controller.api;
 
 import java.util.List;
 
+import com.project.winiaaid.handler.aop.annotation.CompanyCheck;
+import com.project.winiaaid.handler.aop.annotation.UriCheck;
+import com.project.winiaaid.web.dto.productV2.ReadModelNumberInfoResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +28,8 @@ public class ProductRestController {
 
     private final ProductService productService;
 
+
+    @CompanyCheck
     @GetMapping("/list/category/{company}")
     public ResponseEntity<?> getMainCategoryList(@PathVariable String company) {
         List<ReadProductCategoryResponseDto> productCategoryList = null;
@@ -39,6 +44,8 @@ public class ProductRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "load categoryList success", productCategoryList));
     }
 
+    @CompanyCheck
+    @UriCheck
     @GetMapping("/list/category/{company}/{type}/{code}")
     public ResponseEntity<?> getDetailProductListByType(@PathVariable String company, @PathVariable String type, @PathVariable int code) {
         List<?> productDetailList = null;
@@ -56,7 +63,7 @@ public class ProductRestController {
 
     @GetMapping("/list/model/number/info")
     public ResponseEntity<?> getProductModelNumberInfo() {
-        List<ReadProductNumberInfoResponseDto> productNumberInfoObjectList = null;
+        List<ReadModelNumberInfoResponseDto> productNumberInfoObjectList = null;
 
         try {
             productNumberInfoObjectList = productService.getProductNumberInfoList();

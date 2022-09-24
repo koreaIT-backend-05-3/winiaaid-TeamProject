@@ -9,7 +9,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SolutionPageController {
 
     @GetMapping("/faq/list")
-    public String loadFaQPage() {
-        return "solution/faq_list";
+    public String loadFaQSolutionPage() {
+        return "solution/solution_list";
+    }
+
+    @GetMapping("faq/detail/{solutionBoardCode}")
+    public String loadFaQSolutionDetailPage() {
+        return "solution/solution_detail";
+    }
+
+
+    @GetMapping("/self-check/list")
+    public String loadSelfSolutionPage() {
+        return "solution/solution_list";
+    }
+
+    @GetMapping("self-check/detail/{solutionBoardCode}")
+    public String loadSelfSolutionDetailPage() {
+        return "solution/solution_detail";
     }
 }
