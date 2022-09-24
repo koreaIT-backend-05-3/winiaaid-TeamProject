@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 @Configuration
-@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
