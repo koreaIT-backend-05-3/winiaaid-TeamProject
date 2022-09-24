@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import lombok.RequiredArgsConstructor;
-
 @Controller
 @RequestMapping("/service")
 public class ServicePageController {
@@ -42,10 +40,8 @@ public class ServicePageController {
 	@GetMapping("/popup/pastAddressPopup")
 	public String loadPastAddressPopupPage() {
 		return "popup/past_address_popup";
+	}
 
-
-
-	
 	@GetMapping("/recall/request")
 	public String loadRecallRequestPage() {
 		return "service/recall_request";

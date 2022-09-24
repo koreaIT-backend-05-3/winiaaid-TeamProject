@@ -2,9 +2,8 @@ package com.project.winiaaid.service.product;
 
 import com.project.winiaaid.web.dto.product.ReadProductCategoryResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductModelResponseDto;
-import com.project.winiaaid.web.dto.product.ReadProductNumberInfoResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductTroubleResponseDto;
-import com.project.winiaaid.web.dto.productV2.ReadModelNumberInfoResponseDto;
+import com.project.winiaaid.web.dto.product.ReadModelNumberInfoResponseDto;
 
 import java.util.List;
 

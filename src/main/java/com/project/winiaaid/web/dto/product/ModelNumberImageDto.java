@@ -1,4 +1,4 @@
-package com.project.winiaaid.web.dto.productV2;
+package com.project.winiaaid.web.dto.product;
 
 import lombok.Builder;
 import lombok.Data;

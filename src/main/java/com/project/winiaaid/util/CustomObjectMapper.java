@@ -13,12 +13,9 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class CustomObjectMapper {
-
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public ReadSolutionKeywordRequestDto createReadSolutionKeywordRequestDtoByObjectMapper(Map<String, Object> parameters) {
-        log.info("에러");
-        log.info("!!!!!!!! {}", objectMapper);
         try {
             return objectMapper.convertValue(parameters, ReadSolutionKeywordRequestDto.class);
         }catch(Exception e) {

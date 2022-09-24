@@ -7,14 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class BoardPageController {
 	@GetMapping("/customer/complaint/list")
 	public String loadComplaintPage() {
-		return "bulpyeonpage";
+		return "complaint_list";
 	}
-	@GetMapping("/customer/complaint/registView")
+
+	@GetMapping("/customer/complaint/regist-view")
 	public String loadBoardWritePage() {
-		return "bulpyeonwrite";
-	};
+		return "complaint_write";
+	}
+
 	@GetMapping("/customer/complaint/detail/{boardCode}")
-	public String loadBoardDtailPage() {
-		return "bupyeondetailview";
+	public String loadBoardDetailPage() {
+		return "complaint_detail";
 	}
 }

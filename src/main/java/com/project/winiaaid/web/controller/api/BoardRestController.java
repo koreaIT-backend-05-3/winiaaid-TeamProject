@@ -22,7 +22,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/board")
 public class BoardRestController {
 	private final BoardService boardService;
-//	포스트맵핑 - 게시글 생성
+
+
 	@PostMapping("/write")
 	public ResponseEntity<?> writeBoard(CreateBoardRequestDto createBoardRequestDto){
 		try {
@@ -33,9 +34,11 @@ public class BoardRestController {
 		
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation Successfull", null));
 	}
+
 	@GetMapping("/list/user/{userCode}")
 	public ResponseEntity<?> getBoardListByUserCode(@PathVariable int userCode){
 		List<ReadBoardResponseDto> boardList = null;
+
 		try {
 			boardList = boardService.getBoardListByUserCode(userCode);
 		} catch (Exception e) {
@@ -45,9 +48,11 @@ public class BoardRestController {
 		
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation Successfull", boardList));
 	}
+
 	@GetMapping("/{boardCode}")
 	public ResponseEntity<?> getBoardByBoardCode(@PathVariable int boardCode){
 		ReadBoardResponseDto boardDto = null;
+
 		try {
 			boardDto = boardService.getBoardByBoardCode(boardCode);
 		} catch (Exception e) {
