@@ -4,18 +4,42 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.winiaaid.domain.engineer.EngineerRepository">
+    
+    <select id="findEngineerList" resultType="com.project.winiaaid.domain.engineer.Engineer">
+        SELECT
+            engineer_code,
+            engineer_name
+        FROM
+            engineer_mst;
+    </select>
 
-    <select id="getEngineerReservationInfo" resultType="com.project.winiaaid.domain.engineer.Engineer">
+    <select id="findEngineerReservationInfo" resultType="com.project.winiaaid.domain.engineer.Engineer">
         SELECT
             em.engineer_code,
             em.engineer_name,
 
-            ert.reservation_time
+            ert.reservation_date
         FROM
             engineer_mst em
             LEFT OUTER JOIN engineer_reservation_table ert ON(ert.engineer_code = em.engineer_code)
+        WHERE
+            reservation_date LIKE concat("%", #{date}, "%")
         order by
             em.engineer_code,
-            reservation_time;
+            reservation_date;
     </select>
+
+<!--    <resultMap id="collectionResult" type="com.project.winiaaid.domain.engineer.Engineer">-->
+<!--        <result property="engineer_code" column="engineer_code"/>-->
+<!--        <collection property="times" ofType="com.project.winiaaid.domain.engineer.ReservationTime">-->
+<!--            <result property="time" column="reservation_time"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+<!--    <select id="findEngineerListTest" resultMap="collectionResult">-->
+<!--        SELECT-->
+<!--            *-->
+<!--        FROM-->
+<!--            engineer_reservation_table;-->
+<!--    </select>-->
 </mapper>

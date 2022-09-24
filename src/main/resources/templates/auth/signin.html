@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <th:block th:replace="/fragments/head"></th:block>
     <link rel="stylesheet" type="text/css" href="/static/css/auth/signin.css">
-    <script src="/static/js/auth/signup.js"></script>
+    <title>Login</title>
 </head>
-
 <body>
     <div id="wrap">
         <!-- 메인헤더 고정 -->
@@ -83,6 +80,6 @@
         <footer id="footer">
         </footer>
     </div>
+    <script src="/static/js/auth/signup.js"></script>
 </body>
-
 </html>

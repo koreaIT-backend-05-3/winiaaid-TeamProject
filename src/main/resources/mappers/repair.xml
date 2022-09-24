@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.winiaaid.domain.repair.RepairRepository">
+    <resultMap id="repairServiceInfoMap" type="com.project.winiaaid.domain.repair.RepairServiceInfo">
+        <association property="productInfoEntity" javaType="com.project.winiaaid.domain.repair.ProductInfoEntity">
+            <id property="repair_service_code" column="repair_service_code"/>
+            <result property="product_group_name" column="product_group_name"/>
+            <result property="product_category_name" column="product_category_name"/>
+            <result property="product_detail_name" column="product_detail_name"/>
+            <result property="model_number" column="model_number"/>
+            <result property="trouble_code" column="trouble_code"/>
+            <result property="trouble_symptom" column="trouble_symptom"/>
+            <result property="description" column="description"/>
+            <result property="company_code" column="company_code"/>
+            <result property="company_name" column="company_name"/>
+        </association>
+        <association property="userInfoEntity" javaType="com.project.winiaaid.domain.repair.UserInfoEntity">
+            <result property="user_name" column="user_name"/>
+            <result property="email" column="email"/>
+            <result property="main_phone_number" column="main_phone_number"/>
+            <result property="sub_phone_number" column="sub_phone_number"/>
+            <result property="postal_code" column="postal_code"/>
+            <result property="main_address" column="main_address"/>
+            <result property="detail_address" column="detail_address"/>
+        </association>
+        <association property="reservationInfoEntity" javaType="com.project.winiaaid.domain.repair.ReservationInfoEntity">
+            <result property="engineer_code" column="engineer_code"/>
+            <result property="engineer_name" column="engineer_name"/>
+            <result property="service_type" column="service_type"/>
+            <result property="completed_flag" column="completed_flag"/>
+            <result property="request_date" column="request_date"/>
+            <result property="reservation_date" column="reservation_date"/>
+            <result property="total_count" column="total_count"/>
+        </association>
+    </resultMap>
+
+    <insert id="addRepairServiceRequest" parameterType="com.project.winiaaid.domain.repair.RepairServiceInfo">
+        insert into
+            repair_service_table
+        SELECT
+            #{productInfoEntity.product_code},
+            IFNULL(MAX(id2), 0) + 1,
+            RPAD(#{productInfoEntity.temp_repair_service_code}, CHAR_LENGTH(#{productInfoEntity.temp_repair_service_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1,
+
+            #{productInfoEntity.product_category_code},
+            #{productInfoEntity.product_code},
+            #{productInfoEntity.model_code},
+            #{productInfoEntity.trouble_code},
+            #{productInfoEntity.description},
+
+            #{userInfoEntity.user_code},
+            #{userInfoEntity.user_name},
+            #{userInfoEntity.main_phone_number},
+            #{userInfoEntity.sub_phone_number},
+            #{userInfoEntity.email},
+            #{userInfoEntity.postal_code},
+            #{userInfoEntity.main_address},
+            #{userInfoEntity.detail_address},
+
+            #{reservationInfoEntity.engineer_code},
+            #{reservationInfoEntity.service_type},
+            #{reservationInfoEntity.completed_flag},
+            #{reservationInfoEntity.reservation_date},
+            #{reservationInfoEntity.request_date}
+        FROM
+            repair_service_table
+        WHERE
+            id1 = #{productInfoEntity.product_code};
+    </insert>
+
+    <select id="findRepairServiceByUserCode" parameterType="HashMap" resultMap="repairServiceInfoMap">
+        SELECT
+            rst.repair_service_code,
+            rst.description,
+            rst.user_name,
+            rst.main_phone_number,
+            rst.sub_phone_number,
+            rst.email,
+            rst.service_type,
+            rst.completed_flag,
+            rst.request_date,
+            rst.reservation_date,
+            rst.main_address,
+            rst.detail_address,
+            rst.postal_code,
+            rst.trouble_code,
+
+            wpm.product_category_name,
+
+            wpd.product_detail_name,
+
+            pct.company_code,
+            pct.company_name,
+
+            pmd.model_number,
+
+            tst.trouble_symptom,
+
+            em.engineer_name,
+
+            pmg.product_category_name AS product_group_name,
+
+            rst_total_count.total_count
+        FROM
+            repair_service_table rst
+            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = rst.product_category_code)
+            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = rst.product_code)
+            LEFT OUTER JOIN product_company_table pct ON(pct.company_code = wpm.company_code)
+            LEFT OUTER JOIN product_model_detail pmd ON(pmd.model_code = rst.model_code)
+            LEFT OUTER JOIN trouble_symptom_table tst ON(tst.trouble_code = rst.trouble_code)
+            LEFT OUTER JOIN engineer_mst em ON(em.engineer_code = rst.engineer_code)
+            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
+            LEFT OUTER JOIN (select
+                                COUNT(*) AS total_count
+                            from
+                                repair_service_table rst
+                            where
+                                user_code = 0) rst_total_count ON(1 = 1)
+        WHERE
+            rst.user_code = #{user_code}
+        LIMIT #{page}, #{limit};
+    </select>
+
+    <select id="findRepairServiceDetailHistoryInfo" parameterType="String" resultMap="repairServiceInfoMap">
+        SELECT
+            rst.repair_service_code,
+            rst.description,
+            rst.user_name,
+            rst.main_phone_number,
+            rst.sub_phone_number,
+            rst.email,
+            rst.service_type,
+            rst.completed_flag,
+            rst.request_date,
+            rst.reservation_date,
+            rst.main_address,
+            rst.detail_address,
+            rst.postal_code,
+            rst.trouble_code,
+            rst.engineer_code,
+
+            wpm.product_category_name,
+
+            wpd.product_detail_name,
+
+            pct.company_code,
+            pct.company_name,
+
+            pmd.model_number,
+
+            tst.trouble_symptom,
+
+            em.engineer_name,
+
+            pmg.product_category_name AS product_group_name
+        FROM
+            repair_service_table rst
+            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = rst.product_category_code)
+            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = rst.product_code)
+            LEFT OUTER JOIN product_company_table pct ON(pct.company_code = wpm.company_code)
+            LEFT OUTER JOIN product_model_detail pmd ON(pmd.model_code = rst.model_code)
+            LEFT OUTER JOIN trouble_symptom_table tst ON(tst.trouble_code = rst.trouble_code)
+            LEFT OUTER JOIN engineer_mst em ON(em.engineer_code = rst.engineer_code)
+            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
+        WHERE
+            rst.repair_service_code = #{repair_service_code};
+    </select>
+
+    <select id="findPastReceptionAddressListByUserCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.repair.Address">
+        SELECT
+            rst.postal_code,
+            rst.main_address,
+            rst.detail_address,
+
+            tct.total_count
+        FROM
+            repair_service_table rst
+            LEFT OUTER JOIN (select
+                                COUNT(DISTINCT postal_code, main_address, detail_address) AS total_count
+                            from
+                                repair_service_table
+                            where
+                                user_code = #{user_code}) tct ON(1 = 1)
+        WHERE
+            rst.user_code = #{user_code}
+        GROUP BY
+            postal_code,
+            main_address,
+            detail_address
+        LIMIT #{page}, 4;
+    </select>
+
+    <update id="updateRepairReservationInfoByRepairServiceCode" parameterType="com.project.winiaaid.domain.repair.RepairServiceInfo">
+        UPDATE
+            repair_service_table rst
+        SET
+            user_code = #{userInfoEntity.user_code},
+            user_name = #{userInfoEntity.user_name},
+            main_phone_number = #{userInfoEntity.main_phone_number},
+            sub_phone_number = #{userInfoEntity.sub_phone_number},
+            email = #{userInfoEntity.email},
+            postal_code = #{userInfoEntity.postal_code},
+            main_address = #{userInfoEntity.main_address},
+            detail_address = #{userInfoEntity.detail_address},
+
+            engineer_code = #{reservationInfoEntity.engineer_code},
+            service_type = #{reservationInfoEntity.service_type},
+            completed_flag = #{reservationInfoEntity.completed_flag},
+            reservation_date = #{reservationInfoEntity.reservation_date},
+            request_date = #{reservationInfoEntity.request_date}
+        WHERE
+            repair_service_code = #{productInfoEntity.repair_service_code};
+    </update>
+
+    <update id="cancelRepairServiceByRepairServiceCode" parameterType="String">
+        UPDATE
+            repair_service_table
+        SET
+            completed_flag = 0
+        WHERE
+            repair_service_code = ${repair_service_code};
+    </update>
+
+</mapper>

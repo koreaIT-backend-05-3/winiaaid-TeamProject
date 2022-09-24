@@ -1,0 +1,36 @@
+.select-manufacturer {
+    display: flex;
+
+    margin: 10px 0px 60px;
+
+    position: relative;
+}
+
+.li-winia, .li-daewoo {
+    border: 1px solid #dbdbdb;
+    width: 485px;
+    height: 182px;
+}
+
+.li-daewoo {
+    margin-left: 10px;
+}
+
+.category-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+}
+
+.category-info:hover {
+    text-decoration: underline;
+}
+
+.category-info h1 {
+    font-size: 18px;
+    font-weight: 400;
+}

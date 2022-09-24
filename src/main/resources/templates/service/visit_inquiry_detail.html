@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/util/location_notice.css">
+    <link rel="stylesheet" href="/static/css/service/visit_inquiry_detail.css">
+    <title>[위나아에이드] 방문서비스_신청하기</title>
+</head>
+<body>
+	<th:block th:replace="/fragments/header"></th:block>
+    <main>
+        <div id="container">
+            <div class="location-div">
+
+            </div>
+            <div class="main-content">
+                <div class="title-div">
+                    <h1 class="title-h1">방문서비스 조회/변경/취소</h1>
+                </div>
+                <div class="notice-p-div">
+                    <p>서비스 이용 현황입니다.</p>
+                </div>
+                <div class="service-info-main-div">
+                    <div class="reservation-info-table-div">
+                        <h3>서비스 예약정보</h3>
+                        <table class="reservation-info-table">
+                            <tr>
+                                <th>접수번호</th>
+                                <td></td>
+                                <th>서비스 구분</th>
+                                <td class="emphasis-td"></td>
+                            </tr>
+                            <tr>
+                                <th>접수일</th>
+                                <td></td>
+                                <th>서비스예정일</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>신청 대상 브랜드</th>
+                                <td></td>
+                                <th>제품명</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>모델명</th>
+                                <td></td>
+                                <th>엔지니어</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>진행상태</th>
+                                <td></td>
+                                <th>고장증상</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>상세내용</th>
+                                <td></td>
+                                <th>예약변경/취소 및 평가하기</th>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="user-info-table-div">
+                        <h3>신청자 정보</h3>
+                        <table class="uesr-info-table">
+                            <tr>
+                                <th>성명</th>
+                                <td></td>
+                                <th>휴대폰번호</th>
+                                <td class="emphasis-td"></td>
+                            </tr>
+                            <tr>
+                                <th>연락가능번호</th>
+                                <td></td>
+                                <th>이메일</th>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="go-list-button-div">
+                        <button class="go-list-button" type="button">목록</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+	<th:block th:replace="/fragments/footer"></th:block>
+    <script src="/static/js/util/location_notice.js"></script>
+    <script src="/static/js/util/repair_reservation_modify_cancel.js"></script>
+    <script src="/static/js/service/visit_inquiry_detail.js"></script>
+</body>
+</html>

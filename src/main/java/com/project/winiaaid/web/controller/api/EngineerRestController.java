@@ -1,19 +1,15 @@
 package com.project.winiaaid.web.controller.api;
 
+import com.project.winiaaid.domain.engineer.Engineer;
 import com.project.winiaaid.service.engineer.EngineerService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
-import com.project.winiaaid.web.dto.Engineer.ReadEngineerResponseDto;
+import com.project.winiaaid.web.dto.engineer.ReadEngineerInfoResponseDto;
+import com.project.winiaaid.web.dto.engineer.ReadEngineerReservationResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/engineer")
@@ -22,12 +18,29 @@ public class EngineerRestController {
 
     private final EngineerService engineerService;
 
-    @GetMapping("/reservation/time")
-    public ResponseEntity<?> getUnbookableTime() {
-        List<ReadEngineerResponseDto> engineerList = null;
+    @GetMapping("/list")
+    public ResponseEntity<?> getEngineerList() {
+        List<ReadEngineerInfoResponseDto> engineerInfoList = null;
 
         try {
-            engineerList = engineerService.getEngineerReservationInfo();
+            engineerInfoList = engineerService.getEngineerInfoList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "load engineerList fail", engineerInfoList));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "load engineerList success", engineerInfoList));
+    }
+
+    @GetMapping("/reservation/{day}/time")
+    public ResponseEntity<?> getUnbookableTime(@PathVariable String day) {
+        List<ReadEngineerReservationResponseDto> engineerList = null;
+
+        String date = day.substring(0, 4) + "-" + day.substring(4, 6) + "-" + day.substring(6);
+
+        System.out.println(date);
+        try {
+            engineerList = engineerService.getEngineerReservationInfo(date);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "engineerReservationInfo load fail", engineerList));
@@ -35,4 +48,18 @@ public class EngineerRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "engineerReservationInfo load success", engineerList));
     }
+
+//    @GetMapping("/test")
+//    public ResponseEntity<?> test() {
+//        List<Engineer> engineer = null;
+//
+//        try {
+//            engineer = engineerService.getEngineerList();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "engineerReservationInfo load failed", engineer));
+//        }
+//
+//        return ResponseEntity.ok(new CustomResponseDto<>(1, "engineerReservationInfo load success", engineer));
+//    }
 }

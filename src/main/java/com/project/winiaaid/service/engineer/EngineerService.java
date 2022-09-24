@@ -1,10 +1,14 @@
 package com.project.winiaaid.service.engineer;
 
-import com.project.winiaaid.web.dto.Engineer.ReadEngineerResponseDto;
+import com.project.winiaaid.domain.engineer.Engineer;
+import com.project.winiaaid.web.dto.engineer.ReadEngineerInfoResponseDto;
+import com.project.winiaaid.web.dto.engineer.ReadEngineerReservationResponseDto;
 
 import java.util.List;
-import java.util.Map;
 
 public interface EngineerService {
-    public List<ReadEngineerResponseDto> getEngineerReservationInfo() throws Exception;
+    public List<ReadEngineerInfoResponseDto> getEngineerInfoList() throws Exception;
+    public List<ReadEngineerReservationResponseDto> getEngineerReservationInfo(String date) throws Exception;
+
+//    public List<Engineer> getEngineerList() throws Exception;
 }
