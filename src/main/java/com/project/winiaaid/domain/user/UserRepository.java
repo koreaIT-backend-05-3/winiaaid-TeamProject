@@ -1,7 +1,6 @@
 package com.project.winiaaid.domain.user;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 @Mapper
 public interface UserRepository {
