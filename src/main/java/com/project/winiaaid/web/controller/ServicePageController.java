@@ -45,7 +45,17 @@ public class ServicePageController {
 	}
 	
 	@GetMapping("/recall/request")
-	public String loadRecallRequestpage() {
+	public String loadRecallRequestPage() {
 		return "service/recall_request";
+	}
+	
+	@GetMapping("/recall/request/complete/{recallCode}")
+	public String loadRecallRequestCompletePage(@PathVariable String recallCode) {
+		return "service/recall_request_complete";
+	}
+	
+	@GetMapping("recall/inquiry")
+	public String loadRecallInquiryPage() {
+		return "service/recall_inquiry";
 	}
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.winiaaid.domain.recall.RecallRepository">
+	<insert id="addRecallRequest" parameterType="com.project.winiaaid.domain.recall.Recall">
+		insert into
+			recall_service_table
+		values(
+			#{recall_code},
+			'김치냉장고 리콜 신청',
+			#{model_name},
+			now(),
+			'접수',
+			0,
+			#{user_code},
+			#{user_name},
+			#{main_phone_number},
+			#{sub_phone_number},
+			#{postal_code},
+			#{main_address},
+			#{detail_address}
+		);
+	</insert>
+	
+	<select id="getRecallRequest" parameterType="hashmap" resultType="com.project.winiaaid.domain.recall.Recall">
+		select
+			recall_code,
+			service_type,
+			model_name,
+			request_date,
+			progress_status,
+			note,
+			user_code,
+			user_name,
+			main_phone_number,
+			sub_phone_number,
+			postal_code,
+			main_address,
+			detail_address
+		from
+			recall_service_table
+		where
+			recall_code = #{recall_code}
+			and
+			user_name = #{user_name}
+			and
+			user_code = #{user_code};
+	</select>
+</mapper>

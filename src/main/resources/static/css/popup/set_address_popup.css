@@ -109,6 +109,7 @@ table {
 .address-info-td {
     padding-right: 24px;
     padding-left: 24px;
+    cursor: pointer;
 }
 
 .address-result-div-2 th, .address-result-div-2 td {
