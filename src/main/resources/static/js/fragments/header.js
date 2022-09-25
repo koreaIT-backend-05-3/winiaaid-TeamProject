@@ -92,7 +92,7 @@ function loadVisitRepairServiceDetailPage() {
 }
 
 function loadRefrigeratorRecallPage() {
-    location.href = "";
+    location.href = "/service/recall/request";
 }
 
 function loadComplaintBoardPage() {
@@ -108,13 +108,13 @@ function loadSuggestionBoardPage() {
 }
 
 function loadUserRequestHistoryPage() {
-    location.href = "/service/history/ing";
+    location.href = "/mypage/service/history/ing";
 }
 
 function loadUserBoardHistoryPage() {
-    location.href = "/writing/counsel";
+    location.href = "/mypage/writing/counsel";
 }
 
 function loadUserInfoModifyPage() {
-    location.href = "/modify/info";
+    location.href = "/mypage/modify/info";
 }

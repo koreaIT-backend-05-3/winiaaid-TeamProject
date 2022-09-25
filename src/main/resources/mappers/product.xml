@@ -142,8 +142,19 @@
             model_number
         FROM
             product_model_detail
+        <if test="request_type == 'recall'">
+            pmd
+            LEFT OUTER JOIN winia_product_dtl wpd on (wpd.product_code = pmd.product_code)
+        </if>
         WHERE
-            product_code = #{product_code}
+            <choose>
+                <when test="request_type == 'recall'">
+                    product_category_code = #{key_code}
+                </when>
+                <otherwise>
+                    product_code = #{key_code}
+                </otherwise>
+            </choose>
             AND model_number LIKE concat("%", #{model_number}, "%");
     </select>
 </mapper>

@@ -136,3 +136,42 @@ tbody td:not(tbody td:nth-of-type(3)) {
     padding-left: 40px;
     width: 285px;
 }
+
+.cancel-td {
+    color: red;
+}
+
+.register-td {
+    color: #0A71CC;
+}
+
+.complete-td {
+    color: #777777;
+}
+
+.reservation-modify-button-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reservation-modify-button-div button {
+    width: 80px;
+    height: 25px;
+
+    background-color: #fff;
+    
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.reservation-modify-button-div button:first-child {
+    border: 1px solid #0a71cc;
+    margin-bottom: 5px;
+    color: #0a71cc;
+}
+
+.reservation-modify-button-div button:last-child {
+    border: 1px solid red;
+    color: red;
+}

@@ -1,9 +1,6 @@
 package com.project.winiaaid.domain.repair;
 
-import com.project.winiaaid.web.dto.repair.ProductInfoDto;
-import com.project.winiaaid.web.dto.repair.RepairServiceResponseDto;
-import com.project.winiaaid.web.dto.repair.ReservationInfoDto;
-import com.project.winiaaid.web.dto.repair.UserInfoDto;
+import com.project.winiaaid.web.dto.repair.ReadServiceInfoResponseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,13 +11,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RepairServiceInfo {
+public class ServiceInfo {
     private ProductInfoEntity productInfoEntity;
     private UserInfoEntity userInfoEntity;
     private ReservationInfoEntity reservationInfoEntity;
 
-    public RepairServiceResponseDto toRepairServiceResponseDto() {
-        return RepairServiceResponseDto.builder()
+    public ReadServiceInfoResponseDto toServiceResponseDto() {
+        return ReadServiceInfoResponseDto.builder()
                 .productInfo(productInfoEntity.toProductInfoDto())
                 .userInfo(userInfoEntity.toUserInfoDto())
                 .reservationInfo(reservationInfoEntity.toReservationInfoDto())

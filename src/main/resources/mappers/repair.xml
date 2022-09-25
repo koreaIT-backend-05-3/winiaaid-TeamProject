@@ -4,9 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.winiaaid.domain.repair.RepairRepository">
-    <resultMap id="repairServiceInfoMap" type="com.project.winiaaid.domain.repair.RepairServiceInfo">
+    <resultMap id="repairServiceInfoMap" type="com.project.winiaaid.domain.repair.ServiceInfo">
         <association property="productInfoEntity" javaType="com.project.winiaaid.domain.repair.ProductInfoEntity">
-            <id property="repair_service_code" column="repair_service_code"/>
+            <id property="service_code" column="service_code"/>
             <result property="product_group_name" column="product_group_name"/>
             <result property="product_category_name" column="product_category_name"/>
             <result property="product_detail_name" column="product_detail_name"/>
@@ -30,20 +30,20 @@
             <result property="engineer_code" column="engineer_code"/>
             <result property="engineer_name" column="engineer_name"/>
             <result property="service_type_name" column="service_type_name"/>
-            <result property="completed_flag" column="completed_flag"/>
+            <result property="progress_status" column="progress_status"/>
             <result property="request_date" column="request_date"/>
             <result property="reservation_date" column="reservation_date"/>
             <result property="total_count" column="total_count"/>
         </association>
     </resultMap>
 
-    <insert id="addRepairServiceRequest" parameterType="com.project.winiaaid.domain.repair.RepairServiceInfo">
+    <insert id="addRepairServiceRequest" parameterType="com.project.winiaaid.domain.repair.ServiceInfo">
         insert into
             repair_service_table
         VALUES(
             #{productInfoEntity.product_code},
             #{productInfoEntity.id2},
-            #{productInfoEntity.repair_service_code},
+            #{productInfoEntity.service_code},
 
             #{productInfoEntity.product_category_code},
             #{productInfoEntity.product_code},
@@ -61,100 +61,44 @@
             #{userInfoEntity.detail_address},
 
             #{reservationInfoEntity.service_type_code},
-            #{reservationInfoEntity.completed_flag}
+            #{reservationInfoEntity.progress_status},
+            #{reservationInfoEntity.request_date}
         );
 
         insert into
             engineer_reservation_table
         values(
-            #{productInfoEntity.repair_service_code},
+            #{productInfoEntity.service_code},
             #{reservationInfoEntity.engineer_code},
-            #{reservationInfoEntity.completed_flag},
-            #{reservationInfoEntity.reservation_date},
-            #{reservationInfoEntity.request_date}
+            #{reservationInfoEntity.progress_status},
+            #{reservationInfoEntity.reservation_date}
         );
     </insert>
 
     <select id="findRepairServiceCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.repair.RepairServiceCode">
         select
             IFNULL(MAX(id2), 0) + 1 as id2,
-            RPAD(#{temp_repair_service_code}, CHAR_LENGTH(#{temp_repair_service_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1 as repair_service_code
+            RPAD(#{temp_service_code}, CHAR_LENGTH(#{temp_service_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1 as service_code
         from
             repair_service_table
         where
             id1 = #{product_code};
     </select>
 
-    <select id="findRepairServiceByUserCode" parameterType="HashMap" resultMap="repairServiceInfoMap">
-        SELECT
-            rst.repair_service_code,
-            rst.description,
-            rst.user_name,
-            rst.main_phone_number,
-            rst.sub_phone_number,
-            rst.email,
-            rst.completed_flag,
-            rst.main_address,
-            rst.detail_address,
-            rst.postal_code,
-            rst.trouble_code,
-
-            wpm.product_category_name,
-
-            wpd.product_detail_name,
-
-            pct.company_code,
-            pct.company_name,
-
-            pmd.model_number,
-
-            tst.trouble_symptom,
-
-            stt.service_type_name,
-
-            ert.reservation_date,
-            ert.request_date,
-
-            em.engineer_name,
-
-            pmg.product_category_name AS product_group_name,
-
-            rst_total_count.total_count
-        FROM
-            repair_service_table rst
-            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = rst.product_category_code)
-            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = rst.product_code)
-            LEFT OUTER JOIN product_company_table pct ON(pct.company_code = wpm.company_code)
-            LEFT OUTER JOIN product_model_detail pmd ON(pmd.model_code = rst.model_code)
-            LEFT OUTER JOIN trouble_symptom_table tst ON(tst.trouble_code = rst.trouble_code)
-            LEFT OUTER JOIN service_type_table stt on(stt.service_type_code = rst.service_type_code)
-            LEFT OUTER JOIN engineer_reservation_table ert on(ert.repair_service_code = rst.repair_service_code)
-            LEFT OUTER JOIN engineer_mst em ON(em.engineer_code = ert.engineer_code)
-            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
-            LEFT OUTER JOIN (select
-                                COUNT(*) AS total_count
-                            from
-                                repair_service_table rst
-                            where
-                                user_code = 0) rst_total_count ON(1 = 1)
-        WHERE
-            rst.user_code = #{user_code}
-        LIMIT #{page}, #{limit};
-    </select>
-
     <select id="findRepairServiceDetailHistoryInfo" parameterType="String" resultMap="repairServiceInfoMap">
         SELECT
-            rst.repair_service_code,
+            rst.service_code,
             rst.description,
             rst.user_name,
             rst.main_phone_number,
             rst.sub_phone_number,
             rst.email,
-            rst.completed_flag,
+            rst.progress_status,
             rst.main_address,
             rst.detail_address,
             rst.postal_code,
             rst.trouble_code,
+            rst.request_date,
 
             wpm.product_category_name,
 
@@ -171,7 +115,6 @@
 
             ert.engineer_code,
             ert.reservation_date,
-            ert.request_date,
 
             em.engineer_name,
 
@@ -184,11 +127,11 @@
             LEFT OUTER JOIN product_model_detail pmd ON(pmd.model_code = rst.model_code)
             LEFT OUTER JOIN trouble_symptom_table tst ON(tst.trouble_code = rst.trouble_code)
             LEFT OUTER JOIN service_type_table stt on(stt.service_type_code = rst.service_type_code)
-            LEFT OUTER JOIN engineer_reservation_table ert on(ert.repair_service_code = rst.repair_service_code)
+            LEFT OUTER JOIN engineer_reservation_table ert on(ert.service_code = rst.service_code)
             LEFT OUTER JOIN engineer_mst em ON(em.engineer_code = ert.engineer_code)
             LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
         WHERE
-            rst.repair_service_code = #{repair_service_code};
+            rst.service_code = #{service_code};
     </select>
 
     <select id="findPastReceptionAddressListByUserCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.repair.Address">
@@ -215,7 +158,7 @@
         LIMIT #{page}, 4;
     </select>
 
-    <update id="updateRepairReservationInfoByRepairServiceCode" parameterType="com.project.winiaaid.domain.repair.RepairServiceInfo">
+    <update id="updateRepairReservationInfoByRepairServiceCode" parameterType="com.project.winiaaid.domain.repair.ServiceInfo">
         UPDATE
             repair_service_table rst
         SET
@@ -227,35 +170,33 @@
             postal_code = #{userInfoEntity.postal_code},
             main_address = #{userInfoEntity.main_address},
             detail_address = #{userInfoEntity.detail_address},
-
-            completed_flag = #{reservationInfoEntity.completed_flag}
+            request_date = #{reservationInfoEntity.request_date}
         WHERE
-            repair_service_code = #{productInfoEntity.repair_service_code};
+            service_code = #{productInfoEntity.service_code};
 
         UPDATE
             engineer_reservation_table
         SET
             engineer_code = #{reservationInfoEntity.engineer_code},
-            reservation_date = #{reservationInfoEntity.reservation_date},
-            request_date = #{reservationInfoEntity.request_date}
+            reservation_date = #{reservationInfoEntity.reservation_date}
         WHERE
-            repair_service_code = ${productInfoEntity.repair_service_code};
+            service_code = ${productInfoEntity.service_code};
     </update>
 
     <update id="cancelRepairServiceByRepairServiceCode" parameterType="String">
         UPDATE
             repair_service_table
         SET
-            completed_flag = 0
+            progress_status = 0
         WHERE
-            repair_service_code = ${repair_service_code};
+            service_code = ${service_code};
 
         UPDATE
             engineer_reservation_table
         SET
-            completed_flag = 0
+            progress_status = 0
         WHERE
-            repair_service_code = ${repair_service_code};
+            service_code = ${service_code};
     </update>
 
 </mapper>

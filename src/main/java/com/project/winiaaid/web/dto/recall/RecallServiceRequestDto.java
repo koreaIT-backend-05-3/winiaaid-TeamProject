@@ -1,15 +1,14 @@
 package com.project.winiaaid.web.dto.recall;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import com.project.winiaaid.domain.recall.Recall;
-
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class RecallServiceRequestDto {
-	private String modelName;
+	private int modelCode;
+	private String modelNumber;
 	private String userName;
 	private String mainPhoneNumber;
 	private String subPhoneNumber;
@@ -19,8 +18,9 @@ public class RecallServiceRequestDto {
     
     public Recall toRecallEntity() {
     	return Recall.builder()
-    				.recall_code(createRecallCode())
-    				.model_name(modelName)
+    				.temp_service_code(createTempServiceCode())
+					.model_code(modelCode)
+    				.model_number(modelNumber)
     				.user_name(userName)
     				.main_phone_number(mainPhoneNumber)
     				.sub_phone_number(subPhoneNumber)
@@ -30,10 +30,16 @@ public class RecallServiceRequestDto {
     				.build();
     }
     
-    private String createRecallCode() {
-    	String dfc = "DFC";
-    	String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmss"));
-    	
-    	return dfc + now;
+    private String createTempServiceCode() {
+		LocalDateTime nowDate = LocalDateTime.now();
+		int year = nowDate.getYear();
+		int month = nowDate.getMonthValue();
+		int day = nowDate.getDayOfMonth();
+
+		String tempServiceCode = null;
+
+		tempServiceCode = modelCode + "0" + (year + month + day);
+
+    	return tempServiceCode;
     }
 }

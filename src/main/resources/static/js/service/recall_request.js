@@ -18,6 +18,7 @@ const privacyHandlingCheck = document.querySelector("#privacy-handling")
 const submitButton = document.querySelector('.submit-button')
 
 let modelList = new Array();
+let modelCode = 0;
 
 
 searchModelButton.onclick = () => {
@@ -56,12 +57,10 @@ searchButton.onclick = () => {
     }else if(writeModel.value.length < 2){
         alert('최소 2자리 이상 입력해 주세요.')
     }else{
-		modelList = [];
 		searchModelResultUl.innerHTML = '';
-        searchModelByModelName(1);
-        searchModelByModelName(2);
-		checkNullModelList(modelList);
-        addclickEventModelResult();
+        let modelDataList = searchModelByModelName();
+		checkNullModelList(modelDataList);
+        addclickEventModelResult(modelDataList);
     }
 }
 
@@ -74,7 +73,8 @@ writeModel.onkeypress = () => {
 submitButton.onclick = () => {
 	if(checkRequiredInput() == true){
 		requestData = {
-			modelName: modelResult.innerText,
+            modelCode: modelCode,
+			modelNumber: modelResult.innerText,
 			userCode: 0,
 			userName: userNameInput.value,
 			mainPhoneNumber: `${mainPhoneNumber[0].value}-${mainPhoneNumber[1].value}-${mainPhoneNumber[2].value}`,
@@ -94,25 +94,27 @@ function onlyNumberOnInput(input) {
     },100)
 }
 
-function addclickEventModelResult() {
+function addclickEventModelResult(modelDataList) {
     const searchModelResultLi = searchModelResultUl.querySelectorAll('li')
-    searchModelResultLi.forEach(model => {
-		model.onclick = () => {
-			modelResult.innerText = model.innerText
-			writeModel.value = '';
-			modelList = [];
-			searchModelResultUl.innerHTML = '';
-			searchModelResult.style.display ='none'
-			searchModelInputs.style.visibility = 'collapse';
-		}
-	})
+    for(let i = 0; i < searchModelResultLi.length; i++) {
+        searchModelResultLi[i].onclick = () => {
+            modelResult.innerText = searchModelResultLi[i].innerText
+            writeModel.value = '';
+            modelList = [];
+            searchModelResultUl.innerHTML = '';
+            searchModelResult.style.display ='none'
+            searchModelInputs.style.visibility = 'collapse';
+
+            modelCode = modelDataList[i].modelCode;
+        }
+    }
 }
 
 
 function checkNullModelList(modelList){
-	if(modelList.length != 0){
-		for(let i = 0; i < modelList.length; i++){
-			searchModelResultUl.innerHTML += `<li>${modelList[i]}</li>`
+	if(modelList != null){
+		for(model of modelList){
+			searchModelResultUl.innerHTML += `<li>${model.modelNumber}</li>`
 		}
 		searchModelResult.style.display ='block'
 	}else{
@@ -121,25 +123,20 @@ function checkNullModelList(modelList){
 	}
 }
 
-function searchModelByModelName(code) {
+function searchModelByModelName() {
+    let modelList = null;
     $.ajax({
         type: "get",
-        url: `/api/v1/product/model/list/${writeModel.value}?code=${code}`,
+        url: `/api/v1/product/model/list/${writeModel.value}?request-type=recall&code=1`,
         dataType: "json",
         async: false,
         success: (response) => {
- 			setModelNameList(response.data);
+            modelList = response.data;
         },
         error: errorMessage
     });
-}
 
-function setModelNameList(data){
-	if(data != null){
-		for(let i = 0; i < data.length; i++){
-			modelList.push(data[i].modelNumber)
-		}
-	}
+    return modelList;
 }
 
 function setAddressInput(postalCode, mainAddress, detailAddress) {

@@ -1,21 +1,12 @@
 package com.project.winiaaid.web.controller.api;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.project.winiaaid.service.recall.RecallService;
-import com.project.winiaaid.service.repair.RepairService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.recall.RecallServiceRequestDto;
 import com.project.winiaaid.web.dto.recall.RecallServiceResponseDto;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,28 +14,27 @@ import lombok.RequiredArgsConstructor;
 public class RecallServiceRestController {
 
 	private final RecallService recallService;
-	
+
 	@PostMapping("recall/request")
 	public ResponseEntity<?> addRecallRequest(@RequestBody RecallServiceRequestDto recallServiceRequestDto){
-		String recallCode = null;
+		String serviceCode = null;
 		
 		try {
-			recallCode = recallService.addRecallRequest(recallServiceRequestDto);
+			serviceCode = recallService.addRecallRequest(recallServiceRequestDto);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Recall Request Failed", recallCode));
+			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Recall Request Failed", serviceCode));
 		}
 		
-		return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful Added Recall Request", recallCode));
+		return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful Added Recall Request", serviceCode));
 	}
-	
-	
-	@GetMapping("recall/{recallCode}")
-	public ResponseEntity<?> getRecallReqeust(@PathVariable String recallCode, @RequestParam String userName, @RequestParam int userCode){
+
+	@GetMapping("recall/{serviceCode}")
+	public ResponseEntity<?> getRecallRequest(@PathVariable String serviceCode, @RequestParam String userName, @RequestParam int userCode){
 		RecallServiceResponseDto recallServiceResponseDto = null;
 		
 		try {
-			recallServiceResponseDto = recallService.getRecallRequest(recallCode, userName, userCode);
+			recallServiceResponseDto = recallService.getRecallRequest(serviceCode, userName, userCode);
 			if(recallServiceResponseDto == null) {
 				return ResponseEntity.badRequest().body(new CustomResponseDto<>(-1, "request failed", null));
 			}
@@ -55,6 +45,5 @@ public class RecallServiceRestController {
 		
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful Import Recall Request", recallServiceResponseDto));
 	}
-	
 
 }

@@ -1,14 +1,14 @@
 const goListButton = document.querySelector(".go-list-button");
 
-let repairServiceCode = null;
+let serviceCode = null;
 
-repairServiceCode = getRepairServiceCodeByUri();
+serviceCode = getServiceCodeByUri();
 
 loadReservationDetailInfo();
 
 goListButton.onclick = goVisitInquiryPage;
 
-function getRepairServiceCodeByUri() {
+function getServiceCodeByUri() {
     return location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 }
 
@@ -20,7 +20,7 @@ function getReservationDetailInfo() {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/detail/history/${repairServiceCode}`,
+        url: `/api/v1/service/repair/detail/history/${serviceCode}`,
         dataType: "json",
         success: (response) => {
             setReservationDetailInfo(response.data);
@@ -43,12 +43,12 @@ function setReservationDetailInfo(reservationDetailInfo) {
         const userInfoObject = reservationDetailInfo.userInfo;
         const reservationObject = reservationDetailInfo.reservationInfo;
 
-        const completeFlag = reservationObject.completedFlag;
+        const progressStatus = reservationObject.progressStatus;
 
         reservationInfoTable.innerHTML = `
             <tr>
                 <th>접수번호</th>
-                <td>${productInfoObject.repairServiceCode}</td>
+                <td>${productInfoObject.serviceCode}</td>
                 <th>서비스 구분</th>
                 <td class="emphasis-td">${reservationObject.serviceTypeName}</td>
             </tr>
@@ -72,7 +72,7 @@ function setReservationDetailInfo(reservationDetailInfo) {
             </tr>
             <tr>
                 <th>진행상태</th>
-                <td ${completeFlag == 0 ? "class='service-cancel'" : completeFlag == 1 ? "class='service-receive'" : "class='service-complete'"}>${completeFlag == 0 ? "접수 취소" : completeFlag == 1 ? "접수 완료" : "방문 완료"}</td>
+                <td ${progressStatus == 0 ? "class='service-cancel'" : progressStatus == 1 ? "class='service-receive'" : "class='service-complete'"}>${progressStatus == 0 ? "접수 취소" : progressStatus == 1 ? "접수 완료" : "방문 완료"}</td>
                 <th>고장증상</th>
                 <td>${productInfoObject.troubleSymptom}</td>
             </tr>
@@ -80,7 +80,7 @@ function setReservationDetailInfo(reservationDetailInfo) {
                 <th>상세내용</th>
                 <td>${productInfoObject.description}</td>
                 <th>예약변경/취소 및 평가하기</th>
-                <td>${completeFlag == 1 ? '<div class="reservation-modify-button-div"><button class="modify-button" type="button">예약변경</button><button class="cancel-button" type="button">예약취소</button></div>' : ''}</td>
+                <td>${progressStatus == 1 ? '<div class="reservation-modify-button-div"><button class="modify-button" type="button">예약변경</button><button class="cancel-button" type="button">예약취소</button></div>' : ''}</td>
             </tr>
         `;
 
@@ -99,7 +99,7 @@ function setReservationDetailInfo(reservationDetailInfo) {
             </tr>
         `;
 
-        if(completeFlag == 1) {
+        if(progressStatus == 1) {
             setButtonClickEvent();
         }
     }
@@ -113,6 +113,6 @@ function setButtonClickEvent() {
     const modifyButton = document.querySelector(".modify-button");
     const cancelButton = document.querySelector(".cancel-button");
 
-    modifyButton.onclick = () => modifyReservationService(repairServiceCode);
-    cancelButton.onclick = () => cancelReservationService(repairServiceCode);
+    modifyButton.onclick = () => modifyReservationService(serviceCode);
+    cancelButton.onclick = () => cancelReservationService(serviceCode);
 }

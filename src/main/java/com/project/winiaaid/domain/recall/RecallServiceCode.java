@@ -1,9 +1,9 @@
-package com.project.winiaaid.domain.repair;
+package com.project.winiaaid.domain.recall;
 
 import lombok.Data;
 
 @Data
-public class RepairServiceCode {
+public class RecallServiceCode {
     private int id2;
     private String service_code;
 }

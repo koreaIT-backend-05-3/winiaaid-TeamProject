@@ -211,11 +211,11 @@ function requestSubmit() {
 }
 
 function reservationInfoModify() {
-    productInfoObject.repairServiceCode = repairServiceCode;
+    productInfoObject.serviceCode = serviceCode;
 
     $.ajax({
         type: "put",
-        url: `/api/v1/service/repair/modify/${repairServiceCode}`,
+        url: `/api/v1/service/repair/modify/${serviceCode}`,
         contentType: "application/json",
         data: JSON.stringify({
             "productInfoObject": productInfoObject,
@@ -226,7 +226,7 @@ function reservationInfoModify() {
         success: (response) => {
             if(response.data) {
                 alert("예약 날짜가 변경되었습니다.");
-                location.replace(`/service/visit/inquiry/detail/${repairServiceCode}`);
+                location.replace(`/service/visit/inquiry/detail/${serviceCode}`);
             }else {
                 alert("예약 정보 변경중 오류가 발생했습니다.");
             }
@@ -307,7 +307,7 @@ function checkModelNameSpan() {
 function searchModelByModelName() {
     $.ajax({
         type: "get",
-        url: `/api/v1/product/model/list/${modelSearchInput.value}?code=${productInfoObject.productCode}`,
+        url: `/api/v1/product/model/list/${modelSearchInput.value}?request-type=repair&code=${productInfoObject.productCode}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {

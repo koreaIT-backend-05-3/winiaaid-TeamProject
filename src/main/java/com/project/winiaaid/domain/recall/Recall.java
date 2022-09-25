@@ -15,9 +15,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Recall {
-	private String recall_code;
-	private String service_type;
-	private String model_name;
+	private int id2;
+	private String service_code;
+	private String temp_service_code;
+	private int model_code;
+	private int service_type_code;
+	private String service_type_name;
+	private String model_number;
 	private LocalDateTime request_date;
 	private String progress_status;
 	private int note;
@@ -32,9 +36,9 @@ public class Recall {
     
     public RecallServiceResponseDto toRecallServiceResponseDto() {
     	return RecallServiceResponseDto.builder()
-    			.recallCode(recall_code)
-    			.serviceType(service_type)
-    			.modelName(model_name)
+    			.serviceCode(service_code)
+    			.serviceTypeName(service_type_name)
+    			.modelNumber(model_number)
     			.requestDate(request_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
     			.progressStatus(progress_status)
     			.note(note)

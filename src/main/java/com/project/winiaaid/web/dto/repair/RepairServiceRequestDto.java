@@ -1,6 +1,6 @@
 package com.project.winiaaid.web.dto.repair;
 
-import com.project.winiaaid.domain.repair.RepairServiceInfo;
+import com.project.winiaaid.domain.repair.ServiceInfo;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,8 +11,8 @@ public class RepairServiceRequestDto {
     private UserInfoDto userInfoObject;
     private ReservationInfoDto reservationInfoObject;
 
-    public RepairServiceInfo toRepairServiceInfoEntity(LocalDateTime reservation_date) {
-        return RepairServiceInfo.builder()
+    public ServiceInfo toRepairServiceInfoEntity(LocalDateTime reservation_date) {
+        return ServiceInfo.builder()
                 .productInfoEntity(productInfoObject.toProductInfoEntity())
                 .userInfoEntity(userInfoObject.toUserInfoEntity())
                 .reservationInfoEntity(reservationInfoObject.toReservationEntity(reservation_date))

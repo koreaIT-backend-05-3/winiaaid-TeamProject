@@ -1,6 +1,7 @@
 package com.project.winiaaid.service.product;
 
 import com.project.winiaaid.domain.product.*;
+import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.web.dto.product.ReadProductCategoryResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductModelResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductTroubleResponseDto;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ConfigMap configMapper;
 
     @Override
     public List<ReadProductCategoryResponseDto> getProductMainCategoryList(String company) throws Exception {
@@ -95,15 +97,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ReadProductModelResponseDto> getProductModelInfoList(int productCode, String modelNumber) throws Exception {
+    public List<ReadProductModelResponseDto> getProductModelInfoList(int keyCode, String modelNumber) throws Exception {
         List<ProductModel> modelEntityList = null;
         List<ReadProductModelResponseDto> modelDtoList = null;
-        Map<String, Object> modelMap = new HashMap<>();
+        Map<String, Object> configMap = null;
 
-        modelMap.put("product_code", productCode);
-        modelMap.put("model_number", modelNumber);
+        configMap = configMapper.setModelMap(keyCode, modelNumber);
 
-        modelEntityList = productRepository.findModelNumberListByModelNumber(modelMap);
+        modelEntityList = productRepository.findModelNumberListByModelNumber(configMap);
 
         if(modelEntityList != null && modelEntityList.size() != 0) {
             modelDtoList = changeToReadProductModelResponseDto(modelEntityList);

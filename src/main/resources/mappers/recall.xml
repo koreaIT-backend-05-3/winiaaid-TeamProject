@@ -8,11 +8,13 @@
 		insert into
 			recall_service_table
 		values(
-			#{recall_code},
-			'김치냉장고 리콜 신청',
-			#{model_name},
+			#{model_code},
+			#{id2},
+			#{service_code},
+			3,
+			#{model_code},
 			now(),
-			'접수',
+			1,
 			0,
 			#{user_code},
 			#{user_name},
@@ -26,26 +28,40 @@
 	
 	<select id="getRecallRequest" parameterType="hashmap" resultType="com.project.winiaaid.domain.recall.Recall">
 		select
-			recall_code,
-			service_type,
-			model_name,
-			request_date,
-			progress_status,
-			note,
-			user_code,
-			user_name,
-			main_phone_number,
-			sub_phone_number,
-			postal_code,
-			main_address,
-			detail_address
+			rst.service_code,
+			rst.request_date,
+			rst.progress_status,
+			rst.note,
+			rst.user_code,
+			rst.user_name,
+			rst.main_phone_number,
+			rst.sub_phone_number,
+			rst.postal_code,
+			rst.main_address,
+			rst.detail_address,
+
+			stt.service_type_name,
+
+			pmd.model_number
 		from
-			recall_service_table
+			recall_service_table rst
+			LEFT OUTER JOIN service_type_table stt on(stt.service_type_code = rst.service_type_code)
+			LEFT OUTER JOIN product_model_detail pmd on(pmd.model_code = rst.model_code)
 		where
-			recall_code = #{recall_code}
+			service_code = #{service_code}
 			and
 			user_name = #{user_name}
 			and
 			user_code = #{user_code};
+	</select>
+
+	<select id="findServiceCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.recall.RecallServiceCode">
+		select
+			IFNULL(MAX(id2), 0) + 1 as id2,
+			RPAD(#{temp_service_code}, CHAR_LENGTH(#{temp_service_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1 as service_code
+		from
+			recall_service_table
+		where
+			id1 = #{model_code};
 	</select>
 </mapper>

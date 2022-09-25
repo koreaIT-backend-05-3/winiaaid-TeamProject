@@ -22,7 +22,7 @@ function getRepairServiceHistory(page) {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/history/popup/user/${userCode}?page=${page}`,
+        url: `/api/v1/service/history/user/${userCode}?service-type=repair&request-type=pastRequest&page=${page}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
@@ -63,15 +63,15 @@ function setRepairDataList(repairDataList, totalPage) {
             "detailAddress": repairData.userInfo.detailAddress
         };
 
-        pastHistoryInfoMap.set(`${repairData.productInfo.repairServiceCode}`, pastHistoryInfoObject);
+        pastHistoryInfoMap.set(`${repairData.productInfo.serviceCode}`, pastHistoryInfoObject);
 
         requestInfoDiv.innerHTML += `
         <table>
             <tbody>
                 <tr>
                     <th>
-                        <input class="check-radio" id=">${repairData.productInfo.repairServiceCode}" type="radio" name="check">
-                        <label for=">${repairData.productInfo.repairServiceCode}" class="check-radio">제품명</label>
+                        <input class="check-radio" id=">${repairData.productInfo.serviceCode}" type="radio" name="check">
+                        <label for=">${repairData.productInfo.serviceCode}" class="check-radio">제품명</label>
                     </th>
                     <td class="product-name-td">${repairData.productInfo.productCategoryName == repairData.productInfo.productDetailName ? "" : repairData.productInfo.productCategoryName + " > "} ${repairData.productInfo.productDetailName}</td>
                     <th>모델명</th>
@@ -79,9 +79,9 @@ function setRepairDataList(repairDataList, totalPage) {
                 </tr>
                 <tr>
                     <th>접수번호</th>
-                    <td class="request-number-td">${repairData.productInfo.repairServiceCode}</td>
+                    <td class="request-number-td">${repairData.productInfo.serviceCode}</td>
                     <th>서비스구분</th>
-                    <td class="service-type-td">${repairData.reservationInfo.serviceType}</td>
+                    <td class="service-type-td">${repairData.reservationInfo.serviceTypeName}</td>
                 </tr>
                 <tr>
                     <th>구입년월</th>

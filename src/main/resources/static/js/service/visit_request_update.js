@@ -1,4 +1,4 @@
-const repairServiceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+const serviceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 
 lockItems();
 getReservationInfo();
@@ -8,7 +8,7 @@ function getReservationInfo() {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/detail/history/${repairServiceCode}`,
+        url: `/api/v1/service/repair/detail/history/${serviceCode}`,
         dataType: "json",
         success: (response) => {
             setPastReservationInfo(response.data);

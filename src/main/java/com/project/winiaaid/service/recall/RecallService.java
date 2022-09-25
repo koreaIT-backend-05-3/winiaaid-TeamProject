@@ -5,5 +5,5 @@ import com.project.winiaaid.web.dto.recall.RecallServiceResponseDto;
 
 public interface RecallService {
 	public String addRecallRequest(RecallServiceRequestDto recallServiceRequestDto) throws Exception;
-	public RecallServiceResponseDto getRecallRequest(String recallCode, String userName, int userCode) throws Exception;
+	public RecallServiceResponseDto getRecallRequest(String serviceCode, String userName, int userCode) throws Exception;
 }

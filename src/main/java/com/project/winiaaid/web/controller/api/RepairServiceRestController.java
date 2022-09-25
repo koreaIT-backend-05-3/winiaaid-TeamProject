@@ -1,19 +1,20 @@
 package com.project.winiaaid.web.controller.api;
 
-import com.project.winiaaid.domain.repair.RepairServiceInfo;
+import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.service.repair.RepairService;
+import com.project.winiaaid.util.CustomObjectMapper;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
+import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
-import com.project.winiaaid.web.dto.repair.RepairServiceResponseDto;
+import com.project.winiaaid.web.dto.repair.ReadServiceInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,12 +23,12 @@ import java.util.List;
 public class RepairServiceRestController {
 
     private final RepairService repairService;
+    private final CustomObjectMapper customObjectMapper;
 
     @PostMapping("/visit/request")
     public ResponseEntity<?> applyForService(@RequestBody RepairServiceRequestDto repairServiceRequestDto) {
         String repairServiceCode = null;
 
-        log.info("repairServiceCode: {}", repairServiceCode);
         try {
             repairServiceCode = repairService.addRepairServiceRequest(repairServiceRequestDto);
         } catch (Exception e) {
@@ -38,24 +39,9 @@ public class RepairServiceRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", repairServiceCode));
     }
 
-    // type
-    @GetMapping("/repair/history/{type}/user/{userCode}")
-    public ResponseEntity<?> getRepairServiceHistoryInfo(@PathVariable String type, @PathVariable int userCode, @RequestParam int page) {
-        List<RepairServiceResponseDto> repairServiceInfoList = null;
-
-        try {
-            repairServiceInfoList = repairService.getRepairServiceHistoryInfoByUserCode(type, userCode, page);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to apply for repair service.", repairServiceInfoList));
-        }
-
-        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for repair service", repairServiceInfoList));
-    }
-
     @GetMapping("/repair/detail/history/{repairServiceCode}")
     public ResponseEntity<?> getRepairServiceDetailHistoryInfo(@PathVariable String repairServiceCode) {
-        RepairServiceResponseDto repairServiceResponseDto = null;
+        ReadServiceInfoResponseDto repairServiceResponseDto = null;
 
         try {
             repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(repairServiceCode);
@@ -84,7 +70,6 @@ public class RepairServiceRestController {
     @PutMapping("/repair/modify/{repairServiceCode}")
     public ResponseEntity<?> updateRepairServiceInfoByRepairServiceCode(@RequestBody RepairServiceRequestDto repairServiceRequestDto){
         String repairServiceCode = null;
-        log.info("{}", repairServiceRequestDto);
 
         try {
             repairServiceCode = repairService.modifyRepairReservationInfoByRepairServiceCode(repairServiceRequestDto);

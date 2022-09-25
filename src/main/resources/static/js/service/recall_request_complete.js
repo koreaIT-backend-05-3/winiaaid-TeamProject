@@ -1,13 +1,13 @@
 const checkButton = document.querySelector('.check-button')
 
-let recallCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);;
+let serviceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);;
 
 loadRecallRequestComplete();
 
 function loadRecallRequestComplete(userName, userCode){
     $.ajax({
         type: "get",
-        url: `/api/v1/service/recall/${recallCode}?userName=${userName}&userCode=${userCode}`,
+        url: `/api/v1/service/recall/${serviceCode}?userName=${userName}&userCode=${userCode}`,
         dataType: "json",
         async: false,
         success: (response) => {
@@ -27,10 +27,10 @@ function getRecallRequest(recallRequest){
     const subPhoneNumber = document.querySelector('.sub-phone-number')
     const address = document.querySelector('.address')
 
-    recallCode = recallRequest.recallCode;
+    serviceCode = recallRequest.serviceCode;
 
-    recallCodes[0].innerText = recallRequest.recallCode;
-    recallCodes[1].innerText = `(${recallRequest.recallCode})`;
+    recallCodes[0].innerText = recallRequest.serviceCode;
+    recallCodes[1].innerText = `(${recallRequest.serviceCode})`;
     serviceType.innerText = recallRequest.serviceType;
     modelName.innerText = recallRequest.modelName;
     requestDate.innerText = recallRequest.requestDate;

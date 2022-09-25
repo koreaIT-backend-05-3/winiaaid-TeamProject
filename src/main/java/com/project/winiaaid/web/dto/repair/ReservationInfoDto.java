@@ -19,7 +19,7 @@ public class ReservationInfoDto {
     private String reservationDay;
     private String reservationTime;
     private String serviceTypeName;
-    private int completedFlag;
+    private int progressStatus;
     private String requestDate;
     private String reservationDate;
     private int totalCount;
@@ -31,7 +31,7 @@ public class ReservationInfoDto {
                 .request_date(LocalDateTime.now())
                 .reservation_date(reservation_date)
                 .service_type_code(2)
-                .completed_flag(1)
+                .progress_status(1)
                 .build();
     }
 }

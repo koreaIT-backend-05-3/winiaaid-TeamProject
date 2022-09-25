@@ -1,6 +1,8 @@
 package com.project.winiaaid.util;
 
+import com.project.winiaaid.domain.recall.Recall;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
+import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
 import org.springframework.stereotype.Component;
 
@@ -70,6 +72,39 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("user_code", readBoardRequestDto.getUserCode());
         configMap.put("board_type", readBoardRequestDto.getBoardType().equals("complaint") ? 1 : readBoardRequestDto.getBoardType().equals("praise") ? 2 : 3);
         configMap.put("page", (readBoardRequestDto.getPage() - 1) * 10);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setConfigMap(int userCode, ReadServiceRequestDto readServiceRequestDto) {
+        Map<String, Object> configMap = new HashMap<>();
+        String serviceType = readServiceRequestDto.getServiceType();
+
+        configMap.put("limit", readServiceRequestDto.getRequestType().equals("pastRequest") ? 3 : 10);
+        configMap.put("service_type_code", serviceType.equals("all") ? 0 : serviceType.equals("counsel") ? 1 : serviceType.equals("repair") ? 2 : 3);
+        configMap.put("page", (readServiceRequestDto.getPage() - 1) * (Integer) configMap.get("limit"));
+        configMap.put("user_code", userCode);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setModelMap(int keyCode, String modelNumber) {
+        Map<String, Object> modelMap = new HashMap<>();
+
+        modelMap.put("key_code", keyCode);
+        modelMap.put("model_number", modelNumber);
+
+        return modelMap;
+    }
+
+    @Override
+    public Map<String, Object> setConfigMap(Recall recall) {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("model_code", recall.getModel_code());
+        configMap.put("temp_service_code", recall.getTemp_service_code());
 
         return configMap;
     }

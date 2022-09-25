@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductInfoDto {
-    private String repairServiceCode;
+    private String serviceCode;
     private String productGroupName;
     private int productCategoryCode;
     private String productCategoryName;
@@ -31,8 +31,8 @@ public class ProductInfoDto {
 
     public ProductInfoEntity toProductInfoEntity() {
         return ProductInfoEntity.builder()
-                .repair_service_code(repairServiceCode)
-                .temp_repair_service_code(createTempRepairServiceCode())
+                .service_code(serviceCode)
+                .temp_service_code(createTempServiceCode())
                 .product_category_code(productCategoryCode)
                 .product_code(productCode)
                 .model_code(modelCode)
@@ -42,15 +42,15 @@ public class ProductInfoDto {
                 .build();
     }
 
-    private int createTempRepairServiceCode() {
+    private int createTempServiceCode() {
         LocalDateTime nowDate = LocalDateTime.now();
         int year = nowDate.getYear();
         int month = nowDate.getMonthValue();
         int day = nowDate.getDayOfMonth();
-        String tempRepairServiceCode = null;
+        String tempServiceCode = null;
 
-        tempRepairServiceCode = productCode + "0" + (year + month + day);
+        tempServiceCode = productCode + "0" + (year + month + day);
 
-        return Integer.parseInt(tempRepairServiceCode);
+        return Integer.parseInt(tempServiceCode);
     }
 }

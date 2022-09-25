@@ -32,7 +32,7 @@
             LEFT OUTER JOIN engineer_reservation_table ert ON(ert.engineer_code = em.engineer_code)
         WHERE
             reservation_date LIKE concat("%", #{date}, "%")
-            AND completed_flag != 0
+            AND progress_status != 0
         ORDER BY
             em.engineer_code,
             reservation_date;

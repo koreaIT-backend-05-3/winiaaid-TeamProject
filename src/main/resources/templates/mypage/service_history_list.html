@@ -39,9 +39,9 @@
                         <div class="search">
                             <select>
                                 <option value="all">전체</option>
-                                <option value="1">전화상담예약</option>
-                                <option value="2">방문서비스</option>
-                                <option value="3">무상클린서비스</option>
+                                <option value="counsel">전화상담예약</option>
+                                <option value="repair">방문서비스</option>
+                                <option value="recall">무상클린서비스</option>
                             </select>
                             <button type="button">검색</button>
                         </div>
@@ -59,23 +59,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="service-code">000315144177</td>
-                                <td class="service-type">방문서비스</td>
-                                <td class="product-info">에어컨 > 스탠드에어컨</td>
-                                <td>2022-09-16 19:26</td>
-                                <td>취소</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="service-code">000315144177</td>
-                                <td class="service-type">방문서비스</td>
-                                <td class="product-info">에어컨 > 스탠드에어컨</td>
-                                <td>2022-09-16 19:26</td>
-                                <td>취소</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="service-code">000315144177</td>
+                                <td><span class="service-code">000315144177</span></td>
                                 <td class="service-type">방문서비스</td>
                                 <td class="product-info">에어컨 > 스탠드에어컨</td>
                                 <td>2022-09-16 19:26</td>
@@ -94,5 +78,6 @@
     <th:block th:replace="/fragments/footer"></th:block>
     <script src="/static/js/util/location_notice.js"></script>
     <script src="/static/js/util/paging.js"></script>
+    <script src="/static/js/mypage/service_history.js"></script>
 </body>
 </html>

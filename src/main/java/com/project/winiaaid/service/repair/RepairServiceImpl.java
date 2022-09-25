@@ -3,13 +3,14 @@ package com.project.winiaaid.service.repair;
 import com.project.winiaaid.domain.repair.Address;
 import com.project.winiaaid.domain.repair.RepairRepository;
 import com.project.winiaaid.domain.repair.RepairServiceCode;
-import com.project.winiaaid.domain.repair.RepairServiceInfo;
+import com.project.winiaaid.domain.repair.ServiceInfo;
+import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
+import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
-import com.project.winiaaid.web.dto.repair.RepairServiceResponseDto;
+import com.project.winiaaid.web.dto.repair.ReadServiceInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,51 +26,33 @@ import java.util.stream.Collectors;
 public class RepairServiceImpl implements RepairService {
 
     private final RepairRepository repairRepository;
+    private final ConfigMap configMapper;
 
     @Override
     public String addRepairServiceRequest(RepairServiceRequestDto applyServiceRequestDto) throws Exception {
-        RepairServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(applyServiceRequestDto);
+        ServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(applyServiceRequestDto);
         RepairServiceCode serviceCode = null;
         Map<String, Object> configMap = new HashMap<String, Object>();
 
-        configMap.put("temp_repair_service_code", repairServiceInfo.getProductInfoEntity().getTemp_repair_service_code());
+        configMap.put("temp_service_code", repairServiceInfo.getProductInfoEntity().getTemp_service_code());
         configMap.put("product_code", repairServiceInfo.getProductInfoEntity().getProduct_code());
 
         serviceCode = repairRepository.findRepairServiceCode(configMap);
 
         log.info("repairServiceCode: {}", serviceCode);
 
-        repairServiceInfo.getProductInfoEntity().setRepair_service_code(serviceCode.getRepair_service_code());
+        repairServiceInfo.getProductInfoEntity().setService_code(serviceCode.getService_code());
         repairServiceInfo.getProductInfoEntity().setId2(serviceCode.getId2());
 
         repairRepository.addRepairServiceRequest(repairServiceInfo);
 
-        return serviceCode.getRepair_service_code();
+        return serviceCode.getService_code();
     }
 
     @Override
-    public List<RepairServiceResponseDto> getRepairServiceHistoryInfoByUserCode(String type, int userCode, int page) throws Exception {
-        List<RepairServiceInfo> repairServiceInfoEntityList = null;
-        List<RepairServiceResponseDto> repairServiceResponseDtoList = null;
-        Map<String, Object> configMap = new HashMap<>();
-
-        configMap.put("limit", type.equals("popup") ? 3 : 10);
-        configMap.put("page", (page - 1) * (Integer) configMap.get("limit"));
-        configMap.put("user_code", userCode);
-
-        repairServiceInfoEntityList = repairRepository.findRepairServiceByUserCode(configMap);
-
-        if(repairServiceInfoEntityList != null && repairServiceInfoEntityList.size() != 0) {
-            repairServiceResponseDtoList = changeToRepairServiceResponseDtoList(repairServiceInfoEntityList);
-        }
-
-        return repairServiceResponseDtoList;
-    }
-
-    @Override
-    public RepairServiceResponseDto getRepairServiceDetailHistoryInfo(String repairServiceCode) throws Exception {
-        RepairServiceInfo repairServiceInfoEntity = null;
-        RepairServiceResponseDto repairServiceResponseDto = null;
+    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String repairServiceCode) throws Exception {
+        ServiceInfo repairServiceInfoEntity = null;
+        ReadServiceInfoResponseDto repairServiceResponseDto = null;
 
         repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(repairServiceCode);
 
@@ -100,11 +83,11 @@ public class RepairServiceImpl implements RepairService {
 
     @Override
     public String modifyRepairReservationInfoByRepairServiceCode(RepairServiceRequestDto repairServiceRequestDto) throws Exception {
-        RepairServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(repairServiceRequestDto);
+        ServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(repairServiceRequestDto);
 
         repairRepository.updateRepairReservationInfoByRepairServiceCode(repairServiceInfo);
 
-        return repairServiceInfo.getProductInfoEntity().getRepair_service_code();
+        return repairServiceInfo.getProductInfoEntity().getService_code();
     }
 
     @Override
@@ -112,7 +95,7 @@ public class RepairServiceImpl implements RepairService {
         return repairRepository.cancelRepairServiceByRepairServiceCode(repairServiceCode) > 0;
     }
 
-    private RepairServiceInfo changeToRepairServiceInfoEntity(RepairServiceRequestDto repairServiceRequestDto) {
+    private ServiceInfo changeToRepairServiceInfoEntity(RepairServiceRequestDto repairServiceRequestDto) {
         return repairServiceRequestDto.toRepairServiceInfoEntity(
                 changeStringToLocalDateTime(
                         repairServiceRequestDto.getReservationInfoObject().getReservationDay(),
@@ -128,14 +111,8 @@ public class RepairServiceImpl implements RepairService {
         return LocalDateTime.parse(reservationDate, formatter);
     }
 
-    private RepairServiceResponseDto changeToRepairServiceResponseDto(RepairServiceInfo repairServiceInfo) {
-        return repairServiceInfo.toRepairServiceResponseDto();
-    }
-
-    private List<RepairServiceResponseDto> changeToRepairServiceResponseDtoList(List<RepairServiceInfo> repairServiceInfoList) {
-        return repairServiceInfoList.stream()
-                .map(repairServiceInfo -> repairServiceInfo.toRepairServiceResponseDto())
-                .collect(Collectors.toList());
+    private ReadServiceInfoResponseDto changeToRepairServiceResponseDto(ServiceInfo repairServiceInfo) {
+        return repairServiceInfo.toServiceResponseDto();
     }
 
     private List<AddressResponseDto> changeToAddressResponseDtoList(List<Address> addressList) {

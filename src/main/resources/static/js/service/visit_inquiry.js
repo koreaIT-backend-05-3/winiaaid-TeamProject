@@ -10,7 +10,7 @@ function getRepairServiceHistory(page) {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/history/window/user/${userCode}?page=${page}`,
+        url: `/api/v1/service/history/user/${userCode}?service-type=repair&request-type=history&page=${page}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
@@ -38,16 +38,16 @@ function setRepairServiceHistoryData(repairDataList) {
         </tr>`;
     }else {
         for(repairData of repairDataList) {
-            let completedFlag = repairData.reservationInfo.completedFlag;
+            let progressStatus = repairData.reservationInfo.progressStatus;
             tbody.innerHTML += `
             <tr class="history-list">
                 <td>${repairData.productInfo.companyName}</td>
-                <td><span class="repair-service-code-span">${repairData.productInfo.repairServiceCode}</span></td>
+                <td><span class="repair-service-code-span">${repairData.productInfo.serviceCode}</span></td>
                 <td>${repairData.reservationInfo.serviceTypeName}</td>
                 <td>${repairData.productInfo.productCategoryName == repairData.productInfo.productDetailName ? "" : repairData.productInfo.productCategoryName + " > "} ${repairData.productInfo.productDetailName}</td>
                 <td>${repairData.reservationInfo.requestDate}</td>
-                <td class="${completedFlag == 0 ? "cancel-td" : completedFlag == 1 ? "register-td" : "complete-td"}">${completedFlag == 0 ? "접수 취소" : completedFlag == 1 ? "접수 완료" : "방문 완료"}</td>
-                <td>${completedFlag == 1 ? "<div class='reservation-modify-button-div'><button class='modify-button' type='button'>예약변경</button><button class='cancel-button' type='button'>예약취소</button></div>" : ""}</td>
+                <td class="${progressStatus == 0 ? "cancel-td" : progressStatus == 1 ? "register-td" : "complete-td"}">${progressStatus == 0 ? "접수 취소" : progressStatus == 1 ? "접수 완료" : "방문 완료"}</td>
+                <td>${progressStatus == 1 ? "<div class='reservation-modify-button-div'><button class='modify-button' type='button'>예약변경</button><button class='cancel-button' type='button'>예약취소</button></div>" : ""}</td>
             </tr>
             `;
         }
@@ -76,10 +76,10 @@ function setButtonClickEvent(index) {
         const cancelButton = reservationHistory.querySelector(".cancel-button");
 
         if(modifyButton != null) {
-            const repairServiceCode = reservationHistory.querySelector(".repair-service-code-span").textContent;
-            modifyButton.onclick = () => modifyReservationService(repairServiceCode);
+            const serviceCode = reservationHistory.querySelector(".repair-service-code-span").textContent;
+            modifyButton.onclick = () => modifyReservationService(serviceCode);
         
-            cancelButton.onclick = () => cancelReservationService(repairServiceCode);
+            cancelButton.onclick = () => cancelReservationService(serviceCode);
 
         }
     }

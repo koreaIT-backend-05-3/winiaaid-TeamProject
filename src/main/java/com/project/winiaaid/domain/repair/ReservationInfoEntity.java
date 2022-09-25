@@ -18,7 +18,7 @@ public class ReservationInfoEntity {
     private String engineer_name;
     private int service_type_code;
     private String service_type_name;
-    private int completed_flag;
+    private int progress_status;
     private LocalDateTime request_date;
     private LocalDateTime reservation_date;
     private int total_count;
@@ -28,7 +28,7 @@ public class ReservationInfoEntity {
                 .engineerCode(engineer_code)
                 .engineerName(engineer_name)
                 .serviceTypeName(service_type_name)
-                .completedFlag(completed_flag)
+                .progressStatus(progress_status)
                 .requestDate(request_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .reservationDate(reservation_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .totalCount(total_count)

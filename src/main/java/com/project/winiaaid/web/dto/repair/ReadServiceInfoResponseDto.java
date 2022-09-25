@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class RepairServiceResponseDto {
+public class ReadServiceInfoResponseDto {
     private ProductInfoDto productInfo;
     private UserInfoDto userInfo;
     private ReservationInfoDto reservationInfo;
