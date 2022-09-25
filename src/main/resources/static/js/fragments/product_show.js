@@ -362,6 +362,7 @@ function setGroupProductDetail(domObject, productInfoList) {
                 swiperDiv.appendChild(detailProductUl);
                 domObject.appendChild(swiperDiv);
                 const groupImage = document.querySelector(`.product-category-${startIndex} img`);
+                setGroupImageClickEvent(groupImage, productInfoList[startIndex]);
                 continue;
             }
 

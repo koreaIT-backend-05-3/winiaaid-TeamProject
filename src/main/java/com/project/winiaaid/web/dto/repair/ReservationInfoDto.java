@@ -18,7 +18,7 @@ public class ReservationInfoDto {
     private String engineerName;
     private String reservationDay;
     private String reservationTime;
-    private String serviceType;
+    private String serviceTypeName;
     private int completedFlag;
     private String requestDate;
     private String reservationDate;
@@ -30,7 +30,7 @@ public class ReservationInfoDto {
                 .engineer_code(engineerCode)
                 .request_date(LocalDateTime.now())
                 .reservation_date(reservation_date)
-                .service_type(serviceType)
+                .service_type_code(2)
                 .completed_flag(1)
                 .build();
     }

@@ -43,7 +43,7 @@ function setRepairServiceHistoryData(repairDataList) {
             <tr class="history-list">
                 <td>${repairData.productInfo.companyName}</td>
                 <td><span class="repair-service-code-span">${repairData.productInfo.repairServiceCode}</span></td>
-                <td>${repairData.reservationInfo.serviceType}</td>
+                <td>${repairData.reservationInfo.serviceTypeName}</td>
                 <td>${repairData.productInfo.productCategoryName == repairData.productInfo.productDetailName ? "" : repairData.productInfo.productCategoryName + " > "} ${repairData.productInfo.productDetailName}</td>
                 <td>${repairData.reservationInfo.requestDate}</td>
                 <td class="${completedFlag == 0 ? "cancel-td" : completedFlag == 1 ? "register-td" : "complete-td"}">${completedFlag == 0 ? "접수 취소" : completedFlag == 1 ? "접수 완료" : "방문 완료"}</td>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/util/location_notice.css" rel="stylesheet">
+    <link href="/static/css/util/paging.css" rel="stylesheet">
+    <link href="/static/css/mypage/service_history.css" rel="stylesheet">
+    <title>[위니아에이드] 서비스이력_진행중</title>
+</head>
+<body>
+    <th:block th:replace="/fragments/header"></th:block>
+    <main>
+        <div id="container">
+            <div class="main-content">
+                <div class="location-div">
+    
+                </div>
+                <div class="main-title">
+                    <h1>서비스이력</h1>
+                </div>
+                <div class="service-explaination">
+                    <span>방문서비스 예약 신청 현황입니다.</span>
+                </div>
+                <div class="menu-type">
+                    <ul>
+                        <li>진행 (0)</li>
+                        <li>완료 (4)</li>
+                    </ul>
+                </div>
+                <div class="content-result-div">
+                    <div class="search-content-div">
+                        <div class="amount">
+                            전체 <span class="search-total-count">0</span>건
+                        </div>
+                        <div class="search">
+                            <select>
+                                <option value="all">전체</option>
+                                <option value="1">전화상담예약</option>
+                                <option value="2">방문서비스</option>
+                                <option value="3">무상클린서비스</option>
+                            </select>
+                            <button type="button">검색</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>접수번호</th>
+                                <th>서비스구분	</th>
+                                <th>제품/모델명</th>
+                                <th>접수일</th>
+                                <th>진행상태</th>
+                                <th>비고</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="service-code">000315144177</td>
+                                <td class="service-type">방문서비스</td>
+                                <td class="product-info">에어컨 > 스탠드에어컨</td>
+                                <td>2022-09-16 19:26</td>
+                                <td>취소</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="service-code">000315144177</td>
+                                <td class="service-type">방문서비스</td>
+                                <td class="product-info">에어컨 > 스탠드에어컨</td>
+                                <td>2022-09-16 19:26</td>
+                                <td>취소</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="service-code">000315144177</td>
+                                <td class="service-type">방문서비스</td>
+                                <td class="product-info">에어컨 > 스탠드에어컨</td>
+                                <td>2022-09-16 19:26</td>
+                                <td>취소</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-button-div">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/fragments/footer"></th:block>
+    <script src="/static/js/util/location_notice.js"></script>
+    <script src="/static/js/util/paging.js"></script>
+</body>
+</html>

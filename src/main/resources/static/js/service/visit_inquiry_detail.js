@@ -50,7 +50,7 @@ function setReservationDetailInfo(reservationDetailInfo) {
                 <th>접수번호</th>
                 <td>${productInfoObject.repairServiceCode}</td>
                 <th>서비스 구분</th>
-                <td class="emphasis-td">${reservationObject.serviceType}</td>
+                <td class="emphasis-td">${reservationObject.serviceTypeName}</td>
             </tr>
             <tr>
                 <th>접수일</th>
