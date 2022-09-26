@@ -1,6 +1,6 @@
 package com.project.winiaaid.service.history;
 
-import com.project.winiaaid.web.dto.repair.ReadServiceInfoResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 
 import java.util.List;

@@ -4,7 +4,7 @@ import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.service.history.HistoryService;
 import com.project.winiaaid.util.CustomObjectMapper;
 import com.project.winiaaid.web.dto.CustomResponseDto;
-import com.project.winiaaid.web.dto.repair.ReadServiceInfoResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

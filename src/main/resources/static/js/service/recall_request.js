@@ -72,17 +72,27 @@ writeModel.onkeypress = () => {
 
 submitButton.onclick = () => {
 	if(checkRequiredInput() == true){
+
+        productInfoObject = {
+            "modelCode": modelCode,
+			"modelNumber": modelResult.innerText
+        }
+
+        userInfoObject = {
+            "userCode": 0,
+			"userName": userNameInput.value,
+			"mainPhoneNumber": `${mainPhoneNumber[0].value}-${mainPhoneNumber[1].value}-${mainPhoneNumber[2].value}`,
+			"subPhoneNumber": subPhoneNumber[0].value == '선택' ? null : `${subPhoneNumber[0].value}-${subPhoneNumber[1].value}-${subPhoneNumber[2].value}`,
+			"postalCode": postalCodeInput.value,
+			"mainAddress": addressMainInput.value,
+			"detailAddress": addressDetailInput.value
+        }
+
 		requestData = {
-            modelCode: modelCode,
-			modelNumber: modelResult.innerText,
-			userCode: 0,
-			userName: userNameInput.value,
-			mainPhoneNumber: `${mainPhoneNumber[0].value}-${mainPhoneNumber[1].value}-${mainPhoneNumber[2].value}`,
-			subPhoneNumber: subPhoneNumber[0].value == '선택' ? null : `${subPhoneNumber[0].value}-${subPhoneNumber[1].value}-${subPhoneNumber[2].value}`,
-			postalCode: postalCodeInput.value,
-			mainAddress: addressMainInput.value,
-			detailAddress: addressDetailInput.value
+            "productInfoObject": productInfoObject,
+            "userInfoObject": userInfoObject
 		}
+
 		submitRequest(requestData);    
     }
 }

@@ -1,9 +1,10 @@
 package com.project.winiaaid.web.controller.api;
 
+import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.service.recall.RecallService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.recall.RecallServiceRequestDto;
-import com.project.winiaaid.web.dto.recall.RecallServiceResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ public class RecallServiceRestController {
 
 	private final RecallService recallService;
 
+	@Log
 	@PostMapping("recall/request")
 	public ResponseEntity<?> addRecallRequest(@RequestBody RecallServiceRequestDto recallServiceRequestDto){
 		String serviceCode = null;
@@ -29,9 +31,10 @@ public class RecallServiceRestController {
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful Added Recall Request", serviceCode));
 	}
 
+	@Log
 	@GetMapping("recall/{serviceCode}")
 	public ResponseEntity<?> getRecallRequest(@PathVariable String serviceCode, @RequestParam String userName, @RequestParam int userCode){
-		RecallServiceResponseDto recallServiceResponseDto = null;
+		ReadServiceInfoResponseDto recallServiceResponseDto = null;
 		
 		try {
 			recallServiceResponseDto = recallService.getRecallRequest(serviceCode, userName, userCode);

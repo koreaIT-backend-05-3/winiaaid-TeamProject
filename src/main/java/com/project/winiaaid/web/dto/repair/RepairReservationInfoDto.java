@@ -1,7 +1,9 @@
 package com.project.winiaaid.web.dto.repair;
 
-import com.project.winiaaid.domain.repair.ReservationInfoEntity;
+import com.project.winiaaid.domain.repair.RepairReservationInfoEntity;
 
+import com.project.winiaaid.domain.requestInfo.ReservationInfoEntity;
+import com.project.winiaaid.web.dto.requestInfo.ReservationInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservationInfoDto {
+public class RepairReservationInfoDto implements ReservationInfoDto {
     private int engineerCode;
     private String engineerName;
     private String reservationDay;
@@ -25,11 +27,11 @@ public class ReservationInfoDto {
     private int totalCount;
 
 
-    public ReservationInfoEntity toReservationEntity(LocalDateTime reservation_date) {
-        return ReservationInfoEntity.builder()
+    public ReservationInfoEntity toReservationEntity(LocalDateTime reservationDate) {
+        return RepairReservationInfoEntity.builder()
                 .engineer_code(engineerCode)
                 .request_date(LocalDateTime.now())
-                .reservation_date(reservation_date)
+                .reservation_date(reservationDate)
                 .service_type_code(2)
                 .progress_status(1)
                 .build();

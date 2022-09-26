@@ -1,17 +1,19 @@
 package com.project.winiaaid.service.recall;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
 import com.project.winiaaid.domain.recall.RecallServiceCode;
+import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
+import com.project.winiaaid.web.dto.recall.RecallServiceRequestDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import com.project.winiaaid.domain.recall.Recall;
 import com.project.winiaaid.domain.recall.RecallRepository;
-import com.project.winiaaid.web.dto.recall.RecallServiceRequestDto;
-import com.project.winiaaid.web.dto.recall.RecallServiceResponseDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +27,9 @@ public class RecallServiceImpl implements RecallService {
 
 	@Override
 	public String addRecallRequest(RecallServiceRequestDto recallServiceRequestDto) throws Exception {
-		Recall recallEntity = recallServiceRequestDto.toRecallEntity();
+		ServiceInfo recallEntity = recallServiceRequestDto.toServiceInfoEntity();
+		RecallProductInfoEntity recallProductInfoEntity = (RecallProductInfoEntity) recallEntity.getProductInfoEntity();
+
 		RecallServiceCode serviceCodeEntity = null;
 		String serviceCode = null;
 		Map<String, Object> configMap = null;
@@ -36,16 +40,16 @@ public class RecallServiceImpl implements RecallService {
 
 		serviceCode = createServiceCode(recallEntity, serviceCodeEntity);
 
-		recallEntity.setService_code(serviceCode);
-		recallEntity.setId2(serviceCodeEntity.getId2());
+		recallProductInfoEntity.setService_code(serviceCode);
+		recallProductInfoEntity.setId2(serviceCodeEntity.getId2());
 
 		recallRepository.addRecallRequest(recallEntity);
 		
-		return recallEntity.getService_code();
+		return recallProductInfoEntity.getService_code();
 	}
 
 	@Override
-	public RecallServiceResponseDto getRecallRequest(String serviceCode, String userName, int userCode) throws Exception {
+	public ReadServiceInfoResponseDto getRecallRequest(String serviceCode, String userName, int userCode) throws Exception {
 		Map<String, Object> map =  new HashMap<String, Object>();
 		
 		map.put("service_code", serviceCode);
@@ -54,11 +58,11 @@ public class RecallServiceImpl implements RecallService {
 
 		log.info("check: {}", map);
 		
-		return recallRepository.getRecallRequest(map).toRecallServiceResponseDto();
+		return recallRepository.getRecallRequest(map).toServiceResponseDto();
 	}
 
-	private String createServiceCode(Recall recallEntity, RecallServiceCode serviceCodeEntity) {
-		return recallEntity.getModel_number().substring(0, 4).replaceAll("-", "") + "0" + serviceCodeEntity.getService_code();
+	private String createServiceCode(ServiceInfo serviceInfo, RecallServiceCode serviceCodeEntity) {
+		return ((RecallProductInfoEntity) serviceInfo.getProductInfoEntity()).getModel_number().substring(0, 4).replaceAll("-", "") + "0" + serviceCodeEntity.getService_code();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.project.winiaaid.util;
 
-import com.project.winiaaid.domain.recall.Recall;
+import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
+import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
@@ -100,11 +101,12 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setConfigMap(Recall recall) {
+    public Map<String, Object> setConfigMap(ServiceInfo serviceInfo) {
+        RecallProductInfoEntity recallProductInfoEntity = (RecallProductInfoEntity) serviceInfo.getProductInfoEntity();
         Map<String, Object> configMap = new HashMap<>();
 
-        configMap.put("model_code", recall.getModel_code());
-        configMap.put("temp_service_code", recall.getTemp_service_code());
+        configMap.put("model_code", recallProductInfoEntity.getModel_code());
+        configMap.put("temp_service_code", recallProductInfoEntity.getTemp_service_code());
 
         return configMap;
     }

@@ -1,6 +1,8 @@
 package com.project.winiaaid.web.dto.repair;
 
-import com.project.winiaaid.domain.repair.UserInfoEntity;
+import com.project.winiaaid.domain.repair.RepairUserInfoEntity;
+import com.project.winiaaid.domain.requestInfo.UserInfoEntity;
+import com.project.winiaaid.web.dto.requestInfo.UserInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfoDto {
+public class RepairUserInfoDto implements UserInfoDto {
     private int userCode;
     private String userName;
     private String email;
@@ -21,7 +23,7 @@ public class UserInfoDto {
     private String detailAddress;
 
     public UserInfoEntity toUserInfoEntity() {
-        return UserInfoEntity.builder()
+        return RepairUserInfoEntity.builder()
                 .user_code(userCode)
                 .user_name(userName)
                 .email(email)

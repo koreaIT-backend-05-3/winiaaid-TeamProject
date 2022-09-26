@@ -11,7 +11,7 @@
 </head>
 <body>
     <div id="wrap">
-        <header>header</header>
+        <th:block th:replace="/fragments/header"></th:block>
         <div class="location">
             <ul>
                 <li class="home">
@@ -295,7 +295,7 @@
                 </div>
             </form>
         </main>
-        <footer>footer</footer>
+        <th:block th:replace="/fragments/footer"></th:block>
     </div>
     <script src="/static/js/popup/popup.js"></script>
     <script src="/static/js/service/recall_request.js"></script>

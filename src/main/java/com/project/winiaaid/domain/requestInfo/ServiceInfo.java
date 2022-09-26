@@ -1,7 +1,6 @@
-package com.project.winiaaid.domain.repair;
+package com.project.winiaaid.domain.requestInfo;
 
-import com.project.winiaaid.web.dto.repair.ReadServiceInfoResponseDto;
-
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

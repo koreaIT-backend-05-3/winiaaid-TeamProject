@@ -1,19 +1,20 @@
 package com.project.winiaaid.web.dto.repair;
 
-import com.project.winiaaid.domain.repair.ProductInfoEntity;
+import com.project.winiaaid.domain.repair.RepairProductInfoEntity;
+import com.project.winiaaid.domain.requestInfo.ProductInfoEntity;
+import com.project.winiaaid.web.dto.requestInfo.ProductInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductInfoDto {
+public class RepairProductInfoDto implements ProductInfoDto {
     private String serviceCode;
     private String productGroupName;
     private int productCategoryCode;
@@ -30,7 +31,7 @@ public class ProductInfoDto {
     private boolean sameProductFlag;
 
     public ProductInfoEntity toProductInfoEntity() {
-        return ProductInfoEntity.builder()
+        return RepairProductInfoEntity.builder()
                 .service_code(serviceCode)
                 .temp_service_code(createTempServiceCode())
                 .product_category_code(productCategoryCode)

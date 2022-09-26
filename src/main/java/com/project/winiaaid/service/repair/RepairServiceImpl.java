@@ -1,14 +1,15 @@
 package com.project.winiaaid.service.repair;
 
 import com.project.winiaaid.domain.repair.Address;
+import com.project.winiaaid.domain.repair.RepairProductInfoEntity;
 import com.project.winiaaid.domain.repair.RepairRepository;
 import com.project.winiaaid.domain.repair.RepairServiceCode;
-import com.project.winiaaid.domain.repair.ServiceInfo;
+import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
-import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
+import com.project.winiaaid.web.dto.repair.RepairReservationInfoDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
-import com.project.winiaaid.web.dto.repair.ReadServiceInfoResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,20 +30,22 @@ public class RepairServiceImpl implements RepairService {
     private final ConfigMap configMapper;
 
     @Override
-    public String addRepairServiceRequest(RepairServiceRequestDto applyServiceRequestDto) throws Exception {
-        ServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(applyServiceRequestDto);
+    public String addRepairServiceRequest(RepairServiceRequestDto repairServiceRequestDto) throws Exception {
+        ServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(repairServiceRequestDto);
+        RepairProductInfoEntity productInfoEntity = (RepairProductInfoEntity) repairServiceInfo.getProductInfoEntity();
+
         RepairServiceCode serviceCode = null;
         Map<String, Object> configMap = new HashMap<String, Object>();
 
-        configMap.put("temp_service_code", repairServiceInfo.getProductInfoEntity().getTemp_service_code());
-        configMap.put("product_code", repairServiceInfo.getProductInfoEntity().getProduct_code());
+        configMap.put("temp_service_code", productInfoEntity.getTemp_service_code());
+        configMap.put("product_code", productInfoEntity.getProduct_code());
 
         serviceCode = repairRepository.findRepairServiceCode(configMap);
 
         log.info("repairServiceCode: {}", serviceCode);
 
-        repairServiceInfo.getProductInfoEntity().setService_code(serviceCode.getService_code());
-        repairServiceInfo.getProductInfoEntity().setId2(serviceCode.getId2());
+        productInfoEntity.setService_code(serviceCode.getService_code());
+        productInfoEntity.setId2(serviceCode.getId2());
 
         repairRepository.addRepairServiceRequest(repairServiceInfo);
 
@@ -87,7 +90,7 @@ public class RepairServiceImpl implements RepairService {
 
         repairRepository.updateRepairReservationInfoByRepairServiceCode(repairServiceInfo);
 
-        return repairServiceInfo.getProductInfoEntity().getService_code();
+        return ((RepairProductInfoEntity)repairServiceInfo.getProductInfoEntity()).getService_code();
     }
 
     @Override
@@ -96,10 +99,10 @@ public class RepairServiceImpl implements RepairService {
     }
 
     private ServiceInfo changeToRepairServiceInfoEntity(RepairServiceRequestDto repairServiceRequestDto) {
-        return repairServiceRequestDto.toRepairServiceInfoEntity(
+        return repairServiceRequestDto.toServiceInfoEntity(
                 changeStringToLocalDateTime(
-                        repairServiceRequestDto.getReservationInfoObject().getReservationDay(),
-                        repairServiceRequestDto.getReservationInfoObject().getReservationTime()
+                        ((RepairReservationInfoDto) repairServiceRequestDto.getReservationInfoObject()).getReservationDay(),
+                        ((RepairReservationInfoDto)repairServiceRequestDto.getReservationInfoObject()).getReservationTime()
                 )
         );
     }

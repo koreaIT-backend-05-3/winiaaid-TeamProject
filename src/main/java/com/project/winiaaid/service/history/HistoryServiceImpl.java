@@ -1,9 +1,9 @@
 package com.project.winiaaid.service.history;
 
 import com.project.winiaaid.domain.history.HistoryRepository;
-import com.project.winiaaid.domain.repair.ServiceInfo;
+import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
-import com.project.winiaaid.web.dto.repair.ReadServiceInfoResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -27,23 +27,23 @@ function getRecallRequest(recallRequest){
     const subPhoneNumber = document.querySelector('.sub-phone-number')
     const address = document.querySelector('.address')
 
-    serviceCode = recallRequest.serviceCode;
+    serviceCode = recallRequest.productInfo.serviceCode;
 
-    recallCodes[0].innerText = recallRequest.serviceCode;
-    recallCodes[1].innerText = `(${recallRequest.serviceCode})`;
-    serviceType.innerText = recallRequest.serviceType;
-    modelName.innerText = recallRequest.modelName;
-    requestDate.innerText = recallRequest.requestDate;
-    userName.innerText = recallRequest.userName;
-    mainPhoneNumber.innerText = recallRequest.mainPhoneNumber;
+    recallCodes[0].innerText = serviceCode;
+    recallCodes[1].innerText = `(${serviceCode})`;
+    serviceType.innerText = recallRequest.reservationInfo.serviceTypeName;
+    modelName.innerText = recallRequest.productInfo.modelNumber;
+    requestDate.innerText = recallRequest.reservationInfo.requestDate;
+    userName.innerText = recallRequest.userInfo.userName;
+    mainPhoneNumber.innerText = recallRequest.userInfo.mainPhoneNumber;
 
-    if(recallRequest.subPhoneNumber == null){
-        subPhoneNumber.innerText = recallRequest.mainPhoneNumber;
+    if(recallRequest.userInfo.subPhoneNumber == null){
+        subPhoneNumber.innerText = recallRequest.userInfo.mainPhoneNumber;
     } else{
-        subPhoneNumber.innerText = recallRequest.subPhoneNumber;
+        subPhoneNumber.innerText = recallRequest.userInfo.subPhoneNumber;
     }
 
-    address.innerText = recallRequest.address;
+    address.innerText = recallRequest.userInfo.address;
 }
 
 checkButton.onclick = () => {

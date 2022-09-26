@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.winiaaid.domain.history.HistoryRepository">
-    <resultMap id="repairServiceInfoMap" type="com.project.winiaaid.domain.repair.ServiceInfo">
-        <association property="productInfoEntity" javaType="com.project.winiaaid.domain.repair.ProductInfoEntity">
+    <resultMap id="repairServiceInfoMap" type="com.project.winiaaid.domain.requestInfo.ServiceInfo">
+        <association property="productInfoEntity" javaType="com.project.winiaaid.domain.repair.RepairProductInfoEntity">
             <id property="service_code" column="service_code"/>
             <result property="product_group_name" column="product_group_name"/>
             <result property="product_category_name" column="product_category_name"/>
@@ -17,7 +17,7 @@
             <result property="company_code" column="company_code"/>
             <result property="company_name" column="company_name"/>
         </association>
-        <association property="userInfoEntity" javaType="com.project.winiaaid.domain.repair.UserInfoEntity">
+        <association property="userInfoEntity" javaType="com.project.winiaaid.domain.repair.RepairUserInfoEntity">
             <result property="user_name" column="user_name"/>
             <result property="email" column="email"/>
             <result property="main_phone_number" column="main_phone_number"/>
@@ -26,7 +26,7 @@
             <result property="main_address" column="main_address"/>
             <result property="detail_address" column="detail_address"/>
         </association>
-        <association property="reservationInfoEntity" javaType="com.project.winiaaid.domain.repair.ReservationInfoEntity">
+        <association property="reservationInfoEntity" javaType="com.project.winiaaid.domain.repair.RepairReservationInfoEntity">
             <result property="engineer_code" column="engineer_code"/>
             <result property="engineer_name" column="engineer_name"/>
             <result property="service_type_name" column="service_type_name"/>

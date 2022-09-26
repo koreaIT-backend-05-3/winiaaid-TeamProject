@@ -1,6 +1,6 @@
 package com.project.winiaaid.util;
 
-import com.project.winiaaid.domain.recall.Recall;
+import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
@@ -15,5 +15,5 @@ public interface ConfigMap {
     public Map<String, Object> setConfigMap(ReadBoardRequestDto readBoardRequestDto);
     public Map<String, Object> setConfigMap(int userCode, ReadServiceRequestDto readServiceRequestDto);
     public Map<String, Object> setModelMap(int keyCode, String modelNumber);
-    public Map<String, Object> setConfigMap(Recall recall);
+    public Map<String, Object> setConfigMap(ServiceInfo serviceInfo);
 }
