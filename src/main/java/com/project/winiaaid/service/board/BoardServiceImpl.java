@@ -69,12 +69,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<ReadBoardResponseDto> getBoardListByBoardType(ReadBoardRequestDto readBoardRequestDto) throws Exception {
+	public List<ReadBoardResponseDto> getBoardListByBoardType(int userCode, ReadBoardRequestDto readBoardRequestDto) throws Exception {
 		List<Board>boardEntityList = null;
 		List<ReadBoardResponseDto>boardDtoList = null;
 		Map<String, Object> configMap = null;
 
-		configMap = configMapper.setConfigMap(readBoardRequestDto);
+		configMap = configMapper.setReadBoardConfigMap(userCode, readBoardRequestDto);
 
 		boardEntityList = boardRepository.findBoardListByBoardType(configMap);
 		

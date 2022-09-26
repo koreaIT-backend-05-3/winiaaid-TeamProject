@@ -1,6 +1,5 @@
 package com.project.winiaaid.service.recall;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public class RecallServiceImpl implements RecallService {
 		String serviceCode = null;
 		Map<String, Object> configMap = null;
 
-		configMap = configMapper.setConfigMap(recallEntity);
+		configMap = configMapper.setCreateModelConfigMap(recallEntity);
 
 		serviceCodeEntity = recallRepository.findServiceCode(configMap);
 

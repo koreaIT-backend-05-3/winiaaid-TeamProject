@@ -21,7 +21,6 @@ public class ProductRestController {
 
     private final ProductService productService;
 
-
     @CompanyCheck
     @GetMapping("/list/category/{company}")
     public ResponseEntity<?> getMainCategoryList(@PathVariable String company) {
@@ -82,11 +81,11 @@ public class ProductRestController {
     }
 
     @GetMapping("/model/list/{modelName}")
-    public ResponseEntity<?> getProductModelByModelName(@PathVariable String modelName, @RequestParam int code) {
+    public ResponseEntity<?> getProductModelByModelName(@PathVariable String modelName, @RequestParam String requestType, @RequestParam int code) {
         List<ReadProductModelResponseDto> productModelList = null;
 
         try {
-            productModelList = productService.getProductModelInfoList(code, modelName);
+            productModelList = productService.getProductModelInfoList(code, requestType, modelName);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "load modelName fail", productModelList));

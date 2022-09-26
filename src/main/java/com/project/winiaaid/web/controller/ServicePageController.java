@@ -25,7 +25,9 @@ public class ServicePageController {
 	}
 
 	@GetMapping("/visit/inquiry/detail/{repairServiceCode}")
-	public String loadVisitInquiryDetailPage() { return "service/inquiry_detail";}
+	public String loadVisitInquiryDetailPage() {
+		return "service/inquiry_detail";
+	}
 
 	@GetMapping("/popup/modelNamePopup")
 	public String loadModelNamePopupPage() {

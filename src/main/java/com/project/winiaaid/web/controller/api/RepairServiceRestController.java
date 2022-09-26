@@ -1,7 +1,6 @@
 package com.project.winiaaid.web.controller.api;
 
 import com.project.winiaaid.service.repair.RepairService;
-import com.project.winiaaid.util.CustomObjectMapper;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
@@ -20,7 +19,6 @@ import java.util.List;
 public class RepairServiceRestController {
 
     private final RepairService repairService;
-    private final CustomObjectMapper customObjectMapper;
 
     @PostMapping("/visit/request")
     public ResponseEntity<?> applyForService(@RequestBody RepairServiceRequestDto repairServiceRequestDto) {
@@ -36,12 +34,12 @@ public class RepairServiceRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", repairServiceCode));
     }
 
-    @GetMapping("/repair/detail/history/{repairServiceCode}")
-    public ResponseEntity<?> getRepairServiceDetailHistoryInfo(@PathVariable String repairServiceCode) {
+    @GetMapping("/repair/detail/history/{serviceCode}")
+    public ResponseEntity<?> getRepairServiceDetailHistoryInfo(@PathVariable String serviceCode) {
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
 
         try {
-            repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(repairServiceCode);
+            repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(serviceCode);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(1, "Failed to load detailed application history", repairServiceResponseDto));
@@ -64,26 +62,26 @@ public class RepairServiceRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully loaded past reception addresses", addressInfoList));
     }
 
-    @PutMapping("/repair/modify/{repairServiceCode}")
+    @PutMapping("/repair/modify/{serviceCode}")
     public ResponseEntity<?> updateRepairServiceInfoByRepairServiceCode(@RequestBody RepairServiceRequestDto repairServiceRequestDto){
-        String repairServiceCode = null;
+        String serviceCode = null;
 
         try {
-            repairServiceCode = repairService.modifyRepairReservationInfoByRepairServiceCode(repairServiceRequestDto);
+            serviceCode = repairService.modifyRepairReservationInfoByRepairServiceCode(repairServiceRequestDto);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to modify reservation information", repairServiceCode));
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to modify reservation information", serviceCode));
         }
 
-        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful modify of reservation information", repairServiceCode));
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful modify of reservation information", serviceCode));
     }
 
-    @PutMapping("/repair/cancel/{repairServiceCode}")
-    public ResponseEntity<?> cancelRepairServiceByRepairServiceCode(@PathVariable String repairServiceCode) {
+    @PutMapping("/repair/cancel/{serviceCode}")
+    public ResponseEntity<?> cancelRepairServiceByRepairServiceCode(@PathVariable String serviceCode) {
         boolean status = false;
 
         try {
-            status = repairService.cancelRepairServiceByRepairServiceCode(repairServiceCode);
+            status = repairService.cancelRepairServiceByRepairServiceCode(serviceCode);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to cancel the registration history", status));

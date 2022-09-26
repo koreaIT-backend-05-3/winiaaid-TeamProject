@@ -16,7 +16,7 @@ setBoardTableByBoardType();
 function getBoardList(page){
     $.ajax({
         type:"get",
-        url:`/api/v1/board/list?user=${userCode}&board-type=${boardType}&page=${page}`,
+        url:`/api/v1/board/list/user/${userCode}?boardType=${boardType}&page=${page}`,
         dataType:"json",
         success:(response)=>{
             if(response.data != null){

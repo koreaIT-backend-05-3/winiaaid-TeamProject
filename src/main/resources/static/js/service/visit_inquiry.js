@@ -10,7 +10,7 @@ function getRepairServiceHistory(page) {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/history/user/${userCode}?service-type=repair&request-type=history&page=${page}`,
+        url: `/api/v1/service/repair/history/list/user/${userCode}?requestType=history&page=${page}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {

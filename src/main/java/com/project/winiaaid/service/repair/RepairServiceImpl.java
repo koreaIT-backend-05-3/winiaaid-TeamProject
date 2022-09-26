@@ -53,11 +53,11 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String repairServiceCode) throws Exception {
+    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode) throws Exception {
         ServiceInfo repairServiceInfoEntity = null;
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
 
-        repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(repairServiceCode);
+        repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(serviceCode);
 
         if(repairServiceInfoEntity != null) {
             repairServiceResponseDto = changeToRepairServiceResponseDto(repairServiceInfoEntity);

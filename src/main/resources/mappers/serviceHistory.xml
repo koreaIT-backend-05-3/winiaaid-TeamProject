@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.project.winiaaid.domain.history.HistoryRepository">
+<mapper namespace="com.project.winiaaid.domain.history.ServiceHistoryRepository">
     <resultMap id="repairServiceInfoMap" type="com.project.winiaaid.domain.requestInfo.ServiceInfo">
         <association property="productInfoEntity" javaType="com.project.winiaaid.domain.repair.RepairProductInfoEntity">
             <id property="service_code" column="service_code"/>
@@ -37,7 +37,7 @@
         </association>
     </resultMap>
 
-    <select id="findServiceHistoryInfoByUserCode" parameterType="HashMap" resultMap="repairServiceInfoMap">
+    <select id="findRepairServiceHistoryInfoByUserCode" parameterType="HashMap" resultMap="repairServiceInfoMap">
         SELECT
             rst.service_code,
             rst.description,
@@ -89,15 +89,125 @@
                                 repair_service_table
                             where
                                 user_code = #{user_code}
-                                <if test="service_type_code != 0">
-                                    AND service_type_code = #{service_type_code}
-                                </if>
                                 ) rst_total_count ON(1 = 1)
             WHERE
                 rst.user_code = #{user_code}
-                <if test="service_type_code != 0">
-                    AND rst.service_type_code = #{service_type_code}
-                </if>
             LIMIT #{page}, #{limit};
+    </select>
+    
+    <select id="findServiceHistoryTitleInfoByServiceTypeCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.history.ServiceHistoryTitle">
+        SELECT
+            null as service_code,
+            null as service_type_name,
+            null as product_name,
+            null as request_date,
+            null as progress_status,
+            (select
+                COUNT(*)
+            from
+                repair_service_table
+            where
+                (progress_status = 2 OR progress_status = 0)
+                <if test="service_type_code != 0">
+                    AND service_type_code = #{service_type_code}
+                </if>
+            )
+
+            +
+
+            (select
+                COUNT(*)
+            from
+                recall_service_table
+            where
+                (progress_status = 2 OR progress_status = 0)
+                <if test="service_type_code != 0">
+                    AND service_type_code = #{service_type_code}
+                </if>
+            )
+            AS completed_total_count,
+
+            (select
+                COUNT(*)
+            from
+                repair_service_table
+            where
+                progress_status = 1
+                <if test="service_type_code != 0">
+                    AND service_type_code = #{service_type_code}
+                </if>
+            )
+
+            +
+
+            (select
+                COUNT(*)
+            from
+                recall_service_table
+            where
+                progress_status = 1
+                <if test="service_type_code != 0">
+                    AND service_type_code = #{service_type_code}
+                </if>
+            )
+            AS incompleted_total_count
+
+        UNION
+
+        (SELECT
+            rst.service_code,
+            stt.service_type_name,
+            if(wpm.product_category_name != wpd.product_detail_name, concat(wpm.product_category_name, ' > ', wpd.product_detail_name), wpm.product_category_name) AS product_name,
+            rst.request_date,
+            rst.progress_status,
+            0 AS completed_total_count,
+            0 AS incompleted_total_count
+        FROM
+            repair_service_table rst
+            LEFT OUTER JOIN service_type_table stt ON(stt.service_type_code = rst.service_type_code)
+            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = rst.product_code)
+            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = rst.product_category_code)
+        where
+            <choose>
+                <when test="progress_status == 'ing'">
+                    progress_status = 1
+                </when>
+                <otherwise>
+                    progress_status != 1
+                </otherwise>
+            </choose>
+            <if test="service_type_code != 0">
+                AND rst.service_type_code = #{service_type_code}
+            </if>
+
+        UNION
+
+        SELECT
+            service_code,
+            service_type_name,
+            pmd.model_number AS product_name,
+            rst.request_date,
+            rst.progress_status,
+            0 AS completed_total_count,
+            0 AS incompleted_total_count
+        FROM
+            recall_service_table rst
+            LEFT OUTER JOIN service_type_table stt ON(stt.service_type_code = rst.service_type_code)
+            LEFT OUTER JOIN product_model_detail pmd ON(pmd.model_code = rst.model_code)
+        where
+            <choose>
+                <when test="progress_status == 'ing'">
+                    progress_status = 1
+                </when>
+                <otherwise>
+                    progress_status != 1
+                </otherwise>
+            </choose>
+            <if test="service_type_code != 0">
+                AND rst.service_type_code = #{service_type_code}
+            </if>
+        ORDER BY
+            request_date DESC
+        LIMIT #{page}, 10);
     </select>
 </mapper>

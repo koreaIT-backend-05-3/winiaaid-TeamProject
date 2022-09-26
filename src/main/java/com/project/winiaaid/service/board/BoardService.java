@@ -8,7 +8,7 @@ import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
 
 public interface BoardService {
 	public String insertBoard(CreateBoardRequestDto createBoardRequestDto) throws Exception;
-	public List<ReadBoardResponseDto> getBoardListByBoardType(ReadBoardRequestDto readBoardRequestDto) throws Exception;
+	public List<ReadBoardResponseDto> getBoardListByBoardType(int userCode, ReadBoardRequestDto readBoardRequestDto) throws Exception;
 	public ReadBoardResponseDto getBoardByBoardCode(int boardCode) throws Exception;
 	
 }

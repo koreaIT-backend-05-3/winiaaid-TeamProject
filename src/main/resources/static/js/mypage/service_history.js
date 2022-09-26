@@ -21,10 +21,11 @@ function loadPage(page) {
 
 function getServiceHistory(page) {
     let serviceType = getServiceType();
+    let progressStatus = getProgressStatus();
 
     $.ajax({
         type: "get",
-        url: `/api/v1/service/history/user/${userCode}?service-type=${serviceType}&request-type=history&page=${page}`,
+        url: `/api/v1/service/${serviceType}/title/history/list/user/${userCode}?requestType=history&progressStatus=${progressStatus}&page=${page}`,
         dataType: "json",
         success: (response) => {
             let totalPage = getTotalPage(response.data[0].reservationInfo.totalCount, 10);
@@ -36,11 +37,15 @@ function getServiceHistory(page) {
             console.log(request.responseText);
             console.log(error);
         }
-    })
+    });
 }
 
 function getServiceType() {
     return selectOption.options[selectOption.selectedIndex].value;
+}
+
+function getProgressStatus() {
+    return location.pathname.indexOf("ing") == -1 ? "ing" : "end";
 }
 
 function setServiceHistoryData(serviceHistoryDataList) {

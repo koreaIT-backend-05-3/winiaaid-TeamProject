@@ -91,14 +91,6 @@ setCalendarData();
 setChangeMonthButton("pre");
 setReservationableDaySpan();
 
-// if(isModifyPage()) {
-//     savePreviousInfoToLocalStorage();
-//     checkLocalStorageHasPastRequetsServiceData();
-// }
-
-
-
-
 
 checkLastReqeustButton.onclick = loadPastRequestInfoPopup;
 
@@ -307,7 +299,7 @@ function checkModelNameSpan() {
 function searchModelByModelName() {
     $.ajax({
         type: "get",
-        url: `/api/v1/product/model/list/${modelSearchInput.value}?request-type=repair&code=${productInfoObject.productCode}`,
+        url: `/api/v1/product/model/list/${modelSearchInput.value}?requestType=repair&code=${productInfoObject.productCode}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
