@@ -1,4 +1,4 @@
-package com.project.winiaaid.web.controller.api;
+package com.project.winiaaid.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
