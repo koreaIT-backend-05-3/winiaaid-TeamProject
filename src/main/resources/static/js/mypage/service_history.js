@@ -6,13 +6,17 @@ const searchButton = document.querySelector(".search button");
 let userCode = 0;
 let completedFlag = false;
 
-loadPage(1);
+
+searchButton.onclick = () => loadPage(1);
+
+loadPageHistoryByLocalStorage();
+
+loadPage(nowPage);
 
 completedFlag = getCompletedFlag();
 
 setMenuTypeViewByCompletedFlag(completedFlag);
 
-searchButton.onclick = () => loadPage(1);
 
 ingMenu.onclick = loadHistoryIngPage;
 endMenu.onclick = loadHistoryEndPage;
@@ -26,6 +30,7 @@ function loadPage(page) {
 }
 
 function getServiceHistory(page) {
+    nowPage = page;
     let serviceType = getServiceType();
     let progressStatus = getProgressStatus();
 
@@ -90,6 +95,12 @@ function setServiceHistoryData(serviceHistoryDataList) {
         `;
 
     }
+
+
+    setServiceCodeItemsClickEvent(serviceHistoryDataList);
+    if(!completedFlag) {
+        setServiceModifyAndCancelButtonClickEvent(serviceHistoryDataList);
+    }
 }
 
 function setCompletedCountAndIncompletedCount(incompletedTotalCount, completedTotalCount) {
@@ -119,6 +130,71 @@ function isFirstData(fristData) {
     return fristData;
 }
 
+function setServiceCodeItemsClickEvent(serviceHistoryDataList) {
+    const serviceCodeItems = document.querySelectorAll(".service-code");
+
+    for(let i = 0; i < serviceCodeItems.length; i++) {
+        serviceCodeItems[i].onclick = () => {
+
+            setPageInfoLocalStorage();
+            
+            if(serviceHistoryDataList[i + 1].serviceTypeCode == 2) {
+                location.href = `/service/visit/inquiry/detail/${serviceHistoryDataList[i + 1].serviceCode}`;
+
+            }else if(serviceHistoryDataList[i + 1].serviceTypeCode == 3) {
+                ///////////////////////// 리콜 신청 조회
+
+            }
+        }
+    }
+}
+
+function setPageInfoLocalStorage() {
+    let serviceType = getServiceType();
+    
+    let pageInfo = {
+        "page": nowPage,
+        "serviceType": serviceType
+    };
+    
+    localStorage.pageInfo = JSON.stringify(pageInfo);
+}
+
+function setServiceModifyAndCancelButtonClickEvent(serviceHistoryDataList) {
+    const serviceHistoryList = document.querySelectorAll("tbody tr");
+
+
+    for(let i = 0; i < serviceHistoryList.length; i++) {
+        const modifyButton = serviceHistoryList[i].querySelector(".modify-button");
+        const cancelButton = serviceHistoryList[i].querySelector(".cancel-button");
+
+        modifyButton.onclick = () => {
+
+            setPageInfoLocalStorage();
+
+            if(serviceHistoryDataList[i + 1].serviceTypeCode == 2) {
+                modifyReservationService(serviceHistoryDataList[i + 1].serviceCode);
+
+            }else if(serviceHistoryDataList[i + 1].serviceTypeCode == 3) {
+                /////////////// 리콜 신청 수정, 삭제
+                console.log(serviceHistoryDataList[i + 1].serviceCode);
+            }
+        }
+        cancelButton.onclick = () => {
+
+            setPageInfoLocalStorage();
+
+            if(serviceHistoryDataList[i + 1].serviceTypeCode == 2) {
+                cancelReservationService(serviceHistoryDataList[i + 1].serviceCode);
+
+            }else if(serviceHistoryDataList[i + 1].serviceTypeCode == 3) {
+                /////////////// 리콜 신청 수정, 삭제
+                console.log(serviceHistoryDataList[i + 1].serviceCode);
+            }
+        }
+    }
+}
+
 function setMenuTypeViewByCompletedFlag(completedFlag) {
     completedFlag ? addSelectedClass(endMenu) : addSelectedClass(ingMenu);
 }
@@ -133,4 +209,33 @@ function loadHistoryIngPage() {
 
 function loadHistoryEndPage() {
     location.href = "/mypage/service/history/end";
+}
+
+function getLocalStorageData() {
+    let pageHistory = localStorage.pageInfo;
+    console.log(pageHistory);
+
+    if(pageHistory != null) {
+        return pageHistory;
+    }else {
+        return null;
+    }
+}
+
+function loadPageHistoryByLocalStorage() {
+    let localStorageData = getLocalStorageData();
+    if(localStorageData != null) {
+        const selectOptionItems = document.querySelectorAll("select option");
+
+        localStorageData = JSON.parse(localStorageData);
+    
+        selectOptionItems.forEach(option => {
+            if(option.value == localStorageData.serviceType) {
+                option.setAttribute("selected", true);
+                let page = localStorageData.page;
+                localStorage.removeItem("pageInfo");
+                loadPage(page);
+            }
+        });
+    }
 }

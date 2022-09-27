@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 @Data
 public class ServiceHistoryTitle {
     private String service_code;
+    private int service_type_code;
     private String service_type_name;
     private String product_name;
     private LocalDateTime request_date;
@@ -20,6 +21,7 @@ public class ServiceHistoryTitle {
     public ReadServiceHistoryTitleResponseDto toReadServiceHistoryTitleResponseDto() {
         return ReadServiceHistoryTitleResponseDto.builder()
                 .serviceCode(service_code)
+                .serviceTypeCode(service_type_code)
                 .serviceTypeName(service_type_name)
                 .productName(product_name)
                 .requestDate(request_date != null ? request_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) : null)

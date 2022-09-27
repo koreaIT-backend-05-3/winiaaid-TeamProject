@@ -98,6 +98,7 @@
     <select id="findServiceHistoryTitleInfoByServiceTypeCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.history.ServiceHistoryTitle">
         SELECT
             null as service_code,
+            null as service_type_code,
             null as service_type_name,
             null as product_name,
             null as request_date,
@@ -192,6 +193,7 @@
 
         (SELECT
             rst.service_code,
+            rst.service_type_code,
             stt.service_type_name,
             if(wpm.product_category_name != wpd.product_detail_name, concat(wpm.product_category_name, ' > ', wpd.product_detail_name), wpm.product_category_name) AS product_name,
             rst.request_date,
@@ -220,8 +222,9 @@
         UNION
 
         SELECT
-            service_code,
-            service_type_name,
+            rst.service_code,
+            rst.service_type_code,
+            stt.service_type_name,
             pmd.model_number AS product_name,
             rst.request_date,
             rst.progress_status,

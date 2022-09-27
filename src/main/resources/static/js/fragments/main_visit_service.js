@@ -810,7 +810,7 @@ function disableStepTitle(stepTitle, stepDiv){
 
 function checkLocalStorageHasPastRequetsServiceData(){
     pastHistoryInfoObject = localStorage.pastHistoryInfoObject;
-    localStorage.clear();
+    localStorage.removeItem("pastHistoryInfoObject");
     if(pastHistoryInfoObject != null) {
         pastHistoryInfoObject = JSON.parse(pastHistoryInfoObject);
 
@@ -822,7 +822,7 @@ function checkLocalStorageHasPastRequetsServiceData(){
 
 function changeUpdateView() {
     pastHistoryInfoObject = localStorage.pastHistoryInfoObject;
-    localStorage.clear();
+    localStorage.removeItem("pastHistoryInfoObject");
     if(pastHistoryInfoObject != null) {
         modifyFlag = true;
         pastHistoryInfoObject = JSON.parse(pastHistoryInfoObject);
