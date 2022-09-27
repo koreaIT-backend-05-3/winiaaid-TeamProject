@@ -23,23 +23,27 @@ public class PrincipalDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
-		Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+		Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 		
-		user.getUserRoles().forEach(role -> {
-			grantedAuthorities.add(() -> role);
+		grantedAuthorities.add(new GrantedAuthority() {
+			
+			@Override
+			public String getAuthority() {
+				
+				return user.getRoles();
+			}
 		});
-		
 		return grantedAuthorities;
 	}
 	
 	@Override
 	public String getPassword() {
-		return user.getUser_password();
+		return user.getPassword();
 	}
 	
 	@Override
 	public String getUsername() {
-		return user.getUser_id();
+		return user.getUsername();
 	}
 	
 	
