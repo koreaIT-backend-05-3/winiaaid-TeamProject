@@ -2,9 +2,11 @@ package com.project.winiaaid.service.history;
 
 import com.project.winiaaid.domain.history.ServiceHistoryRepository;
 import com.project.winiaaid.domain.history.ServiceHistoryTitle;
+import com.project.winiaaid.domain.history.WritingServiceHistoryTitle;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.web.dto.history.ReadServiceHistoryTitleResponseDto;
+import com.project.winiaaid.web.dto.history.ReadWritingServiceHistoryTitleResponseDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +59,23 @@ public class HistoryServiceImpl implements HistoryService {
         return serviceHistoryTitleResponseDtoList;
     }
 
+    @Override
+    public List<ReadWritingServiceHistoryTitleResponseDto> getWritingServiceHistoryInfoTitleByServiceTypeCode(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
+        List<WritingServiceHistoryTitle> serviceHistoryTitleEntityList = null;
+        List<ReadWritingServiceHistoryTitleResponseDto> serviceHistoryTitleResponseDtoList = null;
+        Map<String, Object> configMap = null;
+
+        configMap = configMapper.setReadWritingServiceHistoryTitleConfigMap(serviceType, userCode, readServiceRequestDto);
+
+        serviceHistoryTitleEntityList = serviceHistoryRepository.findWritingServiceHistoryTitleInfoByServiceTypeCode(configMap);
+
+        if(serviceHistoryTitleEntityList != null && serviceHistoryTitleEntityList.size() != 1) {
+            serviceHistoryTitleResponseDtoList = changeTodWritingServiceHistoryTitleResponseDto(serviceHistoryTitleEntityList);
+        }
+
+        return serviceHistoryTitleResponseDtoList;
+    }
+
     private List<ReadServiceInfoResponseDto> changeToServiceResponseDtoList(List<ServiceInfo> serviceResponseDtoList) {
         return serviceResponseDtoList.stream()
                 .map(ServiceInfo::toServiceResponseDto)
@@ -67,5 +86,11 @@ public class HistoryServiceImpl implements HistoryService {
         return serviceResponseDtoList.stream()
                .map(ServiceHistoryTitle::toReadServiceHistoryTitleResponseDto)
                .collect(Collectors.toList());
+    }
+
+    private List<ReadWritingServiceHistoryTitleResponseDto> changeTodWritingServiceHistoryTitleResponseDto(List<WritingServiceHistoryTitle> writingServiceHistoryTitleList) {
+        return writingServiceHistoryTitleList.stream()
+                .map(WritingServiceHistoryTitle::toReadWritingServiceHistoryTitleDto)
+                .collect(Collectors.toList());
     }
 }

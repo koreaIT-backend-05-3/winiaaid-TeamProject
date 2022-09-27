@@ -73,7 +73,7 @@ public class ConfigMapImpl implements ConfigMap{
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("user_code", userCode);
-        configMap.put("board_type", readBoardRequestDto.getBoardType().equals("complaint") ? 1 : readBoardRequestDto.getBoardType().equals("praise") ? 2 : 3);
+        configMap.put("board_type_code", readBoardRequestDto.getBoardType().equals("complaint") ? 1 : readBoardRequestDto.getBoardType().equals("praise") ? 2 : 3);
         configMap.put("page", (readBoardRequestDto.getPage() - 1) * 10);
 
         return configMap;
@@ -118,11 +118,23 @@ public class ConfigMapImpl implements ConfigMap{
     public Map<String, Object> setReadServiceHistoryTitleConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
-        log.info("readServiceRequestDto: {}", readServiceRequestDto);
-
         configMap.put("user_code", userCode);
         configMap.put("service_type_code", serviceType.equals("all") ? 0 : serviceType.equals("counsel") ? 1 : serviceType.equals("repair") ? 2 : 3);
         configMap.put("progress_status", readServiceRequestDto.getProgressStatus());
+        configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadWritingServiceHistoryTitleConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        log.info("readServiceRequestDto: {}", readServiceRequestDto);
+
+        configMap.put("user_code", userCode);
+        configMap.put("board_type_code", serviceType.equals("all") ? 0 : serviceType.equals("complaint") ? 1 : serviceType.equals("praise") ? 2 : 3);
+        configMap.put("menu_type", (readServiceRequestDto.getMenuType()));
         configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
 
         log.info("configMap: {}", configMap);

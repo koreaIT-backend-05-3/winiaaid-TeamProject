@@ -251,4 +251,88 @@
             request_date DESC
         LIMIT #{page}, 10);
     </select>
+
+    <select id="findWritingServiceHistoryTitleInfoByServiceTypeCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.history.WritingServiceHistoryTitle">
+        SELECT
+            null as board_code,
+            null as board_title,
+            null as board_content,
+            null as create_date,
+            null as board_type_code,
+            null as progress_status,
+            null as assessment,
+            null as company_name,
+            null as board_type_name,
+            0 as counsel_total_count,
+
+<!--            (select-->
+<!--                COUNT(*)-->
+<!--            from-->
+<!--                counsel_mst-->
+<!--            <if test="keyword != null">-->
+<!--                where-->
+<!--                    title like concat('%', #{keyword}, '%')
+                        OR content like concat('%', #{keyword}, '%')-->
+<!--            </if>-->
+<!--            )-->
+<!--            AS counsel_total_count,-->
+
+            (select
+                COUNT(*)
+            from
+                board_mst
+                <if test="board_type_code != 0">
+                    where
+                        board_type_code = #{board_type_code}
+                </if>
+            )
+            AS customer_total_count,
+
+            (select
+                count(*)
+            from
+                <choose>
+                    <when test="menu_type != 'counsel'">
+                        board_mst
+                    </when>
+                    <otherwise>
+                        counsel_mst
+                    </otherwise>
+                </choose>
+                <if test="board_type_code != 0">
+                    where
+                        board_type_code = #{board_type_code}
+                </if>
+            ) as total_count
+
+        UNION
+
+        (SELECT
+            bm.board_code,
+            bm.board_title,
+            bm.board_content,
+            bm.create_date,
+            bm.board_type_code,
+            bm.progress_status,
+            bm.assessment,
+
+            pct.company_name,
+
+            btt.board_type_name,
+
+            0 as counsel_total_count,
+            0 as customer_total_count,
+            0 as total_count
+        FROM
+            board_mst bm
+            LEFT OUTER JOIN product_company_table pct ON(pct.company_code = bm.company_code)
+            LEFT OUTER JOIN board_type_table btt ON(btt.board_type_code = bm.board_type_code)
+        <if test="board_type_code != 0">
+            where
+                bm.board_type_code = #{board_type_code}
+        </if>
+        ORDER BY
+            create_date DESC
+        LIMIT #{page}, 10);
+    </select>
 </mapper>

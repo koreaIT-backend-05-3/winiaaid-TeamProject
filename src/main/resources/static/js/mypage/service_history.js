@@ -1,62 +1,115 @@
-const ingMenu = document.querySelector(".menu-type .ing");
-const endMenu = document.querySelector(".menu-type .end");
+const firstMenu = document.querySelector(".first-menu");
+const secondMenu = document.querySelector(".second-menu");
 const tbody = document.querySelector("tbody");
 const searchButton = document.querySelector(".search button");
 
 let userCode = 0;
-let completedFlag = false;
+let firstMenuFlag = false;
+let serviceHistoryType = null;
 
+let lastUriSource = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 
 searchButton.onclick = () => loadPage(1);
+
+serviceHistoryType = getHistoryTypeByUri();
+
+setContentByServiceHistoryFlag();
 
 loadPageHistoryByLocalStorage();
 
 loadPage(nowPage);
 
-completedFlag = getCompletedFlag();
+firstMenuFlag = getFirstMenuFlag();
 
-setMenuTypeViewByCompletedFlag(completedFlag);
+setMenuTypeViewByFirstMenuFlag(firstMenuFlag);
 
 
-ingMenu.onclick = loadHistoryIngPage;
-endMenu.onclick = loadHistoryEndPage;
+firstMenu.onclick = loadHistoryFirstMenuPage;
+secondMenu.onclick = loadHistorySecondMenuPage;
 
-function getCompletedFlag() {
-    return location.pathname.indexOf("ing") != -1 ? false : true;
+function getFirstMenuFlag() {
+    return lastUriSource.indexOf("ing") != -1 || lastUriSource.indexOf("counsel") != -1 ? true : false;
+}
+
+function getHistoryTypeByUri() {
+    return location.pathname.indexOf("service") != -1 ? "service" : "writing";
 }
 
 function loadPage(page) {
     getServiceHistory(page);
 }
 
+function setContentByServiceHistoryFlag() {
+    if(serviceHistoryType == "writing") {
+        const mainTitle = document.querySelector(".main-title h1");
+        const serviceExplaination = document.querySelector(".service-explaination span");
+        const firstMenuSpan = document.querySelector(".first-menu-span");
+        const secondMenuSpan = document.querySelector(".second-menu-span");
+        const searchButton = document.querySelector(".search button");
+
+        mainTitle.textContent = "나의 글보기";
+        serviceExplaination.textContent = "서비스 이용 현황입니다.";
+        firstMenuSpan.textContent = "상담문의 내역 ";
+        secondMenuSpan.textContent = "고객의 소리 내역 ";
+        searchButton.textContent = "선택";
+
+        removeVisibleClassOfWritingViewsItem();
+        setTheadContent();
+        setSelectOption();
+
+    }
+}
+
 function getServiceHistory(page) {
     nowPage = page;
     let serviceType = getServiceType();
-    let progressStatus = getProgressStatus();
+    let historyMenuType = getHistoryMenuType();
 
-    $.ajax({
-        type: "get",
-        url: `/api/v1/service/${serviceType}/title/history/list/user/${userCode}?requestType=history&progressStatus=${progressStatus}&page=${page}`,
-        dataType: "json",
-        success: (response) => {
-            if(response.data != null) {
-                let totalPage = getTotalPage(response.data[0].totalCount, 10);
-                setPage(totalPage);
-                setCompletedCountAndIncompletedCount(response.data[0].incompletedTotalCount, response.data[0].completedTotalCount);
-                setTotalCount(response.data[0].totalCount);
-                setServiceHistoryData(response.data);
-            }else {
-                setEmptyList(tbody);
-                setTotalCount(0);
-                setCompletedCountAndIncompletedCount(0, 0);
-            }
-        },
-        error: (request, status, error) => {
-            console.log(request.status);
-            console.log(request.responseText);
-            console.log(error);
-        }
-    });
+    if(serviceHistoryType == "service") {
+        $.ajax({
+            type: "get",
+            url: `/api/v1/service/${serviceType}/title/history/list/user/${userCode}?requestType=history&progressStatus=${historyMenuType}&page=${page}`,
+            dataType: "json",
+            success: (response) => {
+                if(response.data != null) {
+                    let totalPage = getTotalPage(response.data[0].totalCount, 10);
+                    setPage(totalPage);
+                    setFirstAndSecondMenuCount(response.data[0].incompletedTotalCount, response.data[0].completedTotalCount);
+                    setTotalCount(response.data[0].totalCount);
+                    setServiceHistoryData(response.data);
+                }else {
+                    setEmptyList(tbody);
+                    setTotalCount(0);
+                    setFirstAndSecondMenuCount(0, 0);
+                }
+            },
+            error: errorMessage
+            
+        });
+
+    }else {
+        $.ajax({
+            type: "get",
+            url: `/api/v1/service/writing/${serviceType}/title/history/list/user/${userCode}?requestType=history&menuType=${historyMenuType}&page=${page}`,
+            dataType: "json",
+            success: (response) => {
+                if(response.data != null) {
+                    console.log()
+                    let totalPage = getTotalPage(response.data[0].totalCount, 10);
+                    setPage(totalPage);
+                    setFirstAndSecondMenuCount(response.data[0].counselTotalCount, response.data[0].customerTotalCount);
+                    setTotalCount(response.data[0].totalCount);
+                    setServiceHistoryData(response.data);
+                }else {
+                    setEmptyList(tbody);
+                    setTotalCount(0);
+                    setFirstAndSecondMenuCount(0, 0);
+                }
+            },
+            error: errorMessage
+        });
+
+    }
 }
 
 function getServiceType() {
@@ -65,8 +118,12 @@ function getServiceType() {
     return selectOption.options[selectOption.selectedIndex].value;
 }
 
-function getProgressStatus() {
-    return location.pathname.indexOf("ing") != -1 ? "ing" : "end";
+function getHistoryMenuType() {
+    return lastUriSource.indexOf("ing") != -1
+            && lastUriSource.indexOf("end") == -1 ? "ing" 
+            : lastUriSource.indexOf("end") != -1
+            && lastUriSource.indexOf("ing") == -1 ? "end"
+            : lastUriSource.indexOf("counsel") != -1 ? "counsel" : "customer";
 }
 
 function setServiceHistoryData(serviceHistoryDataList) {
@@ -82,30 +139,48 @@ function setServiceHistoryData(serviceHistoryDataList) {
         }
 
         let progressStatus = serviceHistoryData.progressStatus;
-        
-        tbody.innerHTML += `
-        <tr>
-            <td><span class="service-code">${serviceHistoryData.serviceCode}</span></td>
-            <td class="service-type">${serviceHistoryData.serviceTypeName}</td>
-            <td class="product-info">${serviceHistoryData.productName}</td>
-            <td>${serviceHistoryData.requestDate}</td>
-            <td class="${progressStatus == 0 ? "cancel-td" : progressStatus == 1 ? "register-td" : "complete-td"}">${progressStatus == 0 ? "접수 취소" : progressStatus == 1 ? "접수 완료" : "방문 완료"}</td>
-            <td>${progressStatus == 1 ? "<div class='reservation-modify-button-div'><button class='modify-button' type='button'>예약변경</button><button class='cancel-button' type='button'>예약취소</button></div>" : ""}</td>
-        </tr>
-        `;
+        if(serviceHistoryType == "service") {
+            
+            tbody.innerHTML += `
+            <tr>
+                <td><span class="service-code">${serviceHistoryData.serviceCode}</span></td>
+                <td class="service-type">${serviceHistoryData.serviceTypeName}</td>
+                <td class="product-info">${serviceHistoryData.productName}</td>
+                <td>${serviceHistoryData.requestDate}</td>
+                <td class="${progressStatus == 0 ? "cancel-td" : progressStatus == 1 ? "register-td" : "complete-td"}">${progressStatus == 0 ? "접수 취소" : progressStatus == 1 ? "접수 완료" : "방문 완료"}</td>
+                <td>${progressStatus == 1 ? "<div class='reservation-modify-button-div'><button class='modify-button' type='button'>예약변경</button><button class='cancel-button' type='button'>예약취소</button></div>" : ""}</td>
+            </tr>
+            `;
+
+        }else {
+            tbody.innerHTML += `
+            <tr>
+                <td>${serviceHistoryData.companyName}</td>
+                <td><span class="service-code">${serviceHistoryData.boardCode}</span></td>
+                <td class="service-type">${serviceHistoryData.boardTypeName}</td>
+                <td class="product-info">${serviceHistoryData.boardTitle}</td>
+                <td>${serviceHistoryData.createDate}</td>
+                <td class="${progressStatus == 0 ? "cancel-td" : progressStatus == 1 ? "register-td" : "complete-td"}">${progressStatus == 0 ? "취소" : progressStatus == 1 ? "진행중" : "해결"}</td>
+                </tr>
+            `;
+        }
+
 
     }
 
 
     setServiceCodeItemsClickEvent(serviceHistoryDataList);
-    if(!completedFlag) {
+    if(!firstMenuFlag && serviceHistoryType == "service") {
         setServiceModifyAndCancelButtonClickEvent(serviceHistoryDataList);
     }
 }
 
-function setCompletedCountAndIncompletedCount(incompletedTotalCount, completedTotalCount) {
-    ingMenu.textContent = `진행 (${incompletedTotalCount})`;
-    endMenu.textContent = `완료 (${completedTotalCount})`;
+function setFirstAndSecondMenuCount(firstMenuTotalCount, secondMenuTotalCount) {
+    const firstMenuCountSpan = document.querySelector(".first-menu-count");
+    const secondMenuCountSpan = document.querySelector(".second-menu-count");
+
+    firstMenuCountSpan.textContent = `(${firstMenuTotalCount})`;
+    secondMenuCountSpan.textContent = `(${secondMenuTotalCount})`;
 }
 
 function setTotalCount(totalCount) {
@@ -137,14 +212,21 @@ function setServiceCodeItemsClickEvent(serviceHistoryDataList) {
         serviceCodeItems[i].onclick = () => {
 
             setPageInfoLocalStorage();
-            
-            if(serviceHistoryDataList[i + 1].serviceTypeCode == 2) {
-                location.href = `/service/visit/inquiry/detail/${serviceHistoryDataList[i + 1].serviceCode}`;
 
-            }else if(serviceHistoryDataList[i + 1].serviceTypeCode == 3) {
-                ///////////////////////// 리콜 신청 조회
+            if(serviceHistoryType == "service") {
+                if(serviceHistoryDataList[i + 1].serviceTypeCode == 2) {
+                    location.href = `/service/visit/inquiry/detail/${serviceHistoryDataList[i + 1].serviceCode}`;
+    
+                }else if(serviceHistoryDataList[i + 1].serviceTypeCode == 3) {
+                    ///////////////////////// 리콜 신청 조회
+    
+                }
 
+            }else {
+                let boardType = getBoardTypeCode(serviceHistoryDataList[i + 1].boardTypeCode);
+                location.href = `/customer/${boardType}/detail/${serviceHistoryDataList[i + 1].boardCode}`;
             }
+            
         }
     }
 }
@@ -195,25 +277,38 @@ function setServiceModifyAndCancelButtonClickEvent(serviceHistoryDataList) {
     }
 }
 
-function setMenuTypeViewByCompletedFlag(completedFlag) {
-    completedFlag ? addSelectedClass(endMenu) : addSelectedClass(ingMenu);
+function setMenuTypeViewByFirstMenuFlag(firstMenuFlag) {
+    firstMenuFlag ? addSelectedClass(firstMenu) : addSelectedClass(secondMenu);
 }
 
 function addSelectedClass(domObject) {
     domObject.classList.add("selected-menu-type");
 }
 
-function loadHistoryIngPage() {
-    location.href = "/mypage/service/history/ing";
+function loadHistoryFirstMenuPage() {
+    if(serviceHistoryType == "service") {
+        location.href = "/mypage/service/history/ing";
+
+    }else {
+        location.href = "/mypage/writing/counsel";
+    }
 }
 
-function loadHistoryEndPage() {
-    location.href = "/mypage/service/history/end";
+function loadHistorySecondMenuPage() {
+    if(serviceHistoryType == "service") {
+        location.href = "/mypage/service/history/end";
+
+    }else {
+        location.href = "/mypage/writing/customer";
+    }
+}
+
+function getBoardTypeCode(boardTypeCode) {
+    return boardTypeCode == 1 ? "complaint" : boardTypeCode == 2 ? "praise" : "suggestion";
 }
 
 function getLocalStorageData() {
     let pageHistory = localStorage.pageInfo;
-    console.log(pageHistory);
 
     if(pageHistory != null) {
         return pageHistory;
@@ -238,4 +333,44 @@ function loadPageHistoryByLocalStorage() {
             }
         });
     }
+}
+
+function removeVisibleClassOfWritingViewsItem() {
+    const checkBoxDiv = document.querySelector(".check-box-div");
+    const searchInput = document.querySelector(".search-input");
+
+    checkBoxDiv.classList.remove("visible");
+    searchInput.classList.remove("visible");
+}
+
+function setTheadContent() {
+    const tHead = document.querySelector("thead");
+
+    tHead.innerHTML = `
+    <tr>
+        <th>접수대상 브랜드</th>
+        <th>접수번호</th>
+        <th>구분</th>
+        <th>제목</th>
+        <th>등록일</th>
+        <th>진행상태</th>
+    </tr>
+    `;
+}
+
+function setSelectOption() {
+    const select = document.querySelector("select");
+
+    select.innerHTML = `
+        <option value="all">전체</option>
+        <option value="complaint">불편합니다</option>
+        <option value="praise">칭찬합니다</option>
+        <option value="suggestion">제안합니다</option>
+    `;
+}
+
+function errorMessage(request, status, error){
+    console.log(request.status);
+    console.log(request.responseText);
+    console.log(error);
 }

@@ -10,12 +10,12 @@ public class BoardPageController {
 		return "board/complaint_list";
 	}
 
-	@GetMapping({"/customer/complaint/regist-view", "/customer/praise/regist-view", "/customer/complaint/suggestion-view"})
+	@GetMapping({"/customer/complaint/regist-view", "/customer/praise/regist-view", "/customer/suggestion/regist-view"})
 	public String loadBoardWritePage() {
 		return "board/complaint_write";
 	}
 
-	@GetMapping({"/customer/complaint/detail/{boardCode}", "/customer/praise/detail/{boardCode}", "/customer/complaint/detail/{boardCode}"})
+	@GetMapping({"/customer/complaint/detail/{boardCode}", "/customer/praise/detail/{boardCode}", "/customer/suggestion/detail/{boardCode}"})
 	public String loadBoardDetailPage() {
 		return "board/complaint_detail";
 	}

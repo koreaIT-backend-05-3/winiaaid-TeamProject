@@ -2,6 +2,9 @@ package com.project.winiaaid.handler.aop;
 
 import com.project.winiaaid.handler.exception.CustomApiUriTypeException;
 import com.project.winiaaid.handler.exception.CustomCompanyApiException;
+import com.project.winiaaid.handler.exception.ForceReturnResponseEntityException;
+import com.project.winiaaid.web.dto.CustomResponseDto;
+import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -65,6 +68,14 @@ public class UriCheckAop {
                 }
                 index++;
             }
+        }else if(methodName.equals("getWritingServiceHistoryInfoTitleByServiceTypeCode")){
+            for(Object arg : args) {
+                if(codeSignature.getParameterNames()[index].equals("readServiceRequestDto")) {
+                    checkMenuType(arg);
+                    break;
+                }
+                index++;
+            }
         }else {
             for(Object arg : args) {
                 if(codeSignature.getParameterNames()[index].equals("parametersMap")) {
@@ -97,8 +108,16 @@ public class UriCheckAop {
         if(boardType == null) {
             throw new CustomApiUriTypeException("URI thpe ERROR");
         }
-            if(!(boardType.equals("winia") || boardType.equals("daewoo"))) {
+        if(!(boardType.equals("winia") || boardType.equals("daewoo"))) {
             throw new CustomCompanyApiException("URI company ERROR");
+        }
+    }
+
+    private void checkMenuType(Object menuType) {
+        if(((ReadServiceRequestDto)menuType).getMenuType() == null) {
+            throw new ForceReturnResponseEntityException("Counsel menu type is null");
+        }else if(((ReadServiceRequestDto)menuType).getMenuType().equals("counsel")) {
+            throw new ForceReturnResponseEntityException("Counsel menu type is null");
         }
     }
 }

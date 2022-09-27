@@ -8,10 +8,10 @@
 		INSERT INTO
 			board_mst
 		SELECT
-			#{board_type},
+			#{board_type_code},
 			IFNULL(MAX(id2), 0) + 1,
 			RPAD(#{temp_board_code}, CHAR_LENGTH(#{temp_board_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1,
-			#{board_type},
+			#{board_type_code},
 			#{user_code},
 			#{company_code},
 			#{response_flag},
@@ -24,7 +24,7 @@
 		FROM
 			board_mst
 		WHERE
-			id1 = #{board_type};
+			id1 = #{board_type_code};
 	</insert>
 	
 	<insert id="insertBoardFile" parameterType="java.util.List">
@@ -63,18 +63,18 @@
 							from
 								board_mst
 							where
-							<if test="board_type != 2">
+							<if test="board_type_code != 2">
 								user_code = #{user_code}
 								AND
 							</if>
-							board_type = #{board_type}) tc on(1=1)
+							board_type_code = #{board_type_code}) tc on(1=1)
 			
 		WHERE
-			<if test="board_type != 2">
+			<if test="board_type_code != 2">
 				bm.user_code = #{user_code}
 				AND
 			</if>
-			bm.board_type = #{board_type}
+			bm.board_type_code = #{board_type_code}
 		LIMIT #{page}, 10;
 	
 	</select>
