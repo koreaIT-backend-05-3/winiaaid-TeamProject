@@ -150,7 +150,43 @@
                     AND service_type_code = #{service_type_code}
                 </if>
             )
-            AS incompleted_total_count
+            AS incompleted_total_count,
+
+            (SELECT
+                COUNT(*)
+            from
+                repair_service_table
+            where
+            <choose>
+                <when test="progress_status == 'ing'">
+                    progress_status = 1
+                </when>
+                <otherwise>
+                    progress_status != 1
+                </otherwise>
+            </choose>
+            <if test="service_type_code != 0">
+                AND service_type_code = #{service_type_code}
+            </if>)
+
+            +
+
+            (select
+                COUNT(*)
+            from
+                recall_service_table
+            where
+            <choose>
+                <when test="progress_status == 'ing'">
+                    progress_status = 1
+                </when>
+                <otherwise>
+                    progress_status != 1
+                </otherwise>
+            </choose>
+            <if test="service_type_code != 0">
+                AND service_type_code = #{service_type_code}
+            </if>) AS total_count
 
         UNION
 
@@ -161,7 +197,8 @@
             rst.request_date,
             rst.progress_status,
             0 AS completed_total_count,
-            0 AS incompleted_total_count
+            0 AS incompleted_total_count,
+            0 as total_count
         FROM
             repair_service_table rst
             LEFT OUTER JOIN service_type_table stt ON(stt.service_type_code = rst.service_type_code)
@@ -189,7 +226,8 @@
             rst.request_date,
             rst.progress_status,
             0 AS completed_total_count,
-            0 AS incompleted_total_count
+            0 AS incompleted_total_count,
+            0 as total_count
         FROM
             recall_service_table rst
             LEFT OUTER JOIN service_type_table stt ON(stt.service_type_code = rst.service_type_code)

@@ -4,6 +4,7 @@ import com.project.winiaaid.web.dto.history.ReadServiceHistoryTitleResponseDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 public class ServiceHistoryTitle {
@@ -14,16 +15,18 @@ public class ServiceHistoryTitle {
     private int progress_status;
     private int completed_total_count;
     private int incompleted_total_count;
+    private int total_count;
 
     public ReadServiceHistoryTitleResponseDto toReadServiceHistoryTitleResponseDto() {
         return ReadServiceHistoryTitleResponseDto.builder()
                 .serviceCode(service_code)
                 .serviceTypeName(service_type_name)
                 .productName(product_name)
-                .requestDate(request_date)
-                .progressStatus(progress_status == 0 ? "접수 취소" : progress_status == 1 ? "접수 완료" : "방문 완료")
+                .requestDate(request_date != null ? request_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) : null)
+                .progressStatus(progress_status)
                 .completedTotalCount(completed_total_count)
                 .incompletedTotalCount(incompleted_total_count)
+                .totalCount(total_count)
                 .build();
     }
 }
