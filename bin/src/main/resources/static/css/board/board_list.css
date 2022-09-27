@@ -1,0 +1,180 @@
+.menu-li-ul li{
+    font-size: 13px;
+    color: #5b5a5a;
+    list-style-type: disc;
+}
+
+.menu-li-ul li::marker{
+    color: #0A71CC;
+}
+
+#board-body{
+    width: 100%;
+    left: 0;
+}
+
+.menu-info{
+    margin-bottom: 50px;
+    padding: 30px;
+
+    width: 980px;
+    height: 140px;
+
+    background-color: #fcfcfc;
+}
+
+.menu-info p{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+.menu-li-ul{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+#board-body-inner{
+    margin: 0px auto;
+
+    width: 1400px;
+}
+
+#board-body-inner-info{
+    margin: 0px auto;
+
+    width: 980px;
+}
+
+h2{
+    margin-bottom: 50px;
+
+    width: 980px;
+    height: 30.8px;
+
+    font-size: 28px;
+    font-weight: 400;
+}
+
+.info-group{
+    display: flex;
+    justify-content: space-between;
+}
+
+#btn-group{
+    display: flex;
+    flex-direction: column;
+
+    padding: 0px;
+
+    width: 122px;
+    height: 89px;
+}
+
+.write-button{
+    border: none;
+    padding: 0px;
+
+    width: 122px;
+    height: 42px;
+
+    font-size: 16px;
+    font-weight: 400;
+    color: #ffffff;
+    background-color: #0a71cc;
+
+    cursor: pointer;
+}
+
+/* ====================================search================================ */
+
+#list-style1{
+    width: 980px;
+}
+
+#board-search{
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 15px;
+
+    width: 980px;
+    height: 31px;
+}
+
+.select-btn{
+    border: 1px solid #ccc;
+
+    width: 121px;
+    height: 31px;
+    
+    color: #7e7e7e;
+    background-color: #fcfcfc;
+}
+
+.input-box{
+    border: 1px solid #ccc;
+    padding: 5px;
+
+    width: 160px;
+    height: 31px;
+
+    background-color: #fcfcfc;
+}
+
+.search-btn{
+    border:1px solid #ccc;
+
+    width: 73px;
+    height: 32px;
+
+    color: #7e7e7e;
+    background-color: #ffffff;
+}
+
+.table{
+    width: 980px;
+    height: 500px;
+
+    background-color: slateblue;
+}
+
+.total-count-span {
+    font-weight: 400;
+    color: #0A71CC;
+}
+
+.content-table {
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+
+    width: 100%;
+
+    table-layout: fixed;
+}
+
+.content-table-head th, td:nth-of-type(2){
+    padding: 18px 0px;
+}
+
+.content-table-body tr{
+    border-top: 1px solid #dbdbdb;
+}
+
+.content-table-body td:not(.content-table-body td:nth-of-type(2)){
+    padding: 18px 24px;
+}
+
+.content-title{
+    width: 696px;
+}
+
+.content-name{
+    width: 127px;
+    text-align: center;
+}
+
+.content-date{
+    width: 157px;
+    text-align: center;
+}

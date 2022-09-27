@@ -99,4 +99,24 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return boardDto;
 	}
+
+	@Override
+	public boolean deleteBoardByBoardCode(int boardCode) throws Exception {
+		List<BoardFile>fileList = null;
+		
+		fileList = boardRepository.findBoardFileListByBoardCode(boardCode);
+		
+		if(fileList.size() != 0) {
+			for(BoardFile fileName:fileList) {
+				Path path = Paths.get(filePath, "file-images/" + fileName.getFile_name());
+				
+				File f = new File(path.toString());
+				if(f.exists()) {
+					Files.delete(path);
+				}
+				
+			}
+		}
+		return boardRepository.deleteBoardByBoardCode(boardCode) > 0;
+	}
 }

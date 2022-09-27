@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/util/location_notice.css">
+    <link rel="stylesheet" href="/static/css/fragments/send_message_modal.css">
+    <link rel="stylesheet" href="/static/css/solution/solution_detail.css">
+    <title>[위니아에이드] 자주하는질문</title>
+</head>
+<body>
+    <th:block th:replace="/fragments/header"></th:block>
+    <main>
+        <div id="container">
+            <div class="main-content">
+                <div class="location-div">
+    
+                </div>
+                <div class="title-div">
+                    <h1>자주하는 질문</h1>
+                </div>
+                <div class="content-detail">
+                    <table>
+                        
+                    </table>
+                    <div class="go-list-button-div">
+                        <button class="go-list-button" type="button">목록</button>
+                    </div>
+                    <div class="send-message-modal-div visible">
+                        <th:block th:replace="/fragments/send_message_modal"></th:block>
+                    </div>
+                    <div class="etc-group-service">
+                        <p>※ 고객님이 원하시는 정보를 찾으셨나요? 찾지 못하셨다면 아래 서비스를 이용해 보세요!</p>
+                        <div class="etc-group">
+                            <img src="/image/images/self_examination.jpg" alt="자가진단">
+                            <img src="/image/images/consultation_inquiry.jpg" alt="상담문의">
+                            <img src="/image/images/visit_repair_service.jpg" alt="방문서비스 예약신청">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/fragments/footer"></th:block>
+    <script src="/static/js/fragments/send_message_modal.js"></script>
+    <script src="/static/js/solution/solution_detail.js"></script>
+</body>
+</html>

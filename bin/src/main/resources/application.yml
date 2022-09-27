@@ -11,12 +11,6 @@ server:
     uri-encoding: UTF-8
     
 spring:
-#  security:
-#    user:
-#      name: test
-#      password: 1234
-   
-          
   mvc:
     static-path-pattern: /static/**
   datasource:
@@ -27,7 +21,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 50MB        
-      max-request-size: 50MB     # 버퍼 최대 크기 #
+      max-request-size: 50MB
         
    
 mybatis:

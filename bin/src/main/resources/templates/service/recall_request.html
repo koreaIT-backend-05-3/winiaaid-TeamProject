@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/service/recall_request.css">
+    <title>[위니아에이드] 김치냉장고 리콜</title>
+</head>
+<body>
+    <div id="wrap">
+        <th:block th:replace="/fragments/header"></th:block>
+        <div class="location">
+            <ul>
+                <li class="home">
+                    <a href="/main"><img src="/static/images/icon_home.png" alt="메인페이지"></a>
+                </li>
+                <li>
+                    서비스 신청/변경
+                </li>
+                <li>
+                    김치냉장고 리콜 신청
+                </li>
+            </ul>
+        </div>
+        <main id="contents">
+            <h2 class="title">리콜 접수 신청</h2>
+            <div class="info-text">
+                <p>오래 쓰신 딤채 김치냉장고 화재 위험이 있어 리콜 조치를 진행합니다.<br>
+                    장기간 사용한 가전 제품은 부품 노후화 및 먼지, 습기로 인한 화재 등 위험성이 가중되므로<br>
+                    안전 점검을 권장합니다. 오래 쓰신 딤채를 더 안심하고 사용하실 수 있도록 무상수거 및 점검, 수리 조치를 실시하니,<br>
+                    대상 모델을 확인하시고 신청해 주시기 바랍니다.
+                </p>
+                <ul>
+                    <li>
+                        조치 대상 : 2005년 9월 이전 생산된 모델<br>
+                        (대상 제품에 부착된 제조일자를 확인하세요)
+                    </li>
+                    <li>
+                        서비스 : 방문을 통한 무상수거 & 무상수리
+                    </li>
+                </ul>
+                <span>해당 무상수거 & 무상수리는 딤채(뚜껑형) 제품만 신청 가능합니다.</span>
+                <div class="inquiry-button">
+                    <a href="#">리콜 조회/취소</a>
+                </div>
+            </div>
+            <form class="recall-form">
+                <div class="select-model">
+                    <h3>제품을 선택해주세요.</h3>
+                    <p class="required icon-required">필수 입력 사항</p>
+                    <table>
+                        <colgroup>
+                            <col style="width:14%;">
+                            <col style="width:86%;">
+                        </colgroup>
+                        <tr class="search-model-buttons">
+                            <th class="icon-required">딤채모델명</th>
+                            <td>
+                                <p class="model-result"></p>
+                                <button type="button" class="search-model button-white">모델명 검색</button>
+                                <button type="button" class="check-model button-white">모델명 확인방법</button>
+                            </td>
+                        </tr>
+                        <tr class="search-model-inputs">
+                            <td class="selected-model"></td>
+                            <td>
+                                <input type="text" class="write-model">
+                                <button type="button" class="search-button button-white">검색</button>
+                                <span>모델명은 최소 2자리 이상 입력해 주세요. 예) CFR, DB, DC, DD, DG, DP, DS, DT, MDH</span>
+                                <div class="result">
+                                    <ul></ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="client-information">
+                    <h3>서비스 신청자 정보</h3>
+                    <p class="required icon-required">필수 입력 사항</p>
+                    <table>
+                        <colgroup>
+                            <col style="width:14%;">
+                            <col style="width:86%;">
+                        </colgroup>
+                        <tr class="user-name">
+                            <th class="icon-required">성명</th>
+                            <td>
+                                <input type="text" class="user-name-input">
+                            </td>
+                        </tr>
+                        <tr class="main-phone-number">
+                            <th class="icon-required">휴대폰번호</th>
+                            <td>
+                                <select class="phone-number number1">
+                                    <option>선택</option>
+                                    <option value="010">010</option>
+                                    <option value="011">011</option>
+                                    <option value="016">016</option>
+                                    <option value="017">017</option>
+                                    <option value="019">019</option>
+                                </select>
+                                <b>-</b>
+                                <input type="text" maxlength="4" class="phone-number number2">
+                                <b>-</b>
+                                <input type="text" maxlength="4" class="phone-number number3">
+                                <span>통화가 되지 않을 경우 예약이 취소될 수 있으니 전화번호를 정확하게 입력해 주세요.</span>
+                            </td>
+                        </tr>
+                        <tr class="sub-phone-number">
+                            <th>연락가능번호</th>
+                            <td>
+                                <select class="phone-number number1">
+                                    <option>선택</option>
+                                    <option value="010">010</option>
+                                    <option value="011">011</option>
+                                    <option value="016">016</option>
+                                    <option value="017">017</option>
+                                    <option value="019">019</option>
+                                </select>
+                                <b>-</b>
+                                <input type="text" maxlength="4" class="phone-number number2">
+                                <b>-</b>
+                                <input type="text" maxlength="4" class="phone-number number3">
+                            </td>
+                        </tr>
+                        <tr class="address">
+                            <th class="icon-required">주소</th>
+                            <td>
+                                <div>
+                                    <input type="text" readonly="true" class="postal-code">
+                                    <input type="text" readonly="true" class="address-main">
+                                    <button type="button" class="search-address-button button-white">우편번호</button>
+                                </div>
+                                <input type="text" class="address-detail">
+                                <span>주소가 정확하지 않으면 예약이 취소될 수 있으니 정확하게 입력해 주세요.</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="agreement">
+                    <div class="agree-protection">
+                        <h3>개인정보의 수집 및 이용동의</h3>
+                        <div class="text-area">
+                            <p>1. 개인정보 수집에 대한 동의<br>
+                                위니아에이드는 적법하고 공정한 수단에 의하여 판매제품과 관련한 제반서비스 계약의 성립 및 이행제공을 위하여 필요한 최소한의 개인정보를 수집합니다.<br>
+                                위니아에이드는 개인정보의 수집과 이용, 개인정보의 제공, 민감정보의 처리, 고유식별번호 처리 등에 대하여 동의를 받습니다.<br>
+                                위니아에이드는 귀하께서 위니아에이드의 개인정보 취급방침 또는 이용 약관의 내용의 내용을 고지하고 "동의"버튼 또는 "취소"버튼을 클릭할 수 있는 절차를 마련하여, "동의"버튼을 클릭하면 개인정보 수집에 대해 동의한 것으로 봅니다.
+                            </p>
+                            <p>2. 개인정보의 수집목적 및 이용목적<br>
+                                위니아에이드는 다음과 같은 목적을 위하여 개인정보를 수집하고 있습니다. 위니아에이드 사이트의 각종서비스를 이용하는데 있어 원활한 서비스신청 및 회원님께 편리하고 유익한 정보를 제공하기 위한 최소한의 정보를 필수 사항으로 수집합니다. 또한 고객을 위한 쇼핑몰 상품, 기타 신상품 또는 이벤트의 정보안내 서비스와 마케팅활동 및 업무수행을 위한 텔레마케팅 서비스 또는 온라인 마케팅서비스, 대형할인점, 백화점 등을 포함한 업무제휴업체, 가맹점, 또는 위니아에이드의 업무를 대행하는 업체의 마케팅활동 및 업무수행을 위한 개인정보 제공을 수집할 수 있습니다.<br>
+                                단, 이용자의 기본적 인권 침해의 우려가 있는 민감한 개인정보(인종 및 민족, 사상 및 신조, 출신지 및 본적지, 정치적 성향 및 범죄기록, 건강상태 및 성생활 등)는 수집하지 않습니다.
+                                회원님이 제공하신 모든 정보는 상기 목적에 필요한 용도 이외로는 사용되지 않으며 수집 정보의 범위나 사용 목적, 용도가 변경될 시에는 반드시 사전 동의를 구할 것입니다.
+                            </p>
+                            <p>3. 개인 정보 수집 항목 및 보유, 이용기간<br>
+                                위니아에이드 사이트의 서비스 제공을 위해 제공받는 정보는 성명, 주소, 전화번호, 휴대전화번호, 비밀번호, e-mail 주소, 제품정보, 기타 회사가 최소한의 정보로 필요하다고 인정하는 사항 입니다.<br>
+                                귀하가 위니아에이드에서 제공하는 서비스를 이용하는 동안 위니아에이드는 귀하의 개인정보를 계속적으로 보유하며 서비스 제공 등을 위해 이용합니다.<br>
+                                귀하의 개인정보는 개인정보의 수집목적 또는 제공받은 목적이 달성되면 파기됩니다.<br>
+                                상기 조항에도 불구하고 완료되지 않은 업무수행을 위해서나, 관계 법령의 규정에 따라 보존할 필요성이 있을 경우에는 귀하의 개인정보를 계속 관리할 수 있습니다.<br>
+                                이와 다른 목적으로 귀하의 개인정보를 계속 보유하여야 할 필요가 있을 경우에는 귀하의 동의를 받겠습니다.<br>
+                                위니아에이드는 개인정보 보유, 이용기간 종료 시 귀중한 개인정보를 안전하게 처리하며, 유출을 방지하기 위하여 다음과 같은 방법을 통하여 개인정보를 파기합니다.<br>
+                                - 종이에 출력된 개인정보는 분쇄기로 분쇄하거나 소각을 통하여 파기합니다.<br>
+                                - 전자적 파일 형태로 저장된 개인정보는 재생할 수 없는 기술적 방법을 사용하여 삭제합니다.
+                            </p>
+                        </div>
+                        <p class="check-agree">
+                            <input type="checkbox" id="protection">
+                            <label for="protection">개인정보 수집 및 이용에 동의합니다.</label>
+                        </p>
+                    </div>
+                    <div class="agree-privacy-handling">
+                        <h3>개인정보의 위탁처리</h3>
+                        <div class="text-area">
+                            <p>
+                                위니아에이드는 개인정보의 처리와 관련하여 아래와 같이 업무를 위탁하고 있으며, 관계 법령에 따라 위탁계약 시 개인정보가 안전하게 관리될 수 있도록 필요한 사항을 규정하고 있습니다.<br>
+                                만일, 수탁업체가 변경될 경우, 위니아에이드는 변경된 수탁업체 명을 홈페이지의 '공지'란 팝업화면 내지 개인정보취급방침에 포함하여 공개하도록 합니다.
+                            </p>
+                            <table>
+                                <colgroup>
+                                    <col style="width:20%;">
+                                    <col style="width:20%;">
+                                    <col style="width:15%;">
+                                    <col style="width:25%;">
+                                    <col style="width:20%;">
+                                </colgroup>
+                                <tr>
+                                    <td>위탁업무</td>
+                                    <td>수탁자</td>
+                                    <td>수탁 업체 업종</td>
+                                    <td>위탁하는 업무의 내용</td>
+                                    <td>공유정보</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="4">전산시스템운영</td>
+                                    <td>㈜엠피알디</td>
+                                    <td>IT 업체</td>
+                                    <td>시스템운영, 개발, 유지보수 등</td>
+                                    <td>회원정보, 게시물정보</td>
+                                </tr>
+                                <tr>
+                                    <td>㈜위니아</td>
+                                    <td>생산</td>
+                                    <td>시스템운영, 개발, 유지보수 등</td>
+                                    <td>회원정보, 게시물정보</td>
+                                </tr>
+                                <tr>
+                                    <td>㈜위니아전자</td>
+                                    <td>생산</td>
+                                    <td>시스템운영, 개발, 유지보수 등</td>
+                                    <td>회원정보, 게시물정보</td>
+                                </tr>
+                                <tr>
+                                    <td>㈜대유홀딩스</td>
+                                    <td>IT 업체</td>
+                                    <td>시스템운영, 개발, 유지보수 등</td>
+                                    <td>회원정보, 게시물정보</td>
+                                </tr>
+                                <tr>
+                                    <td>실명확인</td>
+                                    <td>나이스평가정보㈜</td>
+                                    <td>신용조회</td>
+                                    <td>본인인증</td>
+                                    <td>회원정보</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="5">상품배송</td>
+                                    <td>CJ대한통운㈜</td>
+                                    <td>배송</td>
+                                    <td>상품 배송 업무, 배송위치 및 도착정보 등</td>
+                                    <td>회원정보, 주문정보, 배송정보</td>
+                                </tr>
+                                <tr>
+                                    <td>㈜한진</td>
+                                    <td>배송</td>
+                                    <td>상품 배송 업무, 배송위치 및 도착정보 등</td>
+                                    <td>회원정보, 주문정보, 배송정보</td>
+                                </tr>
+                                <tr>
+                                    <td>로젠주식회사㈜</td>
+                                    <td>배송</td>
+                                    <td>상품 배송 업무, 배송위치 및 도착정보 등</td>
+                                    <td>회원정보, 주문정보, 배송정보</td>
+                                </tr>
+                                <tr>
+                                    <td>롯데글로벌로지스㈜</td>
+                                    <td>배송</td>
+                                    <td>상품 배송 업무, 배송위치 및 도착정보 등</td>
+                                    <td>회원정보, 주문정보, 배송정보</td>
+                                </tr>
+                                <tr>
+                                    <td>아스텍</td>
+                                    <td>배송</td>
+                                    <td>상품 배송</td>
+                                    <td>주문정보, 배송정보</td>
+                                </tr>
+                                <tr>
+                                    <td>김치</td>
+                                    <td>딤채식품</td>
+                                    <td>생산</td>
+                                    <td>주문상품 생산</td>
+                                    <td>회원정보, 주문정보, 배송정보</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">가전</td>
+                                    <td>㈜위니아</td>
+                                    <td>생산</td>
+                                    <td>김치냉장고, 에어컨 등 제조</td>
+                                    <td>회원정보, 주문정보, 배송정보</td>
+                                </tr>
+                                <tr>
+                                    <td>㈜위니아전자</td>
+                                    <td>생산</td>
+                                    <td>김치냉장고, 에어컨 등 제조</td>
+                                    <td>회원정보, 주문정보, 배송정보</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <p class="check-agree">
+                            <input type="checkbox" id="privacy-handling">
+                            <label for="privacy-handling">개인정보 위탁처리에 동의합니다.</label>
+                        </p>
+                    </div>
+                </div>
+                <dl class="counsel-notice">
+                    <dt>[10년 이상된 딤채 효율적인 사용방법]</dt>
+                    <dd>벽면에서 10cm 이상 떨어뜨려 기계실에서 발생되는 열을 외부로 빠져나가게 해주세요.</dd>
+                    <dd>수시로 딤채의 뒷면을 확인하시어 먼지가 쌓인 경우 먼지를 제거해 주세요.</dd>
+                    <dd>딤채 뒷면에 비닐과 같은 이물질이 있다면 제거해주세요.</dd>
+                </dl>
+                <div class="buttons">
+                    <button type="button" class="submit-button">등록</button>
+                    <button type="button" class="cancel-button">취소</button>
+                </div>
+            </form>
+        </main>
+        <th:block th:replace="/fragments/footer"></th:block>
+    </div>
+    <script src="/static/js/popup/popup.js"></script>
+    <script src="/static/js/service/recall_request.js"></script>
+</body>
+</html>

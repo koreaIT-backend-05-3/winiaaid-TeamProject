@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.winiaaid.domain.recall.RecallRepository">
+	<resultMap id="recallServiceInfoMap" type="com.project.winiaaid.domain.requestInfo.ServiceInfo">
+		<association property="productInfoEntity" javaType="com.project.winiaaid.domain.recall.RecallProductInfoEntity">
+			<id property="service_code" column="service_code"/>
+			<result property="model_number" column="model_number"/>
+		</association>
+		<association property="userInfoEntity" javaType="com.project.winiaaid.domain.recall.RecallUserInfoEntity">
+			<result property="user_code" column="user_code"/>
+			<result property="user_name" column="user_name"/>
+			<result property="main_phone_number" column="main_phone_number"/>
+			<result property="sub_phone_number" column="sub_phone_number"/>
+			<result property="postal_code" column="postal_code"/>
+			<result property="main_address" column="main_address"/>
+			<result property="detail_address" column="detail_address"/>
+		</association>
+		<association property="reservationInfoEntity" javaType="com.project.winiaaid.domain.recall.RecallReservationInfoEntity">
+			<result property="service_type_name" column="service_type_name"/>
+			<result property="progress_status" column="progress_status"/>
+			<result property="request_date" column="request_date"/>
+			<result property="note" column="note"/>
+		</association>
+	</resultMap>
+
+	<insert id="addRecallRequest" parameterType="com.project.winiaaid.domain.requestInfo.ServiceInfo">
+		insert into
+			recall_service_table
+		values(
+			#{productInfoEntity.model_code},
+			#{productInfoEntity.id2},
+			#{productInfoEntity.service_code},
+			3,
+			#{productInfoEntity.model_code},
+			now(),
+			1,
+			0,
+			#{userInfoEntity.user_code},
+			#{userInfoEntity.user_name},
+			#{userInfoEntity.main_phone_number},
+			#{userInfoEntity.sub_phone_number},
+			#{userInfoEntity.postal_code},
+			#{userInfoEntity.main_address},
+			#{userInfoEntity.detail_address}
+		);
+	</insert>
+	
+	<select id="getRecallRequest" parameterType="hashmap" resultMap="recallServiceInfoMap">
+		select
+			rst.service_code,
+			rst.request_date,
+			rst.progress_status,
+			rst.note,
+			rst.user_code,
+			rst.user_name,
+			rst.main_phone_number,
+			rst.sub_phone_number,
+			rst.postal_code,
+			rst.main_address,
+			rst.detail_address,
+
+			stt.service_type_name,
+
+			pmd.model_number
+		from
+			recall_service_table rst
+			LEFT OUTER JOIN service_type_table stt on(stt.service_type_code = rst.service_type_code)
+			LEFT OUTER JOIN product_model_detail pmd on(pmd.model_code = rst.model_code)
+		where
+			service_code = #{service_code}
+			and
+			user_name = #{user_name}
+			and
+			user_code = #{user_code};
+	</select>
+
+	<select id="findServiceCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.recall.RecallServiceCode">
+		select
+			IFNULL(MAX(id2), 0) + 1 as id2,
+			RPAD(#{temp_service_code}, CHAR_LENGTH(#{temp_service_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1 as service_code
+		from
+			recall_service_table
+		where
+			id1 = #{model_code};
+	</select>
+</mapper>

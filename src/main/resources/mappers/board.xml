@@ -95,7 +95,23 @@
 		WHERE
 			bm.board_code = #{board_code};
 	</select>
-
+	
+	<select id="findBoardFileListByBoardCode" parameterType="Integer" resultType="com.project.winiaaid.domain.board.BoardFile">
+		select
+			file_name
+		from
+			board_file
+		where
+			board_code = #{board_code}
+	</select>
+	
+	<delete id="deleteBoardByBoardCode"  parameterType="Integer">
+			delete
+			from
+				board_mst
+			where
+				board_code = #{board_code};
+	</delete>
 
 </mapper>
 

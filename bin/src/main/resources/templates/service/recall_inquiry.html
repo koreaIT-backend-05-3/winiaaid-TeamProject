@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/service/recall_inquiry.css">
+    <title>[위니아에이드] 김치냉장고 리콜_조회</title>
+</head>
+<body>
+    <div id="wrap">
+        <header>header</header>
+        <div class="location">
+            <ul>
+                <li class="home">
+                    <a href="/main"><img src="/static/images/icon_home.png" alt="메인페이지"></a>
+                </li>
+                <li>
+                    서비스 신청/변경
+                </li>
+                <li>
+                    김치냉장고 리콜
+                </li>
+            </ul>
+        </div>
+        <main id="contents">
+            <h2 class="title">김치냉장고 리콜 조회/취소</h2>
+            <div class="info-text">
+                <p>김치냉장고 리콜 신청 현황입니다.</p>
+            </div>
+            <div class="recall-history">
+                <h3>전체 <span class="remaining-number">0</span>건</h3>
+                <table>
+                    <colgroup>
+                        <col style="width:15%;">
+                        <col style="width:18%;">
+                        <col style="width:22%;">
+                        <col style="width:20%;">
+                        <col style="width:11%;">
+                        <col style="width:14%;">
+                    </colgroup>
+                    <tr>
+                        <th>접수번호</th>
+                        <th>서비스구분</th>
+                        <th>딤채모델명</th>
+                        <th>접수일</th>
+                        <th>진행상태</th>
+                        <th>비고</th>
+                    </tr>
+                    <tr class="data-none">
+                        <td colspan="6">김치냉장고 리콜 신청 내역이 없습니다.</td>
+                    </tr>
+                    <!-- <tr>
+                        <td class="recall-code"><a href="#">DFC220919034222</a></td>
+                        <td class="service-type">김치냉장고 리콜</td>
+                        <td class="model-name">DB-1105D(CW)</td>
+                        <td class="request-date">2022-09-19 18:47</td>
+                        <td class="progress-status">접수</td>
+                        <td class="note"><button class="cancel">신청취소</button></td>
+                    </tr> -->
+                </table>
+                <p class="inquiry-notice">비회원일 경우 진행사항 확인 시 <span>서비스 받으실 고객명</span>과 <span>접수번호</span>가 필요합니다.</p>
+            </div>
+            <div class="paging">
+                <ul>
+                    <li class="on"><button>1</button></li>
+                </ul>
+            </div>
+        </main>
+        <footer>footer</footer>
+    </div>
+</body>
+</html>

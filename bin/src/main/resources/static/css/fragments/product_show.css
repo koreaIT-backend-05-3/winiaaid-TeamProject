@@ -1,0 +1,164 @@
+.category-image-ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 980px;
+}
+
+.category-image-li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-top: 1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
+    width: 197px;
+    height: 202px;
+}
+
+.category-image-li:not(.category-image-li:last-child) {
+    border-right: 1px solid #d3d3d3;
+}
+
+.product-area {
+    border-bottom: 1px solid #d3d3d3;
+
+    padding: 40px 0px 20px;
+
+    width: 980px;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+.detail-product-ul {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+.detail-product-ul li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.detail-product-ul span {
+    margin-bottom: 20px;
+
+    font-size: 13px;
+}
+
+.detail-product-ul p {
+    margin-bottom: 10px;
+}
+
+.swiper-prev {
+    width: 20px;
+    height: 20px;
+
+    font-size: 30px;
+    font-weight: 500;
+    color: #0A71CC;
+
+    position: absolute;
+    top: 50%;
+    left: 0px;
+
+    z-index: 1;
+    cursor: pointer;
+}
+
+.swiper-next {
+    width: 20px;
+    height: 20px;
+
+    font-size: 30px;
+    font-weight: 500;
+    color: #0A71CC;
+
+    position: absolute;
+    top: 50%;
+    right: 0px;
+
+    z-index: 1;
+    cursor: pointer;
+
+}
+
+.swiper-button-disabled {
+    color: #7d7d7d;
+
+}
+
+.category-include-model::before {
+    margin: 0px 10px;
+    content: " > ";
+
+    color: black;
+    font-size: 14px;
+}
+
+.model-name-span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #0A71CC;
+
+}
+
+.product-category {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 156px;
+
+}
+
+.product-category img, .detail-product-ul img {
+    margin-bottom: 20px;
+    width: 105px;
+    height: 115px;
+
+    cursor: pointer;
+}
+
+.product-category p {
+    margin-bottom: 20px;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.product-name-ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 156px;
+}
+
+.product-name-ul li {
+    margin-bottom: 20px;
+}
+
+.product-name-ul span {
+    font-size: 13px;
+    font-weight: 400;
+    color: #7d7d7d;
+    cursor: pointer;
+}
+
+.product-name-ul span:hover {
+    text-decoration: underline;
+}
+
+.fa-ban {
+    margin-bottom: 20px;
+    font-size: 40px;
+    font-weight: 500;
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <div class="send-message-modal">
+        <div class="modal-head">
+            <h1>위니아에이드</h1>
+            <div>
+                <i class="fa-solid fa-x cancel-image"></i>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="title">
+                <i class="fa-solid fa-mobile"></i>
+                <p>필요하신 간편해결 내용을
+                    <br>
+                    <span>SMS로 발송</span>
+                    해 드립니다.
+                </p>
+            </div>
+            <div class="input-div">
+                <p>· 글제목</p>
+                <input type="text" readonly>
+                <p>· 휴대전화번호</p>
+                <input type="tel" maxlength="15">
+            </div>
+            <div class="button-div">
+                <button class="send-message-cancel" type="button">취소</button>
+                <button class="send-message-submit" type="button">전송</button>
+            </div>
+        </div>
+    </div>
+</html>

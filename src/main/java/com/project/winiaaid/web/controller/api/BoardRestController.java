@@ -67,4 +67,19 @@ public class BoardRestController {
 		
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Board Successfull", boardDto));
 	}
+	@DeleteMapping("/{boardCode}")
+	public ResponseEntity<?> deleteBoardByBoardCode(@PathVariable int boardCode){
+		boolean status = false;
+		
+		try {
+			status = boardService.deleteBoardByBoardCode(boardCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Load Board failed", status));
+		}
+		
+		return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Board Successfull", status));
+	}
+	
+	
 }

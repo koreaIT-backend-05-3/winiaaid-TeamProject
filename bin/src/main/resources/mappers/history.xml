@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.winiaaid.domain.history.HistoryRepository">
+    <resultMap id="repairServiceInfoMap" type="com.project.winiaaid.domain.requestInfo.ServiceInfo">
+        <association property="productInfoEntity" javaType="com.project.winiaaid.domain.repair.RepairProductInfoEntity">
+            <id property="service_code" column="service_code"/>
+            <result property="product_group_name" column="product_group_name"/>
+            <result property="product_category_name" column="product_category_name"/>
+            <result property="product_detail_name" column="product_detail_name"/>
+            <result property="model_number" column="model_number"/>
+            <result property="trouble_code" column="trouble_code"/>
+            <result property="trouble_symptom" column="trouble_symptom"/>
+            <result property="description" column="description"/>
+            <result property="company_code" column="company_code"/>
+            <result property="company_name" column="company_name"/>
+        </association>
+        <association property="userInfoEntity" javaType="com.project.winiaaid.domain.repair.RepairUserInfoEntity">
+            <result property="user_name" column="user_name"/>
+            <result property="email" column="email"/>
+            <result property="main_phone_number" column="main_phone_number"/>
+            <result property="sub_phone_number" column="sub_phone_number"/>
+            <result property="postal_code" column="postal_code"/>
+            <result property="main_address" column="main_address"/>
+            <result property="detail_address" column="detail_address"/>
+        </association>
+        <association property="reservationInfoEntity" javaType="com.project.winiaaid.domain.repair.RepairReservationInfoEntity">
+            <result property="engineer_code" column="engineer_code"/>
+            <result property="engineer_name" column="engineer_name"/>
+            <result property="service_type_name" column="service_type_name"/>
+            <result property="progress_status" column="progress_status"/>
+            <result property="request_date" column="request_date"/>
+            <result property="reservation_date" column="reservation_date"/>
+            <result property="total_count" column="total_count"/>
+        </association>
+    </resultMap>
+
+    <select id="findServiceHistoryInfoByUserCode" parameterType="HashMap" resultMap="repairServiceInfoMap">
+        SELECT
+            rst.service_code,
+            rst.description,
+            rst.user_name,
+            rst.main_phone_number,
+            rst.sub_phone_number,
+            rst.email,
+            rst.progress_status,
+            rst.main_address,
+            rst.detail_address,
+            rst.postal_code,
+            rst.trouble_code,
+            rst.request_date,
+
+            wpm.product_category_name,
+
+            wpd.product_detail_name,
+
+            pct.company_code,
+            pct.company_name,
+
+            pmd.model_number,
+
+            tst.trouble_symptom,
+
+            stt.service_type_name,
+
+            ert.reservation_date,
+
+            em.engineer_name,
+
+            pmg.product_category_name AS product_group_name,
+
+            rst_total_count.total_count
+        FROM
+            repair_service_table rst
+            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = rst.product_category_code)
+            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = rst.product_code)
+            LEFT OUTER JOIN product_company_table pct ON(pct.company_code = wpm.company_code)
+            LEFT OUTER JOIN product_model_detail pmd ON(pmd.model_code = rst.model_code)
+            LEFT OUTER JOIN trouble_symptom_table tst ON(tst.trouble_code = rst.trouble_code)
+            LEFT OUTER JOIN service_type_table stt on(stt.service_type_code = rst.service_type_code)
+            LEFT OUTER JOIN engineer_reservation_table ert on(ert.service_code = rst.service_code)
+            LEFT OUTER JOIN engineer_mst em ON(em.engineer_code = ert.engineer_code)
+            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
+            LEFT OUTER JOIN (select
+                                COUNT(*) AS total_count
+                            from
+                                repair_service_table
+                            where
+                                user_code = #{user_code}
+                                <if test="service_type_code != 0">
+                                    AND service_type_code = #{service_type_code}
+                                </if>
+                                ) rst_total_count ON(1 = 1)
+            WHERE
+                rst.user_code = #{user_code}
+                <if test="service_type_code != 0">
+                    AND rst.service_type_code = #{service_type_code}
+                </if>
+            LIMIT #{page}, #{limit};
+    </select>
+</mapper>

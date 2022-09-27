@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.project.winiaaid.domain.board.BoardRepository">
+	<insert id="insertBoard" parameterType="com.project.winiaaid.domain.board.Board">
+		INSERT INTO
+			board_mst
+		SELECT
+			#{board_type},
+			IFNULL(MAX(id2), 0) + 1,
+			RPAD(#{temp_board_code}, CHAR_LENGTH(#{temp_board_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1,
+			#{board_type},
+			#{user_code},
+			#{company_code},
+			#{response_flag},
+			#{board_title},
+			#{board_content},
+			#{progress_status},
+			NULL,
+			NOW(),
+			NOW()
+		FROM
+			board_mst
+		WHERE
+			id1 = #{board_type};
+	</insert>
+	
+	<insert id="insertBoardFile" parameterType="java.util.List">
+		insert into
+			board_file
+		values
+			<foreach collection="file_list" item="file" separator="," open="" close="">
+			(
+				0,
+				#{file.file_name},
+				#{file.board_code},
+				now(),
+				now()
+			)
+			</foreach>
+	</insert>
+	
+	<select id="findBoardListByBoardType" parameterType="hashmap" resultType="com.project.winiaaid.domain.board.Board">
+		SELECT
+			bm.board_code,
+			bm.user_code,
+			bm.company_code,
+			bm.board_title,
+			bm.board_content,
+			bm.progress_status,
+			bm.create_date,
+			bf.file_name,
+			um.user_name,
+			tc.total_count
+		FROM
+			board_mst bm
+			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
+			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
+			LEFT OUTER JOIN (select
+								count(*) as total_count
+							from
+								board_mst
+							where
+							<if test="board_type != 2">
+								user_code = #{user_code}
+								AND
+							</if>
+							board_type = #{board_type}) tc on(1=1)
+			
+		WHERE
+			<if test="board_type != 2">
+				bm.user_code = #{user_code}
+				AND
+			</if>
+			bm.board_type = #{board_type}
+		LIMIT #{page}, 10;
+	
+	</select>
+	<select id="findBoardByBoardCode" parameterType="Integer" resultType="com.project.winiaaid.domain.board.Board">
+		SELECT
+			bm.company_code,
+			bm.board_title,
+			bm.board_content,
+			bm.progress_status,
+			bm.create_date,
+			bf.file_name,
+			um.user_name
+		FROM
+			board_mst bm
+			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
+			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
+			
+		WHERE
+			bm.board_code = #{board_code};
+	</select>
+
+
+</mapper>
+
