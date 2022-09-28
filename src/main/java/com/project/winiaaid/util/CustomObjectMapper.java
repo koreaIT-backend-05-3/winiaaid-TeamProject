@@ -3,7 +3,7 @@ package com.project.winiaaid.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.winiaaid.handler.exception.CustomApiUriTypeException;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
-import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
+import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

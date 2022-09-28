@@ -3,7 +3,7 @@ package com.project.winiaaid.util;
 import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
-import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
+import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -116,6 +116,16 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
+    public Map<String, Object> setReadRepariServiceHistoryDetailInfoListConfigMap(int userCode, int page) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("user_code", userCode);
+        configMap.put("page", (page - 1) * 3);
+
+        return configMap;
+    }
+
+    @Override
     public Map<String, Object> setReadServiceHistoryListConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
@@ -136,6 +146,8 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("user_code", userCode);
         configMap.put("board_type_code", serviceType.equals("all") ? 0 : serviceType.equals("complaint") ? 1 : serviceType.equals("praise") ? 2 : 3);
         configMap.put("menu_type", (readServiceRequestDto.getMenuType()));
+        configMap.put("completed_response", readServiceRequestDto.isCompletedResponse());
+        configMap.put("keyword", readServiceRequestDto.getKeyword());
         configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
 
         log.info("configMap: {}", configMap);

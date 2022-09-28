@@ -53,6 +53,23 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
+    public List<ReadServiceInfoResponseDto> getServiceHistoryDetailInfoListByUserCode(int userCode, int page) throws Exception {
+        List<ServiceInfo> serviceInfoEntityList = null;
+        List<ReadServiceInfoResponseDto> serviceResponseDtoList = null;
+        Map<String, Object> configMap = null;
+
+        configMap = configMapper.setReadRepariServiceHistoryDetailInfoListConfigMap(userCode, page);
+
+        serviceInfoEntityList = repairRepository.findRepairServiceHistoryDetailInfoListByUserCode(configMap);
+
+        if(serviceInfoEntityList != null && serviceInfoEntityList.size() != 0) {
+            serviceResponseDtoList = changeToServiceResponseDtoList(serviceInfoEntityList);
+        }
+
+        return serviceResponseDtoList;
+    }
+
+    @Override
     public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode) throws Exception {
         ServiceInfo repairServiceInfoEntity = null;
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
@@ -121,6 +138,12 @@ public class RepairServiceImpl implements RepairService {
     private List<AddressResponseDto> changeToAddressResponseDtoList(List<Address> addressList) {
         return addressList.stream()
                 .map(address -> address.toAddressResponseDto())
+                .collect(Collectors.toList());
+    }
+
+    private List<ReadServiceInfoResponseDto> changeToServiceResponseDtoList(List<ServiceInfo> serviceResponseDtoList) {
+        return serviceResponseDtoList.stream()
+                .map(ServiceInfo::toServiceResponseDto)
                 .collect(Collectors.toList());
     }
 }

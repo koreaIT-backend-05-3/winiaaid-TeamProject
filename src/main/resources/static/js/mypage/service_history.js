@@ -71,7 +71,7 @@ function getServiceHistory(page) {
             url: `/api/v1/service/${serviceType}/history/list/user/${userCode}?progressStatus=${historyMenuType}&page=${page}`,
             dataType: "json",
             success: (response) => {
-                if(response.data != null) {
+                if(response.data.length > 1) {
                     let totalPage = getTotalPage(response.data[0].totalCount, 10);
                     setPage(totalPage);
                     setFirstAndSecondMenuCount(response.data[0].incompletedTotalCount, response.data[0].completedTotalCount);
@@ -80,7 +80,7 @@ function getServiceHistory(page) {
                 }else {
                     setEmptyList(tbody);
                     setTotalCount(0);
-                    setFirstAndSecondMenuCount(0, 0);
+                    setFirstAndSecondMenuCount(response.data[0].incompletedTotalCount, response.data[0].completedTotalCount);
                 }
             },
             error: errorMessage
@@ -88,13 +88,18 @@ function getServiceHistory(page) {
         });
 
     }else {
+        const completedResponseFlag = document.querySelector(".check-box").checked;
+        const searchInput = document.querySelector(".search-input");
+
+        isEmpty(searchInput.value) ? url = `/api/v1/service/writing/${serviceType}/history/list/user/${userCode}?menuType=${historyMenuType}&completedResponse=${completedResponseFlag}&page=${page}` 
+        : url = `/api/v1/service/writing/${serviceType}/history/list/user/${userCode}?menuType=${historyMenuType}&completedResponse=${completedResponseFlag}&keyword=${searchInput.value}&page=${page}`;
+
         $.ajax({
             type: "get",
-            url: `/api/v1/service/writing/${serviceType}/history/list/user/${userCode}?menuType=${historyMenuType}&page=${page}`,
+            url: url,
             dataType: "json",
             success: (response) => {
-                if(response.data != null) {
-                    console.log()
+                if(response.data.length > 1) {
                     let totalPage = getTotalPage(response.data[0].totalCount, 10);
                     setPage(totalPage);
                     setFirstAndSecondMenuCount(response.data[0].counselTotalCount, response.data[0].customerTotalCount);
@@ -103,7 +108,7 @@ function getServiceHistory(page) {
                 }else {
                     setEmptyList(tbody);
                     setTotalCount(0);
-                    setFirstAndSecondMenuCount(0, 0);
+                    setFirstAndSecondMenuCount(response.data[0].incompletedTotalCount, response.data[0].completedTotalCount);
                 }
             },
             error: errorMessage
@@ -367,6 +372,10 @@ function setSelectOption() {
         <option value="praise">칭찬합니다</option>
         <option value="suggestion">제안합니다</option>
     `;
+}
+
+function isEmpty(data) {
+    return data == "" || data == undefined || data == null;
 }
 
 function errorMessage(request, status, error){

@@ -8,7 +8,6 @@ import java.util.Map;
 
 @Mapper
 public interface ServiceHistoryRepository {
-    public List<ServiceInfo> findRepairServiceHistoryInfoByUserCode(Map<String, Object> config_map) throws Exception;
     public List<ServiceHistoryTitle> findServiceHistoryInfoListByServiceTypeCode(Map<String, Object> config_map) throws Exception;
     public List<WritingServiceHistoryTitle> findWritingServiceHistoryInfoListByServiceTypeCode(Map<String, Object> config_map) throws Exception;
 }

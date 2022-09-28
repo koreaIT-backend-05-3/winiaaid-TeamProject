@@ -3,12 +3,10 @@ package com.project.winiaaid.service.history;
 import com.project.winiaaid.domain.history.ServiceHistoryRepository;
 import com.project.winiaaid.domain.history.ServiceHistoryTitle;
 import com.project.winiaaid.domain.history.WritingServiceHistoryTitle;
-import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.web.dto.history.ReadServiceHistoryTitleResponseDto;
+import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.history.ReadWritingServiceHistoryTitleResponseDto;
-import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
-import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,23 +24,6 @@ public class HistoryServiceImpl implements HistoryService {
     private final ServiceHistoryRepository serviceHistoryRepository;
 
     @Override
-    public List<ReadServiceInfoResponseDto> getServiceHistoryInfoByUserCode(int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
-        List<ServiceInfo> serviceInfoEntityList = null;
-        List<ReadServiceInfoResponseDto> serviceResponseDtoList = null;
-        Map<String, Object> configMap = null;
-
-        configMap = configMapper.setReadHistoryListConfigMap(userCode, readServiceRequestDto);
-
-        serviceInfoEntityList = serviceHistoryRepository.findRepairServiceHistoryInfoByUserCode(configMap);
-
-        if(serviceInfoEntityList != null && serviceInfoEntityList.size() != 0) {
-            serviceResponseDtoList = changeToServiceResponseDtoList(serviceInfoEntityList);
-        }
-
-        return serviceResponseDtoList;
-    }
-
-    @Override
     public List<ReadServiceHistoryTitleResponseDto> getServiceHistoryInfoListByServiceTypeCode(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
         List<ServiceHistoryTitle> serviceHistoryTitleEntityList = null;
         List<ReadServiceHistoryTitleResponseDto> serviceHistoryTitleResponseDtoList = null;
@@ -52,7 +33,7 @@ public class HistoryServiceImpl implements HistoryService {
 
         serviceHistoryTitleEntityList = serviceHistoryRepository.findServiceHistoryInfoListByServiceTypeCode(configMap);
 
-        if(serviceHistoryTitleEntityList != null && serviceHistoryTitleEntityList.size() != 1) {
+        if(serviceHistoryTitleEntityList != null) {
             serviceHistoryTitleResponseDtoList = changeToServiceHistoryTitleResponseDtoList(serviceHistoryTitleEntityList);
         }
 
@@ -74,12 +55,6 @@ public class HistoryServiceImpl implements HistoryService {
         }
 
         return serviceHistoryTitleResponseDtoList;
-    }
-
-    private List<ReadServiceInfoResponseDto> changeToServiceResponseDtoList(List<ServiceInfo> serviceResponseDtoList) {
-        return serviceResponseDtoList.stream()
-                .map(ServiceInfo::toServiceResponseDto)
-                .collect(Collectors.toList());
     }
 
     private List<ReadServiceHistoryTitleResponseDto> changeToServiceHistoryTitleResponseDtoList(List<ServiceHistoryTitle> serviceResponseDtoList) {

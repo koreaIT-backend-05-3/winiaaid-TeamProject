@@ -1,4 +1,4 @@
-package com.project.winiaaid.web.dto.repair;
+package com.project.winiaaid.web.dto.history;
 
 import lombok.Data;
 
@@ -8,5 +8,7 @@ public class ReadServiceRequestDto {
     private String requestType;
     private String progressStatus;
     private String menuType;
+    private String keyword;
+    private boolean completedResponse;
     private int page;
 }

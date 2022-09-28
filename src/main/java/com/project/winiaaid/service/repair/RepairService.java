@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface RepairService {
     public String addRepairServiceRequest(RepairServiceRequestDto repairServiceRequestDto) throws Exception;
+    public List<ReadServiceInfoResponseDto> getServiceHistoryDetailInfoListByUserCode(int userCode, int page) throws Exception;
     public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode) throws Exception;
     public List<AddressResponseDto> getPastReceptionAddressListByUserCode(int userCode, int page) throws Exception;
     public String modifyRepairReservationInfoByRepairServiceCode(RepairServiceRequestDto repairServiceRequestDto) throws Exception;

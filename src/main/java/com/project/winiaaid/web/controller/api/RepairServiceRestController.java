@@ -1,5 +1,6 @@
 package com.project.winiaaid.web.controller.api;
 
+import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.service.repair.RepairService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
@@ -32,6 +33,21 @@ public class RepairServiceRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", repairServiceCode));
+    }
+
+    @Log
+    @GetMapping("/repair/history/detail/list/user/{userCode}")
+    public ResponseEntity<?> getRepairServiceHistoryListInfo(@PathVariable int userCode, @RequestParam int page) {
+        List<ReadServiceInfoResponseDto> serviceHistoryInfoList = null;
+
+        try {
+            serviceHistoryInfoList = repairService.getServiceHistoryDetailInfoListByUserCode(userCode, page);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to apply for service.", serviceHistoryInfoList));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", serviceHistoryInfoList));
     }
 
     @GetMapping("/repair/detail/history/{serviceCode}")
