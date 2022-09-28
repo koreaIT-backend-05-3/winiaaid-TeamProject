@@ -31,7 +31,7 @@ public class HistoryServiceImpl implements HistoryService {
         List<ReadServiceInfoResponseDto> serviceResponseDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadHistoryConfigMap(userCode, readServiceRequestDto);
+        configMap = configMapper.setReadHistoryListConfigMap(userCode, readServiceRequestDto);
 
         serviceInfoEntityList = serviceHistoryRepository.findRepairServiceHistoryInfoByUserCode(configMap);
 
@@ -43,14 +43,14 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public List<ReadServiceHistoryTitleResponseDto> getServiceHistoryTitleInfoByServiceTypeCode(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
+    public List<ReadServiceHistoryTitleResponseDto> getServiceHistoryInfoListByServiceTypeCode(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
         List<ServiceHistoryTitle> serviceHistoryTitleEntityList = null;
         List<ReadServiceHistoryTitleResponseDto> serviceHistoryTitleResponseDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadServiceHistoryTitleConfigMap(serviceType, userCode, readServiceRequestDto);
+        configMap = configMapper.setReadServiceHistoryListConfigMap(serviceType, userCode, readServiceRequestDto);
 
-        serviceHistoryTitleEntityList = serviceHistoryRepository.findServiceHistoryTitleInfoByServiceTypeCode(configMap);
+        serviceHistoryTitleEntityList = serviceHistoryRepository.findServiceHistoryInfoListByServiceTypeCode(configMap);
 
         if(serviceHistoryTitleEntityList != null && serviceHistoryTitleEntityList.size() != 1) {
             serviceHistoryTitleResponseDtoList = changeToServiceHistoryTitleResponseDtoList(serviceHistoryTitleEntityList);
@@ -60,14 +60,14 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public List<ReadWritingServiceHistoryTitleResponseDto> getWritingServiceHistoryInfoTitleByServiceTypeCode(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
+    public List<ReadWritingServiceHistoryTitleResponseDto> getWritingServiceHistoryInfoListByServiceTypeCode(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
         List<WritingServiceHistoryTitle> serviceHistoryTitleEntityList = null;
         List<ReadWritingServiceHistoryTitleResponseDto> serviceHistoryTitleResponseDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadWritingServiceHistoryTitleConfigMap(serviceType, userCode, readServiceRequestDto);
+        configMap = configMapper.setReadWritingServiceHistoryListConfigMap(serviceType, userCode, readServiceRequestDto);
 
-        serviceHistoryTitleEntityList = serviceHistoryRepository.findWritingServiceHistoryTitleInfoByServiceTypeCode(configMap);
+        serviceHistoryTitleEntityList = serviceHistoryRepository.findWritingServiceHistoryInfoListByServiceTypeCode(configMap);
 
         if(serviceHistoryTitleEntityList != null && serviceHistoryTitleEntityList.size() != 1) {
             serviceHistoryTitleResponseDtoList = changeTodWritingServiceHistoryTitleResponseDto(serviceHistoryTitleEntityList);

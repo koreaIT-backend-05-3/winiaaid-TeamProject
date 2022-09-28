@@ -7,6 +7,7 @@ import lombok.Data;
 @Builder
 public class ReadServiceHistoryTitleResponseDto {
     private String serviceCode;
+    private String companyName;
     private int serviceTypeCode;
     private String serviceTypeName;
     private String productName;

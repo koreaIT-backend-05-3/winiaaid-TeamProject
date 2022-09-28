@@ -23,28 +23,32 @@ public class HistoryRestController {
 
     private final HistoryService historyService;
 
+//    @Log
+//    @GetMapping("/repair/history/list/user/{userCode}")
+//    public ResponseEntity<?> getRepairServiceHistoryInfo(@PathVariable int userCode, ReadServiceRequestDto readServiceRequestDto) {
+//        List<ReadServiceInfoResponseDto> serviceHistoryInfoList = null;
+//
+//        try {
+//            serviceHistoryInfoList = historyService.getServiceHistoryInfoByUserCode(userCode, readServiceRequestDto);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to apply for " + readServiceRequestDto.getServiceType() + " service.", serviceHistoryInfoList));
+//        }
+//
+//        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for " + readServiceRequestDto.getServiceType() + " service", serviceHistoryInfoList));
+//    }
+
     @Log
-    @GetMapping("/repair/history/list/user/{userCode}")
-    public ResponseEntity<?> getRepairServiceHistoryInfo(@PathVariable int userCode, ReadServiceRequestDto readServiceRequestDto) {
-        List<ReadServiceInfoResponseDto> serviceHistoryInfoList = null;
-
-        try {
-            serviceHistoryInfoList = historyService.getServiceHistoryInfoByUserCode(userCode, readServiceRequestDto);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to apply for " + readServiceRequestDto.getServiceType() + " service.", serviceHistoryInfoList));
-        }
-
-        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for " + readServiceRequestDto.getServiceType() + " service", serviceHistoryInfoList));
-    }
-
-    @Log
-    @GetMapping("/{serviceType}/title/history/list/user/{userCode}")
-    public ResponseEntity<?> getServiceHistoryInfoTitleByServiceTypeCode(@PathVariable String serviceType, @PathVariable int userCode, ReadServiceRequestDto readServiceRequestDto){
+    @GetMapping("/{serviceType}/history/list/user/{userCode}")
+    public ResponseEntity<?> getServiceHistoryInfoListByServiceTypeCode(@PathVariable String serviceType, @PathVariable int userCode, ReadServiceRequestDto readServiceRequestDto){
         List<ReadServiceHistoryTitleResponseDto> serviceHistoryTitleList = null;
 
         try {
-            serviceHistoryTitleList = historyService.getServiceHistoryTitleInfoByServiceTypeCode(serviceType, userCode, readServiceRequestDto);
+            if(serviceType.equals("counsel")) {
+                return ResponseEntity.ok(new CustomResponseDto<>(1, "Service history title load successful", serviceHistoryTitleList));
+            }
+
+            serviceHistoryTitleList = historyService.getServiceHistoryInfoListByServiceTypeCode(serviceType, userCode, readServiceRequestDto);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load service history title", serviceHistoryTitleList));
@@ -55,12 +59,12 @@ public class HistoryRestController {
 
     @UriCheck
     @Log
-    @GetMapping("/writing/{serviceType}/title/history/list/user/{userCode}")
-    public ResponseEntity<?> getWritingServiceHistoryInfoTitleByServiceTypeCode(@PathVariable String serviceType, @PathVariable int userCode, ReadServiceRequestDto readServiceRequestDto){
+    @GetMapping("/writing/{serviceType}/history/list/user/{userCode}")
+    public ResponseEntity<?> getWritingServiceHistoryInfoListByServiceTypeCode(@PathVariable String serviceType, @PathVariable int userCode, ReadServiceRequestDto readServiceRequestDto){
         List<ReadWritingServiceHistoryTitleResponseDto> serviceHistoryTitleList = null;
 
         try {
-            serviceHistoryTitleList = historyService.getWritingServiceHistoryInfoTitleByServiceTypeCode(serviceType, userCode, readServiceRequestDto);
+            serviceHistoryTitleList = historyService.getWritingServiceHistoryInfoListByServiceTypeCode(serviceType, userCode, readServiceRequestDto);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load writing service history title", serviceHistoryTitleList));

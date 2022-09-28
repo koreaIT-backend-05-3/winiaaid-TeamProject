@@ -80,13 +80,14 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadHistoryConfigMap(int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
+    public Map<String, Object> setReadHistoryListConfigMap(int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 //        String serviceType = readServiceRequestDto.getServiceType();
 
-        configMap.put("limit", readServiceRequestDto.getRequestType().equals("pastRequest") ? 3 : 10);
+//        configMap.put("limit", readServiceRequestDto.getRequestType().equals("pastRequest") ? 3 : 10);
 //        configMap.put("service_type_code", serviceType.equals("all") ? 0 : serviceType.equals("counsel") ? 1 : serviceType.equals("repair") ? 2 : 3);
-        configMap.put("page", (readServiceRequestDto.getPage() - 1) * (Integer) configMap.get("limit"));
+//        configMap.put("page", (readServiceRequestDto.getPage() - 1) * (Integer) configMap.get("limit"));
+        configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
         configMap.put("user_code", userCode);
 
         return configMap;
@@ -115,7 +116,7 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadServiceHistoryTitleConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
+    public Map<String, Object> setReadServiceHistoryListConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("user_code", userCode);
@@ -127,7 +128,7 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadWritingServiceHistoryTitleConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
+    public Map<String, Object> setReadWritingServiceHistoryListConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         log.info("readServiceRequestDto: {}", readServiceRequestDto);

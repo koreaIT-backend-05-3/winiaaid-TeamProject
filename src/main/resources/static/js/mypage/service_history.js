@@ -68,7 +68,7 @@ function getServiceHistory(page) {
     if(serviceHistoryType == "service") {
         $.ajax({
             type: "get",
-            url: `/api/v1/service/${serviceType}/title/history/list/user/${userCode}?requestType=history&progressStatus=${historyMenuType}&page=${page}`,
+            url: `/api/v1/service/${serviceType}/history/list/user/${userCode}?progressStatus=${historyMenuType}&page=${page}`,
             dataType: "json",
             success: (response) => {
                 if(response.data != null) {
@@ -90,7 +90,7 @@ function getServiceHistory(page) {
     }else {
         $.ajax({
             type: "get",
-            url: `/api/v1/service/writing/${serviceType}/title/history/list/user/${userCode}?requestType=history&menuType=${historyMenuType}&page=${page}`,
+            url: `/api/v1/service/writing/${serviceType}/history/list/user/${userCode}?menuType=${historyMenuType}&page=${page}`,
             dataType: "json",
             success: (response) => {
                 if(response.data != null) {

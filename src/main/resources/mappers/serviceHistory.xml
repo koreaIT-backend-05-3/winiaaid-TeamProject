@@ -95,164 +95,194 @@
             LIMIT #{page}, #{limit};
     </select>
     
-    <select id="findServiceHistoryTitleInfoByServiceTypeCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.history.ServiceHistoryTitle">
-        SELECT
-            null as service_code,
-            null as service_type_code,
-            null as service_type_name,
-            null as product_name,
-            null as request_date,
-            null as progress_status,
-            (select
-                COUNT(*)
-            from
-                repair_service_table
-            where
-                (progress_status = 2 OR progress_status = 0)
-                <if test="service_type_code != 0">
-                    AND service_type_code = #{service_type_code}
-                </if>
-            )
+    <select id="findServiceHistoryInfoListByServiceTypeCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.history.ServiceHistoryTitle">
+            SELECT
+                null as service_code,
+                null as service_type_code,
+                null as request_date,
+                null as progress_status,
+                null as product_name,
+                null as service_type_name,
+                null as company_name,
+                (select
+                    COUNT(*)
+                from
+                    repair_service_table
+                where
+                    (progress_status = 2 OR progress_status = 0)
+                    <if test="service_type_code != 0">
+                        AND service_type_code = #{service_type_code}
+                    </if>
+                )
 
-            +
+                +
 
-            (select
-                COUNT(*)
-            from
-                recall_service_table
-            where
-                (progress_status = 2 OR progress_status = 0)
-                <if test="service_type_code != 0">
-                    AND service_type_code = #{service_type_code}
-                </if>
-            )
-            AS completed_total_count,
+                (select
+                    COUNT(*)
+                from
+                    recall_service_table
+                where
+                    (progress_status = 2 OR progress_status = 0)
+                    <if test="service_type_code != 0">
+                        AND service_type_code = #{service_type_code}
+                    </if>
+                )
+                AS completed_total_count,
 
-            (select
-                COUNT(*)
-            from
-                repair_service_table
-            where
-                progress_status = 1
-                <if test="service_type_code != 0">
-                    AND service_type_code = #{service_type_code}
-                </if>
-            )
-
-            +
-
-            (select
-                COUNT(*)
-            from
-                recall_service_table
-            where
-                progress_status = 1
-                <if test="service_type_code != 0">
-                    AND service_type_code = #{service_type_code}
-                </if>
-            )
-            AS incompleted_total_count,
-
-            (SELECT
-                COUNT(*)
-            from
-                repair_service_table
-            where
-            <choose>
-                <when test="progress_status == 'ing'">
+                (select
+                    COUNT(*)
+                from
+                    repair_service_table
+                where
                     progress_status = 1
-                </when>
-                <otherwise>
-                    progress_status != 1
-                </otherwise>
-            </choose>
-            <if test="service_type_code != 0">
-                AND service_type_code = #{service_type_code}
-            </if>)
+                    <if test="service_type_code != 0">
+                        AND service_type_code = #{service_type_code}
+                    </if>
+                )
 
-            +
+                +
 
-            (select
-                COUNT(*)
-            from
-                recall_service_table
-            where
-            <choose>
-                <when test="progress_status == 'ing'">
+                (select
+                    COUNT(*)
+                from
+                    recall_service_table
+                where
                     progress_status = 1
-                </when>
-                <otherwise>
-                    progress_status != 1
-                </otherwise>
-            </choose>
-            <if test="service_type_code != 0">
-                AND service_type_code = #{service_type_code}
-            </if>) AS total_count
+                    <if test="service_type_code != 0">
+                        AND service_type_code = #{service_type_code}
+                    </if>
+                )
+                AS incompleted_total_count,
 
-        UNION
+                <if test="service_type_code == 0 or service_type_code == 2">
+                    (SELECT
+                        COUNT(*)
+                    from
+                        repair_service_table
+                    <choose>
+                        <when test="progress_status == 'ing'">
+                            where
+                                progress_status = 1
+                        </when>
+                        <when test="progress_status == 'end'">
+                            where
+                                progress_status != 1
+                        </when>
+                    </choose>
+                </if>
 
-        (SELECT
-            rst.service_code,
-            rst.service_type_code,
-            stt.service_type_name,
-            if(wpm.product_category_name != wpd.product_detail_name, concat(wpm.product_category_name, ' > ', wpd.product_detail_name), wpm.product_category_name) AS product_name,
-            rst.request_date,
-            rst.progress_status,
-            0 AS completed_total_count,
-            0 AS incompleted_total_count,
-            0 as total_count
-        FROM
-            repair_service_table rst
-            LEFT OUTER JOIN service_type_table stt ON(stt.service_type_code = rst.service_type_code)
-            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = rst.product_code)
-            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = rst.product_category_code)
-        where
-            <choose>
-                <when test="progress_status == 'ing'">
-                    progress_status = 1
-                </when>
-                <otherwise>
-                    progress_status != 1
-                </otherwise>
-            </choose>
-            <if test="service_type_code != 0">
-                AND rst.service_type_code = #{service_type_code}
+                <if test="service_type_code == 0">
+                    ) +
+                </if>
+
+            <if test="service_type_code == 0 or service_type_code == 3">
+                (select
+                    COUNT(*)
+                from
+                    recall_service_table
+                <choose>
+                    <when test="progress_status == 'ing'">
+                        where
+                            progress_status = 1
+                    </when>
+                    <when test="progress_status == 'end'">
+                        where
+                            progress_status != 1
+                    </when>
+                </choose>
+            </if>
+                ) AS total_count
+
+            UNION
+
+            <if test="service_type_code == 0 or service_type_code == 3">
+                (SELECT
+                rst.service_code,
+                rst.service_type_code,
+                rst.request_date,
+                rst.progress_status,
+
+                pmd.model_number AS product_name,
+
+                stt.service_type_name,
+
+                pct.company_name,
+
+                0 AS completed_total_count,
+                0 AS incompleted_total_count,
+                0 as total_count
+                FROM
+                recall_service_table rst
+                LEFT OUTER JOIN product_model_detail pmd ON(pmd.model_code = rst.model_code)
+                LEFT OUTER JOIN service_type_table stt ON(stt.service_type_code = rst.service_type_code)
+                LEFT OUTER JOIN winia_product_dtl wpd on(wpd.product_code = pmd.product_code)
+                LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+                LEFT OUTER JOIN product_company_table pct ON(pct.company_code = wpm.company_code)
+                where
+                <choose>
+                    <when test="progress_status == 'ing'">
+                        progress_status = 1
+                    </when>
+                    <otherwise>
+                        progress_status != 1
+                    </otherwise>
+                </choose>
+                <!--            <if test="service_type_code != 0">-->
+                <!--                AND rst.service_type_code = #{service_type_code}-->
+                <!--            </if>-->
+
             </if>
 
-        UNION
+        <if test="service_type_code == 0">
+            UNION
+        </if>
 
-        SELECT
-            rst.service_code,
-            rst.service_type_code,
-            stt.service_type_name,
-            pmd.model_number AS product_name,
-            rst.request_date,
-            rst.progress_status,
-            0 AS completed_total_count,
-            0 AS incompleted_total_count,
-            0 as total_count
-        FROM
-            recall_service_table rst
-            LEFT OUTER JOIN service_type_table stt ON(stt.service_type_code = rst.service_type_code)
-            LEFT OUTER JOIN product_model_detail pmd ON(pmd.model_code = rst.model_code)
-        where
+        <if test="service_type_code == 2">
+            (
+        </if>
+
+        <if test="service_type_code == 0 or service_type_code == 2">
+            SELECT
+                rst.service_code,
+                rst.service_type_code,
+                rst.request_date,
+                rst.progress_status,
+
+                if(wpm.product_category_name != wpd.product_detail_name, concat(wpm.product_category_name, ' > ', wpd.product_detail_name), wpm.product_category_name) AS product_name,
+
+                stt.service_type_name,
+
+                pct.company_name,
+
+                0 AS completed_total_count,
+                0 AS incompleted_total_count,
+                0 as total_count
+            FROM
+                repair_service_table rst
+                LEFT OUTER JOIN service_type_table stt ON(stt.service_type_code = rst.service_type_code)
+                LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = rst.product_code)
+                LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+                LEFT OUTER JOIN product_company_table pct ON(pct.company_code = wpm.company_code)
             <choose>
-                <when test="progress_status == 'ing'">
-                    progress_status = 1
-                </when>
-                <otherwise>
-                    progress_status != 1
-                </otherwise>
-            </choose>
-            <if test="service_type_code != 0">
-                AND rst.service_type_code = #{service_type_code}
-            </if>
+                    <when test="progress_status == 'ing'">
+                        where
+                            progress_status = 1
+                    </when>
+                    <when test="progress_status == 'end'">
+                        where
+                            progress_status != 1
+                    </when>
+             </choose>
+            <!--        <if test="service_type_code != 0">-->
+            <!--            AND rst.service_type_code = #{service_type_code}-->
+            <!--        </if>-->
+        </if>
         ORDER BY
             request_date DESC
         LIMIT #{page}, 10);
     </select>
 
-    <select id="findWritingServiceHistoryTitleInfoByServiceTypeCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.history.WritingServiceHistoryTitle">
+    <select id="findWritingServiceHistoryInfoListByServiceTypeCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.history.WritingServiceHistoryTitle">
         SELECT
             null as board_code,
             null as board_title,
@@ -288,51 +318,65 @@
             )
             AS customer_total_count,
 
-            (select
-                count(*)
-            from
-                <choose>
-                    <when test="menu_type != 'counsel'">
-                        board_mst
-                    </when>
-                    <otherwise>
-                        counsel_mst
-                    </otherwise>
-                </choose>
-                <if test="board_type_code != 0">
-                    where
-                        board_type_code = #{board_type_code}
-                </if>
-            ) as total_count
+            <choose>
+                <when test="menu_type != 'counsel'">
+                    (select
+                    count(*)
+                    from
+<!--                    <choose>-->
+<!--                        <when test="menu_type != 'counsel'">-->
+                            board_mst
+<!--                        </when>-->
+<!--                        <otherwise>-->
+<!--                            counsel_mst-->
+<!--                        </otherwise>-->
+<!--                    </choose>-->
+                    <if test="board_type_code != 0">
+                        where
+                        board_type_code = #{board_type_code})
+                    </if>
+                    <if test="board_type_code == 0">
+                        )
+                    </if>
+                </when>
+                <otherwise>
+                    0
+                </otherwise>
+            </choose>
 
-        UNION
+             as total_count
+        <if test="menu_type != 'counsel'">
 
-        (SELECT
-            bm.board_code,
-            bm.board_title,
-            bm.board_content,
-            bm.create_date,
-            bm.board_type_code,
-            bm.progress_status,
-            bm.assessment,
+            UNION
 
-            pct.company_name,
+            (SELECT
+                bm.board_code,
+                bm.board_title,
+                bm.board_content,
+                bm.create_date,
+                bm.board_type_code,
+                bm.progress_status,
+                bm.assessment,
 
-            btt.board_type_name,
+                pct.company_name,
 
-            0 as counsel_total_count,
-            0 as customer_total_count,
-            0 as total_count
-        FROM
-            board_mst bm
-            LEFT OUTER JOIN product_company_table pct ON(pct.company_code = bm.company_code)
-            LEFT OUTER JOIN board_type_table btt ON(btt.board_type_code = bm.board_type_code)
-        <if test="board_type_code != 0">
-            where
-                bm.board_type_code = #{board_type_code}
+                btt.board_type_name,
+
+                0 as counsel_total_count,
+                0 as customer_total_count,
+                0 as total_count
+            FROM
+                board_mst bm
+                LEFT OUTER JOIN product_company_table pct ON(pct.company_code = bm.company_code)
+                LEFT OUTER JOIN board_type_table btt ON(btt.board_type_code = bm.board_type_code)
+            <if test="board_type_code != 0">
+                where
+                    bm.board_type_code = #{board_type_code}
+            </if>
+            ORDER BY
+                create_date DESC
+            LIMIT #{page}, 10);
+
         </if>
-        ORDER BY
-            create_date DESC
-        LIMIT #{page}, 10);
     </select>
 </mapper>
