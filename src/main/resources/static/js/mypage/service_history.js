@@ -3,6 +3,7 @@ const secondMenu = document.querySelector(".second-menu");
 const tbody = document.querySelector("tbody");
 const searchInput = document.querySelector(".search-input");
 const searchButton = document.querySelector(".search button");
+const completedResponseBox = document.querySelector(".check-box");
 
 let userCode = 0;
 let firstMenuFlag = false;
@@ -95,7 +96,8 @@ function getServiceHistory(page) {
         });
 
     }else {
-        const completedResponseFlag = document.querySelector(".check-box").checked;
+
+        let completedResponseFlag = completedResponseBox.checked;
 
         isEmpty(searchInput.value) ? url = `/api/v1/service/writing/${serviceType}/history/list/user/${userCode}?menuType=${historyMenuType}&completedResponse=${completedResponseFlag}&page=${page}` 
         : url = `/api/v1/service/writing/${serviceType}/history/list/user/${userCode}?menuType=${historyMenuType}&completedResponse=${completedResponseFlag}&keyword=${searchInput.value}&page=${page}`;
@@ -247,9 +249,11 @@ function setPageInfoLocalStorage() {
     
     let pageInfo = {
         "page": nowPage,
-        "serviceType": serviceType
+        "serviceType": serviceType,
+        "completedResponseFlag": completedResponseBox.checked,
+        "keyword": searchInput.value
     };
-    
+
     localStorage.pageInfo = JSON.stringify(pageInfo);
 }
 
@@ -338,11 +342,14 @@ function loadPageHistoryByLocalStorage() {
         selectOptionItems.forEach(option => {
             if(option.value == localStorageData.serviceType) {
                 option.setAttribute("selected", true);
-                let page = localStorageData.page;
-                localStorage.removeItem("pageInfo");
-                loadPage(page);
             }
         });
+        
+        localStorageData.completedResponseFlag ? completedResponseBox.setAttribute("checked", true) : "";
+        searchInput.value = localStorageData.keyword;
+        let page = localStorageData.page;
+        localStorage.removeItem("pageInfo");
+        loadPage(page);
     }
 }
 
