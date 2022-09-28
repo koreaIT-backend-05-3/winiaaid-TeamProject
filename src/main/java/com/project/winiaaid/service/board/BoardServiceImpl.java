@@ -92,6 +92,8 @@ public class BoardServiceImpl implements BoardService {
 		Board boardEntity = null;
 		ReadBoardResponseDto boardDto = null;
 		
+		System.out.println(boardCode);
+		
 		boardEntity = boardRepository.findBoardByBoardCode(boardCode);
 		
 		if(boardEntity!=null) {
@@ -105,9 +107,11 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardFile>fileList = null;
 		
 		fileList = boardRepository.findBoardFileListByBoardCode(boardCode);
+		System.out.println(fileList);
 		
 		if(fileList.size() != 0) {
 			for(BoardFile fileName:fileList) {
+				System.out.println(fileName.getFile_name());
 				Path path = Paths.get(filePath, "file-images/" + fileName.getFile_name());
 				
 				File f = new File(path.toString());

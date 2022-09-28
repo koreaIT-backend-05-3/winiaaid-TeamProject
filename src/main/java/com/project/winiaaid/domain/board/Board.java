@@ -29,6 +29,7 @@ public class Board {
 	private String board_title;
 	private String board_content;
 	private List<String> files;
+	private List<BoardFile> file_list;
 	private int total_count;
 	private LocalDateTime create_date;
 	

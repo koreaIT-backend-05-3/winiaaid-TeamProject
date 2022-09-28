@@ -71,7 +71,7 @@ public class ConfigMapImpl implements ConfigMap{
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("user_code", readBoardRequestDto.getUserCode());
-        configMap.put("board_type", readBoardRequestDto.getBoardType().equals("complaint") ? 1 : readBoardRequestDto.getBoardType().equals("praise") ? 2 : 3);
+        configMap.put("board_type_code", readBoardRequestDto.getBoardType().equals("complaint") ? 1 : readBoardRequestDto.getBoardType().equals("praise") ? 2 : 3);
         configMap.put("page", (readBoardRequestDto.getPage() - 1) * 10);
 
         return configMap;
