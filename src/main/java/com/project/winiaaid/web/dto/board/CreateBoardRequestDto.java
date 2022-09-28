@@ -36,7 +36,7 @@ public class CreateBoardRequestDto {
 				.main_phone_number(mainPhoneNumber)
 				.company_code(companyCode)
 				.response_flag(responseFlag)
-				.progress_status("진행중")
+				.progress_status(1)
 				.board_title(boardTitle)
 				.board_content(boardContent)
 				.build();

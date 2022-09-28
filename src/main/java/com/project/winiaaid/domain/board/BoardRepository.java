@@ -10,8 +10,8 @@ public interface BoardRepository {
 	public int insertBoard(Board board) throws Exception;
 	public int insertBoardFile(List<BoardFile> file_list) throws Exception;
 	public BoardCode findBoardCode(Board board) throws Exception;
-	public List<Board> findBoardListByBoardType(Map<String, Object> config_map) throws Exception;
+	public List<BoardTitle> findBoardListByBoardType(Map<String, Object> config_map) throws Exception;
 	public Board findBoardByBoardCode(int board_code) throws Exception;
-	public List<BoardFile> findBoardFileListByBoardCode(int board_code) throws Exception; 
+	public List<BoardFile> findBoardFileListByBoardCode(int board_code) throws Exception;
 	public int deleteBoardByBoardCode(int board_code) throws Exception;
 }

@@ -167,6 +167,12 @@ h2{
 
 .content-title{
     width: 696px;
+
+    cursor: pointer;
+}
+
+.content-title:hover {
+    text-decoration: underline;
 }
 
 .content-name{

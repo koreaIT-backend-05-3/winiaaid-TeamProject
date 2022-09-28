@@ -1,13 +1,11 @@
 package com.project.winiaaid.service.board;
 
-import com.project.winiaaid.domain.board.Board;
-import com.project.winiaaid.domain.board.BoardCode;
-import com.project.winiaaid.domain.board.BoardFile;
-import com.project.winiaaid.domain.board.BoardRepository;
+import com.project.winiaaid.domain.board.*;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.web.dto.board.CreateBoardRequestDto;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
+import com.project.winiaaid.web.dto.board.ReadBoardTitleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,19 +43,10 @@ public class BoardServiceImpl implements BoardService {
 
 		boardCodeEntity = boardRepository.findBoardCode(boardEntity);
 
-
-		log.info("createBoardRequestDto: {}", createBoardRequestDto);
-
-		log.info("boardCodeEntity: {}", boardCodeEntity);
-
 		boardEntity.setBoard_code(boardCodeEntity.getBoard_code());
 		boardEntity.setId2(boardCodeEntity.getId2());
 
-		log.info("boardEntity: {}", boardEntity);
-
 		status = boardRepository.insertBoard(boardEntity);
-
-		log.info("status: {}", status);
 
 		if(status != 0 && !createBoardRequestDto.getFiles().get(0).getOriginalFilename().isBlank()) {
 			fileList = new ArrayList<>();
@@ -66,10 +55,10 @@ public class BoardServiceImpl implements BoardService {
 				if(!file.getOriginalFilename().isBlank()) {
 					String tempFileName = UUID.randomUUID().toString().replaceAll("-", "") + "_" + file.getOriginalFilename();
 
-					Path path = Paths.get(filePath, "file-images/" + tempFileName);
+					Path path = Paths.get(filePath, "board-files/" + tempFileName);
 					
 //					mkdirs는 파일을 생성해주는 기능
-					File f = new File(filePath + "file-images");
+					File f = new File(filePath + "board-files");
 					
 					if (!f.exists()) {
 						f.mkdirs();
@@ -91,9 +80,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<ReadBoardResponseDto> getBoardListByBoardType(ReadBoardRequestDto readBoardRequestDto) throws Exception {
-		List<Board>boardEntityList = null;
-		List<ReadBoardResponseDto>boardDtoList = null;
+	public List<ReadBoardTitleResponseDto> getBoardListByBoardType(ReadBoardRequestDto readBoardRequestDto) throws Exception {
+		List<BoardTitle>boardEntityList = null;
+		List<ReadBoardTitleResponseDto>boardDtoList = null;
 		Map<String, Object> configMap = null;
 
 		configMap = configMapper.setConfigMap(readBoardRequestDto);
@@ -102,7 +91,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		if(boardEntityList.size() != 0 && boardEntityList != null) {
 			boardDtoList = boardEntityList.stream()
-					.map(Board::toBoardResponseDto)
+					.map(BoardTitle::toReadBoardTitleResponseDto)
 					.collect(Collectors.toList());
 			
 		}
@@ -131,7 +120,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		if(fileList.size() != 0) {
 			for(BoardFile fileName:fileList) {
-				Path path = Paths.get(filePath, "file-images/" + fileName.getFile_name());
+				Path path = Paths.get(filePath, "board-files/" + fileName.getFile_name());
 				
 				File f = new File(path.toString());
 

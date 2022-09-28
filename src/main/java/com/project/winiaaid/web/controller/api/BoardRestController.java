@@ -1,22 +1,31 @@
 package com.project.winiaaid.web.controller.api;
 
 
-import java.util.List;
-import java.util.Map;
-
 import com.project.winiaaid.handler.aop.annotation.Log;
+import com.project.winiaaid.service.board.BoardService;
 import com.project.winiaaid.util.CustomObjectMapper;
+import com.project.winiaaid.web.dto.CustomResponseDto;
+import com.project.winiaaid.web.dto.board.CreateBoardRequestDto;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
+import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
+import com.project.winiaaid.web.dto.board.ReadBoardTitleResponseDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.project.winiaaid.service.board.BoardService;
-import com.project.winiaaid.web.dto.CustomResponseDto;
-import com.project.winiaaid.web.dto.board.CreateBoardRequestDto;
-import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
-
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -25,6 +34,9 @@ import lombok.RequiredArgsConstructor;
 public class BoardRestController {
 	private final BoardService boardService;
 	private final CustomObjectMapper customObjectMapper;
+
+	@Value("${file.path}")
+	private String filePath;
 
 	@Log
 	@PostMapping("/write")
@@ -44,7 +56,7 @@ public class BoardRestController {
 	@Log
 	@GetMapping("/list")
 	public ResponseEntity<?> getBoardListByBoardType(@RequestParam Map<String, Object> parametersMap){
-		List<ReadBoardResponseDto> boardList = null;
+		List<ReadBoardTitleResponseDto> boardList = null;
 		ReadBoardRequestDto readBoardRequestDto = null;
 
 		readBoardRequestDto = customObjectMapper.createReadBoardRequestDtoByObjectMapper(parametersMap);
@@ -72,6 +84,24 @@ public class BoardRestController {
 		
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Board Successfull", boardDto));
 	}
+
+	@GetMapping("/file/download/{fileName}")
+	public ResponseEntity<?> downloadFile(@PathVariable String fileName) throws IOException {
+		Path path = Paths.get(filePath + "board-files/" + fileName);
+		String contentType = Files.probeContentType(path);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentDisposition(ContentDisposition.builder("attachment")
+				.filename(fileName, StandardCharsets.UTF_8)
+				.build());
+
+		headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+
+		Resource resource = new InputStreamResource(Files.newInputStream(path));
+
+		return ResponseEntity.ok().headers(headers).body(resource);
+	}
+
 	@DeleteMapping("/{boardCode}")
 	public ResponseEntity<?> deleteBoardByBoardCode(@PathVariable int boardCode){
 		boolean status = false;

@@ -1,6 +1,7 @@
 package com.project.winiaaid.web.dto.board;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,10 @@ import lombok.Data;
 @Builder
 public class ReadBoardResponseDto {
 	private String userName;
-	private int companyCode;
+	private String companyName;
 	private String boardTitle;
 	private String boardContent;
 	private int totalCount;
-	private LocalDateTime createDate;
+	private String createDate;
+	private List<ReadBoardFileDto> fileList;
 }

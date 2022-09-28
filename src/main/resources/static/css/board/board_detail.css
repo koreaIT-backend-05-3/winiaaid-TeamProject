@@ -1,145 +1,196 @@
-
 h2{
-    font-size: 28px;
-    line-height: 1.1em;
-    font-weight: 400;
     margin-bottom: 35px;
+
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.1em;
+
     color: #252525;
-    /* background-color: yellow; */
 }
-/* =================================헤더===================== */
-#chingchan-body{
-    width: 100%;
+
+.content-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 100px;
-    /* background-color: #ddd; */
+
+    width: 100%;
 }    
 
-.chingchan-body-inner{
+.content-body-inner{
+    margin: 0px auto;
+
     width: 980px;
-    /* background-color: aqua; */
-    margin: 0 auto;
 }    
-
-
-
-/* =====================================전체 틀================ */
 
 table{
-    width: 980px;
-    /* background-color: blue; */
     border-top: 1px solid #7d7d7d;
     border-bottom: 1px solid #7d7d7d;
+
+    width: 980px;
 }
+
 table th{
     font-size: 14px;
     font-weight: 400;
+
     color: #252525;
 }
+
 table td{
     font-size: 14px;
     font-weight: 400;
+
     color: #5b5a5a;
 }
+
 .first-table{
     border-bottom: 0.5px solid #dbdbdb;
 }
+
 .user{
+    padding: 15px 0px 15px 30px;
+
     width: 126px;
     height: 49px;
-    padding: 15px 0px 15px 30px;
-    /* background-color: darkred; */
+
     text-align: start;
 }
+
 .username{
+    padding: 15px 0px;
+
     width: 145px;
     height: 49px;
-    padding: 15px 0px;
-    /* background-color: rgb(63, 0, 139); */
 }
+
 .brand{
+    padding: 15px 0px 15px 30px;
+
     width: 174px;
     height: 49px;
-    padding: 15px 0px 15px 30px;
-    /* background-color: tomato; */
+
     text-align: start;
 }
+
 .company{
+    padding: 15px 0px;
+
     width: 194px;
     height: 49px;
-    padding: 15px 0px;
-    /* background-color: rgb(0, 139, 21); */
 }
+
 .date{
+    padding: 15px 0px 15px 30px;
+
     width: 145px;
     height: 49px;
-    padding: 15px 0px 15px 30px;
-    /* background-color: rgb(234, 230, 43); */
+
     text-align: start;
 }
+
 .updatedate{
-    height: 49px;
     padding: 15px 0px;
-    /* background-color: rgb(132, 237, 148); */
+
+    height: 49px;
 }
+
 .title{
+    padding: 15px 0px 15px 30px;
+
     width: 126px;
     height: 49px;
-    padding: 15px 0px 15px 30px;
-    /* background-color: rgb(245, 141, 141); */
+
     text-align: start;
 }
-.contenttitle{
+
+.content-title{
+    padding: 15px 0px 15px 0px;
+
     width: 854px;
-    padding: 15px 0px 15px 30px;
-    /* background-color: rgb(110, 93, 93); */
 }
 
+center {
+    margin-top: 50px;
+}
+
+center button {
+    border: none;
+    padding: 0px;
+
+    width: 122px;
+    height: 42px;
+
+    font-size: 16px;
+    font-weight: 400;
+
+    color: #ffffff;
+
+    cursor: pointer;
+}
+
+center button:not(center button:last-child) {
+    margin-right: 2px;
+
+}
 
 .list-button{
-    margin-right: 2px;
-    cursor: pointer;
-    padding: 0;
-    border: none;
-    width: 122px;
-    height: 42px;
-    font-size: 16px;
-    color: #ffffff;
     background-color: #5b5a5a;
-    font-weight: 400;
-    margin-top: 50px;
-}
-.update-button{
-    margin-right: 2px;
+    
     cursor: pointer;
-    padding: 0;
-    border: none;
-    width: 122px;
-    height: 42px;
-    font-size: 16px;
-    color: #ffffff;
-    background-color: #0A71CC;
-    font-weight: 400;
-    margin-top: 50px;
-}
-.delete-button{
-    margin-right: 2px;
-    cursor: pointer;
-    padding: 0;
-    border: none;
-    width: 122px;
-    height: 42px;
-    font-size: 16px;
-    color: #ffffff;
-    background-color: #5b5a5a;
-    font-weight: 400;
-    margin-top: 50px;
-}
-.boardpost{
-    padding: 30px 30px 60px;
-    border-bottom: 1.5px solid #7d7d7d;
-    border-top: 1px solid #7d7d7d;
 }
 
-.content{
-    
+.update-button{
+    background-color: #0A71CC;
+}
+
+.delete-button{
+    background-color: #5b5a5a;
+}
+
+.board-post{
+    border-bottom: 1px solid #7d7d7d;
+    border-top: 1px solid #7d7d7d;
+    padding: 30px 30px 60px;
+}
+
+.content {
+    border: none;
+
+    width: 100%;
+    height: 400px;
+
+    resize: none;
+    outline: none;
+}
+
+.file-div {
+    display: flex;
+    align-items: center;
+
+    margin-top: 20px;
+
+    font-size: 13px;
+
+    color: #7d7d7d;
+}
+
+.file-name {
+    margin-left: 10px;
+    padding-top: 3px;
+
+    cursor: pointer;
+}
+
+.file-name:not(.file-name:last-child)::after {
+    margin-left: 5px;
+    content: "│";
+    font-size: 13px;
+    color: #7d7d7d;
+    z-index: -1;
+    cursor: default;
+}
+
+.file-name:hover {
+    text-decoration: underline;
 }

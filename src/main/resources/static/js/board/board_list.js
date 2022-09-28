@@ -70,6 +70,8 @@ function setBoardList(boardList){
             `
         }
     }
+
+    setBoardTitleClickEvent(boardList);
 }
 
 function setTotalCount(totalCount) {
@@ -127,4 +129,19 @@ function setBoardTableByBoardType() {
             </tr>
         `;
     }
+}
+
+function setBoardTitleClickEvent(boardList) {
+    const boardTitle = document.querySelectorAll(".content-title");
+
+    for(let i = 0; i < boardTitle.length; i++) {
+        boardTitle[i].onclick = () => loadBoardDetailPage(boardList[i].boardCode);
+    }
+}
+
+function loadBoardDetailPage(boardCode) {
+    let boardType = getBoardType();
+
+    location.href = `/customer/${boardType}/detail/${boardCode}`;
+
 }

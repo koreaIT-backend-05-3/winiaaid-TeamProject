@@ -6,12 +6,14 @@
 <mapper namespace="com.project.winiaaid.domain.board.BoardRepository">
 
 	<resultMap id="boardResultMap" type="com.project.winiaaid.domain.board.Board">
-		<id property="company_code" column="company_code"/>
+		<result property="company_name" column="company_name"/>
+		<result property="board_title"	column="board_title"/>
 		<result property="board_content" column="board_content"/>
 		<result property="progress_status" column="progress_status"/>
 		<result property="create_date" column="create_date"/>
 		<result property="user_name" column="user_name"/>
 		<collection property="file_list" ofType="com.project.winiaaid.domain.board.BoardFile">
+			<id property="file_code" column="file_code"/>
 			<result property="file_name" column="file_name"/>
 		</collection>
 	</resultMap>
@@ -61,22 +63,24 @@
 			id1 = #{board_type_code}
 	</select>
 	
-	<select id="findBoardListByBoardType" parameterType="hashmap" resultType="com.project.winiaaid.domain.board.Board">
+	<select id="findBoardListByBoardType" parameterType="hashmap" resultType="com.project.winiaaid.domain.board.BoardTitle">
 		SELECT
 			bm.board_code,
 			bm.user_code,
-			bm.company_code,
 			bm.board_title,
-			bm.board_content,
 			bm.progress_status,
 			bm.create_date,
-			bf.file_name,
+
 			um.user_name,
+
+			pct.company_name,
+
 			tc.total_count
 		FROM
 			board_mst bm
 			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
 			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
+			LEFT OUTER JOIN product_company_table pct on(pct.company_code = bm.company_code)
 			LEFT OUTER JOIN (select
 								count(*) as total_count
 							from
@@ -104,12 +108,18 @@
 			bm.board_content,
 			bm.progress_status,
 			bm.create_date,
+
+			bf.file_code,
 			bf.file_name,
-			um.user_name
+
+			um.user_name,
+
+			pct.company_name
 		FROM
 			board_mst bm
 			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
 			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
+			LEFT OUTER JOIN product_company_table pct on(pct.company_code = bm.company_code)
 		WHERE
 			bm.board_code = #{board_code};
 	</select>
