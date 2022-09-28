@@ -1,6 +1,7 @@
 const firstMenu = document.querySelector(".first-menu");
 const secondMenu = document.querySelector(".second-menu");
 const tbody = document.querySelector("tbody");
+const searchInput = document.querySelector(".search-input");
 const searchButton = document.querySelector(".search button");
 
 let userCode = 0;
@@ -10,6 +11,12 @@ let serviceHistoryType = null;
 let lastUriSource = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 
 searchButton.onclick = () => loadPage(1);
+
+searchInput.onkeypress = (e) => {
+    if(e.keyCode == 13) {
+        searchButton.click();
+    }
+}
 
 serviceHistoryType = getHistoryTypeByUri();
 
@@ -89,7 +96,6 @@ function getServiceHistory(page) {
 
     }else {
         const completedResponseFlag = document.querySelector(".check-box").checked;
-        const searchInput = document.querySelector(".search-input");
 
         isEmpty(searchInput.value) ? url = `/api/v1/service/writing/${serviceType}/history/list/user/${userCode}?menuType=${historyMenuType}&completedResponse=${completedResponseFlag}&page=${page}` 
         : url = `/api/v1/service/writing/${serviceType}/history/list/user/${userCode}?menuType=${historyMenuType}&completedResponse=${completedResponseFlag}&keyword=${searchInput.value}&page=${page}`;
@@ -108,7 +114,7 @@ function getServiceHistory(page) {
                 }else {
                     setEmptyList(tbody);
                     setTotalCount(0);
-                    setFirstAndSecondMenuCount(response.data[0].incompletedTotalCount, response.data[0].completedTotalCount);
+                    setFirstAndSecondMenuCount(response.data[0].counselTotalCount, response.data[0].customerTotalCount);
                 }
             },
             error: errorMessage

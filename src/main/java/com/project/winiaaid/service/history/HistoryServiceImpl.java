@@ -50,7 +50,7 @@ public class HistoryServiceImpl implements HistoryService {
 
         serviceHistoryTitleEntityList = serviceHistoryRepository.findWritingServiceHistoryInfoListByServiceTypeCode(configMap);
 
-        if(serviceHistoryTitleEntityList != null && serviceHistoryTitleEntityList.size() != 1) {
+        if(serviceHistoryTitleEntityList != null) {
             serviceHistoryTitleResponseDtoList = changeTodWritingServiceHistoryTitleResponseDto(serviceHistoryTitleEntityList);
         }
 

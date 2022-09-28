@@ -231,13 +231,14 @@
                         AND
                     </if>
                         progress_status = 2
+                        AND board_type_code != 2
                 </if>
                 <if test="keyword != null">
                     <if test="board_type_code != 0 or completed_response != false">
                         AND
                     </if>
-                    board_title like concat('%', #{keyword}, '%')
-                    OR board_content like concat('%', #{keyword}, '%')
+                    (board_title like concat('%', #{keyword}, '%')
+                    OR board_content like concat('%', #{keyword}, '%'))
                 </if>
             )
             AS customer_total_count,
@@ -266,17 +267,16 @@
                             AND
                         </if>
                         progress_status = 2
+                        AND board_type_code != 2
                     </if>
                     <if test="keyword != null">
                         <if test="board_type_code != 0 or completed_response != false">
                             AND
                         </if>
-                        board_title like concat('%', #{keyword}, '%')
-                        OR board_content like concat('%', #{keyword}, '%')
+                        (board_title like concat('%', #{keyword}, '%')
+                        OR board_content like concat('%', #{keyword}, '%'))
                     </if>
-                    <if test="board_type_code == 0 or completed_response == false or keyword == null">
-                        )
-                    </if>
+                    )
                 </when>
                 <otherwise>
                     0
@@ -312,20 +312,21 @@
                 WHERE
             </if>
             <if test="board_type_code != 0">
-                board_type_code = #{board_type_code}
+                bm.board_type_code = #{board_type_code}
             </if>
             <if test="completed_response == true">
                 <if test="board_type_code != 0">
                     AND
                 </if>
                 progress_status = 2
+                AND bm.board_type_code != 2
             </if>
             <if test="keyword != null">
                 <if test="board_type_code != 0 or completed_response != false">
                     AND
                 </if>
-                board_title like concat('%', #{keyword}, '%')
-                OR board_content like concat('%', #{keyword}, '%')
+                (board_title like concat('%', #{keyword}, '%')
+                OR board_content like concat('%', #{keyword}, '%'))
             </if>
             ORDER BY
                 create_date DESC
