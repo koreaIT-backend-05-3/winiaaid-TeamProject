@@ -19,11 +19,11 @@
 	<insert id="insertBoard" parameterType="com.project.winiaaid.domain.board.Board">
 		INSERT INTO
 			board_mst
-		SELECT
-			#{board_type},
-			IFNULL(MAX(id2), 0) + 1,
-			RPAD(#{temp_board_code}, CHAR_LENGTH(#{temp_board_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1,
-			#{board_type},
+		values(
+			#{board_type_code},
+			#{id2},
+			#{board_code},
+			#{board_type_code},
 			#{user_code},
 			#{company_code},
 			#{response_flag},
@@ -33,10 +33,7 @@
 			NULL,
 			NOW(),
 			NOW()
-		FROM
-			board_mst
-		WHERE
-			id1 = #{board_type};
+		);
 	</insert>
 	
 	<insert id="insertBoardFile" parameterType="java.util.List">
@@ -53,6 +50,16 @@
 			)
 			</foreach>
 	</insert>
+
+	<select id="findBoardCode" parameterType="com.project.winiaaid.domain.board.Board" resultType="com.project.winiaaid.domain.board.BoardCode">
+		select
+			IFNULL(MAX(id2), 0) + 1 as id2,
+			RPAD(#{temp_board_code}, CHAR_LENGTH(#{temp_board_code}) + CHAR_LENGTH((IFNULL(MAX(id2), 1) + 1)) + 1, '0') + IFNULL(MAX(id2), 0) + 1 as board_code
+		from
+			board_mst
+		where
+			id1 = #{board_type_code}
+	</select>
 	
 	<select id="findBoardListByBoardType" parameterType="hashmap" resultType="com.project.winiaaid.domain.board.Board">
 		SELECT

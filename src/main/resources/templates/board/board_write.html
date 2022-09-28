@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/util/location_notice.css">
+    <link rel="stylesheet" href="/static/css/board/board_write.css">
     <title>[위니아에이드] 불편합니다</title>
-    <link rel="stylesheet" href="/static/css/bulpyeonwrite.css">
-    <link rel="stylesheet" href="/static/css/style.css">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-    <div id="bulpyeon-write-body">
-        <h2>불편합니다</h2>
-        <!-- 체크 특수문자 -->
-        <p class="pilsu"><i class="fa-solid fa-check"></i>필수입력사항</p>
-        <!-- 테이블 -->
-        <table class="bulpyeon-write-table">
+    <th:block th:replace="/fragments/header"></th:block>
+    <main>
+        <div id="bulpyeon-write-body">
+            <h2>불편합니다</h2>
+            <!-- 체크 특수문자 -->
+            <p class="pilsu"><i class="fa-solid fa-check"></i>필수입력사항</p>
+            <!-- 테이블 -->
+            <table class="bulpyeon-write-table">
                 <tr>
                     <!-- username -->
                     <th>성명</th>
@@ -75,24 +78,27 @@
                         <p id="file-p">※첨부가능 확장가는 아래와 같으며, 총 50MB 까지 가능합니다.(첨부 3개 제한)<br> -그림 파일 (jpg, jpeg, gif, png)<br> - 문서 파일 (txt, doc, docx, xls, xlsx, ppt, pptx, pdf, hwp)<br> - 압축 파일 (zip)<br>- 동영상 파일(avi, mp4)</p>
                     </td>
                 </tr>
-        </table>
-        <!-- 하단부 -->
-        <div>
-            <ul class="li-info">
-                <li>장시간 미사용 시 자동 로그아웃이 되어 작성중이던 글이 등록 안될 수 있습니다.</li>
-                <li>업무시간 외에는 (주말, 공휴일)답변이 지연될 수 있습니다.</li>
-                <li>게시판 성격에 맞지 않는 게시물은 사전 통보 없이 삭제되거나 해당 게시판으로 이동될 수 있습니다.</li>
-            </ul>
+            </table>
+            <!-- 하단부 -->
+            <div>
+                <ul class="li-info">
+                    <li>장시간 미사용 시 자동 로그아웃이 되어 작성중이던 글이 등록 안될 수 있습니다.</li>
+                    <li>업무시간 외에는 (주말, 공휴일)답변이 지연될 수 있습니다.</li>
+                    <li>게시판 성격에 맞지 않는 게시물은 사전 통보 없이 삭제되거나 해당 게시판으로 이동될 수 있습니다.</li>
+                </ul>
+            </div>
+            <!-- 버튼 -->
+            <center>
+                <ul id="btn-group">
+                    <button class="upload-button" type="button" onclick="location.href='등록버튼' ">등록</button>
+                    <button class="cancle-button" type="button" onclick="location.href='취소버튼' ">취소</button>
+                </ul>  
+            </center>
         </div>
-        <!-- 버튼 -->
-        <center>
-            <ul id="btn-group">
-                <button class="upload-button" type="button" onclick="location.href='등록버튼' ">등록</button>
-                <button class="cancle-button" type="button" onclick="location.href='취소버튼' ">취소</button>
-            </ul>  
-        </center>
-    </div>
+    </main>
+    <th:block th:replace="/fragments/footer"></th:block>
     <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
+    <script src="/static/js/util/location_notice.js"></script>
     <script src="/static/js/board/board_write.js"></script>
 </body>
 </html>

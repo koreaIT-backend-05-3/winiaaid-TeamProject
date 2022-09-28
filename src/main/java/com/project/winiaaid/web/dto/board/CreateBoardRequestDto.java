@@ -12,8 +12,8 @@ import lombok.Data;
 @Data
 //데이터가 여기 안에 다 담겨진다
 public class CreateBoardRequestDto {
-	private int usercode;
-	private int boardType;
+	private int userCode;
+	private int boardTypeCode;
 	private String userName;
 	private String email;
 	private String mainPhoneNumber;
@@ -29,15 +29,15 @@ public class CreateBoardRequestDto {
 	public Board toBoardEntity() {
 		return Board.builder()
 				.temp_board_code(setTempBoardCode())
-				.user_code(usercode)
-				.board_type(boardType)
+				.user_code(userCode)
+				.board_type_code(boardTypeCode)
 				.user_name(userName)
 				.email(email)
 				.main_phone_number(mainPhoneNumber)
 				.company_code(companyCode)
 				.response_flag(responseFlag)
 				.progress_status("진행중")
-				.board_title(boardContent)
+				.board_title(boardTitle)
 				.board_content(boardContent)
 				.build();
 	}
@@ -49,6 +49,6 @@ public class CreateBoardRequestDto {
 		int month = nowDate.getMonthValue();
 		int day = nowDate.getDayOfMonth();
 		
-		return boardType + "0" + (year + month + day);
+		return boardTypeCode + "0" + (year + month + day);
 	}
 }

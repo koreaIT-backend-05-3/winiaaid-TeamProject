@@ -1,6 +1,7 @@
 package com.project.winiaaid.service.board;
 
 import com.project.winiaaid.domain.board.Board;
+import com.project.winiaaid.domain.board.BoardCode;
 import com.project.winiaaid.domain.board.BoardFile;
 import com.project.winiaaid.domain.board.BoardRepository;
 import com.project.winiaaid.util.ConfigMap;
@@ -8,6 +9,7 @@ import com.project.winiaaid.web.dto.board.CreateBoardRequestDto;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
@@ -33,11 +36,30 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public String insertBoard(CreateBoardRequestDto createBoardRequestDto) throws Exception {
-		int status = 0;
-		Board board = createBoardRequestDto.toBoardEntity();
+		Board boardEntity = null;
+		BoardCode boardCodeEntity = null;
 		List<BoardFile> fileList = null;
-		status = boardRepository.insertBoard(board);
-		if(status != 0 && createBoardRequestDto.getFiles() != null) {
+		int status = 0;
+
+		boardEntity = createBoardRequestDto.toBoardEntity();
+
+		boardCodeEntity = boardRepository.findBoardCode(boardEntity);
+
+
+		log.info("createBoardRequestDto: {}", createBoardRequestDto);
+
+		log.info("boardCodeEntity: {}", boardCodeEntity);
+
+		boardEntity.setBoard_code(boardCodeEntity.getBoard_code());
+		boardEntity.setId2(boardCodeEntity.getId2());
+
+		log.info("boardEntity: {}", boardEntity);
+
+		status = boardRepository.insertBoard(boardEntity);
+
+		log.info("status: {}", status);
+
+		if(status != 0 && !createBoardRequestDto.getFiles().get(0).getOriginalFilename().isBlank()) {
 			fileList = new ArrayList<>();
 			for(MultipartFile file : createBoardRequestDto.getFiles()) {
 				
@@ -56,7 +78,7 @@ public class BoardServiceImpl implements BoardService {
 					Files.write(path, file.getBytes());
 					
 					fileList.add(BoardFile.builder()
-							.board_code(board.getBoard_code())
+							.board_code(boardEntity.getBoard_code())
 							.file_name(tempFileName)
 							.build());
 				}
@@ -64,7 +86,7 @@ public class BoardServiceImpl implements BoardService {
 			}
 			boardRepository.insertBoardFile(fileList);
 		}
-		return board.getBoard_code();
+		return boardEntity.getBoard_code();
 		
 	}
 
@@ -92,11 +114,9 @@ public class BoardServiceImpl implements BoardService {
 		Board boardEntity = null;
 		ReadBoardResponseDto boardDto = null;
 		
-		System.out.println(boardCode);
-		
 		boardEntity = boardRepository.findBoardByBoardCode(boardCode);
 		
-		if(boardEntity!=null) {
+		if(boardEntity != null) {
 			boardDto = boardEntity.toBoardResponseDto();
 		}
 		return boardDto;
@@ -111,10 +131,10 @@ public class BoardServiceImpl implements BoardService {
 		
 		if(fileList.size() != 0) {
 			for(BoardFile fileName:fileList) {
-				System.out.println(fileName.getFile_name());
 				Path path = Paths.get(filePath, "file-images/" + fileName.getFile_name());
 				
 				File f = new File(path.toString());
+
 				if(f.exists()) {
 					Files.delete(path);
 				}

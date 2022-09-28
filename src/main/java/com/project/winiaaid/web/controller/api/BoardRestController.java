@@ -7,6 +7,7 @@ import java.util.Map;
 import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.util.CustomObjectMapper;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
 
 import lombok.RequiredArgsConstructor;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/board")
@@ -24,16 +26,19 @@ public class BoardRestController {
 	private final BoardService boardService;
 	private final CustomObjectMapper customObjectMapper;
 
-
+	@Log
 	@PostMapping("/write")
 	public ResponseEntity<?> writeBoard(CreateBoardRequestDto createBoardRequestDto){
+		String boardCode = null;
+		createBoardRequestDto.getFiles().forEach(file -> log.info("file: {}", file.getOriginalFilename()));
 		try {
-			boardService.insertBoard(createBoardRequestDto);
+			boardCode = boardService.insertBoard(createBoardRequestDto);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation failed", boardCode));
 		}
 		
-		return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation Successfull", null));
+		return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation Successfull", boardCode));
 	}
 
 	@Log

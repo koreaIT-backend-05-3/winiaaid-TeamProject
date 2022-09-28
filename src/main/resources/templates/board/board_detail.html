@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/util/location_notice.css">
+    <link rel="stylesheet" href="/static/css/board/board_detail.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <title>[위니아에이드] 불편합니다</title>
+</head>
+<body>
+    <th:block th:replace="/fragments/header"></th:block>
+    <main>
+        <div id="chingchan-body">
+            <div class="chingchan-body-inner">
+                <div class="location-div">
+        
+                </div>
+                <ul>
+                    <h2>불편합니다</h2>
+                </ul>
+                
+                    <table>
+                        <tr class="first-table">
+                            <th class="user">작성자</th>
+                            <td class="username"></td>
+                            <th class="brand">접수대상 브랜드</th>
+                            <td class="company"></td>
+                            <th class="date">등록일</th>
+                            <td class="updatedate"></td>
+                        </tr>
+                        <tr>
+                            <th class="title">제목</th>
+                            <td class="contenttitle" colspan="5"></td>
+                        </tr>
+                        <td colspan="6">
+                            <div class="boardpost">
+                                <textarea class="content"></textarea>
+                            </div>
+                        </td>
+    
+                    </table>
+                
+                <center>
+                    <button class="update-button">수정</button>
+                    <button class="delete-button">삭제</button>
+                    <button class="list-button">목록</button>
+                </center>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/fragments/footer"></th:block>
+    <script src="/static/js/util/location_notice.js"></script>
+    <script src="/static/js/board/board_detail.js"></script>
+</body>
+</html>

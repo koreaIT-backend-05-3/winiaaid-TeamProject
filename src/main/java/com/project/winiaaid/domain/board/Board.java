@@ -1,24 +1,22 @@
 package com.project.winiaaid.domain.board;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.List;
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Board {
+	private int id2;
 	private String board_code;
 	private String temp_board_code;
-	private int board_type;
+	private int board_type_code;
 	private int user_code;
 	private String user_name;
 	private String email;
