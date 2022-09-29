@@ -1,0 +1,56 @@
+DB
+
+클라이언트:	돈을 찾는 사람(요청자)
+서버:		은행ATM
+
+tcp 포트: 8001
+
+primary key
+	pk는 하나는 꼭 있어야 합니다.
+	pk가 두개라면 그 두개의 조합으로 중복성을 검사하기에 하면 안됩니다.
+
+unique key
+	uq는 그 열에서의 중복을 허용하지 않습니다.
+
+정형화데이터베이스
+	틀이 있습니다.
+	모든데이터에
+	key 와 value가 있어야합니다.
+
+비정형화데이터베이스
+	틀이 없습니다.
+	key값이 없고 value만 있습니다.
+	빅데이터에서
+	값들을 모두 가지고 와서 전부 분석을 해서
+	key값과 value로 정리를 합니다.
+
+
+DDL: 데이터베이스, 테이블을 생성하는 언어
+DML: 테이블안의 데이터에 대한 추가, 수정, 조회, 삭제를 하는 언어
+DCL: 데이터베이스, 테이블 DML에서 추가, 수정, 조회, 삭제 이런 모든 행동에 권한을 제어하기 위한 언어
+
+
+
+AWS 파라미터 그룹 새로만들고 편집
+
+지역시간설정
+time_zone = Asia_Seoul
+
+백업 보존 기간 0일
+
+문자인코딩(utf8mb4) -> 이모티콘도 가능
+character_set_(client, connection, database, filesystem, results, server) = utf8mb4
+collation_(connection, server) = utf8mb4_general_ci
+
+트리거 권한
+log_bin_trust_function_creators = 1
+
+연결가능횟수
+max_connections = 1500? (과금될수도 있으니 기본세팅으로 냅두자)
+
+vpc 보안 그룹 -> 인바운드 규칙 편집 -> 규칙 추가 ->
+mysql/aurora, ipv4 0.0.0.0/0
+mysql/aurora, ipv6 ::/0
+
+
+select 순서 from -> where -> group by -> having -> select -> order by

@@ -8,5 +8,5 @@ import lombok.Data;
 public class ReadBoardFileDto {
     private int fileCode;
     private String originalFileName;
-    private String downloadFileName;
+    private String tempFileName;
 }

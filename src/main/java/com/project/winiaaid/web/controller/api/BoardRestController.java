@@ -5,10 +5,7 @@ import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.service.board.BoardService;
 import com.project.winiaaid.util.CustomObjectMapper;
 import com.project.winiaaid.web.dto.CustomResponseDto;
-import com.project.winiaaid.web.dto.board.CreateBoardRequestDto;
-import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
-import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
-import com.project.winiaaid.web.dto.board.ReadBoardTitleResponseDto;
+import com.project.winiaaid.web.dto.board.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,6 +68,7 @@ public class BoardRestController {
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation Successfull", boardList));
 	}
 
+	@Log
 	@GetMapping("/{boardCode}")
 	public ResponseEntity<?> getBoardByBoardCode(@PathVariable int boardCode){
 		ReadBoardResponseDto boardDto = null;
@@ -100,6 +98,15 @@ public class BoardRestController {
 		Resource resource = new InputStreamResource(Files.newInputStream(path));
 
 		return ResponseEntity.ok().headers(headers).body(resource);
+	}
+
+	@Log
+	@PutMapping("/{boardCode}")
+	public ResponseEntity<?> modifyBoardByBoardCode(@PathVariable String boardCode, UpdateBoardReqeustDto updateBoardReqeustDto) {
+
+//		return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Post modification failed", null));
+
+		return ResponseEntity.ok(new CustomResponseDto<>(1, "Board modification successful", boardCode));
 	}
 
 	@DeleteMapping("/{boardCode}")

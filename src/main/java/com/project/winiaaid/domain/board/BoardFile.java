@@ -19,7 +19,7 @@ public class BoardFile {
 		return ReadBoardFileDto.builder()
 				.fileCode(file_code)
                 .originalFileName(file_name.substring(file_name.indexOf("_") + 1))
-                .downloadFileName(file_name)
+                .tempFileName(file_name)
                 .build();
 	}
 }

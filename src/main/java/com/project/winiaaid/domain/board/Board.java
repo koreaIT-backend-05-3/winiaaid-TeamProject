@@ -40,11 +40,16 @@ public class Board {
 	public ReadBoardResponseDto toBoardResponseDto() {
 		return ReadBoardResponseDto.builder()
 				.userName(user_name)
+				.companyCode(company_code)
 				.companyName(company_name)
+				.email(email)
+				.mainPhoneNumber(main_phone_number)
 				.boardTitle(board_title)
 				.boardContent(board_content)
 				.createDate(create_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-				.fileList(file_list != null ? file_list.stream()
+				.progressStatus(progress_status)
+				.responseFlag(response_flag)
+				.fileList(file_list.size() != 0 ? file_list.stream()
 						.map(BoardFile::toReadBoardFileDto)
 						.collect(Collectors.toList()) : null)
 				.build();

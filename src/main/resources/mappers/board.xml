@@ -6,9 +6,13 @@
 <mapper namespace="com.project.winiaaid.domain.board.BoardRepository">
 
 	<resultMap id="boardResultMap" type="com.project.winiaaid.domain.board.Board">
+		<id property="company_code" column="company_code"/>
 		<result property="company_name" column="company_name"/>
+		<result property="email" column="email"/>
+		<result property="main_phone_number" column="main_phone_number"/>
 		<result property="board_title"	column="board_title"/>
 		<result property="board_content" column="board_content"/>
+		<result property="response_flag" column="response_flag"/>
 		<result property="progress_status" column="progress_status"/>
 		<result property="create_date" column="create_date"/>
 		<result property="user_name" column="user_name"/>
@@ -104,10 +108,13 @@
 	<select id="findBoardByBoardCode" parameterType="Integer" resultMap="boardResultMap">
 		SELECT
 			bm.company_code,
+			bm.email,
+			bm.main_phone_number,
 			bm.board_title,
 			bm.board_content,
 			bm.progress_status,
 			bm.create_date,
+			bm.response_flag,
 
 			bf.file_code,
 			bf.file_name,

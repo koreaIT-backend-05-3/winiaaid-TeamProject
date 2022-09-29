@@ -1,3 +1,5 @@
+const writeButton = document.querySelector(".write-button");
+
 let userCode = 0;
 let boardType = null;
 
@@ -6,12 +8,15 @@ boardType = getBoardType();
 
 loadPage(1);
 
-function loadPage(page) {
-    getBoardList(page)
-}
 setBoardContentByBoardType();
 setBoardTableByBoardType();
 
+writeButton.onclick = loadBoardWritePage;
+
+
+function loadPage(page) {
+    getBoardList(page)
+}
 
 function getBoardList(page){
     $.ajax({
@@ -32,7 +37,7 @@ function getBoardList(page){
             console.log(request.responseText);
             console.log(error);
         }
-    })
+    });
 }
 
 function setBoardList(boardList){
@@ -132,7 +137,7 @@ function setBoardTableByBoardType() {
 }
 
 function setBoardTitleClickEvent(boardList) {
-    const boardTitle = document.querySelectorAll(".content-title");
+    const boardTitle = document.querySelectorAll("tbody .content-title");
 
     for(let i = 0; i < boardTitle.length; i++) {
         boardTitle[i].onclick = () => loadBoardDetailPage(boardList[i].boardCode);
@@ -140,8 +145,10 @@ function setBoardTitleClickEvent(boardList) {
 }
 
 function loadBoardDetailPage(boardCode) {
-    let boardType = getBoardType();
-
     location.href = `/customer/${boardType}/detail/${boardCode}`;
 
+}
+
+function loadBoardWritePage() {
+    location.href = `/customer/${boardType}/regist-view`;
 }

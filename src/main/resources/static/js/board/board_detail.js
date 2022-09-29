@@ -1,9 +1,17 @@
+const updateButton = document.querySelector(".update-button");
 const deleteButton = document.querySelector(".delete-button");
+const listButton = document.querySelector(".list-button");
 
 let boardCode = getBoardCodeByUri();
+let boardType = getBoardType();
+
 getBoardDetailByBoardCode(boardCode);
 
+updateButton.onclick = loadModifyBoardPageByBoardCode;
+
 deleteButton.onclick = deleteBoard;
+
+listButton.onclick = historyBack;
 
 function getBoardCodeByUri(){
     return location.pathname.substring(location.pathname.lastIndexOf("/") +1);
@@ -30,7 +38,6 @@ function deleteBoard(){
         dataType:"json",
         success:(response)=>{
             if(response.data){
-                let boardType = getBoardType();
                 location.replace(`/customer/${boardType}/list`);
             }
 
@@ -86,7 +93,15 @@ function setFile(fileList) {
 
         for(let i = 0; i < fileList.length; i++) {
             fileDiv.innerHTML += `
-                <a class="file-name" href="/api/v1/board/file/download/${fileList[i].downloadFileName}">${fileList[i].originalFileName}</span>
+                <a class="file-name" href="/api/v1/board/file/download/${fileList[i].tempFileName}">${fileList[i].originalFileName}</span>
             `;
         }
+}
+
+function loadModifyBoardPageByBoardCode() {
+    location.href = `/customer/${boardType}/update-view/${boardCode}`;
+}
+
+function historyBack() {
+    history.back();
 }

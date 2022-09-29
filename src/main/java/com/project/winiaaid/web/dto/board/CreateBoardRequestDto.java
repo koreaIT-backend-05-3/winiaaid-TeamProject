@@ -10,7 +10,6 @@ import com.project.winiaaid.domain.board.Board;
 import lombok.Data;
 
 @Data
-//데이터가 여기 안에 다 담겨진다
 public class CreateBoardRequestDto {
 	private int userCode;
 	private int boardTypeCode;
@@ -23,9 +22,7 @@ public class CreateBoardRequestDto {
 	private String boardTitle;
 	private String boardContent;
 	private List<MultipartFile> files;
-	
-	
-	
+
 	public Board toBoardEntity() {
 		return Board.builder()
 				.temp_board_code(setTempBoardCode())

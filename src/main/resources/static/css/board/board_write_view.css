@@ -1,152 +1,197 @@
-/* 체크표시 속성 */
-.fa-check{
+.fa-check {
     color: #0A71CC;
 }
-.li-info li{
+
+.li-info li {
     font-size: 13px;
     color: #5b5a5a;
+
     list-style-type: disc;
 }
-.li-info li::marker{
+
+.li-info li::marker {
     color: #0A71CC;
 }
-#jean-write-body{
-    width: 980px;
-    height: 957px;
-    margin: 0 auto;
-    /* background-color: violet; */
+
+.board-write-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-#jean-write-body h2{
+
+.board-body-inner {
+    margin: 0px auto;
+
+    width: 980px;
+}
+
+.board-write-body h2 {
+    margin-bottom: 60px;
+
     width: 980px;
     height: 30.8px;
+
     font-size: 28px;
     line-height: 1.1em;
     font-weight: 400;
     color: #252525;
-    /* background-color: aqua; */
-    margin-bottom: 60px;
 }
 
-.pilsu{
-    right: 0;
+.require-p {
+    right: 0px;
     top: -30px;
+
     font-weight: 400;
     font-size: 13px;
     line-height: 18px;
     color: #252525;
+
     text-align: end;
 }
-.jean-write-table{
-    width: 980px;
-    /* background-color: blue; */
+
+.board-write-table {
     border-top: 1px solid #7d7d7d;
     border-bottom: 1px solid #7d7d7d;
+
+    width: 980px;
 }
-.jean-write-table th, td{
+
+.board-write-table th, td {
+    padding: 10px 30px;
+
     width: 147px;
     height: 39px;
-    /* background-color: aqua; */
-    padding: 10px 30px;
 }
-.jean-write-table tr:not(.chingchan-write-table tr:first-child){
+
+.board-write-table tr:not(.chingchan-write-table tr:first-child) {
     border-top: 1px solid #dbdbdb;
 }
-.brand-th{
+
+.brand-th {
     width: 147px;
     height: 57px;
 }
-.brand-td{
+
+.brand-td {
     width: 833px;
     height: 57px;
 }
-.susin-th{
+
+.response-th {
     width: 147px;
-
 }
-.susin-td{
+
+.response-td {
     width: 833px;
-
 }
-.title-th{
+
+.title-th {
     width: 147px;
     height: 52px;
 }
-.title-td{
+
+.title-td {
     width: 833px;
     height: 52px;
 }
-.title-input{
-    width: 100%;
+
+.title-input {
     padding: 5px;
+
+    width: 100%;
 }
-.content-th{
+
+.content-th, .content-td {
     width: 833px;
     height: 236px;
 }
-.content-td{
-    width: 833px;
-    height: 236px;
-}
-#content-p{
+
+.content-p {
     margin-left: 0px;
     color: #7e7e7e;
     font-size: 15px;
 }
-textarea{
-    resize: none;
+
+textarea {
+    padding: 5px;
+
     width: 100%;
     height: 192px;
-    padding: 5px;
+
+    resize: none;
 }
 
-.file-th{
+.file-th {
     width: 833px;
     height: 198px;
 }
-.file-td{
+
+.file-td {
     width: 833px;
     height: 198px;
 }
-#file-p{
+
+.file-p {
     margin-left: 0px;
     color: #7e7e7e;
     font-size: 15px;
     padding-left:15px ;
 }
-.fileupload{
+
+.file-upload {
     height: 87px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-#btn-group{
-    /* background-color: #7d7d7d; */
-    margin-top: 50px;
-    padding: 0;
-    font-weight: 400;
+.file-div {
+    display: flex;
+    align-items: center;
 
+    margin-top: 20px;
+
+    font-size: 13px;
+
+    color: #7d7d7d;
 }
-.upload-button{
+
+.file-name {
+    margin-left: 10px;
+    padding-top: 3px;
+
     cursor: pointer;
-    padding: 0;
+}
+
+.button-group {
+    margin: 50px 0px;
+    padding: 0px;
+    font-weight: 400;
+}
+
+.button-group button {
     border: none;
+    padding: 0px;
+
     width: 122px;
     height: 42px;
+
     font-size: 16px;
+    font-weight: 400;
     color: #ffffff;
+
+    cursor: pointer;
+}
+
+.upload-button {
     background-color: #0a71cc;
-    font-weight: 400;
 }
-.cancle-button{
-    cursor: pointer;
-    padding: 0;
-    border: none;
-    width: 122px;
-    height: 42px;
-    font-size: 16px;
-    color: #ffffff;
+
+.cancle-button {
+    margin-left: 5px;
     background-color: #5b5a5a;
-    margin: 5px 0 0;
-    font-weight: 400;
+}
+
+.visible {
+    display: none;
 }
