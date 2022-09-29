@@ -103,8 +103,17 @@ public class BoardRestController {
 	@Log
 	@PutMapping("/{boardCode}")
 	public ResponseEntity<?> modifyBoardByBoardCode(@PathVariable String boardCode, UpdateBoardReqeustDto updateBoardReqeustDto) {
+		boolean status = false;
+		try {
+			status = boardService.updateBoardByBoardCode(boardCode, updateBoardReqeustDto);
 
-//		return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Post modification failed", null));
+			if(!status) {
+				return ResponseEntity.badRequest().body(new CustomResponseDto<>(-1, "Board modification failed", status));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Board modification failed", status));
+		}
 
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Board modification successful", boardCode));
 	}

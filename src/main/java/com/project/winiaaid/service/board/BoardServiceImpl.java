@@ -2,10 +2,7 @@ package com.project.winiaaid.service.board;
 
 import com.project.winiaaid.domain.board.*;
 import com.project.winiaaid.util.ConfigMap;
-import com.project.winiaaid.web.dto.board.CreateBoardRequestDto;
-import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
-import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
-import com.project.winiaaid.web.dto.board.ReadBoardTitleResponseDto;
+import com.project.winiaaid.web.dto.board.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -109,6 +106,52 @@ public class BoardServiceImpl implements BoardService {
 			boardDto = boardEntity.toBoardResponseDto();
 		}
 		return boardDto;
+	}
+
+	@Override
+	public boolean updateBoardByBoardCode(String boardCode, UpdateBoardReqeustDto updateBoardReqeustDto) throws Exception {
+		boolean status = false;
+		Board boardEntity = updateBoardReqeustDto.toBoardEntity();
+		boardEntity.setBoard_code(boardCode);
+
+		status = boardRepository.updateBoardByBoardCode(boardEntity) > 0;
+
+		if(status && updateBoardReqeustDto.getDeleteFileCode().size() != 0) {
+			boardRepository.deleteBoardFileByFileCode(updateBoardReqeustDto.getDeleteFileCode());
+
+			for(String fileName : updateBoardReqeustDto.getDeleteTempFileName()) {
+				Path path = Paths.get(filePath + "board-files/" + fileName);
+
+				File f = new File(filePath + "board-files");
+
+				if(f.exists()) {
+					Files.delete(path);
+				}
+			}
+		}
+
+		if(status && !updateBoardReqeustDto.getFiles().get(0).getOriginalFilename().isBlank()) {
+			List<BoardFile> fileList = new ArrayList<BoardFile>();
+			for(MultipartFile file : updateBoardReqeustDto.getFiles()) {
+				String tempFileName = UUID.randomUUID().toString().replaceAll("-", "") + "_" + file.getOriginalFilename();
+				Path path = Paths.get(filePath + "board-files/" + tempFileName);
+
+				File f = new File(filePath + "board-files");
+
+				if(!f.exists()) {
+					f.mkdirs();
+				}
+
+				Files.write(path, file.getBytes());
+				fileList.add(BoardFile.builder()
+						.file_name(tempFileName)
+						.board_code(boardEntity.getBoard_code())
+						.build());
+			}
+			boardRepository.insertBoardFile(fileList);
+		}
+
+		return status;
 	}
 
 	@Override

@@ -156,6 +156,27 @@
 		where
 			board_code = #{board_code}
 	</select>
+
+	<update id="updateBoardByBoardCode" parameterType="com.project.winiaaid.domain.board.Board">
+		update
+			board_mst bm
+			left outer join user_mst um on(um.user_code = bm.user_code)
+			left outer join user_dtl ud on(ud.user_code = um.user_code)
+		set
+			um.user_name = #{user_name},
+			um.user_email = #{user_email},
+			ud.main_phone_number = #{main_phone_number},
+			company_code = #{company_code},
+
+			<if test="board_type_code != 2">
+				response_flag = #{response_flag},
+			</if>
+
+			board_title = #{board_title},
+			board_content = #{board_content}
+		where
+			board_code = #{board_code};
+	</update>
 	
 	<delete id="deleteBoardByBoardCode"  parameterType="Integer">
 			delete
@@ -163,6 +184,16 @@
 				board_mst
 			where
 				board_code = #{board_code};
+	</delete>
+
+	<delete id="deleteBoardFileByFileCode" parameterType="java.util.List">
+		delete
+		from
+			board_file
+		where
+			<foreach collection="delete_file_code_list" item="file_code" separator="or">
+				file_code = #{file_code}
+			</foreach>
 	</delete>
 
 </mapper>

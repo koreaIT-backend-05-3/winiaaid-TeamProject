@@ -1,11 +1,9 @@
-const uploadButton = document.querySelector(".upload-button");
-const cancelButton = document.querySelector(".cancle-button")
-// const name = document.querySelector(".name");
-// const email = document.querySelector(".email");
 const nameSpan = document.querySelector(".name-span");
 const emailSpan = document.querySelector(".email-span");
 const telSpan = document.querySelector(".tel-span");
-// const phoneNumber = document.querySelector(".phone-number");
+const nameInput = document.querySelector(".name-input");
+const emailBox = document.querySelector(".email-box");
+const phoneBox = document.querySelector(".phone-box");
 const titleInput = document.querySelector(".title-input");
 const contentTextarea = document.querySelector(".content-textarea")
 const brandInputItems = document.querySelectorAll(".brand-td input");
@@ -13,7 +11,16 @@ const responseInputItems = document.querySelectorAll(".response-td input");
 const fileDiv = document.querySelector(".file-div");
 const inputFileDivItems = document.querySelectorAll(".input-file-div");
 
+const uploadButton = document.querySelector(".upload-button");
+const cancelButton = document.querySelector(".cancle-button")
+
+
 let userCode = 1;
+let email = null;
+let phoneNumber = null;
+let companyCode = 0;
+let responseCode = 0;
+
 let modifyFlag = false;
 let boardType = null;
 let boardCode = 0;
@@ -24,6 +31,7 @@ let deleteTempFileNameList = null;
 
 modifyFlag = getModifyFlagByUri();
 boardType = getBoardTypeByUri();
+setWriteViewByBoardType();
 
 if(modifyFlag) {
     boardCode = getBoardCodeByUri();
@@ -141,27 +149,31 @@ function deleteFile(fileNameSpan, fileCode, tempFileName) {
 
 function setModifyBoardView() {
     fileDiv.classList.remove("visible");
+    uploadButton.textContent = "수정";
 }
 
 function checkUnalterableUserInfoByuserCode() {
-    if(userCode != 0) {
-        const nonMemberRequireItems = document.querySelectorAll(".non-member-require")
-        
-        const nameSpan = document.querySelector(".name-span");
-        const emailSpan = document.querySelector(".email-span");
-        const telSpan = document.querySelector(".tel-span");
+    if(userCode == 0) {
+        const nonMemberRequireItems = document.querySelectorAll(".non-member-require");
 
         addVisibleClass(nameSpan);
         addVisibleClass(emailSpan);
         addVisibleClass(telSpan);
+
+        removeVisibleClass(nameInput);
+        removeVisibleClass(emailBox);
+        removeVisibleClass(phoneBox);
         
         nonMemberRequireItems.forEach(item => item.classList.add("require-menu"));
     }
 }
 
 function submit() {
-    let form = new FormData(document.querySelector("form"));
+    if(!checkRequireMenu()) {
+        return false;
+    }
 
+    let form = new FormData(document.querySelector("form"));
     
     form = setFormData(form, boardType);
 
@@ -206,33 +218,30 @@ function modifyBoard(form) {
 }
 
 function setFormData(form, boardType) {
-
-    form.append("userCode", userCode);
-    form.append("userName",name.textContent);
-    form.append("email",email.textContent);
-    form.append("mainPhoneNumber",phoneNumber.textContent);
+    if(userCode != 0) {
+        form.append("userCode", userCode);
+        form.append("userName",nameSpan.textContent);
+        form.append("email",emailSpan.textContent);
+        form.append("mainPhoneNumber",telSpan.textContent);
+    }else {
+        form.append("userName", nameInput.value);
+        form.append("email", email);
+        form.append("mainPhoneNumber", phoneNumber);
+    }
+    
     form.append("boardTitle", titleInput.value);
-    form.append("boardContent", contentInput.value);  
-    form.append("boardTypeCode", boardType == "praise" ? 1 : boardType == "complaint" ? 2 : 3); 
+    form.append("boardContent", contentTextarea.value);
+    form.append("boardTypeCode", boardType == "complaint" ? 1 : boardType == "praise" ? 2 : 3); 
 
-    brandInputItems.forEach(brandInput=>{
-        if(brandInput.checked){
-            form.append("companyCode",brandInput.value);
-        }
-    });
+    form.append("companyCode", companyCode);
     
     if(boardType != "praise") {
-        responseInputItems.forEach(responseInput=>{
-            if(responseInput.checked){
-                form.append("responseFlag",responseInput.value);
-                
-            }
-        });
+        form.append("responseFlag", responseCode);
+    };
 
-        if(deleteFileCodeList != null) {
-            form.append("deleteFileCode", deleteFileCodeList);
-            form.append("deleteTempFileName", deleteTempFileNameList);
-        }
+    if(deleteFileCodeList != null) {
+        form.append("deleteFileCode", deleteFileCodeList);
+        form.append("deleteTempFileName", deleteTempFileNameList);
     }
 
     return form;
@@ -256,6 +265,82 @@ function getBoardCodeByUri() {
 
 function addVisibleClass(domObject) {
     domObject.classList.add("visible");
+}
+
+function removeVisibleClass(domObject) {
+    domObject.classList.remove("visible");
+}
+
+function checkRequireMenu() {
+    if(userCode == 0) {
+        const firstEmail = document.querySelector(".email-1");
+        const lastEmail = document.querySelector(".email-2");
+        const phoneSelect = document.querySelector(".phone-box select");
+        const middlePhoneNUmber = document.querySelector(".middle-number");
+        const lastPhoneNumber = document.querySelector(".last-number");
+
+        let firstPhoneNumer = phoneSelect.options[phoneSelect.selectedIndex].value;
+        
+        email = firstEmail.value + "@" + lastEmail.value;
+        phoneNumber = firstPhoneNumer + "-" + middlePhoneNUmber.value + "-" + lastPhoneNumber.value;
+        
+        let regPhone = /^01([0|1|6|7|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+        let regEmail = /^[A-Za-z0-9]+@[A-Za-z0-9]+\.com$/;
+
+        if(isEmpty(nameInput)) {
+            alert("이름을 입력해주세요.");
+            nameInput.focus();
+            return false;
+
+        }else if(!regEmail.test(email)) {
+            alert("이메일 주소를 올바르게 입력해주세요.")
+            firstEmail.focus();
+            return false;
+
+        }else if(!regPhone.test(phoneNumber)) {
+            alert("휴대폰번호를 확인해주세요.");
+            middlePhoneNUmber.focus();
+            return false;
+        }
+    }
+
+    brandInputItems.forEach(brandInput=>{
+        if(brandInput.checked){
+            companyCode = brandInput.value;
+        }
+    });
+
+    if(companyCode == 0) {
+        alert("제품 브랜드를 선택해주세요.");
+        return false;
+    }
+    
+    if(boardType != "praise") {
+        responseInputItems.forEach(responseInput=>{
+            if(responseInput.checked){
+                responseCode = responseInput.value;
+            }
+        });
+
+        if(responseCode == 0) {
+            alert("답변 수신 여부를 선택해주세요.");
+            return false;
+        }
+    }
+
+    if(isEmpty(titleInput.value)) {
+        alert("제목을 입력해주세요.");
+        return false;
+    }else if(isEmpty(contentTextarea.textContent)) {
+        alert("내용을 입력해주세요.");
+        return false;
+    }
+
+    return true;
+}
+
+function isEmpty(data) {
+    return data == null || data == undefined || data == "";
 }
 
 function errorMessage(request, status, error) {

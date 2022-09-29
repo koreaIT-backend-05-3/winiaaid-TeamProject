@@ -1,5 +1,6 @@
 package com.project.winiaaid.web.dto.board;
 
+import com.project.winiaaid.domain.board.Board;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,4 +21,17 @@ public class UpdateBoardReqeustDto {
     private List<MultipartFile> files;
     private List<Integer> deleteFileCode;
     private List<String> deleteTempFileName;
+
+    public Board toBoardEntity() {
+        return Board.builder()
+                .board_type_code(boardTypeCode)
+                .user_name(userName)
+                .user_email(email)
+                .main_phone_number(mainPhoneNumber)
+                .company_code(companyCode)
+                .response_flag(responseFlag)
+                .board_title(boardTitle)
+                .board_content(boardContent)
+                .build();
+    }
 }
