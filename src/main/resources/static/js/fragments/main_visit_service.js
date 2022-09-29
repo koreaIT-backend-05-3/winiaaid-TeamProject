@@ -51,7 +51,7 @@ const modifyButton = document.querySelector(".modify-button button");
 const requestButton = document.querySelector(".request-button");
 const cancelButton = document.querySelector(".cancel-button");
 
-
+let userCode = 1;
 
 let tempPhoneNumber = null;
 
@@ -67,7 +67,7 @@ let reservatedDayFlag = false;
 
 
 let userInfoObject = {
-    "userCode": 0,
+    "userCode": userCode,
     "userName": null,
     "email": null,
     "mainPhoneNumber": null,
@@ -90,6 +90,36 @@ setNowDate();
 setCalendarData();
 setChangeMonthButton("pre");
 setReservationableDaySpan();
+
+setSigninUserView();
+
+function setSigninUserView() {
+    if(userCode != 0) {
+        const checkLastRequestListDiv = document.querySelector(".check-last-request-list-div");
+        const addressTd = document.querySelector(".address-td");
+        const addressButton = document.querySelector(".address-button");
+    
+        mainAddressInput.classList.add("main-address-user-view");
+        detailAddressInput.classList.add("detail-address-user-view");
+        addressTd.setAttribute("colspan", 1);
+        removeVisibleClass(checkLastRequestListDiv);
+        removeVisibleClass(addressButton);
+
+        // loadUserInfoByUserCode();
+    }
+}
+
+function loadUserInfoByUserCode() {
+    $.ajax({
+        type: "get",
+        url: ``,
+        dataType: "json",
+        success: (response) => {
+
+        },
+        error: errorMessage
+    });
+}
 
 
 checkLastReqeustButton.onclick = loadPastRequestInfoPopup;

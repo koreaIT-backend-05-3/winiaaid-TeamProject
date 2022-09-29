@@ -424,8 +424,19 @@ table th {
 }
 
 .main-address {
-    /* width: 587px; */
+    width: 587px;
+}
+
+.main-address-user-view {
     width: 487px;
+}
+
+.detail-address {
+    width: 100%;
+}
+
+.detail-address-user-view {
+    width: 200px;
 }
 
 .search-address-button {
