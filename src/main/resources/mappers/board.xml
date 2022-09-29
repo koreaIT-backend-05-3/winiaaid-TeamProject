@@ -8,7 +8,7 @@
 	<resultMap id="boardResultMap" type="com.project.winiaaid.domain.board.Board">
 		<id property="company_code" column="company_code"/>
 		<result property="company_name" column="company_name"/>
-		<result property="email" column="email"/>
+		<result property="user_email" column="user_email"/>
 		<result property="main_phone_number" column="main_phone_number"/>
 		<result property="board_title"	column="board_title"/>
 		<result property="board_content" column="board_content"/>
@@ -108,24 +108,41 @@
 	<select id="findBoardByBoardCode" parameterType="Integer" resultMap="boardResultMap">
 		SELECT
 			bm.company_code,
-			bm.email,
-			bm.main_phone_number,
 			bm.board_title,
 			bm.board_content,
 			bm.progress_status,
 			bm.create_date,
 			bm.response_flag,
 
+			<choose>
+				<when test="user_code != 0">
+					um.user_name,
+					um.user_email,
+					ud.main_phone_number,
+				</when>
+				<otherwise>
+					nmt.user_name,
+					nmt.user_email,
+					nmt.main_phone_number,
+				</otherwise>
+			</choose>
+
 			bf.file_code,
 			bf.file_name,
-
-			um.user_name,
 
 			pct.company_name
 		FROM
 			board_mst bm
 			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
-			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
+			<choose>
+				<when test="user_code != 0">
+					LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
+					LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
+				</when>
+				<otherwise>
+					LEFT OUTER JOIN non_member_table nmt on(ntm.board_code = bm.board_code)
+				</otherwise>
+			</choose>
 			LEFT OUTER JOIN product_company_table pct on(pct.company_code = bm.company_code)
 		WHERE
 			bm.board_code = #{board_code};

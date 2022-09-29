@@ -1,18 +1,23 @@
 const uploadButton = document.querySelector(".upload-button");
 const cancelButton = document.querySelector(".cancle-button")
-const name = document.querySelector(".name");
-const email = document.querySelector(".email");
-const phoneNumber = document.querySelector(".phone-number");
+// const name = document.querySelector(".name");
+// const email = document.querySelector(".email");
+const nameSpan = document.querySelector(".name-span");
+const emailSpan = document.querySelector(".email-span");
+const telSpan = document.querySelector(".tel-span");
+// const phoneNumber = document.querySelector(".phone-number");
 const titleInput = document.querySelector(".title-input");
-const contentInput = document.querySelector(".content-td textarea")
+const contentTextarea = document.querySelector(".content-textarea")
 const brandInputItems = document.querySelectorAll(".brand-td input");
-const responseInputItems = document.querySelectorAll(".susin-td input");
+const responseInputItems = document.querySelectorAll(".response-td input");
 const fileDiv = document.querySelector(".file-div");
+const inputFileDivItems = document.querySelectorAll(".input-file-div");
 
-let userCode = 0;
+let userCode = 1;
 let modifyFlag = false;
 let boardType = null;
 let boardCode = 0;
+let fileSize = 0;
 
 let deleteFileCodeList = null;
 let deleteTempFileNameList = null;
@@ -25,6 +30,10 @@ if(modifyFlag) {
     loadBoardInfo(boardCode);
     setModifyBoardView();
 }
+
+checkUnalterableUserInfoByuserCode();
+
+contentTextarea.onkeyup = () => checkByte(contentTextarea, 5000);
 
 uploadButton.onclick = submit;
 
@@ -58,17 +67,12 @@ function loadBoardInfo(boardCode) {
 }
 
 function setBoardData(boardData) {
-    const nameInput = document.querySelector(".name-input");
-    const emailInput = document.querySelector(".email-input");
-    const telInput = document.querySelector(".tel-input");
     const winiaRadio = document.querySelector(".winia");
     const daewooRadio = document.querySelector(".daewoo");
-    const titleInput = document.querySelector(".title-input");
-    const contentTextarea = document.querySelector(".content-textarea");
 
-    nameInput.value = boardData.userName;
-    emailInput.value = boardData.email;
-    telInput.value = boardData.mainPhoneNumber;
+    nameSpan.textContent = boardData.userName;
+    emailSpan.textContent = boardData.email;
+    telSpan.textContent = boardData.mainPhoneNumber;
 
     boardData.companyCode == 1 ? daewooRadio.setAttribute("checked", true) : winiaRadio.setAttribute("checked", true);
     
@@ -92,30 +96,67 @@ function setBoardData(boardData) {
 }
 
 function setBoardFile(fileList) {
-    for(let i = 0; fileList.length; i++) {
+    fileSize = fileList.length;
+
+    for(let i = 0; i < fileList.length; i++) {
         fileDiv.innerHTML += `
-            <span>${fileList[i].originalFileName} <span class="delete-file-span"> x</span></span>
+            <span class="file-name">${fileList[i].originalFileName} <span class="delete-file-span"> x</span></span>
         `;
     }
 
     setDeleteFileClickEvent(fileList);
+    inputFileBlock(fileList.length);
 }
 
-function setDeleteFileClickEvent(fileList) {
-    const deleteFileSpanItems = document.querySelectorAll(".delete-file-span");
-
-    for(let i = 0; i < fileList.length; i++) {
-        deleteFileSpanItems[i].onclick = deleteFile(fileList[i].fileCode, fileList[i].tempFileName);
+function inputFileBlock(size) {
+    for(let i = 0; i < size; i++) {
+        inputFileDivItems[2 - i].querySelector("input").disabled = true;
+        inputFileDivItems[2 - i].classList.add("block-file");
     }
 }
 
-function deleteFile(fileCode, tempFileName) {
+function setDeleteFileClickEvent(fileList) {
+    const fileNameSpan = document.querySelectorAll(".file-name");
+    const deleteFileSpanItems = document.querySelectorAll(".delete-file-span");
+
+    for(let i = 0; i < fileList.length; i++) {
+        deleteFileSpanItems[i].onclick = () => deleteFile(fileNameSpan[i], fileList[i].fileCode, fileList[i].tempFileName);
+    }
+}
+
+function deleteFile(fileNameSpan, fileCode, tempFileName) {
+    if(fileSize != 0) {
+        fileSize--;
+        inputFileDivItems[fileSize].classList.remove("block-file");
+        inputFileDivItems[fileSize].querySelector("input").disabled = false;
+
+        fileNameSpan.classList.add("delete-file");
+
+        addVisibleClass(fileNameSpan.querySelector("span"));
+    }
+    
     deleteFileCodeList.push(fileCode);
     deleteTempFileNameList.push(tempFileName);
 }
 
 function setModifyBoardView() {
     fileDiv.classList.remove("visible");
+}
+
+function checkUnalterableUserInfoByuserCode() {
+    if(userCode != 0) {
+        const nonMemberRequireItems = document.querySelectorAll(".non-member-require")
+        
+        const nameSpan = document.querySelector(".name-span");
+        const emailSpan = document.querySelector(".email-span");
+        const telSpan = document.querySelector(".tel-span");
+
+        addVisibleClass(nameSpan);
+        addVisibleClass(emailSpan);
+        addVisibleClass(telSpan);
+        
+        nonMemberRequireItems.forEach(item => item.classList.add("require-menu"));
+    }
 }
 
 function submit() {
@@ -211,6 +252,10 @@ function setWriteViewByBoardType() {
 
 function getBoardCodeByUri() {
     return location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+}
+
+function addVisibleClass(domObject) {
+    domObject.classList.add("visible");
 }
 
 function errorMessage(request, status, error) {

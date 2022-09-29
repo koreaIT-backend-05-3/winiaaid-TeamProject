@@ -27,7 +27,7 @@ public class Board {
 
 	private int user_code;
 	private String user_name;
-	private String email;
+	private String user_email;
 	private String main_phone_number;
 
 	private int company_code;
@@ -42,7 +42,7 @@ public class Board {
 				.userName(user_name)
 				.companyCode(company_code)
 				.companyName(company_name)
-				.email(email)
+				.email(user_email)
 				.mainPhoneNumber(main_phone_number)
 				.boardTitle(board_title)
 				.boardContent(board_content)

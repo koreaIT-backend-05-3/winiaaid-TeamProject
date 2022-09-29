@@ -29,7 +29,7 @@ public class CreateBoardRequestDto {
 				.user_code(userCode)
 				.board_type_code(boardTypeCode)
 				.user_name(userName)
-				.email(email)
+				.user_email(email)
 				.main_phone_number(mainPhoneNumber)
 				.company_code(companyCode)
 				.response_flag(responseFlag)
