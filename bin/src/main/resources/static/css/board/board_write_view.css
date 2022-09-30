@@ -1,0 +1,315 @@
+.fa-check {
+    color: #0A71CC;
+}
+
+.li-info li {
+    font-size: 13px;
+    color: #5b5a5a;
+
+    list-style-type: disc;
+}
+
+.li-info li::marker {
+    color: #0A71CC;
+}
+
+.board-write-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.board-body-inner {
+    margin: 0px auto;
+
+    width: 980px;
+}
+
+.board-write-body h2 {
+    margin-bottom: 60px;
+
+    width: 980px;
+    height: 30.8px;
+
+    font-size: 28px;
+    line-height: 1.1em;
+    font-weight: 400;
+    color: #252525;
+}
+
+.require-p {
+    right: 0px;
+    top: -30px;
+
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: #252525;
+
+    text-align: end;
+}
+
+.require-menu:before {
+    content: "✔";
+    color: #0A71CC;
+}
+
+.board-write-table {
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+
+    width: 980px;
+}
+
+.board-write-table th, td {
+    padding: 10px 30px;
+
+    width: 147px;
+    height: 39px;
+}
+
+.board-write-table tr:not(.chingchan-write-table tr:first-child) {
+    border-top: 1px solid #dbdbdb;
+}
+
+.border-none {
+    border: none;
+    outline: none;
+}
+
+.name-input {
+    border: 1px solid #e7e7e7;
+    padding: 5px;
+
+    width: 125px;
+    height: 31px;
+    
+    background-color: #fcfcfc;
+}
+
+.email-box input{
+    border: 1px solid #e7e7e7;
+    padding: 5px;
+
+
+    width: 130px;
+    height: 31px;
+    
+    background-color: #fcfcfc;
+}
+
+.email-box select {
+    border: 1px solid #e7e7e7;
+
+    width: 125px;
+    height: 31px;
+    
+    background-color: #fcfcfc;
+}
+
+.phone-box {
+    display: flex;
+    align-items: center;
+    border: none;
+}
+
+.phone-box input {
+    border: 1px solid #e7e7e7;
+
+    padding: 5px;
+    height: 31px;
+    
+    background-color: #fcfcfc;
+    
+    text-align: center;
+}
+
+.phone-box select {
+    border: 1px solid #e7e7e7;
+    
+    color: #7e7e7e;
+    padding: 5px;
+
+    width: 132px;
+    height: 31px;
+    background-color: #fcfcfc;
+}
+
+.brand-th {
+    width: 147px;
+    height: 57px;
+}
+
+.brand-td {
+    width: 833px;
+    height: 57px;
+}
+
+.response-th {
+    width: 147px;
+}
+
+.response-td {
+    width: 833px;
+}
+
+.title-th {
+    width: 147px;
+    height: 52px;
+}
+
+.title-td {
+    width: 833px;
+    height: 52px;
+}
+
+.title-input {
+    padding: 5px;
+
+    width: 100%;
+}
+
+.content-th, .content-td {
+    width: 833px;
+    height: 236px;
+}
+
+.content-p {
+    margin-left: 0px;
+    color: #7e7e7e;
+    font-size: 15px;
+}
+
+textarea {
+    padding: 5px;
+
+    width: 100%;
+    height: 192px;
+
+    resize: none;
+}
+
+.limit-byte-notice {
+    display: flex;
+    justify-content: space-between;
+}
+
+.allowed-byte-display {
+    color: #0A71CC;
+}
+
+.file-th {
+    width: 833px;
+    height: 198px;
+}
+
+.file-td {
+    width: 833px;
+    height: 198px;
+}
+
+.file-p {
+    margin-left: 0px;
+    color: #7e7e7e;
+    font-size: 15px;
+    padding-left:15px ;
+}
+
+.file-upload {
+    height: 87px;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-file-div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    position: relative;
+}
+
+.input-file-div {
+    position: absolute;
+}
+
+.block-file {
+    z-index: 50;
+    opacity: .5;
+}
+
+.input-file-div:nth-child(2) {
+    top: 30px;
+}
+
+.input-file-div:nth-child(3) {
+    top: 60px;
+}
+
+.file-div {
+    display: flex;
+    flex-direction: clumn;
+    justify-content: space-between;
+
+    margin-left: 300px;
+
+    height: 87px;
+
+    font-size: 13px;
+
+}
+
+.file-name {
+    display: inline-block;
+    margin-left: 10px;
+    padding-top: 3px;
+
+    height: 24px;
+
+}
+
+.delete-file-span {
+    margin-left: 20px;
+
+    font-size: 16px;
+    color: #7d7d7d;
+
+    cursor: pointer;
+}
+
+.delete-file {
+    text-decoration: line-through;
+}
+
+.button-group {
+    margin: 50px 0px;
+    padding: 0px;
+    font-weight: 400;
+}
+
+.button-group button {
+    border: none;
+    padding: 0px;
+
+    width: 122px;
+    height: 42px;
+
+    font-size: 16px;
+    font-weight: 400;
+    color: #ffffff;
+
+    cursor: pointer;
+}
+
+.upload-button {
+    background-color: #0a71cc;
+}
+
+.cancle-button {
+    margin-left: 5px;
+    background-color: #5b5a5a;
+}
+
+.visible {
+    display: none;
+}

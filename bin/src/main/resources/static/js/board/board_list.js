@@ -1,30 +1,58 @@
-let userCode = 0;
+const writeButton = document.querySelector(".write-button");
+const searchKeyword = document.querySelector(".input-box");
+const searchButton = document.querySelector(".search-btn");
+
+const contentTableBody = document.querySelector(".content-table-body");
+
+let userCode = 1;
 let boardType = null;
 
+loadPageHistoryByLocalStorage();
 
 boardType = getBoardType();
 
-loadPage(1);
+loadPage(nowPage);
+
+setBoardContentByBoardType();
+setBoardTableByBoardType();
+
+writeButton.onclick = loadBoardWritePage;
+
+searchButton.onclick = () => getBoardList(1);
+
+
+
+function getBoardType() {
+    return location.pathname.indexOf("complaint") != -1 ? "complaint" : location.pathname.indexOf("praise") != -1 ? "praise" : "suggestion";
+}
 
 function loadPage(page) {
     getBoardList(page)
 }
-setBoardContentByBoardType();
-setBoardTableByBoardType();
-
 
 function getBoardList(page){
+    let searchType = getSelectedOptionValue();
+    let keyword = getSearchKeyword();
+
     $.ajax({
         type:"get",
-        url:`/api/v1/board/list?user=${userCode}&board-type=${boardType}&page=${page}`,
+        url:`/api/v1/board/${boardType}/list/user/${userCode}`,
+        data: {
+            "searchType": searchType,
+            "keyword": keyword,
+            "page": page
+        },
         dataType:"json",
         success:(response)=>{
             if(response.data != null){
-                let totalPage = getTotalPage(response.data[0].totalCount, 10);
+                let totalPage = getTotalPage(response.data[0].totalCount, 2);
                 setPage(totalPage);
 
                 setTotalCount(response.data[0].totalCount);
                 setBoardList(response.data)
+            }else {
+                boardListNoResult();
+                setTotalCount(0);
             }
         },
         error:(request, status, error)=>{
@@ -32,12 +60,16 @@ function getBoardList(page){
             console.log(request.responseText);
             console.log(error);
         }
-    })
+    });
+}
+
+function setTotalCount(totalCount) {
+    const totalCountSpan = document.querySelector(".total-count-span");
+
+    totalCountSpan.textContent = totalCount;
 }
 
 function setBoardList(boardList){
-    const contentTableBody = document.querySelector(".content-table-body");
-
     clearDomObject(contentTableBody);
 
     if(boardType == "praise") {
@@ -47,7 +79,7 @@ function setBoardList(boardList){
     
             contentTableBody.innerHTML += `
                 <tr>
-                    <td class="content-title">${board.boardTitle}</td>
+                    <td class="content-title"><span>${board.boardTitle}</span></td>
                     <td class="content-name">${board.userName}</td>
                     <td class="content-date">${date} ${time}</td>
                 </tr>
@@ -62,7 +94,7 @@ function setBoardList(boardList){
             contentTableBody.innerHTML += `
                 <tr>
                     <td class="company-name">${board.companyName}</td>
-                    <td class="content-title">${board.boardTitle}</td>
+                    <td class="content-title"><span>${board.boardTitle}</span></td>
                     <td class="progress-status">${board.progressStatus}</td>
                     <td class="content-name">${board.userName}</td>
                     <td class="content-date">${date} ${time}</td>
@@ -70,20 +102,23 @@ function setBoardList(boardList){
             `
         }
     }
+
+    setBoardTitleClickEvent(boardList);
 }
 
-function setTotalCount(totalCount) {
-    const totalCountSpan = document.querySelector(".total-count-span");
-
-    totalCountSpan.textContent = totalCount;
+function boardListNoResult() {
+    contentTableBody.innerHTML = `
+        <tr class="list-unit">
+            <td class="data-none" colspan="${boardType == "praise" ? 3 : 5}">검색된 결과가 없습니다.</td>
+        </tr>`;
 }
 
-function clearDomObject(domObject){
-    domObject.innerHTML="";
-}
+function setBoardTitleClickEvent(boardList) {
+    const boardTitle = document.querySelectorAll("tbody .content-title span");
 
-function getBoardType() {
-    return location.pathname.indexOf("complaint") != -1 ? "complaint" : location.pathname.indexOf("praise") != -1 ? "praise" : "suggestion";
+    for(let i = 0; i < boardTitle.length; i++) {
+        boardTitle[i].onclick = () => loadBoardDetailPage(boardList[i].boardCode);
+    }
 }
 
 function setBoardContentByBoardType() {
@@ -126,5 +161,73 @@ function setBoardTableByBoardType() {
                 <th class="content-date">등록일</th>
             </tr>
         `;
+    }
+}
+
+function getSelectedOptionValue() {
+    const searchTypeSelect = document.querySelector(".select-btn");
+
+    return searchType = searchTypeSelect.options[searchTypeSelect.selectedIndex].value;
+}
+
+function getSearchKeyword() {
+    return searchKeyword.value;
+}
+
+function clearDomObject(domObject){
+    domObject.innerHTML="";
+}
+
+function loadBoardDetailPage(boardCode) {
+    setPageInfoLocalStorage();
+
+    location.href = `/customer/${boardType}/detail/${boardCode}`;
+
+}
+
+function loadBoardWritePage() {
+    location.href = `/customer/${boardType}/regist-view`;
+}
+
+
+function setPageInfoLocalStorage() {
+    let searchType = getSelectedOptionValue();
+    let keyword = getSearchKeyword();
+    
+    let boardPageInfoObject = {
+        "searchType": searchType,
+        "keyword": keyword,
+        "page": nowPage
+    };
+
+    localStorage.boardPageInfo = JSON.stringify(boardPageInfoObject);
+}
+
+function getLocalStorageData() {
+    let pageHistory = localStorage.boardPageInfo;
+
+    if(pageHistory != null) {
+        return pageHistory;
+    }else {
+        return null;
+    }
+}
+
+function loadPageHistoryByLocalStorage() {
+    let localStorageData = getLocalStorageData();
+    if(localStorageData != null) {
+        const selectOptionItems = document.querySelectorAll(".select-btn option");
+
+        localStorageData = JSON.parse(localStorageData);
+    
+        selectOptionItems.forEach(option => {
+            if(option.value == localStorageData.searchType) {
+                option.setAttribute("selected", true);
+            }
+        });
+        searchKeyword.value = localStorageData.keyword;
+        nowPage = localStorageData.page;
+        
+        localStorage.removeItem("boardPageInfo");
     }
 }

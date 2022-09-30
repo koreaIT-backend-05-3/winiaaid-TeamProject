@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <th:block th:replace="/fragments/header"></th:block>
+    <main>
+        <div class="board-write-body">
+            <div class="location-div">
+    
+            </div>
+            <div class="board-body-inner">
+                <h2>불편합니다</h2>
+                <p class="require-p require-menu">필수입력사항</p>
+                <table class="board-write-table">
+                    <tr>
+                        <th class="name-th non-member-require">성명</th>
+                        <td class="name">
+                            <span class="name-span">홍길동</span>
+                            <input class="name-input visible" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="email-th non-member-require">이메일</th>
+                        <td class="email">
+                            <span class="email-span">test@naver.com</span>
+                            <div class="email-box visible">
+                                <input class="email-1" type="text">
+                                <span>@</span>
+                                <input class="email-2" type="text">
+                                <select name="" id="">
+                                    <option value="custom">직접입력</option>
+                                    <option value="naver.com">naver.com</option>
+                                    <option value="daum.com">daum.com</option>
+                                    <option value="nate.com">nate.com</option>
+                                    <option value="gmail.com">gmail.com</option>
+                                    <option value="yahoo.com">yahoo.com</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="phone-th non-member-require">휴대폰번호</th>
+                        <td class="phone-number">
+                            <span class="tel-span">010-1111-9999</span>
+                            <div class="phone-box visible">
+                                <select name="" id="">
+                                    <option value="">선택</option>
+                                    <option value="010">010</option>
+                                    <option value="011">011</option>
+                                    <option value="016">016</option>
+                                    <option value="017">017</option>
+                                    <option value="019">019</option>
+                                </select>
+                                <span>-</span>
+                                <input class="middle-number" type="tel" maxlength="4">
+                                <span>-</span>
+                                <input class="last-number" type="tel" maxlength="4">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="brand-th require-menu">접수대상 브랜드</th>
+                        <td class="brand-td">
+                            <input name="company" type="radio" id="winia" class="winia" value="2">
+                            <label for="winia">위니아 제품</label>
+                            <input name="company" type="radio" id="daewoo" class="daewoo" value="1">
+                            <label for="daewoo">위니아전자(구 대우전자) 제품</label>
+                        </td>
+                    </tr>
+                    <tr class="response-tr">
+                        <th class="response-th require-menu"></i>답변 수신 여부</th>
+                        <td class="response-td">
+                            <input name="receive" type="radio" id="receive" class="receive" value="1">
+                            <label for="receive">수신함</label>
+                            <input name="receive" type="radio" id="not-receive" class="not-receive" value="0">
+                            <label for="not-receive">수신안함</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="title-th require-menu"></i>제목</th>
+                        <td class="title-td">
+                            <input class="title-input" type="text" placeholder="제목을 입력해주세요." style="border: 1px solid #dbdbdb ; background-color: #fcfcfc;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="content-th require-menu">내용</th>
+                        <td class="content-td">
+                            <textarea class="content-textarea" placeholder="내용을 입력해주세요." style="border: 1px solid #dbdbdb ; background-color: #fcfcfc;"></textarea>
+                            <div class="limit-byte-notice">
+                                <p class="content-p">※최대 5,000Bytes(한글 2,500자, 영문 5,000자)까지 가능</p>
+                                <span class="allowed-byte"><span class="allowed-byte-display"></span>/5000bytes</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="file-th">첨부파일</th>
+                        <td class="file-td">
+                            <div class="main-file-div">
+                                <form class="file-upload" enctype="multipart/form-data">
+                                    <div class="input-file-div">
+                                        <input name="files" class="fileupload1" type="file" accept=".gif, .jpg, .jepg, .png">
+                                    </div>
+                                    <div class="input-file-div">
+                                        <input name="files" class="fileupload2" type="file" accept=".gif, .jpg, .jepg, .png">
+                                    </div>
+                                    <div class="input-file-div">
+                                        <input name="files" class="fileupload3" type="file" accept=".gif, .jpg, .jepg, .png">
+                                    </div>
+                                </form>
+                                <div class="file-div visible">
+                
+                                </div>
+                            </div>
+                            <p class="file-p">※첨부가능 확장가는 아래와 같으며, 총 50MB 까지 가능합니다.(첨부 3개 제한)<br> -그림 파일 (jpg, jpeg, gif, png)<br> - 문서 파일 (txt, doc, docx, xls, xlsx, ppt, pptx, pdf, hwp)<br> - 압축 파일 (zip)<br>- 동영상 파일(avi, mp4)</p>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <ul class="li-info">
+                        <li>장시간 미사용 시 자동 로그아웃이 되어 작성중이던 글이 등록 안될 수 있습니다.</li>
+                        <li>업무시간 외에는 (주말, 공휴일)답변이 지연될 수 있습니다.</li>
+                        <li>게시판 성격에 맞지 않는 게시물은 사전 통보 없이 삭제되거나 해당 게시판으로 이동될 수 있습니다.</li>
+                    </ul>
+                </div>
+                <center>
+                    <ul class="button-group">
+                        <button class="upload-button" type="button">등록</button>
+                        <button class="cancle-button" type="button">취소</button>
+                    </ul>  
+                </center>
+            </div>
+            
+        </div>
+    </main>
+    <th:block th:replace="/fragments/footer"></th:block>
+    <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
+    <script src="/static/js/util/location_notice.js"></script>
+    <script src="/static/js/util/check_byte.js"></script>
+    <script src="/static/js/board/board_write_view.js"></script>
+</html>

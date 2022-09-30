@@ -1,5 +1,6 @@
 function checkByte(object, maxByte) {
     // const maxByte = 40;
+
     const text = object.value;
     const textSize = text.length;
     
