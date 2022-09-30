@@ -72,7 +72,7 @@ function setBoardDetail(boardDetail){
         </td>
     `;
 
-    if(boardDetail.fileList.length != 0) {
+    if(boardDetail.fileList != null) {
         setFile(boardDetail.fileList);
     }
 }

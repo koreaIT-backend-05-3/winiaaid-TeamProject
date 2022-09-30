@@ -67,7 +67,7 @@
 			id1 = #{board_type_code}
 	</select>
 	
-	<select id="findBoardListByBoardType" parameterType="hashmap" resultType="com.project.winiaaid.domain.board.BoardTitle">
+	<select id="findBoardListByBoardTypeAndKeyword" parameterType="hashmap" resultType="com.project.winiaaid.domain.board.BoardTitle">
 		SELECT
 			bm.board_code,
 			bm.user_code,
@@ -94,14 +94,53 @@
 								user_code = #{user_code}
 								AND
 							</if>
+							<if test="keyword != null or keyword != ''">
+								<choose>
+									<when test="search_type != 'all'">
+										<choose>
+											<when test="search_type == 'title'">
+												board_title like concat('%', #{keyword}, '%')
+											</when>
+											<otherwise>
+												board_content like concat('%', #{keyword}, '%')
+											</otherwise>
+										</choose>
+									</when>
+									<otherwise>
+										(board_title like concat('%', #{keyword}, '%')
+										or board_content like concat('%', #{keyword}, '%'))
+									</otherwise>
+								</choose>
+								and
+							</if>
 							board_type_code = #{board_type_code}) tc on(1=1)
-			
 		WHERE
 			<if test="board_type_code != 2">
 				bm.user_code = #{user_code}
 				AND
 			</if>
+			<if test="keyword != null or keyword != ''">
+				<choose>
+					<when test="search_type != 'all'">
+						<choose>
+							<when test="search_type == 'title'">
+								board_title like concat('%', #{keyword}, '%')
+							</when>
+							<otherwise>
+								board_content like concat('%', #{keyword}, '%')
+							</otherwise>
+						</choose>
+					</when>
+					<otherwise>
+						(board_title like concat('%', #{keyword}, '%')
+						or board_content like concat('%', #{keyword}, '%'))
+					</otherwise>
+				</choose>
+				and
+			</if>
 			bm.board_type_code = #{board_type_code}
+		GROUP BY
+			bm.board_code
 		LIMIT #{page}, 10;
 	
 	</select>

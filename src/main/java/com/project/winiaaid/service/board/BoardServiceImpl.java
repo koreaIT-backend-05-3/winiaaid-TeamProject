@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,28 +46,16 @@ public class BoardServiceImpl implements BoardService {
 
 		status = boardRepository.insertBoard(boardEntity);
 
-		if(status != 0 && !createBoardRequestDto.getFiles().get(0).getOriginalFilename().isBlank()) {
+		if(status != 0 && !checkUploadFileIsBlank(createBoardRequestDto.getFiles())) {
 			fileList = new ArrayList<>();
 			for(MultipartFile file : createBoardRequestDto.getFiles()) {
 				
 				if(!file.getOriginalFilename().isBlank()) {
-					String tempFileName = UUID.randomUUID().toString().replaceAll("-", "") + "_" + file.getOriginalFilename();
-
-					Path path = Paths.get(filePath, "board-files/" + tempFileName);
+					String tempFileName = createFileByFileAndPath(file, "board-files");
 					
-//					mkdirs는 파일을 생성해주는 기능
-					File f = new File(filePath + "board-files");
-					
-					if (!f.exists()) {
-						f.mkdirs();
-					}
-					
-					Files.write(path, file.getBytes());
-					
-					fileList.add(BoardFile.builder()
-							.board_code(boardEntity.getBoard_code())
-							.file_name(tempFileName)
-							.build());
+					fileList.add(
+							buildBoardFileList(boardEntity.getBoard_code(), tempFileName)
+					);
 				}
 				
 			}
@@ -84,7 +73,10 @@ public class BoardServiceImpl implements BoardService {
 
 		configMap = configMapper.setConfigMap(readBoardRequestDto);
 
-		boardEntityList = boardRepository.findBoardListByBoardType(configMap);
+		log.info("configMap: {}", configMap);
+		log.info("keyword: {}", configMap.get("keyword"));
+
+		boardEntityList = boardRepository.findBoardListByBoardTypeAndKeyword(configMap);
 		
 		if(boardEntityList.size() != 0 && boardEntityList != null) {
 			boardDtoList = boardEntityList.stream()
@@ -120,33 +112,21 @@ public class BoardServiceImpl implements BoardService {
 			boardRepository.deleteBoardFileByFileCode(updateBoardReqeustDto.getDeleteFileCode());
 
 			for(String fileName : updateBoardReqeustDto.getDeleteTempFileName()) {
-				Path path = Paths.get(filePath + "board-files/" + fileName);
+				deleteFileByFileNameAndPath(fileName, "board-files");
 
-				File f = new File(filePath + "board-files");
-
-				if(f.exists()) {
-					Files.delete(path);
-				}
 			}
 		}
 
-		if(status && !updateBoardReqeustDto.getFiles().get(0).getOriginalFilename().isBlank()) {
+		if(status && !checkUploadFileIsBlank(updateBoardReqeustDto.getFiles())) {
 			List<BoardFile> fileList = new ArrayList<BoardFile>();
 			for(MultipartFile file : updateBoardReqeustDto.getFiles()) {
-				String tempFileName = UUID.randomUUID().toString().replaceAll("-", "") + "_" + file.getOriginalFilename();
-				Path path = Paths.get(filePath + "board-files/" + tempFileName);
+				if(!file.getOriginalFilename().isBlank()) {
+					String tempFileName = createFileByFileAndPath(file, "board-files");
 
-				File f = new File(filePath + "board-files");
-
-				if(!f.exists()) {
-					f.mkdirs();
+					fileList.add(
+							buildBoardFileList(boardEntity.getBoard_code(), tempFileName)
+					);
 				}
-
-				Files.write(path, file.getBytes());
-				fileList.add(BoardFile.builder()
-						.file_name(tempFileName)
-						.board_code(boardEntity.getBoard_code())
-						.build());
 			}
 			boardRepository.insertBoardFile(fileList);
 		}
@@ -163,16 +143,52 @@ public class BoardServiceImpl implements BoardService {
 		
 		if(fileList.size() != 0) {
 			for(BoardFile fileName:fileList) {
-				Path path = Paths.get(filePath, "board-files/" + fileName.getFile_name());
-				
-				File f = new File(path.toString());
+				deleteFileByFileNameAndPath(fileName.getFile_name(), "board-files");
 
-				if(f.exists()) {
-					Files.delete(path);
-				}
-				
 			}
 		}
 		return boardRepository.deleteBoardByBoardCode(boardCode) > 0;
+	}
+
+	private boolean checkUploadFileIsBlank(List<MultipartFile> fileList) {
+		for(MultipartFile file : fileList) {
+			if(!file.getOriginalFilename().isBlank()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private String createFileByFileAndPath(MultipartFile file, String customPath) throws IOException {
+		String tempFileName = UUID.randomUUID().toString().replaceAll("-", "") + "_" + file.getOriginalFilename();
+
+		Path path = Paths.get(filePath + customPath + "/" + tempFileName);
+
+		File f = new File(filePath + customPath);
+
+		if(!f.exists()) {
+			f.mkdirs();
+		}
+
+		Files.write(path, file.getBytes());
+
+		return tempFileName;
+	}
+
+	private BoardFile buildBoardFileList(String boardCode, String tempFileName) {
+		return BoardFile.builder()
+				.board_code(boardCode)
+				.file_name(tempFileName)
+				.build();
+	}
+
+	private void deleteFileByFileNameAndPath(String fileName, String customPath) throws IOException {
+		Path path = Paths.get(filePath + customPath + "/" + fileName);
+
+		File f = new File(filePath + customPath);
+
+		if(f.exists()) {
+			Files.delete(path);
+		}
 	}
 }

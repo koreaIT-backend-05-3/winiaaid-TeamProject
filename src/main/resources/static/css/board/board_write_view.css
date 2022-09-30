@@ -219,7 +219,6 @@ textarea {
     height: 87px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 .main-file-div {
@@ -249,7 +248,7 @@ textarea {
 
 .file-div {
     display: flex;
-    flex-direction: column;
+    flex-direction: clumn;
     justify-content: space-between;
 
     margin-left: 300px;

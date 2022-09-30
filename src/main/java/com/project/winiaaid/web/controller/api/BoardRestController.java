@@ -14,6 +14,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -51,12 +52,9 @@ public class BoardRestController {
 	}
 
 	@Log
-	@GetMapping("/list")
-	public ResponseEntity<?> getBoardListByBoardType(@RequestParam Map<String, Object> parametersMap){
+	@GetMapping("/{boardType}/list/user/{userCode}")
+	public ResponseEntity<?> getBoardListByBoardType(ReadBoardRequestDto readBoardRequestDto){
 		List<ReadBoardTitleResponseDto> boardList = null;
-		ReadBoardRequestDto readBoardRequestDto = null;
-
-		readBoardRequestDto = customObjectMapper.createReadBoardRequestDtoByObjectMapper(parametersMap);
 
 		try {
 			boardList = boardService.getBoardListByBoardType(readBoardRequestDto);

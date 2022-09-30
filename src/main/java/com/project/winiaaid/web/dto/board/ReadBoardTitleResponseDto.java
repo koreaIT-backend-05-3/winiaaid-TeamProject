@@ -16,7 +16,7 @@ public class ReadBoardTitleResponseDto {
     private String userName;
     private String companyName;
 
-    private int progressStatus;
+    private String progressStatus;
     private int totalCount;
     private String createDate;
 }

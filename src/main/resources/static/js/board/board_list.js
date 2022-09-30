@@ -1,6 +1,9 @@
 const writeButton = document.querySelector(".write-button");
+const searchButton = document.querySelector(".search-btn");
 
-let userCode = 0;
+const contentTableBody = document.querySelector(".content-table-body");
+
+let userCode = 1;
 let boardType = null;
 
 
@@ -13,15 +16,30 @@ setBoardTableByBoardType();
 
 writeButton.onclick = loadBoardWritePage;
 
+searchButton.onclick = () => getBoardList(1);
+
+
+
+function getBoardType() {
+    return location.pathname.indexOf("complaint") != -1 ? "complaint" : location.pathname.indexOf("praise") != -1 ? "praise" : "suggestion";
+}
 
 function loadPage(page) {
     getBoardList(page)
 }
 
 function getBoardList(page){
+    let searchType = getSelectedOptionValue();
+    let keyword = getSearchKeyword();
+
     $.ajax({
         type:"get",
-        url:`/api/v1/board/list?user=${userCode}&board-type=${boardType}&page=${page}`,
+        url:`/api/v1/board/${boardType}/list/user/${userCode}`,
+        data: {
+            "searchType": searchType,
+            "keyword": keyword,
+            "page": page
+        },
         dataType:"json",
         success:(response)=>{
             if(response.data != null){
@@ -30,6 +48,9 @@ function getBoardList(page){
 
                 setTotalCount(response.data[0].totalCount);
                 setBoardList(response.data)
+            }else {
+                boardListNoResult();
+                setTotalCount(0);
             }
         },
         error:(request, status, error)=>{
@@ -40,9 +61,13 @@ function getBoardList(page){
     });
 }
 
-function setBoardList(boardList){
-    const contentTableBody = document.querySelector(".content-table-body");
+function setTotalCount(totalCount) {
+    const totalCountSpan = document.querySelector(".total-count-span");
 
+    totalCountSpan.textContent = totalCount;
+}
+
+function setBoardList(boardList){
     clearDomObject(contentTableBody);
 
     if(boardType == "praise") {
@@ -52,7 +77,7 @@ function setBoardList(boardList){
     
             contentTableBody.innerHTML += `
                 <tr>
-                    <td class="content-title">${board.boardTitle}</td>
+                    <td class="content-title"><span>${board.boardTitle}</span></td>
                     <td class="content-name">${board.userName}</td>
                     <td class="content-date">${date} ${time}</td>
                 </tr>
@@ -67,7 +92,7 @@ function setBoardList(boardList){
             contentTableBody.innerHTML += `
                 <tr>
                     <td class="company-name">${board.companyName}</td>
-                    <td class="content-title">${board.boardTitle}</td>
+                    <td class="content-title"><span>${board.boardTitle}</span></td>
                     <td class="progress-status">${board.progressStatus}</td>
                     <td class="content-name">${board.userName}</td>
                     <td class="content-date">${date} ${time}</td>
@@ -79,18 +104,19 @@ function setBoardList(boardList){
     setBoardTitleClickEvent(boardList);
 }
 
-function setTotalCount(totalCount) {
-    const totalCountSpan = document.querySelector(".total-count-span");
-
-    totalCountSpan.textContent = totalCount;
+function boardListNoResult() {
+    contentTableBody.innerHTML = `
+        <tr class="list-unit">
+            <td class="data-none" colspan="${boardType == "praise" ? 3 : 5}">검색된 결과가 없습니다.</td>
+        </tr>`;
 }
 
-function clearDomObject(domObject){
-    domObject.innerHTML="";
-}
+function setBoardTitleClickEvent(boardList) {
+    const boardTitle = document.querySelectorAll("tbody .content-title span");
 
-function getBoardType() {
-    return location.pathname.indexOf("complaint") != -1 ? "complaint" : location.pathname.indexOf("praise") != -1 ? "praise" : "suggestion";
+    for(let i = 0; i < boardTitle.length; i++) {
+        boardTitle[i].onclick = () => loadBoardDetailPage(boardList[i].boardCode);
+    }
 }
 
 function setBoardContentByBoardType() {
@@ -136,12 +162,20 @@ function setBoardTableByBoardType() {
     }
 }
 
-function setBoardTitleClickEvent(boardList) {
-    const boardTitle = document.querySelectorAll("tbody .content-title");
+function getSelectedOptionValue() {
+    const searchTypeSelect = document.querySelector(".select-btn");
 
-    for(let i = 0; i < boardTitle.length; i++) {
-        boardTitle[i].onclick = () => loadBoardDetailPage(boardList[i].boardCode);
-    }
+    return searchType = searchTypeSelect.options[searchTypeSelect.selectedIndex].value;
+}
+
+function getSearchKeyword() {
+    const searchKeyword = document.querySelector(".input-box");
+
+    return searchKeyword.value;
+}
+
+function clearDomObject(domObject){
+    domObject.innerHTML="";
 }
 
 function loadBoardDetailPage(boardCode) {

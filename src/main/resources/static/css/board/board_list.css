@@ -8,9 +8,9 @@
     color: #0A71CC;
 }
 
-#board-body{
+.board-body{
     width: 100%;
-    left: 0;
+    left: 0px;
 }
 
 .menu-info{
@@ -18,7 +18,6 @@
     padding: 30px;
 
     width: 980px;
-    height: 140px;
 
     background-color: #fcfcfc;
 }
@@ -34,13 +33,13 @@
     margin-left: 20px;
 }
 
-#board-body-inner{
+.board-body-inner{
     margin: 0px auto;
 
     width: 1400px;
 }
 
-#board-body-inner-info{
+.board-body-inner-info{
     margin: 0px auto;
 
     width: 980px;
@@ -61,7 +60,7 @@ h2{
     justify-content: space-between;
 }
 
-#btn-group{
+.btn-group{
     display: flex;
     flex-direction: column;
 
@@ -86,13 +85,11 @@ h2{
     cursor: pointer;
 }
 
-/* ====================================search================================ */
-
-#list-style1{
+.list-style {
     width: 980px;
 }
 
-#board-search{
+.board-search{
     display: flex;
     justify-content: space-between;
 
@@ -165,13 +162,19 @@ h2{
     padding: 18px 24px;
 }
 
-.content-title{
-    width: 696px;
+.company-name {
+    width: 147px;
+}
 
+tbody .content-title {
+    padding-left: 20px;
+}
+
+tbody .content-title span{
     cursor: pointer;
 }
 
-.content-title:hover {
+tbody .content-title span:hover {
     text-decoration: underline;
 }
 
@@ -180,7 +183,16 @@ h2{
     text-align: center;
 }
 
+.progress-status {
+    width: 127px;
+    text-align: center;
+}
+
 .content-date{
     width: 157px;
+    text-align: center;
+}
+
+.data-none {
     text-align: center;
 }

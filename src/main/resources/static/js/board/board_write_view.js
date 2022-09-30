@@ -20,6 +20,7 @@ let email = null;
 let phoneNumber = null;
 let companyCode = 0;
 let responseCode = 0;
+let responseSelectedFlag = false;
 
 let modifyFlag = false;
 let boardType = null;
@@ -118,8 +119,8 @@ function setBoardFile(fileList) {
 
 function inputFileBlock(size) {
     for(let i = 0; i < size; i++) {
-        inputFileDivItems[2 - i].querySelector("input").disabled = true;
-        inputFileDivItems[2 - i].classList.add("block-file");
+        inputFileDivItems[i].querySelector("input").disabled = true;
+        inputFileDivItems[i].classList.add("block-file");
     }
 }
 
@@ -195,7 +196,7 @@ function uploadBoard(form) {
         data: form,
         dataType: "json",
         success: (response) => {
-            location.href = `/customer/${boardType}/detail/${response.data}`;
+            location.replace(`/customer/${boardType}/detail/${response.data}`);
         },
         error: errorMessage
     });
@@ -211,7 +212,7 @@ function modifyBoard(form) {
         data: form,
         dataType: "json",
         success: (response) => {
-            location.href = `/customer/${boardType}/detail/${response.data}`;
+            location.replace(`/customer/${boardType}/detail/${response.data}`);
         },
         error: errorMessage
     });
@@ -319,10 +320,11 @@ function checkRequireMenu() {
         responseInputItems.forEach(responseInput=>{
             if(responseInput.checked){
                 responseCode = responseInput.value;
+                responseSelectedFlag = true;
             }
         });
 
-        if(responseCode == 0) {
+        if(!responseSelectedFlag) {
             alert("답변 수신 여부를 선택해주세요.");
             return false;
         }
@@ -331,7 +333,7 @@ function checkRequireMenu() {
     if(isEmpty(titleInput.value)) {
         alert("제목을 입력해주세요.");
         return false;
-    }else if(isEmpty(contentTextarea.textContent)) {
+    }else if(isEmpty(contentTextarea.value)) {
         alert("내용을 입력해주세요.");
         return false;
     }
