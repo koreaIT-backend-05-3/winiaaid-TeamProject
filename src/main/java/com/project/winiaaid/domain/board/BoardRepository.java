@@ -11,7 +11,7 @@ public interface BoardRepository {
 	public int insertBoardFile(List<BoardFile> file_list) throws Exception;
 	public BoardCode findBoardCode(Board board) throws Exception;
 	public List<BoardTitle> findBoardListByBoardTypeAndKeyword(Map<String, Object> config_map) throws Exception;
-	public Board findBoardByBoardCode(int board_code) throws Exception;
+	public Board findBoardByBoardCode(String board_code) throws Exception;
 	public List<BoardFile> findBoardFileListByBoardCode(int board_code) throws Exception;
 	public int updateBoardByBoardCode(Board board) throws Exception;
 	public int deleteBoardByBoardCode(int board_code) throws Exception;

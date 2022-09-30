@@ -1,4 +1,5 @@
 const writeButton = document.querySelector(".write-button");
+const searchKeyword = document.querySelector(".input-box");
 const searchButton = document.querySelector(".search-btn");
 
 const contentTableBody = document.querySelector(".content-table-body");
@@ -6,10 +7,11 @@ const contentTableBody = document.querySelector(".content-table-body");
 let userCode = 1;
 let boardType = null;
 
+loadPageHistoryByLocalStorage();
 
 boardType = getBoardType();
 
-loadPage(1);
+loadPage(nowPage);
 
 setBoardContentByBoardType();
 setBoardTableByBoardType();
@@ -43,7 +45,7 @@ function getBoardList(page){
         dataType:"json",
         success:(response)=>{
             if(response.data != null){
-                let totalPage = getTotalPage(response.data[0].totalCount, 10);
+                let totalPage = getTotalPage(response.data[0].totalCount, 2);
                 setPage(totalPage);
 
                 setTotalCount(response.data[0].totalCount);
@@ -169,8 +171,6 @@ function getSelectedOptionValue() {
 }
 
 function getSearchKeyword() {
-    const searchKeyword = document.querySelector(".input-box");
-
     return searchKeyword.value;
 }
 
@@ -179,10 +179,55 @@ function clearDomObject(domObject){
 }
 
 function loadBoardDetailPage(boardCode) {
+    setPageInfoLocalStorage();
+
     location.href = `/customer/${boardType}/detail/${boardCode}`;
 
 }
 
 function loadBoardWritePage() {
     location.href = `/customer/${boardType}/regist-view`;
+}
+
+
+function setPageInfoLocalStorage() {
+    let searchType = getSelectedOptionValue();
+    let keyword = getSearchKeyword();
+    
+    let boardPageInfoObject = {
+        "searchType": searchType,
+        "keyword": keyword,
+        "page": nowPage
+    };
+
+    localStorage.boardPageInfo = JSON.stringify(boardPageInfoObject);
+}
+
+function getLocalStorageData() {
+    let pageHistory = localStorage.boardPageInfo;
+
+    if(pageHistory != null) {
+        return pageHistory;
+    }else {
+        return null;
+    }
+}
+
+function loadPageHistoryByLocalStorage() {
+    let localStorageData = getLocalStorageData();
+    if(localStorageData != null) {
+        const selectOptionItems = document.querySelectorAll(".select-btn option");
+
+        localStorageData = JSON.parse(localStorageData);
+    
+        selectOptionItems.forEach(option => {
+            if(option.value == localStorageData.searchType) {
+                option.setAttribute("selected", true);
+            }
+        });
+        searchKeyword.value = localStorageData.keyword;
+        nowPage = localStorageData.page;
+        
+        localStorage.removeItem("boardPageInfo");
+    }
 }

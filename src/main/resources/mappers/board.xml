@@ -75,7 +75,7 @@
 			bm.progress_status,
 			bm.create_date,
 
-			um.user_name,
+			ifnull(um.user_name, nmt.user_name) as user_name,
 
 			pct.company_name,
 
@@ -84,6 +84,7 @@
 			board_mst bm
 			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
 			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
+			LEFT OUTER JOIN non_member_table nmt on(nmt.board_code = bm.board_code)
 			LEFT OUTER JOIN product_company_table pct on(pct.company_code = bm.company_code)
 			LEFT OUTER JOIN (select
 								count(*) as total_count
@@ -141,10 +142,10 @@
 			bm.board_type_code = #{board_type_code}
 		GROUP BY
 			bm.board_code
-		LIMIT #{page}, 10;
+		LIMIT #{page}, 2;
 	
 	</select>
-	<select id="findBoardByBoardCode" parameterType="Integer" resultMap="boardResultMap">
+	<select id="findBoardByBoardCode" parameterType="String" resultMap="boardResultMap">
 		SELECT
 			bm.company_code,
 			bm.board_title,
@@ -153,18 +154,9 @@
 			bm.create_date,
 			bm.response_flag,
 
-			<choose>
-				<when test="user_code != 0">
-					um.user_name,
-					um.user_email,
-					ud.main_phone_number,
-				</when>
-				<otherwise>
-					nmt.user_name,
-					nmt.user_email,
-					nmt.main_phone_number,
-				</otherwise>
-			</choose>
+			IFNULL(um.user_name, nmt.user_name) AS user_name,
+			IFNULL(um.user_email, nmt.user_email) AS user_email,
+			IFNULL(ud.main_phone_number, nmt.main_phone_number) AS main_phone_number,
 
 			bf.file_code,
 			bf.file_name,
@@ -173,15 +165,9 @@
 		FROM
 			board_mst bm
 			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
-			<choose>
-				<when test="user_code != 0">
-					LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
-					LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
-				</when>
-				<otherwise>
-					LEFT OUTER JOIN non_member_table nmt on(ntm.board_code = bm.board_code)
-				</otherwise>
-			</choose>
+			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
+			LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
+			LEFT OUTER JOIN non_member_table nmt on(nmt.board_code = bm.board_code)
 			LEFT OUTER JOIN product_company_table pct on(pct.company_code = bm.company_code)
 		WHERE
 			bm.board_code = #{board_code};

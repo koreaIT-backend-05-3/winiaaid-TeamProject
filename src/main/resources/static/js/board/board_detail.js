@@ -2,6 +2,7 @@ const updateButton = document.querySelector(".update-button");
 const deleteButton = document.querySelector(".delete-button");
 const listButton = document.querySelector(".list-button");
 
+let userCode = 0;
 let boardCode = getBoardCodeByUri();
 let boardType = getBoardType();
 

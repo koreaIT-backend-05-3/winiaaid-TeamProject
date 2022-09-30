@@ -68,7 +68,7 @@ public class BoardRestController {
 
 	@Log
 	@GetMapping("/{boardCode}")
-	public ResponseEntity<?> getBoardByBoardCode(@PathVariable int boardCode){
+	public ResponseEntity<?> getBoardByBoardCode(@PathVariable String boardCode){
 		ReadBoardResponseDto boardDto = null;
 
 		try {

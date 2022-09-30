@@ -15,7 +15,7 @@ const uploadButton = document.querySelector(".upload-button");
 const cancelButton = document.querySelector(".cancle-button")
 
 
-let userCode = 1;
+let userCode = 0;
 let email = null;
 let phoneNumber = null;
 let companyCode = 0;

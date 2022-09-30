@@ -14,10 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -88,12 +85,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public ReadBoardResponseDto getBoardByBoardCode(int boardCode) throws Exception {
+	public ReadBoardResponseDto getBoardByBoardCode(String boardCode) throws Exception {
 		Board boardEntity = null;
 		ReadBoardResponseDto boardDto = null;
-		
+
 		boardEntity = boardRepository.findBoardByBoardCode(boardCode);
-		
+
 		if(boardEntity != null) {
 			boardDto = boardEntity.toBoardResponseDto();
 		}

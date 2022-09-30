@@ -12,7 +12,7 @@ public class BoardPageController {
 		return "board/board_list";
 	}
 
-	@GetMapping({"/complaint/regist-view", "/praise/regist-view", "/suggestion/suggestion-view"})
+	@GetMapping({"/complaint/regist-view", "/praise/regist-view", "/suggestion/regist-view"})
 	public String loadBoardWritePage() {
 		return "board/board_write";
 	}

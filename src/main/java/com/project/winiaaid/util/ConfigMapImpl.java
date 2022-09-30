@@ -5,12 +5,14 @@ import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class ConfigMapImpl implements ConfigMap{
 
@@ -74,7 +76,7 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("board_type_code", readBoardRequestDto.getBoardType().equals("complaint") ? 1 : readBoardRequestDto.getBoardType().equals("praise") ? 2 : 3);
         configMap.put("search_type", readBoardRequestDto.getSearchType());
         configMap.put("keyword", readBoardRequestDto.getKeyword());
-        configMap.put("page", (readBoardRequestDto.getPage() - 1) * 10);
+        configMap.put("page", (readBoardRequestDto.getPage() - 1) * 2);
 
         return configMap;
     }
