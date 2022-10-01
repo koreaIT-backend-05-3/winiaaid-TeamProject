@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <th:block th:replace="/fragments/head"></th:block>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/auth/signin.css">
     <link rel="stylesheet" type="text/css" href="/static/css/fragments/header.css">
     <link rel="stylesheet" type="text/css" href="/static/css/fragments/footer.css">
@@ -23,8 +24,7 @@
 <body>
     <div id="wrap">
         <!-- 메인헤더 고정 -->
-        <header id="top-header"></header>
-        <!-- 메인 로그인 페이지 -->
+        <th:block th:replace="/fragments/header"></th:block>
         <main id="main-contents">
             <div class="main-header">
                 <a class="home">
@@ -89,8 +89,7 @@
                 </div>
             </div>
         </main>
-        <footer id="footer">
-        </footer>
+       <th:block th:replace="/fragments/footer"></th:block>
     </div>
     <script src="/static/js/auth/signup.js"></script>
 </body>

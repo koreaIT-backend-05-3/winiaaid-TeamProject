@@ -15,3 +15,4 @@ public class ReadBoardResponseDto {
 	private int totalCount;
 	private LocalDateTime createDate;
 }
+

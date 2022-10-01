@@ -22,15 +22,7 @@ spring:
     multipart:
       max-file-size: 50MB        
       max-request-size: 50MB
-  jpa:
-    hibernate:
-     ddl-auto:  update
-     naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
-
-        
-   
+          
 mybatis:
   mapper-locations:
   - /mappers/*.xml

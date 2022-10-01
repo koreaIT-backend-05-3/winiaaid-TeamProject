@@ -214,6 +214,9 @@ strong{
 input[type=checkbox] + label {
     margin: 0 15px 0 5px;
 }
+input[type=radio] + label {
+    margin: 0 15px 0 5px;
+}
 
 #form-main .button-center{
     width: 100%;

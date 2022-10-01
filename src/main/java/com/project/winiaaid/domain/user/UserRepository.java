@@ -1,9 +1,10 @@
 package com.project.winiaaid.domain.user;
 
+import org.apache.ibatis.annotations.Mapper;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface UserRepository extends JpaRepository<User, Integer>{
-	public User findByUsername(String username);
+@Mapper
+public interface UserRepository {
+	public int save(User user) throws Exception;
+	public User findUserByUsername(String username) throws Exception;
 	
 }

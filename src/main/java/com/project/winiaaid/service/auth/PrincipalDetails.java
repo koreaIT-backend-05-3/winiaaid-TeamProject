@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 @Data
 public class PrincipalDetails implements UserDetails {
@@ -14,36 +15,50 @@ public class PrincipalDetails implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private User user;
+	private Map<String, Object> attribute;
 	
 	public PrincipalDetails(User user) {
 		this.user = user;
 	}
-
+	
+	public PrincipalDetails(User user, Map<String, Object> attribute) {
+		this.user = user;
+		this.attribute = attribute;
+	}
+ 
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
-		Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-		
-		grantedAuthorities.add(new GrantedAuthority() {
-			
-			@Override
-			public String getAuthority() {
-				
-				return user.getRoles();
-			}
+		Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+	
+//		grantedAuthorities.add(new GrantedAuthority() {
+//			
+//			@Override
+//			public String getAuthority() {
+//				
+//				return user.getUser_roles();
+//			}
+//		});
+//		return grantedAuthorities;
+		user.getUserRoles().forEach(role -> {
+			grantedAuthorities.add(() -> role);
 		});
+		
 		return grantedAuthorities;
+		
+//	
+		
 	}
 	
 	@Override
 	public String getPassword() {
-		return user.getPassword();
+		return user.getUser_password();
 	}
 	
 	@Override
 	public String getUsername() {
-		return user.getUsername();
+		return user.getUser_id();
 	}
 	
 	
@@ -66,4 +81,6 @@ public class PrincipalDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+	
+	
 }

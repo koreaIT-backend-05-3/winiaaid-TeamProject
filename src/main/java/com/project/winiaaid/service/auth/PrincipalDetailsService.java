@@ -3,6 +3,8 @@ package com.project.winiaaid.service.auth;
 import com.project.winiaaid.domain.user.User;
 import com.project.winiaaid.domain.user.UserRepository;
 import com.project.winiaaid.handler.aop.annotation.Log;
+import com.project.winiaaid.web.dto.auth.SignupRequestDto;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,26 +21,28 @@ public class PrincipalDetailsService implements UserDetailsService{
 	@Log
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User userEntity = userRepository.findByUsername(username);
 		
-//		try {
-////			userEntity = userRepository.findUserByUsername(username);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			throw new UsernameNotFoundException(username + "사용자이름을 사용할수 없습니다.");
-//		}
+		User userEntity = null;
 		
-		if(userEntity != null) {
-			return new PrincipalDetails(userEntity);
+		try {
+			userEntity = userRepository.findUserByUsername(username);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UsernameNotFoundException(username);
 		}
 		
-//		return new PrincipalDetails(userEntity);
-		return null;
+		if(userEntity == null) {
+			throw new UsernameNotFoundException(username + "사용자이름은 사용 할 수 없습니다.");
+		}
+		
+		return new PrincipalDetails(userEntity);
+		
 	}
 	
-//	public boolean addUser(SignupReqDto signupReqDto) throws Exception{
-//		return userRepository.save(signupReqDto.toEntity()) > 0;
-//	}
+	@Log
+	public boolean addUser(SignupRequestDto signupRequestDto) throws Exception{
+		return userRepository.save(signupRequestDto.toEntity()) > 0;
+	} 
 	
 
 }
