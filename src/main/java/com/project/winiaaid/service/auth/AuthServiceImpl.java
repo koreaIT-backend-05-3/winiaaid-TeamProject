@@ -1,6 +1,6 @@
 package com.project.winiaaid.service.auth;
 
-<<<<<<< HEAD
+
 import org.springframework.stereotype.Service;
 
 import com.project.winiaaid.domain.user.UserRepository;
