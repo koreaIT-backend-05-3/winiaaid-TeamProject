@@ -1,5 +1,6 @@
 package com.project.winiaaid.service.auth;
 
+import org.springframework.stereotype.Service;
 import com.project.winiaaid.domain.user.UserRepository;
 import com.project.winiaaid.web.dto.auth.UsernameCheckRequestDto;
 import lombok.RequiredArgsConstructor;
