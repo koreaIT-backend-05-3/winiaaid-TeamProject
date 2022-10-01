@@ -21,3 +21,4 @@ public class ReadBoardResponseDto {
 	private int responseFlag;
 	private List<ReadBoardFileDto> fileList;
 }
+

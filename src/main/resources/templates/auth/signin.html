@@ -5,22 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <th:block th:replace="/fragments/head"></th:block>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/auth/signin.css">
-<<<<<<< HEAD
-<<<<<<< HEAD
+    <link rel="stylesheet" type="text/css" href="/static/css/fragments/header.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/fragments/footer.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/signin.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
     <title>Login</title>
-=======
+
     <script src="/static/js/auth/signin.js"></script>
->>>>>>> origin/juyechan
-=======
+
+
     <title>Login</title>
->>>>>>> daegyeong
+
+
 </head>
 <body>
     <div id="wrap">
         <!-- 메인헤더 고정 -->
-        <header id="top-header"></header>
-        <!-- 메인 로그인 페이지 -->
+        <th:block th:replace="/fragments/header"></th:block>
         <main id="main-contents">
             <div class="main-header">
                 <a class="home">
@@ -42,12 +46,12 @@
                 </div>
                 <div class="login-box">
                     <div class="user-area-inner">
-                        <form id="loginForm" name="loginForm">
+                        <form  action ="/auth/signin" id="loginForm" name="loginForm" method="POST">
                             <label for="username" class="input-user">
                                 <input type="text" id="username" name="username" placeholder="아이디를 입력하세요">
                             </label>
                             <label for="password" class="input-user">
-                                <input type="text" id="username" name="password" placeholder="비밀번호를 입력하세요"
+                                <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요"
                                     maxlength="10">
                             </label>
                             <button type="submit" id="button-login" class="button-login">로그인</button>
@@ -72,21 +76,20 @@
                             <div class="user-image-box">
                                 <img src="https://www.winiaaid.com/assets/images/common/icon_human.png">
                             </div>
-                            <div class="enjoy-textbox">
+                            <div class="enjoy-textbox"> 
                                 <p>아직 위니아 회원이 아니신가요?</p>
                                 <p>회원이 되시면 다양한 서비스 이용이 가능합니다.</p>
                             </div>
 
                             <div class="button-area">
-                                <a>통합회원가입</a>
+                                <a href="signup2">통합회원가입</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-        <footer id="footer">
-        </footer>
+       <th:block th:replace="/fragments/footer"></th:block>
     </div>
     <script src="/static/js/auth/signup.js"></script>
 </body>
