@@ -1,7 +1,9 @@
 package com.project.winiaaid.service.recall;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
@@ -26,7 +28,7 @@ public class RecallServiceImpl implements RecallService {
 	private final ConfigMap configMapper;
 
 	@Override
-	public String addRecallRequest(RecallServiceRequestDto recallServiceRequestDto) throws Exception {
+	public ServiceInfo addRecallRequest(RecallServiceRequestDto recallServiceRequestDto) throws Exception {
 		ServiceInfo recallEntity = recallServiceRequestDto.toServiceInfoEntity();
 		RecallProductInfoEntity recallProductInfoEntity = (RecallProductInfoEntity) recallEntity.getProductInfoEntity();
 
@@ -45,24 +47,37 @@ public class RecallServiceImpl implements RecallService {
 
 		recallRepository.addRecallRequest(recallEntity);
 		
-		return recallProductInfoEntity.getService_code();
+		return recallEntity;
 	}
 
 	@Override
-	public ReadServiceInfoResponseDto getRecallRequest(String serviceCode, String userName, int userCode) throws Exception {
-		Map<String, Object> map =  new HashMap<String, Object>();
-		
-		map.put("service_code", serviceCode);
-		map.put("user_name", userName);
-		map.put("user_code", userCode);
-
-		log.info("check: {}", map);
-		
-		return recallRepository.getRecallRequest(map).toServiceResponseDto();
+	public ReadServiceInfoResponseDto getRecallRequest(String serviceCode) throws Exception {
+		return recallRepository.getRecallRequest(serviceCode).toServiceResponseDto();
 	}
 
 	private String createServiceCode(ServiceInfo serviceInfo, RecallServiceCode serviceCodeEntity) {
 		return ((RecallProductInfoEntity) serviceInfo.getProductInfoEntity()).getModel_number().substring(0, 4).replaceAll("-", "") + "0" + serviceCodeEntity.getService_code();
 	}
+	
+	@Override
+	public List<ReadServiceInfoResponseDto> getRecallRequestList(int page, int userCode) throws Exception {
+			int index = (page - 1) * 10;
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("index", index);
+			map.put("user_code", userCode);
+			
+			List<ReadServiceInfoResponseDto> list = new ArrayList<ReadServiceInfoResponseDto>();
+			
+			recallRepository.getRecallRequestList(map).forEach(recall -> {
+				list.add(recall.toServiceResponseDto());
+			});
+			
+		return list;
+	}
 
+	@Override
+	public boolean updateCancelRecallRequest(String serviceCode) throws Exception {
+		return recallRepository.updateCancelRecallRequest(serviceCode) > 0;
+	}
 }

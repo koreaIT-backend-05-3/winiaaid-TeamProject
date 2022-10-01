@@ -20,7 +20,8 @@ public class RecallReservationInfoEntity implements ReservationInfoEntity {
     private String service_type_name;
     private LocalDateTime request_date;
     private int progress_status;
-    private int note;
+    
+    private int total_count;
 
     @Override
     public ReservationInfoDto toReservationInfoDto() {
@@ -28,8 +29,8 @@ public class RecallReservationInfoEntity implements ReservationInfoEntity {
                 .serviceTypeCode(service_type_code)
                 .serviceTypeName(service_type_name)
                 .requestDate(request_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                .progressStatus(progress_status == 0 ? "접수 취소" : progress_status == 1 ? "접수 완료" : "방문 완료")
-                .note(note)
+                .progressStatus(progress_status == 0 ? "접수취소" : progress_status == 1 ? "접수완료" : "방문완료")
+                .totalCount(total_count)
                 .build();
     }
 }
