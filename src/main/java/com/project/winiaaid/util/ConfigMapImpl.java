@@ -116,12 +116,19 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadRepariServiceHistoryDetailInfoListConfigMap(int userCode, int page) throws Exception {
+    public Map<String, Object> setReadRepariServiceHistoryDetailListAndPastAddressListConfigMap(int userCode, int page, String type) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("user_code", userCode);
-        configMap.put("page", (page - 1) * 3);
+        configMap.put("non_member_flag", userCode == 0);
 
+        if(type.equals("address")) {
+            configMap.put("page", (page - 1) * 5);
+
+        }else {
+            configMap.put("page", (page - 1) * 3);
+
+        }
         return configMap;
     }
 

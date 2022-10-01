@@ -51,7 +51,7 @@ const modifyButton = document.querySelector(".modify-button button");
 const requestButton = document.querySelector(".request-button");
 const cancelButton = document.querySelector(".cancel-button");
 
-let userCode = 1;
+let userCode = 0;
 
 let tempPhoneNumber = null;
 

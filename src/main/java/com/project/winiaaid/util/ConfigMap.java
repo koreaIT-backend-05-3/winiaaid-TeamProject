@@ -20,7 +20,7 @@ public interface ConfigMap {
     public Map<String, Object> setReadModelConfigMap(int keyCode, String requestType, String modelNumber) throws Exception;
     public Map<String, Object> setCreateModelConfigMap(ServiceInfo serviceInfo) throws Exception;
 
-    public Map<String, Object> setReadRepariServiceHistoryDetailInfoListConfigMap(int userCode, int page) throws Exception;
+    public Map<String, Object> setReadRepariServiceHistoryDetailListAndPastAddressListConfigMap(int userCode, int page, String type) throws Exception;
     public Map<String, Object> setReadServiceHistoryListConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception;
     public Map<String, Object> setReadWritingServiceHistoryListConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception;
 }
