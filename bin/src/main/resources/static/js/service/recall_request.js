@@ -1,3 +1,6 @@
+let loginTest = true;
+
+
 const searchModelButton = document.querySelector('.search-model')
 const checkModelButton = document.querySelector('.check-model')
 const searchModelInputs = document.querySelector('.search-model-inputs')
@@ -13,12 +16,34 @@ const subPhoneNumber = document.querySelectorAll('.sub-phone-number .phone-numbe
 const postalCodeInput = document.querySelector('.postal-code')
 const addressMainInput = document.querySelector('.address-main')
 const addressDetailInput = document.querySelector('.address-detail')
+const agreementDiv = document.querySelector('.agreement')
 const protectionCheck = document.querySelector("#protection")
 const privacyHandlingCheck = document.querySelector("#privacy-handling")
 const submitButton = document.querySelector('.submit-button')
 
 let modelList = new Array();
 let modelCode = 0;
+
+
+if(loginTest){	//로그인 시
+	userNameInput.value = '테스트'
+	userNameInput.disabled='true'
+	
+	mainPhoneNumber[0].value = '010'
+	mainPhoneNumber[1].value = '1111'
+	mainPhoneNumber[2].value = '2222'
+	mainPhoneNumber.forEach(number => {
+		number.disabled = 'true'
+	})
+	
+	postalCodeInput.value = '11111'
+	addressMainInput.value = '테스트주소'
+	addressDetailInput.value = '테스트상세주소'
+	
+	protectionCheck.checked = 'true'
+	privacyHandlingCheck.checked = 'true'
+	agreementDiv.remove()
+}
 
 
 searchModelButton.onclick = () => {
@@ -210,7 +235,7 @@ function submitRequest(requestData){
 		dataType: "json",
 		success: (response) => {
 			alert('상담사가 고객님께 전화드려 방문시간을 안내해 드리도록 하겠습니다.\n- 신청이 많아 14일 이내에 안내 전화 드리겠습니다.\n- 신속하게 처리를 해 드리지 못해 죄송합니다.')
-            location.href = `/service/recall/request/complete/${response.data}`;
+            location.href = `/service/recall/request/complete/${response.data.productInfoEntity.service_code}`;
             document.querySelector('.recall-form').reset();
 		},
 		error: errorMessage

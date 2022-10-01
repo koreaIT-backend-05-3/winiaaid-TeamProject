@@ -114,7 +114,7 @@ function getWiniaAllProductSolution() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/winia?board-type=${boardType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/winia?boardType=${boardType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -129,7 +129,7 @@ function getDaewooAllProductSolution() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/daewoo?board-type=${boardType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/daewoo?boardType=${boardType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -144,7 +144,7 @@ function getSolutionListByProductCategoryCode() {
     
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-category-code/${selectProductCategoryCode}?board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/${company}/product-category-code/${selectProductCategoryCode}?boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -161,7 +161,7 @@ function getSolutionListByProductGroupCode() {
     
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-group-code/${selectProductGroupCode}?board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/${company}/product-group-code/${selectProductGroupCode}?boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -177,7 +177,7 @@ function searchSolutionByKeyWordAndProductGroupCode() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-group-code/${selectProductGroupCode}/search?keyword=${keyword}&board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/${company}/product-group-code/${selectProductGroupCode}/search?keyword=${keyword}&boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -198,7 +198,7 @@ function getSolutionListByProductCode() {
     console.log(latestSortFlag);
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}?board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}?boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -309,7 +309,7 @@ function searchWiniaAllProductSolutionByKeyWord() {
     
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/winia/search?keyword=${keyword}&board-type=${boardType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/winia/search?keyword=${keyword}&boardType=${boardType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -326,7 +326,7 @@ function searchDaewooAllProductSolutionByKeyWord() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/daewoo/search?keyword=${keyword}&board-type=${boardType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/daewoo/search?keyword=${keyword}&boardType=${boardType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -343,7 +343,7 @@ function searchSolutionByKeyWordAndProductCategoryCode() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-category-code/${selectProductCategoryCode}/search?keyword=${keyword}&board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/${company}/product-category-code/${selectProductCategoryCode}/search?keyword=${keyword}&boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -360,7 +360,7 @@ function searchSolutionByKeyWordAndProductCode() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}/search?keyword=${keyword}&board-type=${boardType}&solution-type=${solutionType}&sort-type=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}/search?keyword=${keyword}&boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
