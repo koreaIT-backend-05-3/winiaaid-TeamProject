@@ -83,12 +83,12 @@ public class UriCheckAop {
         return result;
     }
 
-    private void checkBoardTypeAndThrowException(Object boardType) {
-        if(boardType == null) {
+    private void checkBoardTypeAndThrowException(Object type) {
+        if(type == null) {
             throw new CustomApiUriTypeException("URI thpe ERROR");
         }
-        log.info("Checking board type: {}", boardType);
-        if(!(boardType.equals("faq") || boardType.equals("selfCheck") || boardType.equals("viewed") || boardType.equals("latest") || boardType.equals("group") || boardType.equals("default"))) {
+        log.info("Checking board type: {}", type);
+        if(!(type.equals("faq") || type.equals("selfCheck") || type.equals("viewed") || type.equals("latest") || type.equals("group") || type.equals("default"))) {
             throw new CustomApiUriTypeException("URI type ERROR");
         }
     }
@@ -97,7 +97,7 @@ public class UriCheckAop {
         if(boardType == null) {
             throw new CustomApiUriTypeException("URI thpe ERROR");
         }
-            if(!(boardType.equals("winia") || boardType.equals("daewoo"))) {
+        if(!(boardType.equals("winia") || boardType.equals("daewoo"))) {
             throw new CustomCompanyApiException("URI company ERROR");
         }
     }

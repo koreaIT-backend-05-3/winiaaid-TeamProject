@@ -53,11 +53,31 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String repairServiceCode) throws Exception {
+    public List<ReadServiceInfoResponseDto> getServiceHistoryDetailInfoListByUserCode(int userCode, int page) throws Exception {
+        List<ServiceInfo> serviceInfoEntityList = null;
+        List<ReadServiceInfoResponseDto> serviceResponseDtoList = null;
+        Map<String, Object> configMap = null;
+
+        configMap = configMapper.setReadRepariServiceHistoryDetailListAndPastAddressListConfigMap(userCode, page, "repairService");
+
+        serviceInfoEntityList = repairRepository.findRepairServiceHistoryDetailInfoListByUserCode(configMap);
+
+        log.info("serviceInfoEntityList: {}", serviceInfoEntityList);
+        log.info("configMap: {}", configMap);
+
+        if(serviceInfoEntityList != null && serviceInfoEntityList.size() != 0) {
+            serviceResponseDtoList = changeToServiceResponseDtoList(serviceInfoEntityList);
+        }
+
+        return serviceResponseDtoList;
+    }
+
+    @Override
+    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode) throws Exception {
         ServiceInfo repairServiceInfoEntity = null;
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
 
-        repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(repairServiceCode);
+        repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(serviceCode);
 
         if(repairServiceInfoEntity != null) {
             repairServiceResponseDto = changeToRepairServiceResponseDto(repairServiceInfoEntity);
@@ -70,12 +90,14 @@ public class RepairServiceImpl implements RepairService {
     public List<AddressResponseDto> getPastReceptionAddressListByUserCode(int userCode, int page) throws Exception {
         List<Address> addressList = null;
         List<AddressResponseDto> addressResponseDtoList = null;
-        Map<String, Object> configMap = new HashMap<>();
+        Map<String, Object> configMap = null;
 
-        configMap.put("user_code", userCode);
-        configMap.put("page", (page - 1) * 4);
+        configMap = configMapper.setReadRepariServiceHistoryDetailListAndPastAddressListConfigMap(userCode, page, "address");
 
         addressList = repairRepository.findPastReceptionAddressListByUserCode(configMap);
+
+        log.info("addressList: {}", addressList);
+        log.info("configMap: {}", configMap);
 
         if(addressList != null && addressList.size() != 0) {
             addressResponseDtoList = changeToAddressResponseDtoList(addressList);
@@ -121,6 +143,12 @@ public class RepairServiceImpl implements RepairService {
     private List<AddressResponseDto> changeToAddressResponseDtoList(List<Address> addressList) {
         return addressList.stream()
                 .map(address -> address.toAddressResponseDto())
+                .collect(Collectors.toList());
+    }
+
+    private List<ReadServiceInfoResponseDto> changeToServiceResponseDtoList(List<ServiceInfo> serviceResponseDtoList) {
+        return serviceResponseDtoList.stream()
+                .map(ServiceInfo::toServiceResponseDto)
                 .collect(Collectors.toList());
     }
 }

@@ -51,7 +51,7 @@ const modifyButton = document.querySelector(".modify-button button");
 const requestButton = document.querySelector(".request-button");
 const cancelButton = document.querySelector(".cancel-button");
 
-
+let userCode = 0;
 
 let tempPhoneNumber = null;
 
@@ -67,7 +67,7 @@ let reservatedDayFlag = false;
 
 
 let userInfoObject = {
-    "userCode": 0,
+    "userCode": userCode,
     "userName": null,
     "email": null,
     "mainPhoneNumber": null,
@@ -91,13 +91,35 @@ setCalendarData();
 setChangeMonthButton("pre");
 setReservationableDaySpan();
 
-// if(isModifyPage()) {
-//     savePreviousInfoToLocalStorage();
-//     checkLocalStorageHasPastRequetsServiceData();
-// }
+setSigninUserView();
 
+function setSigninUserView() {
+    if(userCode != 0) {
+        const checkLastRequestListDiv = document.querySelector(".check-last-request-list-div");
+        const addressTd = document.querySelector(".address-td");
+        const addressButton = document.querySelector(".address-button");
+    
+        mainAddressInput.classList.add("main-address-user-view");
+        detailAddressInput.classList.add("detail-address-user-view");
+        addressTd.setAttribute("colspan", 1);
+        removeVisibleClass(checkLastRequestListDiv);
+        removeVisibleClass(addressButton);
 
+        // loadUserInfoByUserCode();
+    }
+}
 
+function loadUserInfoByUserCode() {
+    $.ajax({
+        type: "get",
+        url: ``,
+        dataType: "json",
+        success: (response) => {
+
+        },
+        error: errorMessage
+    });
+}
 
 
 checkLastReqeustButton.onclick = loadPastRequestInfoPopup;
@@ -307,7 +329,7 @@ function checkModelNameSpan() {
 function searchModelByModelName() {
     $.ajax({
         type: "get",
-        url: `/api/v1/product/model/list/${modelSearchInput.value}?request-type=repair&code=${productInfoObject.productCode}`,
+        url: `/api/v1/product/model/list/${modelSearchInput.value}?requestType=repair&code=${productInfoObject.productCode}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
@@ -818,7 +840,7 @@ function disableStepTitle(stepTitle, stepDiv){
 
 function checkLocalStorageHasPastRequetsServiceData(){
     pastHistoryInfoObject = localStorage.pastHistoryInfoObject;
-    localStorage.clear();
+    localStorage.removeItem("pastHistoryInfoObject");
     if(pastHistoryInfoObject != null) {
         pastHistoryInfoObject = JSON.parse(pastHistoryInfoObject);
 
@@ -830,7 +852,7 @@ function checkLocalStorageHasPastRequetsServiceData(){
 
 function changeUpdateView() {
     pastHistoryInfoObject = localStorage.pastHistoryInfoObject;
-    localStorage.clear();
+    localStorage.removeItem("pastHistoryInfoObject");
     if(pastHistoryInfoObject != null) {
         modifyFlag = true;
         pastHistoryInfoObject = JSON.parse(pastHistoryInfoObject);

@@ -27,14 +27,26 @@
                 </div>
                 <div class="menu-type">
                     <ul>
-                        <li>진행 (0)</li>
-                        <li>완료 (4)</li>
+                        <li class="first-menu">
+                            <span class="first-menu-span">진행 </span>
+                            <span class="first-menu-count"></span>
+                        </li>
+                        <li class="second-menu">
+                            <span class="second-menu-span">완료 </span>
+                            <span class="second-menu-count"></span>
+                        </li>
                     </ul>
                 </div>
                 <div class="content-result-div">
                     <div class="search-content-div">
-                        <div class="amount">
-                            전체 <span class="search-total-count">0</span>건
+                        <div class="left-menu">
+                            <div class="amount">
+                                전체 <span class="search-total-count">0</span>건
+                            </div>
+                            <div class="check-box-div visible">
+                                <input type="checkbox" class="check-box" id="check">
+                                <label for="check">답변 완료글 보기</label>
+                            </div>
                         </div>
                         <div class="search">
                             <select>
@@ -43,6 +55,7 @@
                                 <option value="repair">방문서비스</option>
                                 <option value="recall">무상클린서비스</option>
                             </select>
+                            <input class="search-input visible" type="text">
                             <button type="button">검색</button>
                         </div>
                     </div>
@@ -50,7 +63,7 @@
                         <thead>
                             <tr>
                                 <th>접수번호</th>
-                                <th>서비스구분	</th>
+                                <th>서비스구분</th>
                                 <th>제품/모델명</th>
                                 <th>접수일</th>
                                 <th>진행상태</th>
@@ -58,14 +71,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><span class="service-code">000315144177</span></td>
-                                <td class="service-type">방문서비스</td>
-                                <td class="product-info">에어컨 > 스탠드에어컨</td>
-                                <td>2022-09-16 19:26</td>
-                                <td>취소</td>
-                                <td></td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                     <div class="page-button-div">
@@ -78,6 +84,7 @@
     <th:block th:replace="/fragments/footer"></th:block>
     <script src="/static/js/util/location_notice.js"></script>
     <script src="/static/js/util/paging.js"></script>
+    <script src="/static/js/util/repair_reservation_modify_cancel.js"></script>
     <script src="/static/js/mypage/service_history.js"></script>
 </body>
 </html>

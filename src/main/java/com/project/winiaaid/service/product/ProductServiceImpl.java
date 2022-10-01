@@ -97,12 +97,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ReadProductModelResponseDto> getProductModelInfoList(int keyCode, String modelNumber) throws Exception {
+    public List<ReadProductModelResponseDto> getProductModelInfoList(int keyCode, String requestType, String modelNumber) throws Exception {
         List<ProductModel> modelEntityList = null;
         List<ReadProductModelResponseDto> modelDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setModelMap(keyCode, modelNumber);
+        configMap = configMapper.setReadModelConfigMap(keyCode, requestType, modelNumber);
 
         modelEntityList = productRepository.findModelNumberListByModelNumber(configMap);
 

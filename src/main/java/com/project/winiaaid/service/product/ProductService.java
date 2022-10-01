@@ -12,5 +12,5 @@ public interface ProductService {
     public List<? extends Object> getProductDetailInfoList(String company, String type, int productCode) throws Exception;
     public List<ReadModelNumberInfoResponseDto> getProductNumberInfoList() throws Exception;
     public List<ReadProductTroubleResponseDto> getProductTroubleInfoList(int categoryCode) throws Exception;
-    public List<ReadProductModelResponseDto> getProductModelInfoList(int productCode, String modelNumber) throws Exception;
+    public List<ReadProductModelResponseDto> getProductModelInfoList(int productCode, String requestType, String modelNumber) throws Exception;
 }

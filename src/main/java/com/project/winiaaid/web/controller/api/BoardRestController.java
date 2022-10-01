@@ -25,16 +25,20 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
+import com.project.winiaaid.web.dto.board.CreateBoardRequestDto;
+import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
+import com.project.winiaaid.web.dto.board.ReadBoardResponseDto;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/board")
 public class BoardRestController {
-	private final BoardService boardService;
-	private final CustomObjectMapper customObjectMapper;
 
 	@Value("${file.path}")
 	private String filePath;
+
+	private final BoardService boardService;
 
 	@Log
 	@PostMapping("/write")
@@ -57,7 +61,7 @@ public class BoardRestController {
 		List<ReadBoardTitleResponseDto> boardList = null;
 
 		try {
-			boardList = boardService.getBoardListByBoardType(readBoardRequestDto);
+			boardList = boardService.getBoardListByBoardType(userCode, readBoardRequestDto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Post Creation failed", boardList));

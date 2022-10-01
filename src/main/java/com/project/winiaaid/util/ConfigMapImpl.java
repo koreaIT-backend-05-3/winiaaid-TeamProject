@@ -3,7 +3,7 @@ package com.project.winiaaid.util;
 import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
-import com.project.winiaaid.web.dto.repair.ReadServiceRequestDto;
+import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class ConfigMapImpl implements ConfigMap{
 
     @Override
-    public Map<String, Object> setConfigMap(int solutionBoardCode, String solutionBoardType) {
+    public Map<String, Object> setReadSolutionDetailConfigMap(int solutionBoardCode, String solutionBoardType) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("solution_board_code", solutionBoardCode);
@@ -27,7 +27,7 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setConfigMap(String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) {
+    public Map<String, Object> setReadSolutionListByCompanyConfigMap(String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("company_code", company.equals("winia") ? 2 : 1);
@@ -40,7 +40,7 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setConfigMap(int keyCode, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) {
+    public Map<String, Object> setReadSolutionListByKeyCodeConfigMap(int keyCode, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("keyCode", keyCode);
@@ -54,7 +54,7 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setConfigMap(int keyCode, String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) {
+    public Map<String, Object> setReadSolutionListByGroupCodeConfigMap(int keyCode, String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception{
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("keyCode", keyCode);
@@ -69,7 +69,7 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setConfigMap(ReadBoardRequestDto readBoardRequestDto) {
+    public Map<String, Object> setReadBoardConfigMap(int userCode, ReadBoardRequestDto readBoardRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("user_code", readBoardRequestDto.getUserCode());
@@ -82,35 +82,80 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setConfigMap(int userCode, ReadServiceRequestDto readServiceRequestDto) {
+    public Map<String, Object> setReadHistoryListConfigMap(int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
-        String serviceType = readServiceRequestDto.getServiceType();
-
-        configMap.put("limit", readServiceRequestDto.getRequestType().equals("pastRequest") ? 3 : 10);
-        configMap.put("service_type_code", serviceType.equals("all") ? 0 : serviceType.equals("counsel") ? 1 : serviceType.equals("repair") ? 2 : 3);
-        configMap.put("page", (readServiceRequestDto.getPage() - 1) * (Integer) configMap.get("limit"));
+        
+        configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
         configMap.put("user_code", userCode);
 
         return configMap;
     }
 
     @Override
-    public Map<String, Object> setModelMap(int keyCode, String modelNumber) {
+    public Map<String, Object> setReadModelConfigMap(int keyCode, String requestType, String modelNumber) throws Exception {
         Map<String, Object> modelMap = new HashMap<>();
 
         modelMap.put("key_code", keyCode);
+        modelMap.put("request_type", requestType);
         modelMap.put("model_number", modelNumber);
 
         return modelMap;
     }
 
     @Override
-    public Map<String, Object> setConfigMap(ServiceInfo serviceInfo) {
+    public Map<String, Object> setCreateModelConfigMap(ServiceInfo serviceInfo) throws Exception {
         RecallProductInfoEntity recallProductInfoEntity = (RecallProductInfoEntity) serviceInfo.getProductInfoEntity();
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("model_code", recallProductInfoEntity.getModel_code());
         configMap.put("temp_service_code", recallProductInfoEntity.getTemp_service_code());
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadRepariServiceHistoryDetailListAndPastAddressListConfigMap(int userCode, int page, String type) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("user_code", userCode);
+        configMap.put("non_member_flag", userCode == 0);
+
+        if(type.equals("address")) {
+            configMap.put("page", (page - 1) * 5);
+
+        }else {
+            configMap.put("page", (page - 1) * 3);
+
+        }
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadServiceHistoryListConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("user_code", userCode);
+        configMap.put("service_type_code", serviceType.equals("all") ? 0 : serviceType.equals("counsel") ? 1 : serviceType.equals("repair") ? 2 : 3);
+        configMap.put("progress_status", readServiceRequestDto.getProgressStatus());
+        configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadWritingServiceHistoryListConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        log.info("readServiceRequestDto: {}", readServiceRequestDto);
+
+        configMap.put("user_code", userCode);
+        configMap.put("board_type_code", serviceType.equals("all") ? 0 : serviceType.equals("complaint") ? 1 : serviceType.equals("praise") ? 2 : 3);
+        configMap.put("menu_type", (readServiceRequestDto.getMenuType()));
+        configMap.put("completed_response", readServiceRequestDto.isCompletedResponse());
+        configMap.put("keyword", readServiceRequestDto.getKeyword());
+        configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
+
+        log.info("configMap: {}", configMap);
 
         return configMap;
     }

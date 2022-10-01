@@ -6,7 +6,7 @@ serviceCode = getServiceCodeByUri();
 
 loadReservationDetailInfo();
 
-goListButton.onclick = goVisitInquiryPage;
+goListButton.onclick = historyBack;
 
 function getServiceCodeByUri() {
     return location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
@@ -105,8 +105,8 @@ function setReservationDetailInfo(reservationDetailInfo) {
     }
 }
 
-function goVisitInquiryPage() {
-    location.href = "/service/visit/inquiry";
+function historyBack() {
+    history.back();
 }
 
 function setButtonClickEvent() {

@@ -45,7 +45,7 @@
     display: flex;
 }
 
-.menu-type li {
+.first-menu, .second-menu {
     border: 1px solid #f4f4f4;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -55,6 +55,19 @@
     color: #7d7d7d;
     font-size: 18px;
     text-align: center;
+
+    cursor: pointer;
+}
+
+.first-menu span, .second-menu span {
+    font-size: 20px;
+    text-align: center;
+}
+
+.selected-menu-type {
+    border: 1px solid #0A71CC;
+
+    color: #0A71CC;
 }
 
 .content-result-div {
@@ -68,8 +81,26 @@
     margin-bottom: 15px;
 }
 
+.left-menu {
+    display: flex;
+    align-items: center;
+}
+
 .amount {
     font-size: 16px;
+}
+
+.check-box-div {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.check-box-div label {
+    margin-left: 5px;
+    color: #5b5a5a;
+
+    cursor: pointer;
 }
 
 .search-total-count {
@@ -83,6 +114,16 @@
     height: 31px;
 
     color: #7e7e7e;
+    background-color: #fcfcfc;
+}
+
+.search-input {
+    border: 1px solid #e7e7e7;
+    padding: 5px;
+
+    width: 160px;
+    height: 31px;
+
     background-color: #fcfcfc;
 }
 
@@ -174,4 +215,8 @@ tbody td:not(tbody td:nth-of-type(3)) {
 .reservation-modify-button-div button:last-child {
     border: 1px solid red;
     color: red;
+}
+
+.visible {
+    display: none;
 }

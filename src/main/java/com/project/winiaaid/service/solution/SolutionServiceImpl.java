@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,7 +29,7 @@ public class SolutionServiceImpl implements SolutionService{
         List<ReadSolutionResponseDto> readSolutionDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setConfigMap(company, readSolutionKeywordRequestDto);
+        configMap = configMapper.setReadSolutionListByCompanyConfigMap(company, readSolutionKeywordRequestDto);
 
         solutionEntityList = solutionRepository.findAllSolutionListByCompanyCodeAndKeyword(configMap);
 
@@ -47,7 +46,7 @@ public class SolutionServiceImpl implements SolutionService{
         List<ReadSolutionResponseDto> readSolutionDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setConfigMap(productCategoryCode,readSolutionKeywordRequestDto);
+        configMap = configMapper.setReadSolutionListByKeyCodeConfigMap(productCategoryCode,readSolutionKeywordRequestDto);
 
         solutionEntityList = solutionRepository.findSolutionListByProductCategoryCodeAndKeyword(configMap);
 
@@ -64,7 +63,7 @@ public class SolutionServiceImpl implements SolutionService{
         List<ReadSolutionResponseDto> readSolutionDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setConfigMap(productGroupCode, company, readSolutionKeywordRequestDto);
+        configMap = configMapper.setReadSolutionListByGroupCodeConfigMap(productGroupCode, company, readSolutionKeywordRequestDto);
 
         log.info("checking configMap: {}", configMap);
 
@@ -83,7 +82,7 @@ public class SolutionServiceImpl implements SolutionService{
         List<ReadSolutionResponseDto> readSolutionDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setConfigMap(productCode, readSolutionKeywordRequestDto);
+        configMap = configMapper.setReadSolutionListByKeyCodeConfigMap(productCode, readSolutionKeywordRequestDto);
 
         solutionEntityList = solutionRepository.findSolutionListByProductCodeAndKeyword(configMap);
 
@@ -101,7 +100,7 @@ public class SolutionServiceImpl implements SolutionService{
         ReadSolutionDetailResponseDto solutionDto = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setConfigMap(solutionBoardCode, solutionBoardType);
+        configMap = configMapper.setReadSolutionDetailConfigMap(solutionBoardCode, solutionBoardType);
 
         log.info("configMap: {}", configMap);
 

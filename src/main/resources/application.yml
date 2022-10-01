@@ -15,6 +15,7 @@ spring:
     static-path-pattern: /static/**
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
+#    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: jdbc:mariadb://web-study.ctumsyopmesy.ap-northeast-2.rds.amazonaws.com:3306/project_winiaaid?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
     username: admin
     password: 1q2w3e4r
@@ -30,3 +31,33 @@ mybatis:
 file:
   path: C:/project/workspace/git/winiaaid-TeamProject/upload/
 #  path: /Users/gim-yujeong/workspace/git/winiaaid-TeamProject/upload/
+
+# log4jdbc, Mybatis Console Log
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: INFO
+    javax:
+      sql:
+        DataSource: OFF
+    jdbc:
+      audit: OFF
+      resultset: OFF
+      resultsettable: INFO  #SQL 결과 데이터 Table을 로그로 남긴다.
+      sqlonly: DEBUG     #SQL만 로그로 남긴다.
+      sqltiming: INFO    #SQL과 소요시간을 표기한다.
+      connection : OFF  # 커넥션 확인가능
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+      springframework:
+        web: DEBUG
+      com:
+        zaxxer:
+          hikari:
+            HikariDataSource: ERROR

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/mypage")
 public class MyPageController {
 
-    @GetMapping({"/service/history/ing", "/service/history/end"})
+    @GetMapping({"/service/history/ing", "/service/history/end", "/writing/counsel", "/writing/customer"})
     public String loadServiceHistoryListPage() {
         return "mypage/service_history_list";
     }

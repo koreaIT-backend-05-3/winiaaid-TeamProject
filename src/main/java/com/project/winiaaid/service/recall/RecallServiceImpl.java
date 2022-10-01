@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
 import com.project.winiaaid.domain.recall.RecallServiceCode;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
@@ -36,7 +35,7 @@ public class RecallServiceImpl implements RecallService {
 		String serviceCode = null;
 		Map<String, Object> configMap = null;
 
-		configMap = configMapper.setConfigMap(recallEntity);
+		configMap = configMapper.setCreateModelConfigMap(recallEntity);
 
 		serviceCodeEntity = recallRepository.findServiceCode(configMap);
 

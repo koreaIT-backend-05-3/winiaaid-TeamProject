@@ -68,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
 		List<ReadBoardTitleResponseDto>boardDtoList = null;
 		Map<String, Object> configMap = null;
 
-		configMap = configMapper.setConfigMap(readBoardRequestDto);
+		configMap = configMapper.setReadBoardConfigMap(userCode, readBoardRequestDto);
 
 		log.info("configMap: {}", configMap);
 		log.info("keyword: {}", configMap.get("keyword"));
