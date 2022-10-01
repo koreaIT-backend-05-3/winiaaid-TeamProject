@@ -22,7 +22,7 @@
 			<result property="service_type_name" column="service_type_name"/>
 			<result property="progress_status" column="progress_status"/>
 			<result property="request_date" column="request_date"/>
-			<result property="note" column="note"/>
+			<result property="total_count" column="total_count"/>
 		</association>
 	</resultMap>
 
@@ -37,7 +37,6 @@
 			#{productInfoEntity.model_code},
 			now(),
 			1,
-			0,
 			#{userInfoEntity.user_code},
 			#{userInfoEntity.user_name},
 			#{userInfoEntity.main_phone_number},
@@ -48,12 +47,11 @@
 		);
 	</insert>
 	
-	<select id="getRecallRequest" parameterType="hashmap" resultMap="recallServiceInfoMap">
+	<select id="getRecallRequest" parameterType="String" resultMap="recallServiceInfoMap">
 		select
 			rst.service_code,
 			rst.request_date,
 			rst.progress_status,
-			rst.note,
 			rst.user_code,
 			rst.user_name,
 			rst.main_phone_number,
@@ -71,12 +69,43 @@
 			LEFT OUTER JOIN product_model_detail pmd on(pmd.model_code = rst.model_code)
 		where
 			service_code = #{service_code}
-			and
-			user_name = #{user_name}
-			and
-			user_code = #{user_code};
 	</select>
 
+	<select id="getRecallRequestList" parameterType="hashmap" resultMap="recallServiceInfoMap">
+		select
+			rst.service_code,
+			rst.request_date,
+			rst.progress_status,
+			rst.user_code,
+			rst.user_name,
+			rst.main_phone_number,
+			rst.sub_phone_number,
+			rst.postal_code,
+			rst.main_address,
+			rst.detail_address,
+
+			stt.service_type_name,
+
+			pmd.model_number,
+			
+			(select
+				COUNT(*)
+			from
+				recall_service_table
+			where
+				user_code = #{user_code}) as total_count
+		from
+			recall_service_table rst
+			LEFT OUTER JOIN service_type_table stt on(stt.service_type_code = rst.service_type_code)
+			LEFT OUTER JOIN product_model_detail pmd on(pmd.model_code = rst.model_code)
+		where
+			user_code = #{user_code}
+		order by
+			progress_status desc,
+			request_date desc
+		limit #{index}, 10;
+	</select>
+	
 	<select id="findServiceCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.recall.RecallServiceCode">
 		select
 			IFNULL(MAX(id2), 0) + 1 as id2,
@@ -86,4 +115,13 @@
 		where
 			id1 = #{model_code};
 	</select>
+	
+	<update id="updateCancelRecallRequest" parameterType="String">
+		update
+			recall_service_table
+		set
+			progress_status = 0
+		where
+			service_code = #{service_code};
+	</update>
 </mapper>

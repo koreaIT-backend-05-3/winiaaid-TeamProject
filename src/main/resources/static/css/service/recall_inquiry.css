@@ -90,6 +90,10 @@
     margin-bottom: 20px;
 }
 
+.recall-history table tbody tr:not(:last-child){
+	 border-bottom: 1px solid #d9d9d9;
+}
+
 .recall-history table th{
     padding: 18px 0;
     border-bottom: 1px solid #d9d9d9;
@@ -99,7 +103,7 @@
 }
 
 .recall-history table td{
-    padding: 28px 0;
+    padding: 20px 0;
     font-weight: 400;
     color: #5b5a5a;
     text-align: center;

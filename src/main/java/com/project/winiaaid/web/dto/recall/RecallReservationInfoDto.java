@@ -18,7 +18,8 @@ public class RecallReservationInfoDto implements ReservationInfoDto {
     private String serviceTypeName;
     private String requestDate;
     private String progressStatus;
-    private int note;
+    
+    private int totalCount;
 
     @Override
     public ReservationInfoEntity toReservationEntity(LocalDateTime resevationDate) {
