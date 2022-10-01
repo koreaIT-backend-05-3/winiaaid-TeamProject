@@ -48,6 +48,12 @@ uploadButton.onclick = submit;
 
 cancelButton.onclcik = historyBack;
 
+inputFileDivItems.forEach(input=>{
+    input.onchange = (e) => {
+        checkFileType(e.target);
+    }
+})
+
 function getModifyFlagByUri() {
     return location.pathname.indexOf("update-view") != -1 ? true : false;
 }
@@ -349,4 +355,26 @@ function errorMessage(request, status, error) {
     console.log(request.status);
     console.log(request.responseText);
     console.log(error);
+}
+
+
+// 1번
+function checkFileType(selectFile){
+    var fileKind = selectFile.value.lastIndexOf('.');
+    var fileName = selectFile.value.substring(fileKind+1,selectFile.length);
+    var flieType = fileName.toLowerCase();
+    var checkFileType = ['jpg','gif','png','jpeg'];
+
+    if(checkFileType.indexOf(flieType)==-1){
+        alert('이미지 파일만 업로드 할 수 있습니다.');
+        // var parentSelectFile = selectFile.parentNode;
+        // var node = parentSelectFile.replaceChild(selectFile.cloneNode(true),selectFile);
+
+        selectFile.value = "";
+        // selectFile.select();
+        // document.getSelection.clear();
+        return false;
+    }else{
+        console.log(fileName);
+    }
 }
