@@ -58,7 +58,7 @@ public class RepairServiceRestController {
             repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(serviceCode, userCode);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(1, "Failed to load detailed application history", repairServiceResponseDto));
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load detailed application history", repairServiceResponseDto));
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Detailed application history load successful", repairServiceResponseDto));

@@ -21,6 +21,7 @@ const descriptionInput = document.querySelector(".description-input");
 const userInfoContent = document.querySelector(".user-info-content");
 const nameInput = document.querySelector(".name-input");
 const mainFirstPhoneNumber = document.querySelector(".phone-box select");
+const mainPhoneNumberOptionItems = mainFirstPhoneNumber.querySelectorAll("option");
 const mainMiddlePhoneNumber = document.querySelector(".middle-number");
 const mainLastPhoneNumber = document.querySelector(".last-number");
 const subFirstPhoneNumber = document.querySelector(".sub-phone-box select");
@@ -36,6 +37,8 @@ const mainAddressInput = document.querySelector(".main-address");
 const detailAddressInput = document.querySelector(".detail-address");
 const defaultAddressInput = document.querySelector(".default-address-input");
 const pastAddressInput = document.querySelector(".past-address-input");
+const agreeConsentToUse = document.querySelector(".agree-consent-to-use-box")
+const agreeConsignmentProcessing = document.querySelector(".agree-consignment-processing-box");
 
 
 let dayDivItems = null;
@@ -51,6 +54,7 @@ const modifyButton = document.querySelector(".modify-button button");
 const requestButton = document.querySelector(".request-button");
 const cancelButton = document.querySelector(".cancel-button");
 
+let user = null;
 let userCode = 0;
 
 let tempPhoneNumber = null;
@@ -94,6 +98,11 @@ setReservationableDaySpan();
 setSigninUserView();
 
 function setSigninUserView() {
+    user = getUser();
+    if(user != null) {
+        userCode = user.userCode;
+    }
+
     if(userCode != 0) {
         const checkLastRequestListDiv = document.querySelector(".check-last-request-list-div");
         const addressTd = document.querySelector(".address-td");
@@ -105,20 +114,55 @@ function setSigninUserView() {
         removeVisibleClass(checkLastRequestListDiv);
         removeVisibleClass(addressButton);
 
-        // loadUserInfoByUserCode();
+        setDefaultUserInfo(user);
     }
 }
 
-function loadUserInfoByUserCode() {
-    $.ajax({
-        type: "get",
-        url: ``,
-        dataType: "json",
-        success: (response) => {
+function setDefaultUserInfo(user) {
+    const mainFirstPhoneNumberOptionItems = document.querySelectorAll(".phone-box select option");
+    const subFirstPhoneNumberOptionItems = document.querySelectorAll(".sub-phone-box select option");
 
-        },
-        error: errorMessage
-    });
+    let mainPhoneNumber = user.mainPhoneNumber;
+    let subPhoneNumber = user.subPhoneNumber;
+
+    nameInput.value = user.userName;
+    setReadOnly(nameInput);
+
+    setFirstPhoneNumber(mainFirstPhoneNumberOptionItems, mainPhoneNumber);
+    setDisabled(mainFirstPhoneNumber);
+
+    setMiddlePhoneNumber(mainMiddlePhoneNumber, mainPhoneNumber);
+    setReadOnly(mainMiddlePhoneNumber);
+    setLastPhoneNumber(mainLastPhoneNumber, mainPhoneNumber);
+    setReadOnly(mainLastPhoneNumber);
+
+    setFirstEmail(firstEmail, user.userEmail);
+    setReadOnly(firstEmail);
+
+    setLastEmail(secondEmail, user.userEmail);
+    setReadOnly(secondEmail);
+
+    setDisabled(emailBoxSelect);
+    
+    setAddressInfo(user);
+
+    if(subPhoneNumber != null) {
+        setFirstPhoneNumber(subFirstPhoneNumberOptionItems, subPhoneNumber);
+        setDisabled(subFirstPhoneNumber);
+    
+        setMiddlePhoneNumber(subMiddlePhoneNumber, subPhoneNumber);
+        setReadOnly(subMiddlePhoneNumber);
+        setLastPhoneNumber(subLastPhoneNumber, subPhoneNumber);
+        setReadOnly(subLastPhoneNumber);
+    };
+}
+
+function setReadOnly(input) {
+    input.setAttribute("readonly", true);
+}
+
+function setDisabled(select) {
+    select.setAttribute("disabled", true);
 }
 
 
@@ -166,7 +210,7 @@ pastAddressInput.onclick = isCheckedPastAddressRadioInput;
 
 function isCheckedDefatulAddressRadioInput() {
     if(defaultAddressInput.checked) {
-        console.log("유저 주소 불러옴");
+        setAddressInfo(user);
     }
 }
 
@@ -936,8 +980,6 @@ function pastRequestServiceDescriptionLoad(pastHistoryInfoObject) {
 function pastRequestServiceUserInfoLoad(pastHistoryInfoObject) {
     nameInput.value = pastHistoryInfoObject.userName;
 
-    const mainPhoneNumberOptionItems = mainFirstPhoneNumber.querySelectorAll("option");
-
     setFirstPhoneNumber(mainPhoneNumberOptionItems, pastHistoryInfoObject.mainPhoneNumber);
     setMiddlePhoneNumber(mainMiddlePhoneNumber, pastHistoryInfoObject.mainPhoneNumber);
     setLastPhoneNumber(mainLastPhoneNumber, pastHistoryInfoObject.mainPhoneNumber);
@@ -957,6 +999,13 @@ function pastRequestServiceUserInfoLoad(pastHistoryInfoObject) {
     }
 
     setAddressInfo(pastHistoryInfoObject);
+    agreeCheckBox();
+    removeVisibleClass(reservationDiv);
+}
+
+function agreeCheckBox() {
+    agreeConsentToUse.setAttribute("checked", true);
+    agreeConsignmentProcessing.setAttribute("checked", true);
 }
 
 function setFirstPhoneNumber(optionItems, phoneNumber) {
@@ -988,10 +1037,10 @@ function setLastEmail(emailInput, email) {
     emailInput.value = email.substring(email.lastIndexOf("@") + 1);
 }
 
-function setAddressInfo(pastHistoryInfoObject) {
-    postalCodeInput.value = pastHistoryInfoObject.postalCode;
-    mainAddressInput.value = pastHistoryInfoObject.mainAddress;
-    detailAddressInput.value = pastHistoryInfoObject.detailAddress;
+function setAddressInfo(object) {
+    postalCodeInput.value = object.postalCode;
+    mainAddressInput.value = object.mainAddress;
+    detailAddressInput.value = object.detailAddress;
 }
 
 
@@ -1045,10 +1094,7 @@ function checkRequireInputAndSaveUserInfo() {
     let subPhoneNumber = subFirstNumber +"-"+ subMiddlePhoneNumber.value +"-"+ subLastPhoneNumber.value;
 
     let regPhone2 = /^([0-9]{2,3})-?([0-9]{3,4})-?([0-9]{4})$/;
-
-    const agreeConsentToUse = document.querySelector(".agree-consent-to-use-box")
-    const agreeConsignmentProcessing = document.querySelector(".agree-consignment-processing-box");
-
+    
     if(isEmpty(nameInput.value)) {
         alert("성명을 입력해 주세요.");
         nameInput.focus();

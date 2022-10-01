@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <div class="login-box">
+        <div class="user-area-inner">
+            <form  action ="/auth/signin" id="loginForm" name="loginForm" method="POST">
+                <label for="username" class="input-user">
+                    <input type="text" id="username" name="username" placeholder="아이디를 입력하세요">
+                </label>
+                <label for="password" class="input-user">
+                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요"
+                        maxlength="10">
+                </label>
+                <button type="submit" id="button-login" class="button-login">로그인</button>
+                <p class="save-id">
+                    <input type="checkbox" id="save-id">
+                    <label for="save-id">아이디 저장</label>
+                </p>
+                <div class="find-user">
+                    <p>아이디나 비밀번호를 잊으셨나요?</p>
+                    <div class="bin-area">
+                        <a class="find-button find-button-userid">아이디찾기</a>
+                        <a class="find-button fint-button-password">비밀번호 찾기</a>
+                    </div>
+                    <p>패스워드 변경 및 개인정보 수정은
+                        <span>여기</span>를 눌러주세요.
+                    </p>
+                </div>
+            </form>
+        </div>
+        <div class="enjoy">
+            <div class="enjoy-inner">
+                <div class="user-image-box">
+                    <img src="https://www.winiaaid.com/assets/images/common/icon_human.png">
+                </div>
+                <div class="enjoy-textbox"> 
+                    <p>아직 위니아 회원이 아니신가요?</p>
+                    <p>회원이 되시면 다양한 서비스 이용이 가능합니다.</p>
+                </div>
+
+                <div class="button-area">
+                    <a href="signup2">통합회원가입</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

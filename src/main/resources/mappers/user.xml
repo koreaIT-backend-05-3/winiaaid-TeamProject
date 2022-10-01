@@ -4,22 +4,45 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.winiaaid.domain.user.UserRepository">
-    <insert id="save" parameterType="com.project.winiaaid.domain.user.User">
+
+    <insert id="insertUserMst" parameterType="com.project.winiaaid.domain.user.User" useGeneratedKeys="true" keyProperty="user_code">
     insert into
     	user_mst
     values(
-    	#{user_code},
+    	0,
     	#{user_name},
     	#{user_id},
     	#{user_password},
     	#{user_email},
+		#{user_gender},
     	#{user_roles},
+		#{postal_code},
+		#{main_address},
+		#{detail_address},
+		#{main_phone_number},
+		#{user_birth},
+		#{birth_type},
     	now(),
     	now()
-    	
     );
-	
     </insert>
+
+	<insert id="insertUserDtl" parameterType="com.project.winiaaid.domain.user.User">
+		insert into
+			user_dtl
+		values(
+			#{user_code},
+			#{sub_phone_number},
+			#{email_recieve_flag},
+			#{sms_recieve_flag},
+			#{mail_recieve_flag},
+			#{staff_company},
+			#{employee_number},
+			now(),
+			now()
+		);
+	</insert>
+
 
     <select id="findUserByUsername" parameterType="String" resultType="com.project.winiaaid.domain.user.User">
 	 select

@@ -24,6 +24,7 @@ public class RepairUserInfoEntity implements UserInfoEntity {
 
     public UserInfoDto toUserInfoDto() {
         return RepairUserInfoDto.builder()
+                .userCode(user_code)
                 .userName(user_name)
                 .userEmail(user_email)
                 .mainPhoneNumber(main_phone_number)

@@ -118,6 +118,7 @@ public class ConfigMapImpl implements ConfigMap{
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("non_member_flag", userCode == 0);
+        configMap.put("user_code", userCode);
         configMap.put("service_code", serviceCode);
 
         return configMap;

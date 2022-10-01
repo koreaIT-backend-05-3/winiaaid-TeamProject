@@ -18,6 +18,7 @@
             <result property="company_name" column="company_name"/>
         </association>
         <association property="userInfoEntity" javaType="com.project.winiaaid.domain.repair.RepairUserInfoEntity">
+            <id property="user_code" column="user_code"/>
             <result property="user_name" column="user_name"/>
             <result property="user_email" column="user_email"/>
             <result property="main_phone_number" column="main_phone_number"/>
@@ -87,11 +88,15 @@
 
     <select id="findRepairServiceHistoryDetailInfoListByUserCode" parameterType="HashMap" resultMap="repairServiceInfoMap">
         SELECT
+            rst.user_code,
             rst.service_code,
             rst.description,
             rst.progress_status,
             rst.trouble_code,
             rst.request_date,
+            rst.postal_code,
+            rst.main_address,
+            rst.detail_address,
 
             wpm.product_category_name,
 
@@ -115,9 +120,6 @@
             um.user_name,
             um.main_phone_number,
             um.user_email,
-            um.postal_code,
-            um.main_address,
-            um.detail_address,
 
             ud.sub_phone_number,
 
@@ -149,11 +151,15 @@
 
     <select id="findRepairServiceDetailHistoryInfo" parameterType="HashMap" resultMap="repairServiceInfoMap">
         SELECT
+            rst.user_code,
             rst.service_code,
             rst.description,
             rst.progress_status,
             rst.trouble_code,
             rst.request_date,
+            rst.postal_code,
+            rst.main_address,
+            rst.detail_address,
 
             wpm.product_category_name,
 
@@ -177,18 +183,12 @@
                     um.user_name,
                     um.main_phone_number,
                     um.user_email,
-                    um.postal_code,
-                    um.main_address,
-                    um.detail_address,
                     ud.sub_phone_number,
                 </when>
                 <otherwise>
                     nmrst.user_name,
                     nmrst.main_phone_number,
                     nmrst.user_email,
-                    nmrst.postal_code,
-                    nmrst.main_address,
-                    nmrst.detail_address,
                     nmrst.sub_phone_number,
                 </otherwise>
             </choose>
@@ -216,18 +216,28 @@
             </choose>
         WHERE
             rst.service_code = #{service_code}
+            and
+        <choose>
+            <when test="non_member_flag == true">
+                non_member_flag = 1
+            </when>
+            <otherwise>
+                non_member_flag = 0
+                and rst.user_code = #{user_code}
+            </otherwise>
+        </choose>
+        ;
     </select>
 
     <select id="findPastReceptionAddressListByUserCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.repair.Address">
         SELECT
-            um.postal_code,
-            um.main_address,
-            um.detail_address,
+            rst.postal_code,
+            rst.main_address,
+            rst.detail_address,
 
             tct.total_count
         FROM
             repair_service_table rst
-            LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)
             LEFT OUTER JOIN (select
                                 COUNT(DISTINCT postal_code, main_address, detail_address) AS total_count
                             from

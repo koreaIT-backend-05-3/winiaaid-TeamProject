@@ -54,7 +54,7 @@ function changeRequestButtonToModifyButton() {
 }
 
 function lockItems() {
-    for(let i = 0; i < 2; i++) {
+    for(let i = 0; i < 3; i++) {
         removeVisibleClass(stepLocks[i]);
     }
 }

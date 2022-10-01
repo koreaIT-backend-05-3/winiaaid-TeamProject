@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.winiaaid.domain.user.UserRepository">
-    <insert id="save" parameterType="com.project.winiaaid.domain.user.User">
+    <insert id="insertUser" parameterType="com.project.winiaaid.domain.user.User">
     insert into
     	user_mst
     values(

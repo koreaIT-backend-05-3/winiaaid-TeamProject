@@ -15,15 +15,9 @@ public class PrincipalDetails implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private User user;
-	private Map<String, Object> attribute;
 	
 	public PrincipalDetails(User user) {
 		this.user = user;
-	}
-	
-	public PrincipalDetails(User user, Map<String, Object> attribute) {
-		this.user = user;
-		this.attribute = attribute;
 	}
  
 	
@@ -31,24 +25,12 @@ public class PrincipalDetails implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
 		Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-	
-//		grantedAuthorities.add(new GrantedAuthority() {
-//			
-//			@Override
-//			public String getAuthority() {
-//				
-//				return user.getUser_roles();
-//			}
-//		});
-//		return grantedAuthorities;
+
 		user.getUserRoles().forEach(role -> {
 			grantedAuthorities.add(() -> role);
 		});
 		
 		return grantedAuthorities;
-		
-//	
-		
 	}
 	
 	@Override
@@ -60,8 +42,7 @@ public class PrincipalDetails implements UserDetails {
 	public String getUsername() {
 		return user.getUser_id();
 	}
-	
-	
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -81,6 +62,4 @@ public class PrincipalDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-	
-	
 }
