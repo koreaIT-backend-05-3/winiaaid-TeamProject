@@ -42,7 +42,7 @@ if(loginTest){	//로그인 시
 	
 	protectionCheck.checked = 'true'
 	privacyHandlingCheck.checked = 'true'
-	agreementDiv.remove()
+	agreementDiv.remove();
 }
 
 
@@ -56,20 +56,20 @@ checkModelButton.onclick = showModelNumberCheckPopup;
 writeModel.oninput = () => {
     setTimeout(function(){
         writeModel.value = writeModel.value.replace(/[^a-zA-Z0-9-()]/ig, '')
-    }, 100)
+    }, 100);
 }
 
 mainPhoneNumber[1].oninput = () => {
-    onlyNumberOnInput(mainPhoneNumber[1])
+    onlyNumberOnInput(mainPhoneNumber[1]);
 }
 mainPhoneNumber[2].oninput = () => {
-    onlyNumberOnInput(mainPhoneNumber[2])
+    onlyNumberOnInput(mainPhoneNumber[2]);
 }
 subPhoneNumber[1].oninput = () => {
-    onlyNumberOnInput(subPhoneNumber[1])
+    onlyNumberOnInput(subPhoneNumber[1]);
 }
 subPhoneNumber[2].oninput = () => {
-    onlyNumberOnInput(subPhoneNumber[2])
+    onlyNumberOnInput(subPhoneNumber[2]);
 }
 
 searchAddressButtonn.onclick = loadAddressPopup;

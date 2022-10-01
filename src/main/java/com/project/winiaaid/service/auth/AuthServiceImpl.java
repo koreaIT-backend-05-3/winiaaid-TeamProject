@@ -1,10 +1,8 @@
 package com.project.winiaaid.service.auth;
 
-<<<<<<< HEAD
-import org.springframework.stereotype.Service;
-
 import com.project.winiaaid.domain.user.UserRepository;
 import com.project.winiaaid.web.dto.auth.UsernameCheckRequestDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Random;
-
-import lombok.RequiredArgsConstructor;
 
 @Slf4j
 @Service

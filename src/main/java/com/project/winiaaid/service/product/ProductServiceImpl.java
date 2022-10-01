@@ -2,11 +2,7 @@ package com.project.winiaaid.service.product;
 
 import com.project.winiaaid.domain.product.*;
 import com.project.winiaaid.util.ConfigMap;
-import com.project.winiaaid.web.dto.product.ReadProductCategoryResponseDto;
-import com.project.winiaaid.web.dto.product.ReadProductModelResponseDto;
-import com.project.winiaaid.web.dto.product.ReadProductTroubleResponseDto;
-import com.project.winiaaid.web.dto.product.ReadModelNumberInfoResponseDto;
-import com.project.winiaaid.web.dto.product.ReadProductResponseDto;
+import com.project.winiaaid.web.dto.product.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

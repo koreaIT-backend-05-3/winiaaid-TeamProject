@@ -1,6 +1,5 @@
 package com.project.winiaaid.domain.history;
 
-import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

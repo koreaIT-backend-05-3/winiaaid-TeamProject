@@ -69,7 +69,7 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadBoardConfigMap(int userCode, ReadBoardRequestDto readBoardRequestDto) throws Exception {
+    public Map<String, Object> setReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("user_code", readBoardRequestDto.getUserCode());
@@ -114,7 +114,17 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadRepariServiceHistoryDetailListAndPastAddressListConfigMap(int userCode, int page, String type) throws Exception {
+    public Map<String, Object> setReadRepairServiceHistoryDetailHistoryConfigMap(String serviceCode, int userCode) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("non_member_flag", userCode == 0);
+        configMap.put("service_code", serviceCode);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadRepairServiceHistoryDetailListAndPastAddressListConfigMap(int userCode, int page, String type) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("user_code", userCode);

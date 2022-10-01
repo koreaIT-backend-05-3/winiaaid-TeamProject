@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -68,7 +71,7 @@ public class BoardServiceImpl implements BoardService {
 		List<ReadBoardTitleResponseDto>boardDtoList = null;
 		Map<String, Object> configMap = null;
 
-		configMap = configMapper.setReadBoardConfigMap(userCode, readBoardRequestDto);
+		configMap = configMapper.setReadBoardConfigMap(readBoardRequestDto);
 
 		log.info("configMap: {}", configMap);
 		log.info("keyword: {}", configMap.get("keyword"));

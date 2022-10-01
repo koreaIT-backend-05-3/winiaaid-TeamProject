@@ -51,11 +51,11 @@ public class RepairServiceRestController {
     }
 
     @GetMapping("/repair/detail/history/{serviceCode}")
-    public ResponseEntity<?> getRepairServiceDetailHistoryInfo(@PathVariable String serviceCode) {
+    public ResponseEntity<?> getRepairServiceDetailHistoryInfo(@PathVariable String serviceCode, int userCode) {
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
 
         try {
-            repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(serviceCode);
+            repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(serviceCode, userCode);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(1, "Failed to load detailed application history", repairServiceResponseDto));

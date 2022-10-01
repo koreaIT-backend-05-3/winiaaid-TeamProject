@@ -61,7 +61,7 @@ public class BoardRestController {
 		List<ReadBoardTitleResponseDto> boardList = null;
 
 		try {
-			boardList = boardService.getBoardListByBoardType(userCode, readBoardRequestDto);
+			boardList = boardService.getBoardListByBoardType(readBoardRequestDto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Post Creation failed", boardList));

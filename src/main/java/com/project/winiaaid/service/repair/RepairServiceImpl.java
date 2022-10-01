@@ -58,7 +58,7 @@ public class RepairServiceImpl implements RepairService {
         List<ReadServiceInfoResponseDto> serviceResponseDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadRepariServiceHistoryDetailListAndPastAddressListConfigMap(userCode, page, "repairService");
+        configMap = configMapper.setReadRepairServiceHistoryDetailListAndPastAddressListConfigMap(userCode, page, "repairService");
 
         serviceInfoEntityList = repairRepository.findRepairServiceHistoryDetailInfoListByUserCode(configMap);
 
@@ -73,11 +73,14 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode) throws Exception {
+    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode, int userCode) throws Exception {
         ServiceInfo repairServiceInfoEntity = null;
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
+        Map<String, Object> configMap = null;
 
-        repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(serviceCode);
+        configMap = configMapper.setReadRepairServiceHistoryDetailHistoryConfigMap(serviceCode, userCode);
+
+        repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(configMap);
 
         if(repairServiceInfoEntity != null) {
             repairServiceResponseDto = changeToRepairServiceResponseDto(repairServiceInfoEntity);
@@ -92,7 +95,7 @@ public class RepairServiceImpl implements RepairService {
         List<AddressResponseDto> addressResponseDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadRepariServiceHistoryDetailListAndPastAddressListConfigMap(userCode, page, "address");
+        configMap = configMapper.setReadRepairServiceHistoryDetailListAndPastAddressListConfigMap(userCode, page, "address");
 
         addressList = repairRepository.findPastReceptionAddressListByUserCode(configMap);
 

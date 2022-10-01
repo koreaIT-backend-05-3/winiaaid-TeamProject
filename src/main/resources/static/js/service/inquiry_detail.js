@@ -1,5 +1,6 @@
 const goListButton = document.querySelector(".go-list-button");
 
+let userCode = 1;
 let serviceCode = null;
 
 serviceCode = getServiceCodeByUri();
@@ -20,7 +21,7 @@ function getReservationDetailInfo() {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/detail/history/${serviceCode}`,
+        url: `/api/v1/service/repair/detail/history/${serviceCode}?userCode=${userCode}`,
         dataType: "json",
         success: (response) => {
             setReservationDetailInfo(response.data);
