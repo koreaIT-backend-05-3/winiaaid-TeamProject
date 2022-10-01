@@ -3,18 +3,18 @@ let userCode = 0;
 loadPage(1);
 
 function loadPage(page) {
-    getRepairServiceHistory(page)
+    getRepairServiceHistoryList(page)
 }
 
-function getRepairServiceHistory(page) {
+function getRepairServiceHistoryList(page) {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/history/user/${userCode}?service-type=repair&request-type=history&page=${page}`,
+        url: `/api/v1/service/repair/history/list/user/${userCode}?progressStatus=all&page=${page}`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
-                let totalPage = getTotalPage(response.data[0].reservationInfo.totalCount, 10);
+                let totalPage = getTotalPage(response.data[0].totalCount, 10);
                 setPage(totalPage);
                 setRepairServiceHistoryData(response.data);
             }
@@ -27,7 +27,7 @@ function setRepairServiceHistoryData(repairDataList) {
     const tbody = document.querySelector("tbody");
     const requestCount = document.querySelector(".request-count");
 
-    requestCount.textContent = repairDataList[0].reservationInfo.totalCount;
+    requestCount.textContent = repairDataList[0].totalCount;
 
     clearDomObject(tbody);
 
@@ -37,15 +37,22 @@ function setRepairServiceHistoryData(repairDataList) {
             <td colspan="7">서비스 신청 내역이 없습니다.</td>
         </tr>`;
     }else {
+        
+        let fristData = true;
+
         for(repairData of repairDataList) {
-            let progressStatus = repairData.reservationInfo.progressStatus;
+            if(isFirstData(fristData)) {
+                fristData = false;
+                continue;
+            }
+            let progressStatus = repairData.progressStatus;
             tbody.innerHTML += `
             <tr class="history-list">
-                <td>${repairData.productInfo.companyName}</td>
-                <td><span class="repair-service-code-span">${repairData.productInfo.serviceCode}</span></td>
-                <td>${repairData.reservationInfo.serviceTypeName}</td>
-                <td>${repairData.productInfo.productCategoryName == repairData.productInfo.productDetailName ? "" : repairData.productInfo.productCategoryName + " > "} ${repairData.productInfo.productDetailName}</td>
-                <td>${repairData.reservationInfo.requestDate}</td>
+                <td>${repairData.companyName}</td>
+                <td><span class="repair-service-code-span">${repairData.serviceCode}</span></td>
+                <td>${repairData.serviceTypeName}</td>
+                <td>${repairData.productName}</td>
+                <td>${repairData.requestDate}</td>
                 <td class="${progressStatus == 0 ? "cancel-td" : progressStatus == 1 ? "register-td" : "complete-td"}">${progressStatus == 0 ? "접수 취소" : progressStatus == 1 ? "접수 완료" : "방문 완료"}</td>
                 <td>${progressStatus == 1 ? "<div class='reservation-modify-button-div'><button class='modify-button' type='button'>예약변경</button><button class='cancel-button' type='button'>예약취소</button></div>" : ""}</td>
             </tr>
@@ -92,6 +99,10 @@ function clearDomObject(domObject) {
 
 function isEmpty(data) {
     return data == null || data == undefined || data == "";
+}
+
+function isFirstData(fristData) {
+    return fristData;
 }
 
 function errorMessage(request, status, error) {

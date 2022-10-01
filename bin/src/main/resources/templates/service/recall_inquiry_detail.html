@@ -5,13 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <th:block th:replace="/fragments/head"></th:block>
-    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/service/recall_inquiry_detail.css">
     <title>[위니아에이드] 김치냉장고 리콜_현황</title>
 </head>
 <body>
     <div id="wrap">
-        <header>header</header>
+        <th:block th:replace="/fragments/header"></th:block>
         <div class="location">
             <ul>
                 <li class="home">
@@ -41,21 +40,21 @@
                     </colgroup>
                     <tr>
                         <th>접수번호</th>
-                        <td class="recall-code">DFC220919034222</td>
+                        <td class="recall-code"></td>
                         <th>서비스구분</th>
-                        <td class="service-type">김치냉장고 리콜 신청</td>
+                        <td class="service-type"></td>
                     </tr>
                     <tr>
                         <th>딤채모델명</th>
-                        <td class="model-name">DB-1105D(CW)</td>
+                        <td class="model-name"></td>
                         <th>접수일</th>
-                        <td class="request-date">2022-09-19 18:47</td>
+                        <td class="request-date"></td>
                     </tr>
                     <tr>
                         <th>진행상태</th>
-                        <td class="progress-status">접수</td>
+                        <td class="progress-status"></td>
                         <th>신청취소</th>
-                        <td class="note"><button class="cancel">신청취소</button></td>
+                        <td class="note"></td>
                     </tr>
                 </table>
             </div>
@@ -70,23 +69,24 @@
                     </colgroup>
                     <tr>
                         <th>성명</th>
-                        <td colspan="3" class="user-name">홍길동</td>
+                        <td colspan="3" class="user-name"></td>
                     </tr>
                     <tr>
                         <th>휴대폰번호</th>
-                        <td class="main-phone-number">010-1111-1111</td>
+                        <td class="main-phone-number"></td>
                         <th>연락가능번호</th>
-                        <td class="sub-phone-number">010-1111-1111</td>
+                        <td class="sub-phone-number"></td>
                     </tr>
                     <tr>
                         <th>주소</th>
-                        <td colspan="3" class="address">경상남도 양산시</td>
+                        <td colspan="3" class="address"></td>
                     </tr>
                 </table>
             </div>
             <button class="list-button">목록</button>
         </main>
-        <footer>footer</footer>
+        <th:block th:replace="/fragments/footer"></th:block>
     </div>
+    <script src="/static/js/service/recall_inquiry_detail.js"></script>
 </body>
 </html>

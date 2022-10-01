@@ -1,16 +1,17 @@
 const checkButton = document.querySelector('.check-button')
 
-let serviceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);;
+let serviceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 
 loadRecallRequestComplete();
 
-function loadRecallRequestComplete(userName, userCode){
+function loadRecallRequestComplete(){
     $.ajax({
         type: "get",
-        url: `/api/v1/service/recall/${serviceCode}?userName=${userName}&userCode=${userCode}`,
+        url: `/api/v1/service/recall/${serviceCode}`,
         dataType: "json",
         async: false,
         success: (response) => {
+			console.log(response.data)
             getRecallRequest(response.data)
         },
         error : errorMessage
