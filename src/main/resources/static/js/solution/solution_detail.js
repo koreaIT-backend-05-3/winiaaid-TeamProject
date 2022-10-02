@@ -31,7 +31,7 @@ function getSolutionDetailData() {
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/detail/${solutionBoardCode}?board-type=${boardType}`,
+        url: `/api/v1/solution/${boardType}/detail/${solutionBoardCode}`,
         dataType: "json",
         success: (response) => {
             setSolutionDetailData(response.data);

@@ -17,22 +17,22 @@ import java.util.Map;
 public class ConfigMapImpl implements ConfigMap{
 
     @Override
-    public Map<String, Object> setReadSolutionDetailConfigMap(int solutionBoardCode, String solutionBoardType) throws Exception {
+    public Map<String, Object> setReadSolutionDetailConfigMap(String solutionBoardType, int solutionBoardCode) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
-        configMap.put("solution_board_code", solutionBoardCode);
         configMap.put("solution_board_type", solutionBoardType.equals("faq") ? 1 : 2);
+        configMap.put("solution_board_code", solutionBoardCode);
 
         return configMap;
     }
 
     @Override
-    public Map<String, Object> setReadSolutionListByCompanyConfigMap(String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
+    public Map<String, Object> setReadSolutionListByCompanyConfigMap(String company, String boardType, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("company_code", company.equals("winia") ? 2 : 1);
         configMap.put("keyword", readSolutionKeywordRequestDto.getKeyword() != null ? readSolutionKeywordRequestDto.getKeyword() : null);
-        configMap.put("solution_board_type", readSolutionKeywordRequestDto.getBoardType().equals("faq") ? 1 : 2);
+        configMap.put("solution_board_type", boardType.equals("faq") ? 1 : 2);
         configMap.put("sort_type", readSolutionKeywordRequestDto.getSortType());
         configMap.put("limit_date", createLocalDateTimeThreeMonthsAgo());
 
@@ -40,12 +40,14 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadSolutionListByKeyCodeConfigMap(int keyCode, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
+    public Map<String, Object> setReadSolutionListByKeyCodeConfigMap(String boardType, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
-        configMap.put("keyCode", keyCode);
+        configMap.put("key_code", readSolutionKeywordRequestDto.getKeyCode());
+        configMap.put("company_code", readSolutionKeywordRequestDto.getCompany().equals("winia") ? 2 : 1);
         configMap.put("keyword", readSolutionKeywordRequestDto.getKeyword() != null ? readSolutionKeywordRequestDto.getKeyword() : null);
-        configMap.put("solution_board_type", readSolutionKeywordRequestDto.getBoardType().equals("faq") ? 1 : 2);
+        configMap.put("solution_board_type", boardType.equals("faq") ? 1 : 2);
+        configMap.put("code_type", readSolutionKeywordRequestDto.getCodeType());
         configMap.put("solution_type_code", readSolutionKeywordRequestDto.getSolutionType());
         configMap.put("sort_type", readSolutionKeywordRequestDto.getSortType());
         configMap.put("limit_date", createLocalDateTimeThreeMonthsAgo());
@@ -53,20 +55,20 @@ public class ConfigMapImpl implements ConfigMap{
         return configMap;
     }
 
-    @Override
-    public Map<String, Object> setReadSolutionListByGroupCodeConfigMap(int keyCode, String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception{
-        Map<String, Object> configMap = new HashMap<>();
-
-        configMap.put("keyCode", keyCode);
-        configMap.put("company_code", company.equals("winia")? 2 : 1);
-        configMap.put("keyword", readSolutionKeywordRequestDto.getKeyword() != null ? readSolutionKeywordRequestDto.getKeyword() : null);
-        configMap.put("solution_board_type", readSolutionKeywordRequestDto.getBoardType().equals("faq") ? 1 : 2);
-        configMap.put("solution_type_code", readSolutionKeywordRequestDto.getSolutionType());
-        configMap.put("sort_type", readSolutionKeywordRequestDto.getSortType());
-        configMap.put("limit_date", createLocalDateTimeThreeMonthsAgo());
-
-        return configMap;
-    }
+//    @Override
+//    public Map<String, Object> setReadSolutionListByGroupCodeConfigMap(int keyCode, String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception{
+//        Map<String, Object> configMap = new HashMap<>();
+//
+//        configMap.put("keyCode", keyCode);
+//        configMap.put("company_code", company.equals("winia")? 2 : 1);
+//        configMap.put("keyword", readSolutionKeywordRequestDto.getKeyword() != null ? readSolutionKeywordRequestDto.getKeyword() : null);
+//        configMap.put("solution_board_type", readSolutionKeywordRequestDto.getBoardType().equals("faq") ? 1 : 2);
+//        configMap.put("solution_type_code", readSolutionKeywordRequestDto.getSolutionType());
+//        configMap.put("sort_type", readSolutionKeywordRequestDto.getSortType());
+//        configMap.put("limit_date", createLocalDateTimeThreeMonthsAgo());
+//
+//        return configMap;
+//    }
 
     @Override
     public Map<String, Object> setMemberReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception {

@@ -76,7 +76,7 @@
     </select>
       
 
-    <select id="findUserByEmail" parameterType="String" resultType="com.project.winiaaid.domain.user.User">
+<!--    <select id="findUserByEmail" parameterType="String" resultType="com.project.winiaaid.domain.user.User">-->
 
-    </select>
+<!--    </select>-->
 </mapper>

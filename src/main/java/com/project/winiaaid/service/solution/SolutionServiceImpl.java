@@ -24,12 +24,12 @@ public class SolutionServiceImpl implements SolutionService{
     private final ConfigMap configMapper;
 
     @Override
-    public List<ReadSolutionResponseDto> getAllSolutionListByCompanyAndKeyword(String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
+    public List<ReadSolutionResponseDto> getAllSolutionListByCompanyAndKeyword(String company, String boardType, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
         List<Solution> solutionEntityList = null;
         List<ReadSolutionResponseDto> readSolutionDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadSolutionListByCompanyConfigMap(company, readSolutionKeywordRequestDto);
+        configMap = configMapper.setReadSolutionListByCompanyConfigMap(company, boardType, readSolutionKeywordRequestDto);
 
         solutionEntityList = solutionRepository.findAllSolutionListByCompanyCodeAndKeyword(configMap);
 
@@ -41,50 +41,16 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
-    public List<ReadSolutionResponseDto> getSolutionListByProductCategoryCodeAndKeyword(int productCategoryCode, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
+    public List<ReadSolutionResponseDto> getSolutionListByProductCategoryCodeAndKeyword(String boardType, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
         List<Solution> solutionEntityList = null;
         List<ReadSolutionResponseDto> readSolutionDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadSolutionListByKeyCodeConfigMap(productCategoryCode,readSolutionKeywordRequestDto);
+        configMap = configMapper.setReadSolutionListByKeyCodeConfigMap(boardType, readSolutionKeywordRequestDto);
 
-        solutionEntityList = solutionRepository.findSolutionListByProductCategoryCodeAndKeyword(configMap);
+        log.info("configMap: {}", configMap);
 
-        if(solutionEntityList != null && solutionEntityList.size() > 0){
-            readSolutionDtoList = changeToReadSolutionResponseDtoList(solutionEntityList);
-        }
-
-        return readSolutionDtoList;
-    }
-
-    @Override
-    public List<ReadSolutionResponseDto> getSolutionListByProductGroupCodeAndKeyword(int productGroupCode, String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
-        List<Solution> solutionEntityList = null;
-        List<ReadSolutionResponseDto> readSolutionDtoList = null;
-        Map<String, Object> configMap = null;
-
-        configMap = configMapper.setReadSolutionListByGroupCodeConfigMap(productGroupCode, company, readSolutionKeywordRequestDto);
-
-        log.info("checking configMap: {}", configMap);
-
-        solutionEntityList = solutionRepository.findSolutionListByProductGroupCodeAndKeyword(configMap);
-
-        if(solutionEntityList != null && solutionEntityList.size() > 0){
-            readSolutionDtoList = changeToReadSolutionResponseDtoList(solutionEntityList);
-        }
-
-        return readSolutionDtoList;
-    }
-
-    @Override
-    public List<ReadSolutionResponseDto> getSolutionListByProductCodeAndKeyword(int productCode, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
-        List<Solution> solutionEntityList = null;
-        List<ReadSolutionResponseDto> readSolutionDtoList = null;
-        Map<String, Object> configMap = null;
-
-        configMap = configMapper.setReadSolutionListByKeyCodeConfigMap(productCode, readSolutionKeywordRequestDto);
-
-        solutionEntityList = solutionRepository.findSolutionListByProductCodeAndKeyword(configMap);
+        solutionEntityList = solutionRepository.findSolutionListByKeyCodeAndKeyword(configMap);
 
         if(solutionEntityList != null && solutionEntityList.size() > 0){
             readSolutionDtoList = changeToReadSolutionResponseDtoList(solutionEntityList);
@@ -95,12 +61,12 @@ public class SolutionServiceImpl implements SolutionService{
 
     @Log
     @Override
-    public ReadSolutionDetailResponseDto getSolutionDetailBySolutionBoardCode(int solutionBoardCode, String solutionBoardType) throws Exception {
+    public ReadSolutionDetailResponseDto getSolutionDetailBySolutionBoardCode(String solutionBoardType, int solutionBoardCode) throws Exception {
         Solution solutionEntity = null;
         ReadSolutionDetailResponseDto solutionDto = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadSolutionDetailConfigMap(solutionBoardCode, solutionBoardType);
+        configMap = configMapper.setReadSolutionDetailConfigMap(solutionBoardType, solutionBoardCode);
 
         log.info("configMap: {}", configMap);
 
