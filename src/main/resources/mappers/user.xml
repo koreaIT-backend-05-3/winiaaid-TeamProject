@@ -33,9 +33,9 @@
 		values(
 			#{user_code},
 			#{sub_phone_number},
-			#{email_recieve_flag},
-			#{sms_recieve_flag},
-			#{mail_recieve_flag},
+			#{email_receive_flag},
+			#{sms_receive_flag},
+			#{mail_receive_flag},
 			#{staff_company},
 			#{employee_number},
 			now(),
@@ -48,21 +48,24 @@
 	 select
 	 	um.user_code,
 		um.user_name,
+		um.user_id,
 		um.user_password,
 		um.user_email,
 		um.user_roles,
-		
-		ud.user_gender,
-		ud.user_birth,
-		ud.user_address,
-		ud.postal_code,
-		ud.main_address,
-		ud.detail_address,
-		ud.main_phonenumber,
-		ud.sub_phonoenumber,
-		ud.email_recieve_flag,
-		ud.sms_recieve_flag,
-		ud.mail_recieve_flag
+		um.user_gender,
+		um.user_birth,
+		um.postal_code,
+		um.main_address,
+		um.detail_address,
+		um.main_phone_number,
+		um.birth_type,
+
+		ud.sub_phone_number,
+		ud.email_receive_flag,
+		ud.sms_receive_flag,
+		ud.mail_receive_flag,
+		ud.staff_company,
+		ud.employee_number
 	from
 		user_mst um
 		left outer join user_dtl ud on(ud.user_code = um.user_code)

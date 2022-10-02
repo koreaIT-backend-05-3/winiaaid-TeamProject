@@ -5,8 +5,6 @@ const listButton = document.querySelector(".list-button");
 let boardCode = getBoardCodeByUri();
 let boardType = getBoardType();
 
-userCode = 1;
-
 setBoardContentByBoardType();
 getBoardDetailByBoardCode(boardCode);
 

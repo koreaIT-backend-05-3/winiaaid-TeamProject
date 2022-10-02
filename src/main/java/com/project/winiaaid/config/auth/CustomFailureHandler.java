@@ -15,6 +15,11 @@ public class CustomFailureHandler implements AuthenticationFailureHandler {
 
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/html; charset=utf-8");
-        response.getWriter().println("<html><head></head><body><script>alert(\"로그인 실패\")</script></body></html>");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<html><head></head><body><script>");
+        stringBuilder.append("alert(\'로그인 실패\');");
+        stringBuilder.append("location.href=\'/main\';");
+        stringBuilder.append("</script></body></html>");
+        response.getWriter().println(stringBuilder.toString());
     }
 }

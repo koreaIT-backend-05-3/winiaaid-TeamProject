@@ -97,7 +97,7 @@ function setReservationDetailInfo(reservationDetailInfo) {
                 <th>연락가능번호</th>
                 <td>${userInfoObject.subPhoneNumber == null ? userInfoObject.mainPhoneNumber : userInfoObject.subPhoneNumber}</td>
                 <th>이메일</th>
-                <td>${userInfoObject.email == null ? "" : userInfoObject.email}</td>
+                <td>${userInfoObject.userEmail == null ? "" : userInfoObject.userEmail}</td>
             </tr>
         `;
 

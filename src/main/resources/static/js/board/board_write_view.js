@@ -31,7 +31,6 @@ let fileSize = 0;
 let deleteFileCodeList = new Array();
 let deleteTempFileNameList = new Array();
 
-// userCode = 1;
 
 modifyFlag = getModifyFlagByUri();
 boardType = getBoardTypeByUri();

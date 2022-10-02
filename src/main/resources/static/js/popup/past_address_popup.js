@@ -9,8 +9,6 @@ cancelImage.onclick = cancelPopup;
 requestButton.onclick = setAddressToParentWindow;
 cancelButton.onclick = cancelPopup;
 
-let userCode = 0;
-
 loadPage(1);
 
 function loadPage(page) {

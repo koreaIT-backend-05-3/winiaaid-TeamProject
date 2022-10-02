@@ -72,9 +72,9 @@ public class SignupRequestDto {
 				.detail_address(detailAddress)
 				.main_phone_number(mainPhoneNumber)
 				.sub_phone_number(subPhoneNumber)
-				.email_recieve_flag(emailReceiveFlag ? 1 : 0)
-				.sms_recieve_flag(smsReceiveFlag ? 1 : 0)
-				.mail_recieve_flag(mailReceiveFlag ? 1 : 0)
+				.email_receive_flag(emailReceiveFlag ? 1 : 0)
+				.sms_receive_flag(smsReceiveFlag ? 1 : 0)
+				.mail_receive_flag(mailReceiveFlag ? 1 : 0)
 				.staff_company(staffCompany)
 				.employee_number(employeeNumber)
 				.build();

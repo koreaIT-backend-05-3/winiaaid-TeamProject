@@ -54,6 +54,6 @@ public class AuthRestController {
             return ResponseEntity.ok(new CustomResponseDto<>(1, "Load user information successfully", null));
         }
 
-            return ResponseEntity.ok(new CustomResponseDto<>(1, "Load user information successfully", principalDetails.getUser()));
+            return ResponseEntity.ok(new CustomResponseDto<>(1, "Load user information successfully", principalDetails.getUser().toReadUserResponseDto()));
     }
 }

@@ -86,7 +86,6 @@ let reservationInfoObject = {
     "serviceType": null
 };
 
-checkLocalStorageHasPastRequetsServiceData();
 
 setNowDate();
 setCalendarData();
@@ -94,6 +93,7 @@ setChangeMonthButton("pre");
 setReservationableDaySpan();
 
 setSigninUserView();
+checkLocalStorageHasPastRequetsServiceData();
 
 function setSigninUserView() {
     if(userCode != 0) {

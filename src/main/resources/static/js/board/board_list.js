@@ -1,4 +1,5 @@
 const writeButton = document.querySelector(".write-button");
+const showMyWritingHistoryButton = document.querySelector(".board-history-button");
 const searchKeyword = document.querySelector(".input-box");
 const searchButton = document.querySelector(".search-btn");
 
@@ -6,6 +7,8 @@ const contentTableBody = document.querySelector(".content-table-body");
 
 let boardType = null;
 let authenticationNumber = null;
+
+
 
 loadPageHistoryByLocalStorage();
 
@@ -17,6 +20,7 @@ setBoardContentByBoardType();
 setBoardTableByBoardType();
 
 writeButton.onclick = loadBoardWritePage;
+showMyWritingHistoryButton.onclick = loadWritingHistoryPage;
 
 searchButton.onclick = () => getBoardList(1);
 
@@ -37,6 +41,8 @@ function loadPage(page) {
 function getBoardList(page){
     let searchType = getSelectedOptionValue();
     let keyword = getSearchKeyword();
+
+    console.log(userCode);
 
     if(!isNonMemberView()) {
         $.ajax({
@@ -224,6 +230,10 @@ function loadBoardDetailPage(boardCode) {
 
 function loadBoardWritePage() {
     location.href = `/customer/${boardType}/regist-view`;
+}
+
+function loadWritingHistoryPage() {
+    location.href = `/mypage/writing/customer`;
 }
 
 
