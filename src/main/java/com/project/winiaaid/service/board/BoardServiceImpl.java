@@ -2,6 +2,7 @@ package com.project.winiaaid.service.board;
 
 import com.project.winiaaid.domain.board.*;
 import com.project.winiaaid.util.ConfigMap;
+import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.board.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 	private final BoardRepository boardRepository;
+	private final UserService userService;
 	private final ConfigMap configMapper;
 
 	@Value("${file.path}")
@@ -40,6 +42,10 @@ public class BoardServiceImpl implements BoardService {
 		boardEntity = createBoardRequestDto.toBoardEntity();
 
 		boardCodeEntity = boardRepository.findBoardCode(boardEntity);
+
+		if(boardEntity.isNon_member_flag()) {
+			userService.setBoardTypeNonMemberUserCode(boardEntity);
+		}
 
 		boardEntity.setBoard_code(boardCodeEntity.getBoard_code());
 		boardEntity.setId2(boardCodeEntity.getId2());
@@ -66,23 +72,35 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<ReadBoardTitleResponseDto> getBoardListByBoardType(ReadBoardRequestDto readBoardRequestDto) throws Exception {
+	public List<ReadBoardTitleResponseDto> getMemberBoardListByBoardType(ReadBoardRequestDto readBoardRequestDto) throws Exception {
+		List<BoardTitle> boardEntityList = null;
+		List<ReadBoardTitleResponseDto> boardDtoList = null;
+		Map<String, Object> configMap = null;
+
+		configMap = configMapper.setMemberReadBoardConfigMap(readBoardRequestDto);
+
+		boardEntityList = boardRepository.findMemberBoardListByBoardTypeAndKeyword(configMap);
+
+		if (boardEntityList.size() != 0 && boardEntityList != null) {
+			boardDtoList = toChangeReadBoardTitleResponseDtoList(boardEntityList);
+
+		}
+		return boardDtoList;
+	}
+
+	@Override
+	public List<ReadBoardTitleResponseDto> getNonMemberBoardListByAuthenticationNumber(ReadBoardRequestDto readBoardRequestDto) throws Exception {
 		List<BoardTitle>boardEntityList = null;
 		List<ReadBoardTitleResponseDto>boardDtoList = null;
 		Map<String, Object> configMap = null;
 
-		configMap = configMapper.setReadBoardConfigMap(readBoardRequestDto);
+		configMap = configMapper.setNonMemberReadBoardConfigMap(readBoardRequestDto);
 
-		log.info("configMap: {}", configMap);
-		log.info("keyword: {}", configMap.get("keyword"));
+		boardEntityList = boardRepository.findNonMemeberBoardListByAuthenticationNumberAndKeyword(configMap);
 
-		boardEntityList = boardRepository.findBoardListByBoardTypeAndKeyword(configMap);
-		
 		if(boardEntityList.size() != 0 && boardEntityList != null) {
-			boardDtoList = boardEntityList.stream()
-					.map(BoardTitle::toReadBoardTitleResponseDto)
-					.collect(Collectors.toList());
-			
+			boardDtoList = toChangeReadBoardTitleResponseDtoList(boardEntityList);
+
 		}
 		return boardDtoList;
 	}
@@ -180,6 +198,12 @@ public class BoardServiceImpl implements BoardService {
 				.board_code(boardCode)
 				.file_name(tempFileName)
 				.build();
+	}
+
+	private List<ReadBoardTitleResponseDto> toChangeReadBoardTitleResponseDtoList(List<BoardTitle> boardTitleList) {
+		return boardTitleList.stream()
+				.map(BoardTitle::toReadBoardTitleResponseDto)
+				.collect(Collectors.toList());
 	}
 
 	private void deleteFileByFileNameAndPath(String fileName, String customPath) throws IOException {

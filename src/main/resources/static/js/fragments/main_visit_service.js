@@ -54,8 +54,6 @@ const modifyButton = document.querySelector(".modify-button button");
 const requestButton = document.querySelector(".request-button");
 const cancelButton = document.querySelector(".cancel-button");
 
-let user = null;
-let userCode = 0;
 
 let tempPhoneNumber = null;
 
@@ -98,11 +96,6 @@ setReservationableDaySpan();
 setSigninUserView();
 
 function setSigninUserView() {
-    user = getUser();
-    if(user != null) {
-        userCode = user.userCode;
-    }
-
     if(userCode != 0) {
         const checkLastRequestListDiv = document.querySelector(".check-last-request-list-div");
         const addressTd = document.querySelector(".address-td");

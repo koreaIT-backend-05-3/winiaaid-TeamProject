@@ -145,6 +145,7 @@
 		LIMIT #{page}, 2;
 	
 	</select>
+
 	<select id="findBoardByBoardCode" parameterType="String" resultMap="boardResultMap">
 		SELECT
 			bm.company_code,

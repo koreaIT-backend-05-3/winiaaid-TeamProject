@@ -66,6 +66,8 @@
 
     width: 147px;
     height: 39px;
+
+    font-size: 13px;
 }
 
 .board-write-table tr:not(.chingchan-write-table tr:first-child) {
@@ -109,14 +111,20 @@
 
 .phone-box {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    border: none;
+}
+
+.phone-div {
+    display: flex;
+    align-items: center;
 }
 
 .phone-box input {
     border: 1px solid #e7e7e7;
-
     padding: 5px;
+
+    width: 100px;
     height: 31px;
     
     background-color: #fcfcfc;
@@ -132,6 +140,37 @@
 
     width: 132px;
     height: 31px;
+    background-color: #fcfcfc;
+}
+
+.phone-box button {
+    border: 1px solid #ccc;
+    margin-left: 10px;
+
+    width: 81px;
+    height: 31px;
+
+    background-color: #fff;
+    color: #7e7e7e;
+}
+
+.phone-box button:hover {
+    text-decoration: underline;
+}
+
+.notice-p {
+    padding-top: 5px;
+    font-size: 12px;
+    color: #7e7e7e;
+}
+
+.authentication-tr input {
+    border: 1px solid #e7e7e7;
+    padding: 5px;
+
+    width: 275px;
+    height: 31px;
+    
     background-color: #fcfcfc;
 }
 
@@ -248,7 +287,7 @@ textarea {
 
 .file-div {
     display: flex;
-    flex-direction: clumn;
+    flex-direction: column;
     justify-content: space-between;
 
     margin-left: 300px;

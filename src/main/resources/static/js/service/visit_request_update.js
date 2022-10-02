@@ -8,7 +8,7 @@ function getReservationInfo() {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/detail/history/${serviceCode}`,
+        url: `/api/v1/service/repair/detail/history/${serviceCode}?userCode=${userCode}`,
         dataType: "json",
         success: (response) => {
             setPastReservationInfo(response.data);

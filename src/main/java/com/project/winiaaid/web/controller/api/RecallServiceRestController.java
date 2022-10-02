@@ -37,11 +37,11 @@ public class RecallServiceRestController {
 	
 	@Log
 	@GetMapping("recall/{serviceCode}")
-	public ResponseEntity<?> getRecallRequest(@PathVariable String serviceCode){
+	public ResponseEntity<?> getRecallRequest(@PathVariable String serviceCode, int userCode){
 		ReadServiceInfoResponseDto recallServiceResponseDto = null;
 		
 		try {
-			recallServiceResponseDto = recallService.getRecallRequest(serviceCode);
+			recallServiceResponseDto = recallService.getRecallRequest(serviceCode, userCode);
 			if(recallServiceResponseDto == null) {
 				return ResponseEntity.badRequest().body(new CustomResponseDto<>(-1, "request failed", null));
 			}

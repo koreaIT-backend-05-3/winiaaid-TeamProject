@@ -7,7 +7,7 @@ loadRecallRequestComplete();
 function loadRecallRequestComplete(){
     $.ajax({
         type: "get",
-        url: `/api/v1/service/recall/${serviceCode}`,
+        url: `/api/v1/service/recall/${serviceCode}?userCode=${userCode}`,
         dataType: "json",
         async: false,
         success: (response) => {

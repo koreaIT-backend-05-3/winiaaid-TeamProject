@@ -56,17 +56,32 @@ public class BoardRestController {
 	}
 
 	@Log
-	@GetMapping("/{boardType}/list/user/{userCode}")
-	public ResponseEntity<?> getBoardListByBoardType(ReadBoardRequestDto readBoardRequestDto){
+	@GetMapping("/{boardType}/list/member")
+	public ResponseEntity<?> getMemberBoardListByBoardType(ReadBoardRequestDto readBoardRequestDto){
 		List<ReadBoardTitleResponseDto> boardList = null;
 
 		try {
-			boardList = boardService.getBoardListByBoardType(readBoardRequestDto);
+			boardList = boardService.getMemberBoardListByBoardType(readBoardRequestDto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Post Creation failed", boardList));
 		}
 		
+		return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation Successfull", boardList));
+	}
+
+	@Log
+	@GetMapping("/{boardType}/list/non-member")
+	public ResponseEntity<?> getNonMemberBoardListByAuthenticationNumber(ReadBoardRequestDto readBoardRequestDto){
+		List<ReadBoardTitleResponseDto> boardList = null;
+
+		try {
+			boardList = boardService.getNonMemberBoardListByAuthenticationNumber(readBoardRequestDto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Post Creation failed", boardList));
+		}
+
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Post Creation Successfull", boardList));
 	}
 

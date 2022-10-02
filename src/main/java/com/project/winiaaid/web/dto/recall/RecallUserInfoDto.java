@@ -26,6 +26,7 @@ public class RecallUserInfoDto implements UserInfoDto {
     public UserInfoEntity toUserInfoEntity() {
         return RecallUserInfoEntity.builder()
                 .user_code(userCode)
+                .non_member_flag(userCode == 0)
                 .user_name(userName)
                 .main_phone_number(mainPhoneNumber)
                 .sub_phone_number(subPhoneNumber)

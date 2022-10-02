@@ -4,8 +4,8 @@ const searchButton = document.querySelector(".search-btn");
 
 const contentTableBody = document.querySelector(".content-table-body");
 
-let userCode = 1;
 let boardType = null;
+let authenticationNumber = null;
 
 loadPageHistoryByLocalStorage();
 
@@ -26,6 +26,10 @@ function getBoardType() {
     return location.pathname.indexOf("complaint") != -1 ? "complaint" : location.pathname.indexOf("praise") != -1 ? "praise" : "suggestion";
 }
 
+function isNonMemberView() {
+    return location.pathname.indexOf("non-member") != -1;
+}
+
 function loadPage(page) {
     getBoardList(page)
 }
@@ -34,33 +38,66 @@ function getBoardList(page){
     let searchType = getSelectedOptionValue();
     let keyword = getSearchKeyword();
 
-    $.ajax({
-        type:"get",
-        url:`/api/v1/board/${boardType}/list/user/${userCode}`,
-        data: {
-            "searchType": searchType,
-            "keyword": keyword,
-            "page": page
-        },
-        dataType:"json",
-        success:(response)=>{
-            if(response.data != null){
-                let totalPage = getTotalPage(response.data[0].totalCount, 2);
-                setPage(totalPage);
-
-                setTotalCount(response.data[0].totalCount);
-                setBoardList(response.data)
-            }else {
-                boardListNoResult();
-                setTotalCount(0);
+    if(!isNonMemberView()) {
+        $.ajax({
+            type:"get",
+            url:`/api/v1/board/${boardType}/list/member`,
+            data: {
+                "userCode": userCode,
+                "searchType": searchType,
+                "keyword": keyword,
+                "page": page
+            },
+            dataType:"json",
+            success:(response)=>{
+                if(response.data != null){
+                    let totalPage = getTotalPage(response.data[0].totalCount, 2);
+                    setPage(totalPage);
+    
+                    setTotalCount(response.data[0].totalCount);
+                    setBoardList(response.data)
+                }else {
+                    boardListNoResult();
+                    setTotalCount(0);
+                }
+            },
+            error:(request, status, error)=>{
+                console.log(request.status);
+                console.log(request.responseText);
+                console.log(error);
             }
-        },
-        error:(request, status, error)=>{
-            console.log(request.status);
-            console.log(request.responseText);
-            console.log(error);
-        }
-    });
+        });
+
+    }else {
+        $.ajax({
+            type:"get",
+            url:`/api/v1/board/${boardType}/list/non-member`,
+            data: {
+                "authenticationNumber": authenticationNumber,
+                "searchType": searchType,
+                "keyword": keyword,
+                "page": page
+            },
+            dataType:"json",
+            success:(response)=>{
+                if(response.data != null){
+                    let totalPage = getTotalPage(response.data[0].totalCount, 2);
+                    setPage(totalPage);
+    
+                    setTotalCount(response.data[0].totalCount);
+                    setBoardList(response.data)
+                }else {
+                    boardListNoResult();
+                    setTotalCount(0);
+                }
+            },
+            error:(request, status, error)=>{
+                console.log(request.status);
+                console.log(request.responseText);
+                console.log(error);
+            }
+        });
+    }
 }
 
 function setTotalCount(totalCount) {

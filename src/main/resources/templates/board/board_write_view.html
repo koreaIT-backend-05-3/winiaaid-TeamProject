@@ -13,14 +13,14 @@
                     <tr>
                         <th class="name-th non-member-require">성명</th>
                         <td class="name">
-                            <span class="name-span">홍길동</span>
+                            <span class="name-span"></span>
                             <input class="name-input visible" type="text">
                         </td>
                     </tr>
                     <tr>
                         <th class="email-th non-member-require">이메일</th>
                         <td class="email">
-                            <span class="email-span">test@naver.com</span>
+                            <span class="email-span"></span>
                             <div class="email-box visible">
                                 <input class="email-1" type="text">
                                 <span>@</span>
@@ -34,6 +34,7 @@
                                     <option value="yahoo.com">yahoo.com</option>
                                 </select>
                             </div>
+                            <p class="notice-p">※ 이메일이 정확하지 않으면 답변을 받으실 수 없습니다.</p>
                         </td>
                     </tr>
                     <tr>
@@ -41,19 +42,33 @@
                         <td class="phone-number">
                             <span class="tel-span">010-1111-9999</span>
                             <div class="phone-box visible">
-                                <select name="" id="">
-                                    <option value="">선택</option>
-                                    <option value="010">010</option>
-                                    <option value="011">011</option>
-                                    <option value="016">016</option>
-                                    <option value="017">017</option>
-                                    <option value="019">019</option>
-                                </select>
-                                <span>-</span>
-                                <input class="middle-number" type="tel" maxlength="4">
-                                <span>-</span>
-                                <input class="last-number" type="tel" maxlength="4">
+                                <div class="phone-div">
+                                    <select name="" id="">
+                                        <option value="">선택</option>
+                                        <option value="010">010</option>
+                                        <option value="011">011</option>
+                                        <option value="016">016</option>
+                                        <option value="017">017</option>
+                                        <option value="019">019</option>
+                                    </select>
+                                    <span>-</span>
+                                    <input class="middle-number" type="tel" maxlength="4">
+                                    <span>-</span>
+                                    <input class="last-number" type="tel" maxlength="4">
+                                    <button type="button">휴대폰인증</button>
+                                </div>
+                                <div class="authentication-div">
+                                    <input class="authentication-input" type="text" placeholder="인증번호">
+                                    <button class="authentication-check-button" type="button">확인</button>
+                                </div>
                             </div>
+                        </td>
+                    </tr>
+                    <tr class="authentication-tr visible">
+                        <th class="require-menu">본인확인번호</th>
+                        <td>
+                            <input class="personal-authentication-number" type="password">
+                            <p class="notice-p">※ 본인확인 번호는 영문 대 소문자, 숫자, 특수문자로 4~16자리 입니다. 본인확인은 문의내용 조회할 때 필요하오니 꼭 기억하시기 바랍니다.</p>
                         </td>
                     </tr>
                     <tr>
@@ -131,7 +146,7 @@
         </div>
     </main>
     <th:block th:replace="/fragments/footer"></th:block>
-    <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
+    <script src="/static/js/util/principal.js"></script>
     <script src="/static/js/util/location_notice.js"></script>
     <script src="/static/js/util/check_byte.js"></script>
     <script src="/static/js/board/board_write_view.js"></script>

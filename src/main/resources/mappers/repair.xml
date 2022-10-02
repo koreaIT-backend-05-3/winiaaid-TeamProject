@@ -51,12 +51,17 @@
             #{productInfoEntity.model_code},
             #{productInfoEntity.trouble_code},
             #{productInfoEntity.description},
-
             #{userInfoEntity.user_code},
-            #{userInfoEntity.user_name},
-            #{userInfoEntity.main_phone_number},
-            #{userInfoEntity.sub_phone_number},
-            #{userInfoEntity.email},
+
+            <choose>
+                <when test="userInfoEntity.non_member_flag != true">
+                    0,
+                </when>
+                <otherwise>
+                    1,
+                </otherwise>
+            </choose>
+
             #{userInfoEntity.postal_code},
             #{userInfoEntity.main_address},
             #{userInfoEntity.detail_address},
@@ -65,6 +70,18 @@
             #{reservationInfoEntity.progress_status},
             now()
         );
+
+        <if test="userInfoEntity.non_member_flag == true">
+            insert into
+                non_member_service_table
+            value(
+                #{userInfoEntity.user_code},
+                #{userInfoEntity.user_name},
+                #{userInfoEntity.user_email},
+                #{userInfoEntity.main_phone_number},
+                #{userInfoEntity.sub_phone_number}
+            );
+        </if>
 
         insert into
             engineer_reservation_table
@@ -186,10 +203,10 @@
                     ud.sub_phone_number,
                 </when>
                 <otherwise>
-                    nmrst.user_name,
-                    nmrst.main_phone_number,
-                    nmrst.user_email,
-                    nmrst.sub_phone_number,
+                    nmst.user_name,
+                    nmst.main_phone_number,
+                    nmst.user_email,
+                    nmst.sub_phone_number,
                 </otherwise>
             </choose>
 
@@ -211,7 +228,7 @@
                     LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
                 </when>
                 <otherwise>
-                    LEFT OUTER JOIN non_member_repair_service_table nmrst on(nmrst.service_code = rst.service_code)
+                    LEFT OUTER JOIN non_member_service_table nmst on(nmst.user_code = rst.user_code)
                 </otherwise>
             </choose>
         WHERE
@@ -270,18 +287,18 @@
             ert.engineer_code = #{reservationInfoEntity.engineer_code},
             ert.reservation_date = #{reservationInfoEntity.reservation_date}
         WHERE
-            service_code = #{productInfoEntity.service_code};
+            rst.service_code = #{productInfoEntity.service_code};
     </update>
 
     <update id="cancelRepairServiceByRepairServiceCode" parameterType="String">
         UPDATE
             repair_service_table rst
-            engineer_reservation_table ert on(ert.service_code = rst.service_code)
+            left outer join engineer_reservation_table ert on(ert.service_code = rst.service_code)
         SET
-            rst.progress_status = 0
+            rst.progress_status = 0,
             ert.progress_status = 0
         WHERE
-            service_code = ${service_code};
+            rst.service_code = ${service_code};
     </update>
 
 </mapper>

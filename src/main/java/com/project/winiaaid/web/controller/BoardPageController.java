@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class BoardPageController {
 	
-	@GetMapping({"/complaint/list", "/praise/list", "/suggestion/list"})
+	@GetMapping({"/complaint/list", "/praise/list", "/suggestion/list", "praise/list/non-member"})
 	public String loadBoardListPage() {
 		return "board/board_list";
 	}

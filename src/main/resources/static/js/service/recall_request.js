@@ -104,7 +104,7 @@ submitButton.onclick = () => {
         }
 
         userInfoObject = {
-            "userCode": 0,
+            "userCode": userCode,
 			"userName": userNameInput.value,
 			"mainPhoneNumber": `${mainPhoneNumber[0].value}-${mainPhoneNumber[1].value}-${mainPhoneNumber[2].value}`,
 			"subPhoneNumber": subPhoneNumber[0].value == '선택' ? null : `${subPhoneNumber[0].value}-${subPhoneNumber[1].value}-${subPhoneNumber[2].value}`,
@@ -162,7 +162,7 @@ function searchModelByModelName() {
     let modelList = null;
     $.ajax({
         type: "get",
-        url: `/api/v1/product/model/list/${writeModel.value}?request-type=recall&code=1`,
+        url: `/api/v1/product/model/list/${writeModel.value}?requestType=recall&code=1`,
         dataType: "json",
         async: false,
         success: (response) => {

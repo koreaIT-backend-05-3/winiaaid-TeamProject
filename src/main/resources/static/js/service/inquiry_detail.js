@@ -1,13 +1,14 @@
 const goListButton = document.querySelector(".go-list-button");
 
-let userCode = 1;
 let serviceCode = null;
 
+setUserCode = getUser();
 serviceCode = getServiceCodeByUri();
 
 loadReservationDetailInfo();
 
 goListButton.onclick = historyBack;
+
 
 function getServiceCodeByUri() {
     return location.pathname.substring(location.pathname.lastIndexOf("/") + 1);

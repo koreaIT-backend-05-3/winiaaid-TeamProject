@@ -1,3 +1,7 @@
+let user = getUser();
+let userCode = setUserCode();
+
+
 function getUser() {
     let user = null;
     $.ajax({
@@ -18,4 +22,13 @@ function getUser() {
     });
 
     return user;
+}
+
+function setUserCode() {
+    let userCode = 0;
+    if(user != null) {
+        userCode = user.userCode;
+    }
+
+    return userCode;
 }
