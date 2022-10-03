@@ -1,6 +1,7 @@
 package com.project.winiaaid.config;
 
 
+import com.project.winiaaid.config.auth.CustomAuthenticationEntryPoint;
 import com.project.winiaaid.config.auth.CustomFailureHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,11 +35,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				
 				.antMatchers("/admin/**")
 				.access("hasRole('ROLE_ADMIN')")
-				
+
+				.antMatchers("/service/visit/inquiry", "/service/recall/inquiry", "/mypage/writing/**")
+				.access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_USER')")
+
                 .anyRequest()
                 .permitAll()
 
                 .and()
+
+				.exceptionHandling()
+				.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+
+				.and()
                 
                 .formLogin()
                 .loginPage("/auth/signin")

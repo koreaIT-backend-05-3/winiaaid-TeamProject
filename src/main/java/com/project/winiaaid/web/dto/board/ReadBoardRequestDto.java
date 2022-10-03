@@ -6,6 +6,8 @@ import lombok.Data;
 public class ReadBoardRequestDto {
     private int userCode;
     private String authenticationNumber;
+    private String userName;
+    private String mainPhoneNumber;
     private String boardType;
     private String searchType;
     private String keyword;

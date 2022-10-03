@@ -179,50 +179,55 @@
 
 	<select id="findNonMemeberBoardListByAuthenticationNumberAndKeyword" parameterType="hashmap" resultType="com.project.winiaaid.domain.board.BoardTitle">
 		SELECT
-		bm.board_code,
-		bm.user_code,
-		bm.board_title,
-		bm.progress_status,
-		bm.create_date,
-		nmbt.user_name,
+			bm.board_code,
+			bm.user_code,
+			bm.board_title,
+			bm.progress_status,
+			bm.create_date,
+			nmbt.user_name,
 
-		pct.company_name,
+			pct.company_name,
 
-		tc.total_count
+			tc.total_count
 		FROM
-		board_mst bm
-		LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
-		LEFT OUTER JOIN non_member_board_table nmbt on(nmbt.user_code = bm.user_code)
-		LEFT OUTER JOIN product_company_table pct on(pct.company_code = bm.company_code)
-		LEFT OUTER JOIN (select
-		count(*) as total_count
-		from
-		board_mst
-		where
-		<if test="keyword != null or keyword != ''">
-			<choose>
-				<when test="search_type != 'all'">
-					<choose>
-						<when test="search_type == 'title'">
-							board_title like concat('%', #{keyword}, '%')
-						</when>
-						<otherwise>
-							board_content like concat('%', #{keyword}, '%')
-						</otherwise>
-					</choose>
-				</when>
-				<otherwise>
-					(board_title like concat('%', #{keyword}, '%')
-					or board_content like concat('%', #{keyword}, '%'))
-				</otherwise>
-			</choose>
-				and
-		</if>
-			non_member_flag = 1
-			and
-			authentication_number = #{authentication_number}) tc on(1=1)
+			board_mst bm
+			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
+			LEFT OUTER JOIN non_member_board_table nmbt on(nmbt.user_code = bm.user_code)
+			LEFT OUTER JOIN product_company_table pct on(pct.company_code = bm.company_code)
+			LEFT OUTER JOIN (select
+								count(*) as total_count
+							from
+								board_mst bm
+								LEFT OUTER JOIN non_member_board_table nmbt on(nmbt.user_code = bm.user_code)
+							where
+							<if test="keyword != null">
+								<choose>
+									<when test="search_type != 'all'">
+										<choose>
+											<when test="search_type == 'title'">
+												board_title like concat('%', #{keyword}, '%')
+											</when>
+											<otherwise>
+												board_content like concat('%', #{keyword}, '%')
+											</otherwise>
+										</choose>
+									</when>
+									<otherwise>
+										(board_title like concat('%', #{keyword}, '%')
+										or board_content like concat('%', #{keyword}, '%'))
+									</otherwise>
+								</choose>
+									and
+							</if>
+								non_member_flag = 1
+								and
+								authentication_number = #{authentication_number}
+								and
+								user_name = #{user_name}
+								and
+								main_phone_number = #{main_phone_number}) tc on(1=1)
 		WHERE
-		<if test="keyword != null or keyword != ''">
+		<if test="keyword != null">
 			<choose>
 				<when test="search_type != 'all'">
 					<choose>
@@ -244,6 +249,10 @@
 			non_member_flag = 1
 			and
 			authentication_number = #{authentication_number}
+			and
+			user_name = #{user_name}
+			and
+			main_phone_number = #{main_phone_number}
 		GROUP BY
 			bm.board_code
 		LIMIT #{page}, 2;
@@ -259,9 +268,9 @@
 			bm.create_date,
 			bm.response_flag,
 
-			ifnull(um.user_name, nmbt.user_name) as user_name,
-			ifnull(um.user_email, nmbt.user_email) as user_email,
-			ifnull(um.main_phone_number, nmbt.main_phone_number) as main_phone_number,
+			if(bm.non_member_flag = 0, um.user_name, nmbt.user_name) as user_name,
+			if(bm.non_member_flag = 0, um.user_email, nmbt.user_email) as user_email,
+			if(bm.non_member_flag = 0, um.main_phone_number, nmbt.main_phone_number) as main_phone_number,
 
 			bf.file_code,
 			bf.file_name,

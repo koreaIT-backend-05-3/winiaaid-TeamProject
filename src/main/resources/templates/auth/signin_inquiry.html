@@ -14,10 +14,10 @@
     <th:block th:replace="/fragments/header"></th:block>
     <main>
         <div id="container">
-            <div class="location-div">
-    
-            </div>
             <div class="main-content">
+                <div class="location-div">
+        
+                </div>
                 <div class="title-div">
                     <h1 class="title-h1">비회원 조회</h1>
                 </div>
@@ -38,11 +38,15 @@
                         <div class="main-inquiry-view">
                             <div class="user-name-div">
                                 <label for="user-name">성명</label>
-                                <input type="text" id="user-name" placeholder="성명">
+                                <input type="text" id="user-name" class="user-name-input" placeholder="성명">
                             </div>
                             <div class="service-code-div">
                                 <label for="service-code">접수번호</label>
-                                <input type="text" id="service-code" placeholder="접수번호 입력">
+                                <input type="text" id="service-code" class="service-code-input" placeholder="접수번호 입력">
+                            </div>
+                            <div class="personal-authentication-div visible">
+                                <label for="authentication-code">본인확인번호</label>
+                                <input type="text" id="authentication-code" class="authentication-code-input" placeholder="본인확인번호 입력">
                             </div>
                             <div class="inquiry-button-div">
                                 <button type="button">조회(홈페이지 접수건)</button>
@@ -62,6 +66,8 @@
         </div>
     </main>
     <th:block th:replace="/fragments/footer"></th:block>
+    <script src="/static/js/util/remove_non_member_authentication.js"></script>
+    <script src="/static/js/util/principal.js"></script>
     <script src="/static/js/fragments/header.js"></script>
     <script src="/static/js/util/location_notice.js"></script>
     <script src="/static/js/fragments/signin_view.js"></script>

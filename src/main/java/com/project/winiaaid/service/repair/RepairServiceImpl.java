@@ -74,12 +74,12 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode, int userCode) throws Exception {
+    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode, int userCode, String userName) throws Exception {
         ServiceInfo repairServiceInfoEntity = null;
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadServiceDetailHistoryConfigMap(serviceCode, userCode);
+        configMap = configMapper.setReadServiceDetailHistoryConfigMap(serviceCode, userCode, userName);
 
         repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(configMap);
 

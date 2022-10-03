@@ -41,7 +41,7 @@ public class AuthPageController {
 		return "auth/withdrawal";
 	}
 
-	@GetMapping("/signin/inquiry")
+	@GetMapping({"/signin/inquiry/board", "/signin/inquiry/service"})
 	public String loadSigninInquiryPage() {
 		 return "auth/signin_inquiry";
 	}

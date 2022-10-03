@@ -96,6 +96,8 @@ public class BoardServiceImpl implements BoardService {
 
 		configMap = configMapper.setNonMemberReadBoardConfigMap(readBoardRequestDto);
 
+		log.info("configMap: {}", configMap);
+
 		boardEntityList = boardRepository.findNonMemeberBoardListByAuthenticationNumberAndKeyword(configMap);
 
 		if(boardEntityList.size() != 0 && boardEntityList != null) {

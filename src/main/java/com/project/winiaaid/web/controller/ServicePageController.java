@@ -54,12 +54,12 @@ public class ServicePageController {
 		return "service/recall_request_complete";
 	}
 	
-	@GetMapping("recall/inquiry")
+	@GetMapping("/recall/inquiry")
 	public String loadRecallInquiryPage() {
 		return "service/recall_inquiry";
 	}
 	
-	@GetMapping("recall/inquiry/detail/{recallCode}")
+	@GetMapping("/recall/inquiry/detail/{recallCode}")
 	public String loadRecallInquiryDetailPage(@PathVariable String recallCode) {
 		return "service/recall_inquiry_detail";
 	}

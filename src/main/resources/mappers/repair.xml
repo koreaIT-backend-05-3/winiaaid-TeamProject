@@ -237,6 +237,7 @@
         <choose>
             <when test="non_member_flag == true">
                 non_member_flag = 1
+                and nmst.user_name = #{user_name}
             </when>
             <otherwise>
                 non_member_flag = 0

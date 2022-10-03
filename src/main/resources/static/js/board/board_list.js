@@ -5,16 +5,19 @@ const searchButton = document.querySelector(".search-btn");
 
 const contentTableBody = document.querySelector(".content-table-body");
 
+
+let nonMemberRequestData = null;
 let boardType = null;
 let authenticationNumber = null;
 
 
 
-loadPageHistoryByLocalStorage();
-
 boardType = getBoardType();
 
-loadPage(nowPage);
+
+loadPageHistoryByLocalStorage();
+
+checkHasNonMemberInquiryListData();
 
 setBoardContentByBoardType();
 setBoardTableByBoardType();
@@ -34,6 +37,23 @@ function isNonMemberView() {
     return location.pathname.indexOf("non-member") != -1;
 }
 
+function checkHasNonMemberInquiryListData() {
+    let nonMemberInquiryList = localStorage.nonMemberInquiryList;
+
+    if(nonMemberInquiryList != null){
+        nonMemberInquiryList = JSON.parse(nonMemberInquiryList);
+
+        let totalPage = getTotalPage(nonMemberInquiryList[0].totalCount, 2);
+        setPage(totalPage);
+        setTotalCount(nonMemberInquiryList[0].totalCount);
+        setBoardList(nonMemberInquiryList);
+
+        localStorage.removeItem("nonMemberInquiryList");
+    }else {
+        loadPage(nowPage);
+    }
+}
+
 function loadPage(page) {
     getBoardList(page)
 }
@@ -41,8 +61,8 @@ function loadPage(page) {
 function getBoardList(page){
     let searchType = getSelectedOptionValue();
     let keyword = getSearchKeyword();
-
-    console.log(userCode);
+    
+    nonMemberRequestData = localStorage.nonMemberRequestData;
 
     if(!isNonMemberView()) {
         $.ajax({
@@ -61,7 +81,7 @@ function getBoardList(page){
                     setPage(totalPage);
     
                     setTotalCount(response.data[0].totalCount);
-                    setBoardList(response.data)
+                    setBoardList(response.data);
                 }else {
                     boardListNoResult();
                     setTotalCount(0);
@@ -75,34 +95,43 @@ function getBoardList(page){
         });
 
     }else {
-        $.ajax({
-            type:"get",
-            url:`/api/v1/board/${boardType}/list/non-member`,
-            data: {
-                "authenticationNumber": authenticationNumber,
-                "searchType": searchType,
-                "keyword": keyword,
-                "page": page
-            },
-            dataType:"json",
-            success:(response)=>{
-                if(response.data != null){
-                    let totalPage = getTotalPage(response.data[0].totalCount, 2);
-                    setPage(totalPage);
-    
-                    setTotalCount(response.data[0].totalCount);
-                    setBoardList(response.data)
-                }else {
-                    boardListNoResult();
-                    setTotalCount(0);
+        if(nonMemberRequestData != null) {
+            nonMemberRequestData = JSON.parse(nonMemberRequestData);
+            $.ajax({
+                type:"get",
+                url:`/api/v1/board/${boardType}/list/non-member`,
+                data: {
+                    "userName": nonMemberRequestData.userName,
+                    "mainPhoneNumber": nonMemberRequestData.mainPhoneNumber,
+                    "authenticationNumber": nonMemberRequestData.authenticationNumber,
+                    "searchType": searchType,
+                    "keyword": keyword,
+                    "page": page
+                },
+                dataType:"json",
+                success:(response)=>{
+                    if(response.data != null){
+                        let totalPage = getTotalPage(response.data[0].totalCount, 2);
+                        setPage(totalPage);
+        
+                        setTotalCount(response.data[0].totalCount);
+                        setBoardList(response.data)
+                    }else {
+                        boardListNoResult();
+                        setTotalCount(0);
+                    }
+                },
+                error:(request, status, error)=>{
+                    console.log(request.status);
+                    console.log(request.responseText);
+                    console.log(error);
                 }
-            },
-            error:(request, status, error)=>{
-                console.log(request.status);
-                console.log(request.responseText);
-                console.log(error);
-            }
-        });
+            });
+
+        }else {
+            boardListNoResult();
+            setTotalCount(0);
+        }
     }
 }
 
@@ -224,7 +253,13 @@ function clearDomObject(domObject){
 function loadBoardDetailPage(boardCode) {
     setPageInfoLocalStorage();
 
-    location.href = `/customer/${boardType}/detail/${boardCode}`;
+    if(checkNonMemberViewPage()) {
+        location.href = `/customer/praise/non-member/detail/${boardCode}`;
+
+    }else {
+        location.href = `/customer/${boardType}/detail/${boardCode}`;
+
+    }
 
 }
 
@@ -277,4 +312,8 @@ function loadPageHistoryByLocalStorage() {
         
         localStorage.removeItem("boardPageInfo");
     }
+}
+
+function checkNonMemberViewPage() {
+    return location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == "non-member";
 }

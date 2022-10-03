@@ -28,6 +28,8 @@ let boardType = null;
 let boardCode = 0;
 let fileSize = 0;
 
+let nonMemberRequestData = null;
+
 let deleteFileCodeList = new Array();
 let deleteTempFileNameList = new Array();
 
@@ -228,7 +230,14 @@ function modifyBoard(form) {
         data: form,
         dataType: "json",
         success: (response) => {
-            location.replace(`/customer/${boardType}/detail/${response.data}`);
+
+            if(nonMemberRequestData != null) {
+                location.replace(`/customer/praise/non-member/detail/${response.data}`);
+
+            }else {
+                location.replace(`/customer/${boardType}/detail/${response.data}`);
+
+            }
         },
         error: errorMessage
     });
@@ -291,7 +300,9 @@ function removeVisibleClass(domObject) {
 }
 
 function checkRequireMenu() {
-    if(userCode == 0) {
+    loadNonMemberRequestDataByLocalStorage();
+
+    if(userCode == 0 && nonMemberRequestData == null) {
         const firstEmail = document.querySelector(".email-1");
         const lastEmail = document.querySelector(".email-2");
         const phoneSelect = document.querySelector(".phone-box select");
@@ -366,6 +377,14 @@ function checkRequireMenu() {
     }
 
     return true;
+}
+
+function loadNonMemberRequestDataByLocalStorage() {
+    nonMemberRequestData = localStorage.nonMemberRequestData;
+
+    if(nonMemberRequestData != null) {
+        nonMemberRequestData = JSON.parse(nonMemberRequestData);
+    }
 }
 
 

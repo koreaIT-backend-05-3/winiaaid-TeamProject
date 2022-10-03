@@ -55,10 +55,10 @@ public class RecallServiceImpl implements RecallService {
 	}
 
 	@Override
-	public ReadServiceInfoResponseDto getRecallRequest(String serviceCode, int userCode) throws Exception {
+	public ReadServiceInfoResponseDto getRecallRequest(String serviceCode, int userCode, String userName) throws Exception {
 		Map<String, Object> configMap = null;
 
-		configMap = configMapper.setReadServiceDetailHistoryConfigMap(serviceCode, userCode);
+		configMap = configMapper.setReadServiceDetailHistoryConfigMap(serviceCode, userCode, userName);
 		return recallRepository.getRecallRequest(configMap).toServiceResponseDto();
 	}
 

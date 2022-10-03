@@ -2,8 +2,14 @@ const updateButton = document.querySelector(".update-button");
 const deleteButton = document.querySelector(".delete-button");
 const listButton = document.querySelector(".list-button");
 
+let nonMemberRequestData = null;
 let boardCode = getBoardCodeByUri();
 let boardType = getBoardType();
+
+if(checkIsNonMemberBoard()) {
+    loadNonMemberRequestDataByLocalStorage();
+}
+
 
 setBoardContentByBoardType();
 getBoardDetailByBoardCode(boardCode);
@@ -93,6 +99,12 @@ function setBoardDetail(boardDetail){
     }
 
     if(boardDetail.userCode != userCode) {
+
+        if(nonMemberRequestData != null) {
+            if(nonMemberRequestData.userName == boardDetail.userName) {
+                return;
+            }
+        }
         addVisibleClass(updateButton);
         addVisibleClass(deleteButton);
     }
@@ -129,4 +141,16 @@ function loadModifyBoardPageByBoardCode() {
 
 function historyBack() {
     history.back();
+}
+
+function checkIsNonMemberBoard() {
+    return location.pathname.indexOf("non-member") != -1;
+}
+
+function loadNonMemberRequestDataByLocalStorage() {
+    nonMemberRequestData = localStorage.nonMemberRequestData;
+
+    if(nonMemberRequestData != null) {
+        nonMemberRequestData = JSON.parse(nonMemberRequestData);
+    }
 }

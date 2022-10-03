@@ -10,6 +10,7 @@ loadReservationDetailInfo();
 goListButton.onclick = historyBack;
 
 
+
 function getServiceCodeByUri() {
     return location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 }
@@ -33,7 +34,7 @@ function getReservationDetailInfo() {
             console.log(request.responseText);
             console.log(error);
         }
-    })
+    });
 }
 
 function setReservationDetailInfo(reservationDetailInfo) {
@@ -108,7 +109,14 @@ function setReservationDetailInfo(reservationDetailInfo) {
 }
 
 function historyBack() {
-    history.back();
+    let pageInfo = localStorage.pageInfo;
+
+    if(pageInfo != null) {
+        history.back();
+
+    }else {
+        location.href = "/service/visit/inquiry";
+    }
 }
 
 function setButtonClickEvent() {

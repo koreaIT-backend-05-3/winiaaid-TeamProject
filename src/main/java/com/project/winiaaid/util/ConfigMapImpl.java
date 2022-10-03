@@ -88,6 +88,8 @@ public class ConfigMapImpl implements ConfigMap{
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("authentication_number", readBoardRequestDto.getAuthenticationNumber());
+        configMap.put("user_name", readBoardRequestDto.getUserName());
+        configMap.put("main_phone_number", readBoardRequestDto.getMainPhoneNumber());
         configMap.put("search_type", readBoardRequestDto.getSearchType());
         configMap.put("keyword", readBoardRequestDto.getKeyword());
         configMap.put("page", (readBoardRequestDto.getPage() - 1) * 2);
@@ -157,12 +159,13 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadServiceDetailHistoryConfigMap(String serviceCode, int userCode) throws Exception {
+    public Map<String, Object> setReadServiceDetailHistoryConfigMap(String serviceCode, int userCode, String userName) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("non_member_flag", userCode == 0);
         configMap.put("user_code", userCode);
         configMap.put("service_code", serviceCode);
+        configMap.put("user_name", userName);
 
         return configMap;
     }
