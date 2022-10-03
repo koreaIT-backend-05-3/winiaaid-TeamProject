@@ -11,7 +11,12 @@ function cancelReservationService(repairServiceCode) {
             success: (response) => {
                 if(response.data) {
                     alert("접수 내역을 취소하였습니다.");
-                    location.href = "/service/visit/inquiry";
+                    if(userCode != 0) {
+                        location.replace("/service/visit/inquiry");
+                        
+                    }else {
+                        location.replace("/main");
+                    }
                 }else {
                     alert("접수 내역 취소 실퍠");
                 }

@@ -5,7 +5,6 @@ const searchInput = document.querySelector(".search-input");
 const searchButton = document.querySelector(".search button");
 const completedResponseBox = document.querySelector(".check-box");
 
-let userCode = 0;
 let firstMenuFlag = false;
 let serviceHistoryType = null;
 
@@ -79,7 +78,7 @@ function getServiceHistory(page) {
             url: `/api/v1/service/${serviceType}/history/list/user/${userCode}?progressStatus=${historyMenuType}&page=${page}`,
             dataType: "json",
             success: (response) => {
-                if(response.data.length > 1) {
+                if(response.data != null) {
                     let totalPage = getTotalPage(response.data[0].totalCount, 10);
                     setPage(totalPage);
                     setFirstAndSecondMenuCount(response.data[0].incompletedTotalCount, response.data[0].completedTotalCount);
@@ -183,7 +182,7 @@ function setServiceHistoryData(serviceHistoryDataList) {
 
 
     setServiceCodeItemsClickEvent(serviceHistoryDataList);
-    if(!firstMenuFlag && serviceHistoryType == "service") {
+    if(firstMenuFlag && serviceHistoryType == "service") {
         setServiceModifyAndCancelButtonClickEvent(serviceHistoryDataList);
     }
 }

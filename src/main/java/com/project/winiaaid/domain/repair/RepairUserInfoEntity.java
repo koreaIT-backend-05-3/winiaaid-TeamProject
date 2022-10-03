@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RepairUserInfoEntity implements UserInfoEntity {
     private int user_code;
+    private boolean non_member_flag;
     private String user_name;
     private String user_email;
     private String main_phone_number;
@@ -24,6 +25,7 @@ public class RepairUserInfoEntity implements UserInfoEntity {
 
     public UserInfoDto toUserInfoDto() {
         return RepairUserInfoDto.builder()
+                .userCode(user_code)
                 .userName(user_name)
                 .userEmail(user_email)
                 .mainPhoneNumber(main_phone_number)

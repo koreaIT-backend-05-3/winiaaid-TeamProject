@@ -1,5 +1,7 @@
 package com.project.winiaaid.service.auth;
 
+import com.project.winiaaid.domain.user.User;
+import com.project.winiaaid.web.dto.auth.SignupRequestDto;
 import org.springframework.stereotype.Service;
 import com.project.winiaaid.domain.user.UserRepository;
 import com.project.winiaaid.web.dto.auth.UsernameCheckRequestDto;
@@ -8,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONObject;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -23,13 +24,19 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Override
 	public boolean checkUsername(UsernameCheckRequestDto usernameCheckReqDto) throws Exception {
-		
 		return userRepository.findUserByUsername(usernameCheckReqDto.getUsername()) == null;
 	}
 
 	@Override
-	public boolean signup() throws Exception{
-		return false;
+	public boolean signup(SignupRequestDto signupRequestDto) throws Exception {
+        int status = 0;
+        User userentity = signupRequestDto.toEntity();
+        status = userRepository.insertUserMst(userentity);
+
+        if(status != 0) {
+            status += userRepository.insertUserDtl(userentity);
+        }
+		return status == 2;
 	}
 
     @Override

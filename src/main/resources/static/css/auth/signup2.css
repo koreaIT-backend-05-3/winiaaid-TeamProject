@@ -1,18 +1,20 @@
-#main{
+#main {
     width: 100%;
     padding-bottom :60px;
 }
-#main .main-inner{
+
+#main .main-inner {
     width: 980px;
     height: 100%;
     margin: 0 auto;
 }
-#form-main{
+
+.main-content {
     width: 100%;
     height: 100%;
 }
 
-#form-main h2{
+.main-content h2 {
     width: 100%;
     height: 25px;
     margin: 60px 0 40px 0;
@@ -21,13 +23,14 @@
     line-height: 25px;
     font-weight: normal;
 }
-#form-main .img-wrap{
+
+.main-content .img-wrap {
     width: 100%;
     height: 126px;
     text-align: center;
 }
 
-#form-main .title{
+.main-content .title {
     width: 100%;
     height: 22px;
     text-align: center;
@@ -35,33 +38,35 @@
     margin: 55px 0 35px 0;
 }
 
-#form-main .guide{
+.main-content .guide {
     width: 100%;
     height: 68px;
     border-top: 1px solid #dbdbbd;
     padding: 30px 0 15px 0;
     font-size: 14px;
 }
-#form-main .guide span{
+
+.main-content .guide span {
     float: right;
 }
-#form-main .guide span strong{
+
+.main-content .guide span strong {
     color: #eb2a2a;
     font-weight: bold;  
 }
 
-#form-main .table-write{
+.main-content .table-write{
     width: 100%;
     border-top: 1px solid #444;
     border-bottom: 1px solid #444;
 }
-#form-main .table-write table{
+.main-content .table-write table{
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
 
-#form-main .table-write th{
+.main-content .table-write th{
     width: 200px;
     height: 50px;
     padding: 15px 20px 0 20px;
@@ -69,21 +74,26 @@
     background-color: #f5f5f5;
     vertical-align: top;
 }
-#form-main .table-write table tr:first-child{
+
+.main-content .table-write table tr:first-child{
     border-top: 0;
 }
-#form-main .table-write table tr:last-child{
+
+.main-content .table-write table tr:last-child{
     border-bottom: 0;   
 }
-#form-main .table-write table tr{
+
+.main-content .table-write table tr{
     border-top: 1px solid #dbdbbd;
 }
-#form-main .table-write th .essential{
+
+.main-content .table-write th .essential{
     display: block;
     position: relative;
     font-weight: bold;
 }
-#form-main .table-write th .essential::after{
+
+.main-content .table-write th .essential::after{
     content: '*';
     position: absolute;
     right: 0;
@@ -92,7 +102,8 @@
     line-height: 14px;
     font-weight: bold;
 }
-#form-main .table-write table td{
+
+.main-content .table-write table td{
     width: 780px;
     height: 50px;
     padding: 10px 20px;
@@ -101,14 +112,20 @@
     vertical-align: middle;
 }
 
-#form-main table .birth label{
+.main-content table .birth label{
     margin: 0 15px  0 5px;
 }
-#form-main table .birth input{
+
+.main-content table .birth input{
     padding: 0 5px;
     background-color: #f5f5f5;
     text-align: center;
     border: 1px solid rgb(187, 187, 187);
+}
+
+.user-id-div {
+    display: flex;
+    align-items: center;
 }
 
 input[type=text], input[type=password] {
@@ -129,8 +146,8 @@ input{
     background: #444;
     font-weight: bold;
     color: #fff;
-    line-height: 40px;
 }
+
 .button .light {
     height: 30px;
     background: #777;
@@ -139,16 +156,30 @@ input{
     line-height: 30px;
 }
 
-#form-main .table-write td .password-guide, .email-guide , .group-guide{ 
+.main-content .table-write td .password-guide, .email-guide , .group-guide{ 
     margin-left: 5px;
     font-size: 13px;
     vertical-align: middle;
 }
-#form-main .table-write td .error{
+
+.main-content .table-write td .error{
     color: #eb2a2a;
 }
-#form-main .table-write td .address p{
+
+.main-content .table-write td .address p{
     margin-top: 10px;
+}
+
+.user-id-check {
+    margin-left: 10px;
+    height: 28px;
+}
+
+.search-address {
+    margin-top: 10px;
+    margin-left: 10px;
+
+    height: 28px;
 }
 
 select{
@@ -157,6 +188,7 @@ select{
     line-height: 30px;
     color: #444;
 }
+
 option {
     font-weight: normal;
     display: block;
@@ -166,7 +198,6 @@ option {
 }
 
 .selectBox-dropdown {
-    /* min-width: 150px; */
     position: relative;
     border: solid 1px #dbdbdb;
     line-height: 1.5;
@@ -178,6 +209,7 @@ option {
     display: inline-block;
     cursor: default;
 }
+
 .selectBox-dropdown .selectBox-label {
     padding: 5px 0 0px 8px;
     display: inline-block;
@@ -187,6 +219,7 @@ option {
     margin: 0;
     background: #fafafa;
 }
+
 .selectBox-dropdown .selectBox-arrow {
     position: absolute;
     top: 0;
@@ -196,35 +229,42 @@ option {
     background: url(https://member.winiadimchae.com/img/btn/btn_sel.gif) 0 0 no-repeat;
     cursor: pointer;
 }
+
 strong{
     font-weight: bold;
 }
-#form-main .table-write table td ul{
+
+.main-content .table-write table td ul{
     display: block;
     margin-bottom: 20px;
 }
-#form-main .table-write table td li{
+
+.main-content .table-write table td li{
     display: flex;
     margin-bottom: 10px;
 }
-#form-main .table-write table td li strong{
+
+.main-content .table-write table td li strong{
     display: block;
     width: 90px;
 }
+
 input[type=checkbox] + label {
     margin: 0 15px 0 5px;
 }
+
 input[type=radio] + label {
     margin: 0 15px 0 5px;
 }
 
-#form-main .button-center{
+.main-content .button-center{
     width: 100%;
     height: 40px;
     text-align: center;
     margin-top: 40px;
     padding: 0 20px;
 }
-#form-main .button-center .blue{
+
+.main-content .button-center .blue{
     background-color: #3652a2;
 }

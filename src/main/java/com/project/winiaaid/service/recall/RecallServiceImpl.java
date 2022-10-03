@@ -3,8 +3,10 @@ package com.project.winiaaid.service.recall;
 import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
 import com.project.winiaaid.domain.recall.RecallRepository;
 import com.project.winiaaid.domain.recall.RecallServiceCode;
+import com.project.winiaaid.domain.recall.RecallUserInfoEntity;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
+import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.recall.RecallServiceRequestDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.Map;
 public class RecallServiceImpl implements RecallService {
 	
 	private final RecallRepository recallRepository;
+	private final UserService userService;
 	private final ConfigMap configMapper;
 
 	@Override
@@ -34,6 +37,10 @@ public class RecallServiceImpl implements RecallService {
 		Map<String, Object> configMap = null;
 
 		configMap = configMapper.setCreateModelConfigMap(recallEntity);
+
+		if(((RecallUserInfoEntity) recallEntity.getUserInfoEntity()).isNon_member_flag()) {
+			userService.setServiceTypeNonMemberUserCode(recallEntity.getUserInfoEntity());
+		}
 
 		serviceCodeEntity = recallRepository.findServiceCode(configMap);
 
@@ -48,8 +55,11 @@ public class RecallServiceImpl implements RecallService {
 	}
 
 	@Override
-	public ReadServiceInfoResponseDto getRecallRequest(String serviceCode) throws Exception {
-		return recallRepository.getRecallRequest(serviceCode).toServiceResponseDto();
+	public ReadServiceInfoResponseDto getRecallRequest(String serviceCode, int userCode, String userName) throws Exception {
+		Map<String, Object> configMap = null;
+
+		configMap = configMapper.setReadServiceDetailHistoryConfigMap(serviceCode, userCode, userName);
+		return recallRepository.getRecallRequest(configMap).toServiceResponseDto();
 	}
 
 	private String createServiceCode(ServiceInfo serviceInfo, RecallServiceCode serviceCodeEntity) {

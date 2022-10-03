@@ -1,11 +1,9 @@
 package com.project.winiaaid.service.repair;
 
-import com.project.winiaaid.domain.repair.Address;
-import com.project.winiaaid.domain.repair.RepairProductInfoEntity;
-import com.project.winiaaid.domain.repair.RepairRepository;
-import com.project.winiaaid.domain.repair.RepairServiceCode;
+import com.project.winiaaid.domain.repair.*;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
+import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
 import com.project.winiaaid.web.dto.repair.RepairReservationInfoDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
@@ -27,6 +25,7 @@ import java.util.stream.Collectors;
 public class RepairServiceImpl implements RepairService {
 
     private final RepairRepository repairRepository;
+    private final UserService userService;
     private final ConfigMap configMapper;
 
     @Override
@@ -42,7 +41,9 @@ public class RepairServiceImpl implements RepairService {
 
         serviceCode = repairRepository.findRepairServiceCode(configMap);
 
-        log.info("repairServiceCode: {}", serviceCode);
+        if(((RepairUserInfoEntity) repairServiceInfo.getUserInfoEntity()).isNon_member_flag()) {
+            userService.setServiceTypeNonMemberUserCode(repairServiceInfo.getUserInfoEntity());
+        }
 
         productInfoEntity.setService_code(serviceCode.getService_code());
         productInfoEntity.setId2(serviceCode.getId2());
@@ -73,12 +74,12 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode, int userCode) throws Exception {
+    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode, int userCode, String userName) throws Exception {
         ServiceInfo repairServiceInfoEntity = null;
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadRepairServiceHistoryDetailHistoryConfigMap(serviceCode, userCode);
+        configMap = configMapper.setReadServiceDetailHistoryConfigMap(serviceCode, userCode, userName);
 
         repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(configMap);
 

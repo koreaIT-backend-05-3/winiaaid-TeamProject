@@ -27,9 +27,11 @@ public class Board {
 	private List<BoardFile> file_list;
 
 	private int user_code;
+	private boolean non_member_flag;
 	private String user_name;
 	private String user_email;
 	private String main_phone_number;
+	private String authentication_number;
 
 	private int company_code;
 	private String company_name;
@@ -40,11 +42,13 @@ public class Board {
 	
 	public ReadBoardResponseDto toBoardResponseDto() {
 		return ReadBoardResponseDto.builder()
+				.userCode(user_code)
 				.userName(user_name)
 				.companyCode(company_code)
 				.companyName(company_name)
-				.email(user_email)
+				.userEmail(user_email)
 				.mainPhoneNumber(main_phone_number)
+				.authenticationNumber(authentication_number)
 				.boardTitle(board_title)
 				.boardContent(board_content)
 				.createDate(create_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))

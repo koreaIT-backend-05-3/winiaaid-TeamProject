@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RecallUserInfoEntity implements UserInfoEntity {
     private int user_code;
+    private boolean non_member_flag;
     private String user_name;
     private String main_phone_number;
     private String sub_phone_number;

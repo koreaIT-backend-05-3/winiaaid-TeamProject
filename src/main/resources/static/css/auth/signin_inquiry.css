@@ -1,0 +1,149 @@
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title-div {
+    margin-bottom: 50px;
+    width: 980px;
+    height: 30px;
+}
+
+.title-h1 {
+    font-size: 28px;
+}
+
+.menu-type {
+    margin-bottom: 50px;
+}
+
+.menu-type ul {
+    display: flex;
+    justify-content: center;
+}
+
+.member-signin, .non-member-inquiry {
+    border: 1px solid #7d7d7d;
+    padding-top: 16px;
+    padding-bottom: 20px;
+
+    width: 488px;
+    height: 58px;
+
+    color: #7d7d7d;
+    font-size: 18px;
+
+    text-align: center;
+
+    cursor: pointer;
+}
+
+.notice-div {
+    margin-bottom: 35px;
+}
+
+.notice-div p {
+    width: 980px;
+    font-size: 18px;
+}
+
+.main-content-view {
+    width: 980px;
+}
+
+.main-inquiry-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 1px solid #b3b3b3;
+    padding: 30px 0px;
+}
+
+.user-name-div, .service-code-div, .phone-number-div, .personal-authentication-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 515px;
+    height: 50px;
+}
+
+.phone-number-div {
+    margin-bottom: 5px;
+}
+
+.main-inquiry-view {
+    width: 980px;
+    height: 313px;
+}
+
+.main-inquiry-view input {
+    border: 1px solid #e7e7e7;
+    padding: 5px;
+
+    width: 425px;
+    height: 48px;
+
+    color: #5b5a5a;
+    background-color: #fcfcfc;
+}
+
+.user-name-div {
+    margin-bottom: 5px;
+}
+
+.inquiry-button-div button{
+    border: none;
+    margin: 10px 0px 20px;
+
+    width: 515px;
+    height: 40px;
+
+    font-size: 15px;
+    background-color: #0a71cc;
+    color: #fff;
+}
+
+.explaination-div {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 27px;
+    padding-left: 25px;
+
+    width: 980px;
+}
+
+.explaination-div p {
+    font-size: 13px;
+}
+
+.notice-span {
+    font-size: 13px;
+    color: #0a71cc;
+}
+
+.call-center-inquiry-div {
+    margin-top: 27px;
+    margin-bottom: 50px;
+}
+
+.call-center-inquiry-div button {
+    border: none;
+
+    width: 250px;
+    height: 40px;
+
+    font-size: 15px;
+    background-color: #0a71cc;
+    color: #fff;
+}
+
+.select-menu {
+    border: 1px solid #0a71cc;
+    color: #0a71cc;
+}
+
+.visible {
+    display: none;
+}

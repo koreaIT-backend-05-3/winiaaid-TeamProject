@@ -1,5 +1,6 @@
 const topLogo = document.querySelector(".top-logo");
 const faqBoard = document.querySelector(".faq-board");
+const signinButton = document.querySelector(".signin");
 const selfCheckBoard = document.querySelector(".self-check-board");
 const visitRepairService = document.querySelector(".visit-repair-service");
 const visitRepairServiceDetail = document.querySelector(".visit-repair-service-detail");
@@ -22,9 +23,21 @@ let preTarget = null;
 
 menuLineClear();
 
+if(user != null) {
+    const authButtonLi = document.querySelector(".auth-button");
+
+    authButtonLi.innerHTML = `<i class="fa-solid fa-user logout"></i>`;
+
+    const logoutButton = document.querySelector(".logout");
+
+    logoutButton.onclick = setLogoutButtonClickEvent;
+}
+
 topLogo.onclick = loadMainPage;
 
 faqBoard.onclick = loadFaqPage;
+
+signinButton.onclick = loadSigninPage;
 
 selfCheckBoard.onclick = loadSelfCheckPage;
 
@@ -71,12 +84,20 @@ function menuLineClear() {
     }
 }
 
+function setLogoutButtonClickEvent() {
+    location.href = "/logout";
+}
+
 function loadMainPage() {
     location.href = "/main";
 }
 
 function loadFaqPage() {
     location.href = "/solution/faq/list";
+}
+
+function loadSigninPage() {
+    location.href = "/auth/signin";
 }
 
 function loadSelfCheckPage() {

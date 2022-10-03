@@ -14,6 +14,7 @@ public class CreateBoardRequestDto {
 	private int userCode;
 	private int boardTypeCode;
 	private String userName;
+	private String authenticationNumber;
 	private String email;
 	private String mainPhoneNumber;
 	private int companyCode;
@@ -27,6 +28,8 @@ public class CreateBoardRequestDto {
 		return Board.builder()
 				.temp_board_code(setTempBoardCode())
 				.user_code(userCode)
+				.non_member_flag(userCode == 0)
+				.authentication_number(authenticationNumber)
 				.board_type_code(boardTypeCode)
 				.user_name(userName)
 				.user_email(email)

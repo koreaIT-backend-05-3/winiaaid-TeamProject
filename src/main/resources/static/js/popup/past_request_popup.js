@@ -3,7 +3,6 @@ const requestButton = document.querySelector(".request-button");
 const cancelButton = document.querySelector(".cancel-button");
 
 let pastHistoryInfoMap = new Map();
-let userCode = 0;
 
 cancelImage.onclick = cancelPopup;
 

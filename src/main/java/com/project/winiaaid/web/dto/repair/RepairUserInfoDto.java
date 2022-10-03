@@ -25,6 +25,7 @@ public class RepairUserInfoDto implements UserInfoDto {
     public UserInfoEntity toUserInfoEntity() {
         return RepairUserInfoEntity.builder()
                 .user_code(userCode)
+                .non_member_flag(userCode == 0)
                 .user_name(userName)
                 .user_email(userEmail)
                 .main_phone_number(mainPhoneNumber)

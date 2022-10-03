@@ -3,15 +3,14 @@ package com.project.winiaaid.service.auth;
 import com.project.winiaaid.domain.user.User;
 import com.project.winiaaid.domain.user.UserRepository;
 import com.project.winiaaid.handler.aop.annotation.Log;
-import com.project.winiaaid.web.dto.auth.SignupRequestDto;
-
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService{
@@ -21,6 +20,8 @@ public class PrincipalDetailsService implements UserDetailsService{
 	@Log
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+		log.info("userName: {}", username);
 		
 		User userEntity = null;
 		
@@ -38,11 +39,5 @@ public class PrincipalDetailsService implements UserDetailsService{
 		return new PrincipalDetails(userEntity);
 		
 	}
-	
-	@Log
-	public boolean addUser(SignupRequestDto signupRequestDto) throws Exception{
-		return userRepository.save(signupRequestDto.toEntity()) > 0;
-	} 
-	
 
 }

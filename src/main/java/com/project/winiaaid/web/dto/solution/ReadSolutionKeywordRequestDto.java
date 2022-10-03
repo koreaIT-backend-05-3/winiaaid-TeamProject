@@ -4,8 +4,10 @@ import lombok.Data;
 
 @Data
 public class ReadSolutionKeywordRequestDto {
-    private String keyword;
-    private String boardType;
+    private String company;
+    private String codeType;
+    private int keyCode;
     private int solutionType;
     private String sortType;
+    private String keyword;
 }

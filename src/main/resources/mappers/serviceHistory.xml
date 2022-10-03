@@ -18,7 +18,10 @@
                 from
                     repair_service_table
                 where
-                    user_code = #{user_code} and
+                    user_code = #{user_code}
+                    and
+                    non_member_flag = 0
+                    and
                     (progress_status = 2 OR progress_status = 0)
                     <if test="service_type_code != 0">
                         AND service_type_code = #{service_type_code}
@@ -32,7 +35,10 @@
                 from
                     recall_service_table
                 where
-                    user_code = #{user_code} and
+                    user_code = #{user_code}
+                    and
+                    non_member_flag = 0
+                    and
                     (progress_status = 2 OR progress_status = 0)
                     <if test="service_type_code != 0">
                         AND service_type_code = #{service_type_code}
@@ -45,7 +51,10 @@
                 from
                     repair_service_table
                 where
-                    user_code = #{user_code} and
+                    user_code = #{user_code}
+                    and
+                    non_member_flag = 0
+                    and
                     progress_status = 1
                     <if test="service_type_code != 0">
                         AND service_type_code = #{service_type_code}
@@ -59,7 +68,10 @@
                 from
                     recall_service_table
                 where
-                    user_code = #{user_code} and
+                    user_code = #{user_code}
+                    and
+                    non_member_flag = 0
+                    and
                     progress_status = 1
                     <if test="service_type_code != 0">
                         AND service_type_code = #{service_type_code}
@@ -74,6 +86,8 @@
                         repair_service_table
                     where
                         user_code = #{user_code}
+                        and
+                        non_member_flag = 0
                     <choose>
                         <when test="progress_status == 'ing'">
                             and progress_status = 1
@@ -95,6 +109,8 @@
                     recall_service_table
                 where
                     user_code = #{user_code}
+                    and
+                    non_member_flag = 0
                 <choose>
                     <when test="progress_status == 'ing'">
                         and progress_status = 1
@@ -132,7 +148,10 @@
                 LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
                 LEFT OUTER JOIN product_company_table pct ON(pct.company_code = wpm.company_code)
                 where
-                    user_code = #{user_code} and
+                    user_code = #{user_code}
+                    and
+                    non_member_flag = 0
+                    and
                 <choose>
                     <when test="progress_status == 'ing'">
                         progress_status = 1
@@ -179,6 +198,8 @@
                 LEFT OUTER JOIN product_company_table pct ON(pct.company_code = wpm.company_code)
             where
                 user_code = #{user_code}
+                and
+                non_member_flag = 0
             <choose>
                     <when test="progress_status == 'ing'">
                         and progress_status = 1
@@ -225,23 +246,21 @@
                 COUNT(*)
             from
                 board_mst
-                <if test="board_type_code != 0 or completed_response != false or keyword != null">
-                    WHERE
-                </if>
+            WHERE
+                user_code = #{user_code}
+                and
+                non_member_flag = 0
                 <if test="board_type_code != 0">
-                        board_type_code = #{board_type_code}
+                    and
+                    board_type_code = #{board_type_code}
                 </if>
                 <if test="completed_response == true">
-                    <if test="board_type_code != 0">
-                        AND
-                    </if>
-                        progress_status = 2
-                        AND board_type_code != 2
+                    AND
+                    progress_status = 2
+                    AND board_type_code != 2
                 </if>
                 <if test="keyword != null">
-                    <if test="board_type_code != 0 or completed_response != false">
-                        AND
-                    </if>
+                    AND
                     (board_title like concat('%', #{keyword}, '%')
                     OR board_content like concat('%', #{keyword}, '%'))
                 </if>
@@ -261,23 +280,21 @@
 <!--                            counsel_mst-->
 <!--                        </otherwise>-->
 <!--                    </choose>-->
-                    <if test="board_type_code != 0 or completed_response != false or keyword != null">
-                        WHERE
-                    </if>
+                    WHERE
+                    user_code = #{user_code}
+                    and
+                    non_member_flag = 0
                     <if test="board_type_code != 0">
+                        and
                         board_type_code = #{board_type_code}
                     </if>
                     <if test="completed_response == true">
-                        <if test="board_type_code != 0">
-                            AND
-                        </if>
+                        AND
                         progress_status = 2
                         AND board_type_code != 2
                     </if>
                     <if test="keyword != null">
-                        <if test="board_type_code != 0 or completed_response != false">
-                            AND
-                        </if>
+                        AND
                         (board_title like concat('%', #{keyword}, '%')
                         OR board_content like concat('%', #{keyword}, '%'))
                     </if>
@@ -313,23 +330,21 @@
                 board_mst bm
                 LEFT OUTER JOIN product_company_table pct ON(pct.company_code = bm.company_code)
                 LEFT OUTER JOIN board_type_table btt ON(btt.board_type_code = bm.board_type_code)
-            <if test="board_type_code != 0 or completed_response != false or keyword != null">
-                WHERE
-            </if>
+            WHERE
+                user_code = #{user_code}
+                and
+                non_member_flag = 0
             <if test="board_type_code != 0">
+                and
                 bm.board_type_code = #{board_type_code}
             </if>
             <if test="completed_response == true">
-                <if test="board_type_code != 0">
-                    AND
-                </if>
+                AND
                 progress_status = 2
                 AND bm.board_type_code != 2
             </if>
             <if test="keyword != null">
-                <if test="board_type_code != 0 or completed_response != false">
-                    AND
-                </if>
+                AND
                 (board_title like concat('%', #{keyword}, '%')
                 OR board_content like concat('%', #{keyword}, '%'))
             </if>

@@ -17,22 +17,22 @@ import java.util.Map;
 public class ConfigMapImpl implements ConfigMap{
 
     @Override
-    public Map<String, Object> setReadSolutionDetailConfigMap(int solutionBoardCode, String solutionBoardType) throws Exception {
+    public Map<String, Object> setReadSolutionDetailConfigMap(String solutionBoardType, int solutionBoardCode) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
-        configMap.put("solution_board_code", solutionBoardCode);
         configMap.put("solution_board_type", solutionBoardType.equals("faq") ? 1 : 2);
+        configMap.put("solution_board_code", solutionBoardCode);
 
         return configMap;
     }
 
     @Override
-    public Map<String, Object> setReadSolutionListByCompanyConfigMap(String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
+    public Map<String, Object> setReadSolutionListByCompanyConfigMap(String company, String boardType, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("company_code", company.equals("winia") ? 2 : 1);
         configMap.put("keyword", readSolutionKeywordRequestDto.getKeyword() != null ? readSolutionKeywordRequestDto.getKeyword() : null);
-        configMap.put("solution_board_type", readSolutionKeywordRequestDto.getBoardType().equals("faq") ? 1 : 2);
+        configMap.put("solution_board_type", boardType.equals("faq") ? 1 : 2);
         configMap.put("sort_type", readSolutionKeywordRequestDto.getSortType());
         configMap.put("limit_date", createLocalDateTimeThreeMonthsAgo());
 
@@ -40,12 +40,14 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadSolutionListByKeyCodeConfigMap(int keyCode, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
+    public Map<String, Object> setReadSolutionListByKeyCodeConfigMap(String boardType, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
-        configMap.put("keyCode", keyCode);
+        configMap.put("key_code", readSolutionKeywordRequestDto.getKeyCode());
+        configMap.put("company_code", readSolutionKeywordRequestDto.getCompany().equals("winia") ? 2 : 1);
         configMap.put("keyword", readSolutionKeywordRequestDto.getKeyword() != null ? readSolutionKeywordRequestDto.getKeyword() : null);
-        configMap.put("solution_board_type", readSolutionKeywordRequestDto.getBoardType().equals("faq") ? 1 : 2);
+        configMap.put("solution_board_type", boardType.equals("faq") ? 1 : 2);
+        configMap.put("code_type", readSolutionKeywordRequestDto.getCodeType());
         configMap.put("solution_type_code", readSolutionKeywordRequestDto.getSolutionType());
         configMap.put("sort_type", readSolutionKeywordRequestDto.getSortType());
         configMap.put("limit_date", createLocalDateTimeThreeMonthsAgo());
@@ -53,27 +55,41 @@ public class ConfigMapImpl implements ConfigMap{
         return configMap;
     }
 
+//    @Override
+//    public Map<String, Object> setReadSolutionListByGroupCodeConfigMap(int keyCode, String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception{
+//        Map<String, Object> configMap = new HashMap<>();
+//
+//        configMap.put("keyCode", keyCode);
+//        configMap.put("company_code", company.equals("winia")? 2 : 1);
+//        configMap.put("keyword", readSolutionKeywordRequestDto.getKeyword() != null ? readSolutionKeywordRequestDto.getKeyword() : null);
+//        configMap.put("solution_board_type", readSolutionKeywordRequestDto.getBoardType().equals("faq") ? 1 : 2);
+//        configMap.put("solution_type_code", readSolutionKeywordRequestDto.getSolutionType());
+//        configMap.put("sort_type", readSolutionKeywordRequestDto.getSortType());
+//        configMap.put("limit_date", createLocalDateTimeThreeMonthsAgo());
+//
+//        return configMap;
+//    }
+
     @Override
-    public Map<String, Object> setReadSolutionListByGroupCodeConfigMap(int keyCode, String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception{
-        Map<String, Object> configMap = new HashMap<>();
-
-        configMap.put("keyCode", keyCode);
-        configMap.put("company_code", company.equals("winia")? 2 : 1);
-        configMap.put("keyword", readSolutionKeywordRequestDto.getKeyword() != null ? readSolutionKeywordRequestDto.getKeyword() : null);
-        configMap.put("solution_board_type", readSolutionKeywordRequestDto.getBoardType().equals("faq") ? 1 : 2);
-        configMap.put("solution_type_code", readSolutionKeywordRequestDto.getSolutionType());
-        configMap.put("sort_type", readSolutionKeywordRequestDto.getSortType());
-        configMap.put("limit_date", createLocalDateTimeThreeMonthsAgo());
-
-        return configMap;
-    }
-
-    @Override
-    public Map<String, Object> setReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception {
+    public Map<String, Object> setMemberReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
         configMap.put("user_code", readBoardRequestDto.getUserCode());
         configMap.put("board_type_code", readBoardRequestDto.getBoardType().equals("complaint") ? 1 : readBoardRequestDto.getBoardType().equals("praise") ? 2 : 3);
+        configMap.put("search_type", readBoardRequestDto.getSearchType());
+        configMap.put("keyword", readBoardRequestDto.getKeyword());
+        configMap.put("page", (readBoardRequestDto.getPage() - 1) * 2);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setNonMemberReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("authentication_number", readBoardRequestDto.getAuthenticationNumber());
+        configMap.put("user_name", readBoardRequestDto.getUserName());
+        configMap.put("main_phone_number", readBoardRequestDto.getMainPhoneNumber());
         configMap.put("search_type", readBoardRequestDto.getSearchType());
         configMap.put("keyword", readBoardRequestDto.getKeyword());
         configMap.put("page", (readBoardRequestDto.getPage() - 1) * 2);
@@ -114,16 +130,6 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadRepairServiceHistoryDetailHistoryConfigMap(String serviceCode, int userCode) throws Exception {
-        Map<String, Object> configMap = new HashMap<>();
-
-        configMap.put("non_member_flag", userCode == 0);
-        configMap.put("service_code", serviceCode);
-
-        return configMap;
-    }
-
-    @Override
     public Map<String, Object> setReadRepairServiceHistoryDetailListAndPastAddressListConfigMap(int userCode, int page, String type) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
@@ -148,6 +154,29 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("service_type_code", serviceType.equals("all") ? 0 : serviceType.equals("counsel") ? 1 : serviceType.equals("repair") ? 2 : 3);
         configMap.put("progress_status", readServiceRequestDto.getProgressStatus());
         configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadServiceDetailHistoryConfigMap(String serviceCode, int userCode, String userName) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("non_member_flag", userCode == 0);
+        configMap.put("user_code", userCode);
+        configMap.put("service_code", serviceCode);
+        configMap.put("user_name", userName);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadBoardDetailHistoryConfigMap(String boardCode, int userCode) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("non_member_flag", userCode == 0);
+        configMap.put("user_code", userCode);
+        configMap.put("board_code", boardCode);
 
         return configMap;
     }

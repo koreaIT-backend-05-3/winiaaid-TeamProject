@@ -1,50 +1,51 @@
 package com.project.winiaaid.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project.winiaaid.domain.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.winiaaid.domain.user.User;
-import com.project.winiaaid.domain.user.UserRepository;
-
 @Controller
-public class LoginPageController {
+@RequiredArgsConstructor
+public class AuthPageController {
+
+	private final UserRepository userRepository;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-	 @GetMapping({"auth/signin","/auth/logout"})
-	    public String loadSignin() {
+	 @GetMapping({"/auth/signin","/auth/logout"})
+	    public String loadSigninPage() {
 	        return "auth/signin";
 	    }
 	 
-	 @GetMapping("auth/signup")
-	    public String loadSignup() {
-	        return "auth/signup";
+	 @GetMapping("/auth/signup/step1")
+	    public String loadSignupStep1Page() {
+	        return "auth/signup_step1";
 	    }
+
+	@GetMapping("/auth/signup/step2")
+	public String loadSignupStep2Page() {
+		return "auth/signup_step2";
+	}
 	 
-	 @GetMapping("auth/withdrawal_login")
-	    public String withdrawal_login() {
+	@GetMapping("/auth/withdrawal/login")
+	    public String withdrawalLoginPage() {
 	        return "auth/withdrawal_login"; 
 	    }
-	 @GetMapping("auth/withdrawal")
-	    public String withdrawal() {
-	        return "auth/withdrawal"; 
-	    }
-	 
-	 @GetMapping("auth/signup2")
-	    public String loadSignup2() {
-	        return "auth/signup2";
-	    }
+
+	@GetMapping("/auth/withdrawal")
+	public String withdrawalPage() {
+		return "auth/withdrawal";
+	}
+
+	@GetMapping({"/signin/inquiry/board", "/signin/inquiry/service"})
+	public String loadSigninInquiryPage() {
+		 return "auth/signin_inquiry";
+	}
+
 	 
 //	 @PostMapping("/join") 
 //	    public String join(User user) throws Exception{
