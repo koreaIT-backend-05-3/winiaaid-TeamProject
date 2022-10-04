@@ -1,6 +1,8 @@
 package com.project.winiaaid.util;
 
+import com.project.winiaaid.domain.product.Product;
 import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
+import com.project.winiaaid.domain.repair.RepairProductInfoEntity;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
@@ -15,6 +17,15 @@ import java.util.Map;
 @Slf4j
 @Component
 public class ConfigMapImpl implements ConfigMap{
+
+    @Override
+    public Map<String, Object> setCreateRepairServiceConfigMap(RepairProductInfoEntity repairProductInfoEntity) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+        configMap.put("temp_service_code", repairProductInfoEntity.getTemp_service_code());
+        configMap.put("product_code", repairProductInfoEntity.getProduct_code());
+
+        return configMap;
+    }
 
     @Override
     public Map<String, Object> setReadSolutionDetailConfigMap(String solutionBoardType, int solutionBoardCode) throws Exception {
@@ -164,6 +175,16 @@ public class ConfigMapImpl implements ConfigMap{
 
         configMap.put("non_member_flag", userCode == 0);
         configMap.put("user_code", userCode);
+        configMap.put("service_code", serviceCode);
+        configMap.put("user_name", userName);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadNonMemberServiceDetailHistoryConfigMap(String serviceCode, String userName) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
         configMap.put("service_code", serviceCode);
         configMap.put("user_name", userName);
 

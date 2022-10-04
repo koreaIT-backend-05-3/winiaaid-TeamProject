@@ -2,7 +2,7 @@ const updateButton = document.querySelector(".update-button");
 const deleteButton = document.querySelector(".delete-button");
 const listButton = document.querySelector(".list-button");
 
-let nonMemberRequestData = null;
+let authenticationInfo = null;
 let boardCode = getBoardCodeByUri();
 let boardType = getBoardType();
 
@@ -100,8 +100,8 @@ function setBoardDetail(boardDetail){
 
     if(boardDetail.userCode != userCode) {
 
-        if(nonMemberRequestData != null) {
-            if(nonMemberRequestData.userName == boardDetail.userName) {
+        if(authenticationInfo != null) {
+            if(authenticationInfo.userName == boardDetail.userName) {
                 return;
             }
         }
@@ -148,9 +148,9 @@ function checkIsNonMemberBoard() {
 }
 
 function loadNonMemberRequestDataByLocalStorage() {
-    nonMemberRequestData = localStorage.nonMemberRequestData;
+    authenticationInfo = localStorage.authenticationInfo;
 
-    if(nonMemberRequestData != null) {
-        nonMemberRequestData = JSON.parse(nonMemberRequestData);
+    if(authenticationInfo != null) {
+        authenticationInfo = JSON.parse(authenticationInfo);
     }
 }

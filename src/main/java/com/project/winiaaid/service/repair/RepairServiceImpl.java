@@ -3,13 +3,16 @@ package com.project.winiaaid.service.repair;
 import com.project.winiaaid.domain.repair.*;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
+import com.project.winiaaid.util.RequestService;
 import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
 import com.project.winiaaid.web.dto.repair.RepairReservationInfoDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ServiceRequestResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,32 +28,38 @@ import java.util.stream.Collectors;
 public class RepairServiceImpl implements RepairService {
 
     private final RepairRepository repairRepository;
+    private final RequestService requestService;
     private final UserService userService;
     private final ConfigMap configMapper;
 
     @Override
-    public String addRepairServiceRequest(RepairServiceRequestDto repairServiceRequestDto) throws Exception {
-        ServiceInfo repairServiceInfo = changeToRepairServiceInfoEntity(repairServiceRequestDto);
-        RepairProductInfoEntity productInfoEntity = (RepairProductInfoEntity) repairServiceInfo.getProductInfoEntity();
+    public ServiceRequestResponseDto addRepairServiceRequest(RepairServiceRequestDto repairServiceRequestDto) throws Exception {
+        ServiceInfo repairServiceInfo = null;
+        RepairProductInfoEntity productInfoEntity = null;
+        ServiceRequestResponseDto serviceRequestResponseDto = null;
+        Map<String, Object> configMap = null;
+        RepairServiceCode serviceCodeEntity = null;
+        int status = 0;
 
-        RepairServiceCode serviceCode = null;
-        Map<String, Object> configMap = new HashMap<String, Object>();
+        repairServiceInfo = changeToRepairServiceInfoEntity(repairServiceRequestDto);
+        productInfoEntity = (RepairProductInfoEntity) repairServiceInfo.getProductInfoEntity();
 
-        configMap.put("temp_service_code", productInfoEntity.getTemp_service_code());
-        configMap.put("product_code", productInfoEntity.getProduct_code());
+        configMap = configMapper.setCreateRepairServiceConfigMap(productInfoEntity);
 
-        serviceCode = repairRepository.findRepairServiceCode(configMap);
+        serviceCodeEntity = repairRepository.findRepairServiceCode(configMap);
 
         if(((RepairUserInfoEntity) repairServiceInfo.getUserInfoEntity()).isNon_member_flag()) {
             userService.setServiceTypeNonMemberUserCode(repairServiceInfo.getUserInfoEntity());
         }
 
-        productInfoEntity.setService_code(serviceCode.getService_code());
-        productInfoEntity.setId2(serviceCode.getId2());
+        setServiceCodeAndIdToEntity(productInfoEntity, serviceCodeEntity);
 
-        repairRepository.addRepairServiceRequest(repairServiceInfo);
+        status = repairRepository.addRepairServiceRequest(repairServiceInfo);
 
-        return serviceCode.getService_code();
+        serviceRequestResponseDto =
+                requestService.buildServiceRequestResponseDto(repairServiceRequestDto.getUserInfoObject().getUserName(), serviceCodeEntity.getService_code());
+
+        return status == 0 ? null : serviceRequestResponseDto;
     }
 
     @Override
@@ -62,9 +71,6 @@ public class RepairServiceImpl implements RepairService {
         configMap = configMapper.setReadRepairServiceHistoryDetailListAndPastAddressListConfigMap(userCode, page, "repairService");
 
         serviceInfoEntityList = repairRepository.findRepairServiceHistoryDetailInfoListByUserCode(configMap);
-
-        log.info("serviceInfoEntityList: {}", serviceInfoEntityList);
-        log.info("configMap: {}", configMap);
 
         if(serviceInfoEntityList != null && serviceInfoEntityList.size() != 0) {
             serviceResponseDtoList = changeToServiceResponseDtoList(serviceInfoEntityList);
@@ -84,7 +90,7 @@ public class RepairServiceImpl implements RepairService {
         repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(configMap);
 
         if(repairServiceInfoEntity != null) {
-            repairServiceResponseDto = changeToRepairServiceResponseDto(repairServiceInfoEntity);
+            repairServiceResponseDto = requestService.changeToRepairServiceResponseDto(repairServiceInfoEntity);
         }
 
         return repairServiceResponseDto;
@@ -99,9 +105,6 @@ public class RepairServiceImpl implements RepairService {
         configMap = configMapper.setReadRepairServiceHistoryDetailListAndPastAddressListConfigMap(userCode, page, "address");
 
         addressList = repairRepository.findPastReceptionAddressListByUserCode(configMap);
-
-        log.info("addressList: {}", addressList);
-        log.info("configMap: {}", configMap);
 
         if(addressList != null && addressList.size() != 0) {
             addressResponseDtoList = changeToAddressResponseDtoList(addressList);
@@ -140,8 +143,9 @@ public class RepairServiceImpl implements RepairService {
         return LocalDateTime.parse(reservationDate, formatter);
     }
 
-    private ReadServiceInfoResponseDto changeToRepairServiceResponseDto(ServiceInfo repairServiceInfo) {
-        return repairServiceInfo.toServiceResponseDto();
+    private void setServiceCodeAndIdToEntity(RepairProductInfoEntity productInfoEntity, RepairServiceCode serviceCodeEntity) {
+        productInfoEntity.setService_code(serviceCodeEntity.getService_code());
+        productInfoEntity.setId2(serviceCodeEntity.getId2());
     }
 
     private List<AddressResponseDto> changeToAddressResponseDtoList(List<Address> addressList) {

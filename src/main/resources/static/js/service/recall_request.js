@@ -1,6 +1,6 @@
 let loginTest = true;
 
-
+const inquiryButton = document.querySelector(".inquiry-button");
 const searchModelButton = document.querySelector('.search-model')
 const checkModelButton = document.querySelector('.check-model')
 const searchModelInputs = document.querySelector('.search-model-inputs')
@@ -44,6 +44,8 @@ if(loginTest){	//로그인 시
 	privacyHandlingCheck.checked = 'true'
 	agreementDiv.remove();
 }
+
+inquiryButton.onclick = loadRecallInquiryPage;
 
 
 searchModelButton.onclick = () => {
@@ -120,6 +122,10 @@ submitButton.onclick = () => {
 
 		submitRequest(requestData);    
     }
+}
+
+function loadRecallInquiryPage() {
+    location.href = "/service/recall/inquiry";
 }
 
 

@@ -17,9 +17,11 @@ if(loginTest){
 }
 
 function loadRecallRequestComplete(){
+    let userName = getUserNameByAuthenticationInfo(authenticationInfo);
+
     $.ajax({
         type: "get",
-        url: `/api/v1/service/recall/${serviceCode}`,
+        url: `/api/v1/service/recall/${serviceCode}?userCode=${userCode}&userName=${userName}`,
         dataType: "json",
         async: false,
         success: (response) => {
@@ -97,7 +99,10 @@ function updateCancelRecallRequest(serviceCode){
 }
 
 function errorMessage(request, status, error) {
-    alert("요청 중에 오류가 발생했습니다.");
+    if(request.status == 400) {
+        alert("잘 못 된 접근입니다.");
+        location.replace("/main");
+    }
     console.log(request.status);
     console.log(request.responseText);
     console.log(error);

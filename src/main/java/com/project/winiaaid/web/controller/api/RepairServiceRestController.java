@@ -2,10 +2,12 @@ package com.project.winiaaid.web.controller.api;
 
 import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.service.repair.RepairService;
+import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ServiceRequestResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +22,30 @@ import java.util.List;
 public class RepairServiceRestController {
 
     private final RepairService repairService;
+    private final UserService userService;
 
+    @Log
     @PostMapping("/visit/request")
     public ResponseEntity<?> applyForService(@RequestBody RepairServiceRequestDto repairServiceRequestDto) {
-        String repairServiceCode = null;
+        ServiceRequestResponseDto serviceRequestResponseDto = null;
 
         try {
-            repairServiceCode = repairService.addRepairServiceRequest(repairServiceRequestDto);
+            serviceRequestResponseDto = repairService.addRepairServiceRequest(repairServiceRequestDto);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Service application failed", repairServiceCode));
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Service application failed", serviceRequestResponseDto));
         }
 
-        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", repairServiceCode));
+        if(serviceRequestResponseDto == null) {
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Service application failed", serviceRequestResponseDto));
+        }
+
+        if(userService.isNonMemberRequest(repairServiceRequestDto.getUserInfoObject().getUserCode())) {
+            log.info("들어옴");
+            userService.sendServiceCode(serviceRequestResponseDto.getServiceCode(), repairServiceRequestDto.getUserInfoObject().getMainPhoneNumber());
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", serviceRequestResponseDto));
     }
 
     @Log
@@ -50,12 +63,17 @@ public class RepairServiceRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", serviceHistoryInfoList));
     }
 
+    @Log
     @GetMapping("/repair/detail/history/{serviceCode}")
     public ResponseEntity<?> getRepairServiceDetailHistoryInfo(@PathVariable String serviceCode, int userCode, String userName) {
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
 
         try {
             repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(serviceCode, userCode, userName);
+
+            if(repairServiceResponseDto == null) {
+                return ResponseEntity.badRequest().body(new CustomResponseDto<>(-1, "request failed", null));
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load detailed application history", repairServiceResponseDto));
@@ -105,4 +123,5 @@ public class RepairServiceRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully canceled application history", status));
     }
+
 }

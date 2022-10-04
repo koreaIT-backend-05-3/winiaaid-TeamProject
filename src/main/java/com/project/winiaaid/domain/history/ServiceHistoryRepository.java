@@ -9,4 +9,5 @@ import java.util.Map;
 public interface ServiceHistoryRepository {
     public List<ServiceHistoryTitle> findServiceHistoryInfoListByServiceTypeCode(Map<String, Object> config_map) throws Exception;
     public List<WritingServiceHistoryTitle> findWritingServiceHistoryInfoListByServiceTypeCode(Map<String, Object> config_map) throws Exception;
+    public int findNonMemberRequestDetailInfoByServiceCodnAndUserName(Map<String, Object> config_map) throws Exception;
 }

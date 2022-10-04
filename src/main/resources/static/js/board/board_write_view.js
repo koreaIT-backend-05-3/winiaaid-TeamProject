@@ -28,7 +28,7 @@ let boardType = null;
 let boardCode = 0;
 let fileSize = 0;
 
-let nonMemberRequestData = null;
+let authenticationInfo = null;
 
 let deleteFileCodeList = new Array();
 let deleteTempFileNameList = new Array();
@@ -237,7 +237,7 @@ function modifyBoard(form) {
         dataType: "json",
         success: (response) => {
 
-            if(nonMemberRequestData != null) {
+            if(authenticationInfo != null) {
                 location.replace(`/customer/praise/non-member/detail/${response.data}`);
 
             }else {
@@ -308,7 +308,7 @@ function removeVisibleClass(domObject) {
 function checkRequireMenu() {
     loadNonMemberRequestDataByLocalStorage();
 
-    if(userCode == 0 && nonMemberRequestData == null) {
+    if(userCode == 0 && authenticationInfo == null) {
         const firstEmail = document.querySelector(".email-1");
         const lastEmail = document.querySelector(".email-2");
         const phoneSelect = document.querySelector(".phone-box select");
@@ -386,10 +386,10 @@ function checkRequireMenu() {
 }
 
 function loadNonMemberRequestDataByLocalStorage() {
-    nonMemberRequestData = localStorage.nonMemberRequestData;
+    authenticationInfo = localStorage.authenticationInfo;
 
-    if(nonMemberRequestData != null) {
-        nonMemberRequestData = JSON.parse(nonMemberRequestData);
+    if(authenticationInfo != null) {
+        authenticationInfo = JSON.parse(authenticationInfo);
     }
 }
 

@@ -353,4 +353,31 @@
             LIMIT #{page}, 10);
         </if>
     </select>
+
+    <select id="findNonMemberRequestDetailInfoByServiceCodnAndUserName" parameterType="HashMap" resultType="Integer">
+        SELECT
+            IFNULL(
+
+                (select
+                service_type_code
+                from
+                repair_service_table rst
+                LEFT OUTER JOIN non_member_service_table nmst ON(nmst.user_code = rst.user_code)
+                WHERE
+                service_code = #{service_code}
+                AND user_name = #{user_name})
+
+                ,
+
+                (select
+                service_type_code
+                from
+                recall_service_table rst
+                LEFT OUTER JOIN non_member_service_table nmst ON(nmst.user_code = rst.user_code)
+                WHERE
+                service_code = #{service_code}
+                AND user_name = #{user_name})
+
+            ) AS service_type_code;
+    </select>
 </mapper>

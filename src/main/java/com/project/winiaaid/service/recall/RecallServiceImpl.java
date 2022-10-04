@@ -6,6 +6,7 @@ import com.project.winiaaid.domain.recall.RecallServiceCode;
 import com.project.winiaaid.domain.recall.RecallUserInfoEntity;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
+import com.project.winiaaid.util.RequestService;
 import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.recall.RecallServiceRequestDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
@@ -22,7 +23,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class RecallServiceImpl implements RecallService {
-	
+
+	private final RequestService requestService;
 	private final RecallRepository recallRepository;
 	private final UserService userService;
 	private final ConfigMap configMapper;
@@ -56,10 +58,19 @@ public class RecallServiceImpl implements RecallService {
 
 	@Override
 	public ReadServiceInfoResponseDto getRecallRequest(String serviceCode, int userCode, String userName) throws Exception {
+		ServiceInfo recallServiceInfo = null;
+		ReadServiceInfoResponseDto readServiceInfoResponseDto = null;
 		Map<String, Object> configMap = null;
 
 		configMap = configMapper.setReadServiceDetailHistoryConfigMap(serviceCode, userCode, userName);
-		return recallRepository.getRecallRequest(configMap).toServiceResponseDto();
+
+		recallServiceInfo = recallRepository.getRecallRequest(configMap);
+
+		if(recallServiceInfo != null) {
+			readServiceInfoResponseDto = requestService.changeToRepairServiceResponseDto(recallServiceInfo);
+		}
+
+		return readServiceInfoResponseDto;
 	}
 
 	private String createServiceCode(ServiceInfo serviceInfo, RecallServiceCode serviceCodeEntity) {
@@ -87,4 +98,5 @@ public class RecallServiceImpl implements RecallService {
 	public boolean updateCancelRecallRequest(String serviceCode) throws Exception {
 		return recallRepository.updateCancelRecallRequest(serviceCode) > 0;
 	}
+
 }

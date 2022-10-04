@@ -6,7 +6,7 @@ const searchButton = document.querySelector(".search-btn");
 const contentTableBody = document.querySelector(".content-table-body");
 
 
-let nonMemberRequestData = null;
+let authenticationInfo = null;
 let boardType = null;
 let authenticationNumber = null;
 
@@ -62,7 +62,7 @@ function getBoardList(page){
     let searchType = getSelectedOptionValue();
     let keyword = getSearchKeyword();
     
-    nonMemberRequestData = localStorage.nonMemberRequestData;
+    authenticationInfo = localStorage.authenticationInfo;
 
     if(!isNonMemberView()) {
         $.ajax({
@@ -95,15 +95,15 @@ function getBoardList(page){
         });
 
     }else {
-        if(nonMemberRequestData != null) {
-            nonMemberRequestData = JSON.parse(nonMemberRequestData);
+        if(authenticationInfo != null) {
+            authenticationInfo = JSON.parse(authenticationInfo);
             $.ajax({
                 type:"get",
                 url:`/api/v1/board/${boardType}/list/non-member`,
                 data: {
-                    "userName": nonMemberRequestData.userName,
-                    "mainPhoneNumber": nonMemberRequestData.mainPhoneNumber,
-                    "authenticationNumber": nonMemberRequestData.authenticationNumber,
+                    "userName": authenticationInfo.userName,
+                    "mainPhoneNumber": authenticationInfo.mainPhoneNumber,
+                    "authenticationNumber": authenticationInfo.authenticationNumber,
                     "searchType": searchType,
                     "keyword": keyword,
                     "page": page

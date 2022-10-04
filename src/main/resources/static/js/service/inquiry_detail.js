@@ -2,13 +2,14 @@ const goListButton = document.querySelector(".go-list-button");
 
 let serviceCode = null;
 
-setUserCode = getUser();
+// setUserCode = getUser();
+
 serviceCode = getServiceCodeByUri();
+
 
 loadReservationDetailInfo();
 
 goListButton.onclick = historyBack;
-
 
 
 function getServiceCodeByUri() {
@@ -20,22 +21,30 @@ function loadReservationDetailInfo() {
 }
 
 function getReservationDetailInfo() {
+    let userName = getUserNameByAuthenticationInfo(authenticationInfo);
+    
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/detail/history/${serviceCode}?userCode=${userCode}`,
+        url: `/api/v1/service/repair/detail/history/${serviceCode}?userCode=${userCode}&userName=${userName}`,
         dataType: "json",
         success: (response) => {
             setReservationDetailInfo(response.data);
         },
         error: (request, status, error) => {
-            alert("요청중에 오류가 발생했습니다.")
+            if(request.status == 400) {
+                alert("잘 못 된 접근입니다.");
+                location.replace("/main");
+            }
             console.log(request.status);
             console.log(request.responseText);
             console.log(error);
         }
     });
 }
+
+
+
 
 function setReservationDetailInfo(reservationDetailInfo) {
     const reservationInfoTable = document.querySelector(".reservation-info-table");

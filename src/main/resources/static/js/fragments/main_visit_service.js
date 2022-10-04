@@ -308,7 +308,15 @@ function reservationRequest() {
         success: (response) => {
             if(response.data) {
                 alert("서비스 신청 성공");
-                location.replace(`/service/visit/inquiry/detail/${response.data}`);
+                if(userCode == 0) {
+                    localStorage.serviceRequestData = JSON.stringify(response.data);
+                    location.replace(`/service/visit/inquiry/detail/${response.data.serviceCode}`);
+
+
+                }else {
+                    location.replace(`/service/visit/inquiry/detail/${response.data.serviceCode}`);
+
+                }
             }else {
                 alert("서비스 신청중에 오류가 발생했습니다.");
             }

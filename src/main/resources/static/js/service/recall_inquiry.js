@@ -3,7 +3,6 @@ let loginTest = true;
 const table = document.querySelector('.recall-history table tbody')
 const remainingNumber = document.querySelector('.remaining-number')
 const dataNone = document.querySelector('.data-none')
-const userCode = 0;
 
 let nowPage = 1;
 

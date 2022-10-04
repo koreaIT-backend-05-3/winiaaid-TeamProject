@@ -1,5 +1,5 @@
 function modifyReservationService(repairServiceCode) {
-    location.href = `/service/visit/request/updateView/${repairServiceCode}`;
+    location.href = `/service/visit/request/update-view/${repairServiceCode}`;
 }
 
 function cancelReservationService(repairServiceCode) {

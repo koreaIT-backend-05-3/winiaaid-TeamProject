@@ -150,7 +150,7 @@
 			LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)
 			LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
 		where
-			user_code = #{user_code}
+			rst.user_code = #{user_code}
 		order by
 			progress_status desc,
 			request_date desc
