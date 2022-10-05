@@ -30,6 +30,15 @@ public class AuthPageController {
 	public String loadSignupStep2Page() {
 		return "auth/signup_step2";
 	}
+	@GetMapping("/auth/signup/step3")
+	public String loadSignupStep3Page() {
+		return "auth/signup_step3";
+	}
+	
+	@GetMapping("/auth/signup/join")
+	public String loadSignupJoinPage() {
+		return "auth/join";
+	}
 	 
 	@GetMapping("/auth/withdrawal/login")
 	    public String withdrawalLoginPage() {

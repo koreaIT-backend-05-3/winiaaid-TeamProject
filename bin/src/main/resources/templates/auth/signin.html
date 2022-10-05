@@ -5,25 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <th:block th:replace="/fragments/head"></th:block>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/auth/signin.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/fragments/header.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/fragments/footer.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/auth/signin.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-
+    <link rel="stylesheet" type="text/css" href="/static/css/fragments/signin_view.css">
     <title>Login</title>
-
-    <script src="/static/js/auth/signin.js"></script>
-
-
-    <title>Login</title>
-
-
 </head>
 <body>
     <div id="wrap">
-        <!-- 메인헤더 고정 -->
         <th:block th:replace="/fragments/header"></th:block>
         <main id="main-contents">
             <div class="main-header">
@@ -44,53 +31,14 @@
                     <p class="comment-login-title"><span>(주)위니아에이드</span>에 오신것을 환영합니다.</p>
                     <p class="comment-login-subtitle">위니아 통합회원으로 가입하시면 동일한 아이디 비밀번호로 모든 위니아 사이트 서비스를 이용하실 수 있습니다.</p>
                 </div>
-                <div class="login-box">
-                    <div class="user-area-inner">
-                        <form  action ="/auth/signin" id="loginForm" name="loginForm" method="POST">
-                            <label for="username" class="input-user">
-                                <input type="text" id="username" name="username" placeholder="아이디를 입력하세요">
-                            </label>
-                            <label for="password" class="input-user">
-                                <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요"
-                                    maxlength="10">
-                            </label>
-                            <button type="submit" id="button-login" class="button-login">로그인</button>
-                            <p class="save-id">
-                                <input type="checkbox" id="save-id">
-                                <label for="save-id">아이디 저장</label>
-                            </p>
-                            <div class="find-user">
-                                <p>아이디나 비밀번호를 잊으셨나요?</p>
-                                <div class="bin-area">
-                                    <a class="find-button find-button-userid">아이디찾기</a>
-                                    <a class="find-button fint-button-password">비밀번호 찾기</a>
-                                </div>
-                                <p>패스워드 변경 및 개인정보 수정은
-                                    <span>여기</span>를 눌러주세요.
-                                </p>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="enjoy">
-                        <div class="enjoy-inner">
-                            <div class="user-image-box">
-                                <img src="https://www.winiaaid.com/assets/images/common/icon_human.png">
-                            </div>
-                            <div class="enjoy-textbox"> 
-                                <p>아직 위니아 회원이 아니신가요?</p>
-                                <p>회원이 되시면 다양한 서비스 이용이 가능합니다.</p>
-                            </div>
-
-                            <div class="button-area">
-                                <a href="signup2">통합회원가입</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <th:block th:replace="/fragments/signin_view"></th:block>
             </div>
         </main>
        <th:block th:replace="/fragments/footer"></th:block>
     </div>
-    <script src="/static/js/auth/signup.js"></script>
+    <script src="/static/js/util/remove_non_member_authentication.js"></script>
+    <script src="/static/js/util/principal.js"></script>
+    <script src="/static/js/fragments/header.js"></script>
+    <script src="/static/js/fragments/signin_view.js"></script>
 </body>
 </html>

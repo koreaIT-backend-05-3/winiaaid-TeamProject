@@ -1,5 +1,6 @@
 const topLogo = document.querySelector(".top-logo");
 const faqBoard = document.querySelector(".faq-board");
+const signinButton = document.querySelector(".signin");
 const selfCheckBoard = document.querySelector(".self-check-board");
 const visitRepairService = document.querySelector(".visit-repair-service");
 const visitRepairServiceDetail = document.querySelector(".visit-repair-service-detail");
@@ -11,8 +12,8 @@ const userRequestHistory = document.querySelector(".user-request-history");
 const userBoardHistory = document.querySelector(".user-board-history");
 const userInfoModify = document.querySelector(".user-info-modify");
 
-const meunLines = document.querySelectorAll(".meun-line");
-const meunLineSubs = document.querySelectorAll(".meun-line-sub");
+const menuLines = document.querySelectorAll(".menu-line");
+const menuLineSubs = document.querySelectorAll(".menu-line-sub");
 const subMenubarOut = document.querySelector(".sub-menubar-out");
 subMenubarOut.classList.add("menu-line-visible");
 
@@ -22,9 +23,21 @@ let preTarget = null;
 
 menuLineClear();
 
+if(user != null) {
+    const authButtonLi = document.querySelector(".auth-button");
+
+    authButtonLi.innerHTML = `<i class="fa-solid fa-user logout"></i>`;
+
+    const logoutButton = document.querySelector(".logout");
+
+    logoutButton.onclick = setLogoutButtonClickEvent;
+}
+
 topLogo.onclick = loadMainPage;
 
 faqBoard.onclick = loadFaqPage;
+
+signinButton.onclick = loadSigninPage;
 
 selfCheckBoard.onclick = loadSelfCheckPage;
 
@@ -47,9 +60,9 @@ userBoardHistory.onclick = loadUserBoardHistoryPage;
 userInfoModify.onclick = loadUserInfoModifyPage;
 
 
-for(let i = 0; i < meunLines.length; i++) {
-    const menuLine = meunLines[i];
-    const menuLineSub = meunLineSubs[i];
+for(let i = 0; i < menuLines.length; i++) {
+    const menuLine = menuLines[i];
+    const menuLineSub = menuLineSubs[i];
 
     menuLine.onclick = (e) => {
         menuLineClear();
@@ -66,9 +79,13 @@ for(let i = 0; i < meunLines.length; i++) {
 }
 
 function menuLineClear() {
-    for(let i = 0; i < meunLineSubs.length; i++){
-        meunLineSubs[i].classList.add("menu-visible");
+    for(let i = 0; i < menuLineSubs.length; i++){
+        menuLineSubs[i].classList.add("menu-visible");
     }
+}
+
+function setLogoutButtonClickEvent() {
+    location.href = "/logout";
 }
 
 function loadMainPage() {
@@ -77,6 +94,10 @@ function loadMainPage() {
 
 function loadFaqPage() {
     location.href = "/solution/faq/list";
+}
+
+function loadSigninPage() {
+    location.href = "/auth/signin";
 }
 
 function loadSelfCheckPage() {

@@ -2,10 +2,16 @@ const updateButton = document.querySelector(".update-button");
 const deleteButton = document.querySelector(".delete-button");
 const listButton = document.querySelector(".list-button");
 
-let userCode = 0;
+let nonMemberRequestData = null;
 let boardCode = getBoardCodeByUri();
 let boardType = getBoardType();
 
+if(checkIsNonMemberBoard()) {
+    loadNonMemberRequestDataByLocalStorage();
+}
+
+
+setBoardContentByBoardType();
 getBoardDetailByBoardCode(boardCode);
 
 updateButton.onclick = loadModifyBoardPageByBoardCode;
@@ -16,6 +22,21 @@ listButton.onclick = historyBack;
 
 function getBoardCodeByUri(){
     return location.pathname.substring(location.pathname.lastIndexOf("/") +1);
+}
+
+function setBoardContentByBoardType() {
+    const title = document.querySelector("h2");
+
+    if(boardType == "praise") {
+        title.textContent = "칭찬합니다";
+
+    }else if(boardType == "suggestion") {
+        title.textContent = "제안합니다";
+
+    }else {
+        title.textContent = "불편합니다";
+
+    }
 }
 
 function getBoardDetailByBoardCode(){
@@ -29,7 +50,7 @@ function getBoardDetailByBoardCode(){
         error:(error)=>{
             console.log(error);
         }
-    })
+    });
 }
 
 function deleteBoard(){
@@ -76,6 +97,17 @@ function setBoardDetail(boardDetail){
     if(boardDetail.fileList != null) {
         setFile(boardDetail.fileList);
     }
+
+    if(boardDetail.userCode != userCode) {
+
+        if(nonMemberRequestData != null) {
+            if(nonMemberRequestData.userName == boardDetail.userName) {
+                return;
+            }
+        }
+        addVisibleClass(updateButton);
+        addVisibleClass(deleteButton);
+    }
 }
 
 function getBoardType(){
@@ -99,10 +131,26 @@ function setFile(fileList) {
         }
 }
 
+function addVisibleClass(domObject) {
+    domObject.classList.add("visible");
+}
+
 function loadModifyBoardPageByBoardCode() {
     location.href = `/customer/${boardType}/update-view/${boardCode}`;
 }
 
 function historyBack() {
     history.back();
+}
+
+function checkIsNonMemberBoard() {
+    return location.pathname.indexOf("non-member") != -1;
+}
+
+function loadNonMemberRequestDataByLocalStorage() {
+    nonMemberRequestData = localStorage.nonMemberRequestData;
+
+    if(nonMemberRequestData != null) {
+        nonMemberRequestData = JSON.parse(nonMemberRequestData);
+    }
 }

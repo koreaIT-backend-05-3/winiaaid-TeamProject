@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.winiaaid.domain.service.ServiceRepository">
+    <select id="findNonMemberUserCode" parameterType="String" resultType="integer">
+        <choose>
+            <when test="type == 'service'">
+                select
+                if(ifnull(MAX(um.user_code), 0) > ifnull(MAX(nmst.user_code), 0), ifnull(MAX(um.user_code), 0) + 1, ifnull(max(nmst.user_code), 0) + 1) AS user_code
+                FROM
+                    user_mst um
+                    LEFT OUTER JOIN non_member_service_table nmst ON(1 = 1);
+            </when>
+            <otherwise>
+                select
+                if(ifnull(MAX(um.user_code), 0) > ifnull(MAX(nmbt.user_code), 0), ifnull(max(um.user_code), 0) + 1, ifnull(max(nmbt.user_code), 0) + 1) AS user_code
+                FROM
+                    user_mst um
+                    LEFT OUTER JOIN non_member_board_table nmbt ON(1 = 1);
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

@@ -194,3 +194,7 @@ center button:not(center button:last-child) {
 .file-name:hover {
     text-decoration: underline;
 }
+
+.visible {
+    display: none;
+}
