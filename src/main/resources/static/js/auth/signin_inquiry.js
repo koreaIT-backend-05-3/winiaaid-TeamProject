@@ -136,7 +136,7 @@ function submit(authenticationInfo) {
             success:(response)=>{
                 if(response.data != null){
                     localStorage.nonMemberInquiryList = JSON.stringify(response.data);
-                    localStorage.authenticationInfo = JSON.stringify(authenticationInfo);
+                    localStorage.boardAuthenticationInfo = JSON.stringify(authenticationInfo);
                     
                     location.href = "/customer/praise/list/non-member";
                 }else {
@@ -160,7 +160,7 @@ function submit(authenticationInfo) {
             success: (response) => {
                 let serivceTypeCode = response.data;
                 if(serivceTypeCode != 0) {
-                    localStorage.authenticationInfo = JSON.stringify(authenticationInfo);
+                    localStorage.serviceAuthenticationInfo = JSON.stringify(authenticationInfo);
 
                     if(serivceTypeCode == 2) {
                         location.replace(`/service/visit/inquiry/detail/${authenticationInfo.serviceCode}`);
@@ -169,9 +169,6 @@ function submit(authenticationInfo) {
                         location.replace(`/service/recall/inquiry/detail/${authenticationInfo.serviceCode}`);
 
                     }
-                    
-                    
-
                 }else {
                     alert("정보를 올바르게 입력해주세요.");
 

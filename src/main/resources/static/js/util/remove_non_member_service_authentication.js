@@ -1,5 +1,5 @@
 removeServiceRequestData();
 
 function removeServiceRequestData() {
-    localStorage.removeItem("serviceRequestData");
+    localStorage.removeItem("serviceAuthenticationInfo");
 }

@@ -148,9 +148,12 @@ function checkIsNonMemberBoard() {
 }
 
 function loadNonMemberRequestDataByLocalStorage() {
-    authenticationInfo = localStorage.authenticationInfo;
+    authenticationInfo = localStorage.boardAuthenticationInfo;
 
     if(authenticationInfo != null) {
         authenticationInfo = JSON.parse(authenticationInfo);
+    }else {
+        alert("잘못된 접근입니다.");
+        location.replace("/main");
     }
 }

@@ -2,8 +2,6 @@ const goListButton = document.querySelector(".go-list-button");
 
 let serviceCode = null;
 
-// setUserCode = getUser();
-
 serviceCode = getServiceCodeByUri();
 
 

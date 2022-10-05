@@ -306,10 +306,10 @@ function reservationRequest() {
         }),
         dataType: "json",
         success: (response) => {
-            if(response.data) {
+            if(response.data != null) {
                 alert("서비스 신청 성공");
                 if(userCode == 0) {
-                    localStorage.serviceRequestData = JSON.stringify(response.data);
+                    localStorage.authenticationInfo = JSON.stringify(response.data);
                     location.replace(`/service/visit/inquiry/detail/${response.data.serviceCode}`);
 
 

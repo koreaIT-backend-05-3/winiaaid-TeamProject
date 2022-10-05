@@ -5,6 +5,7 @@ import com.project.winiaaid.domain.recall.RecallUserInfoEntity;
 import com.project.winiaaid.domain.repair.RepairUserInfoEntity;
 import com.project.winiaaid.domain.requestInfo.UserInfoEntity;
 import com.project.winiaaid.domain.service.ServiceRepository;
+import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.web.dto.recall.RecallUserInfoDto;
 import com.project.winiaaid.web.dto.repair.RepairUserInfoDto;
 import com.project.winiaaid.web.dto.requestInfo.UserInfoDto;
@@ -55,6 +56,7 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Log
     @Override
     public void sendServiceCode(String serviceCode, String mainPhoneNumber) {
         String api_key = "NCSYBCCGHSKJIZQ0";
@@ -70,13 +72,13 @@ public class UserServiceImpl implements UserService {
         params.put("app_version", "test app 1.2"); // application name and version
 
         log.info("check: {}", params);
-//        try {
-//            JSONObject obj = (JSONObject) coolsms.send(params);
-//            log.info(obj.toString());
-//        } catch (CoolsmsException e) {
-//            log.info(e.getMessage());
-//            log.info("error Code: ", e.getCode());
-//        }
+        try {
+            JSONObject obj = (JSONObject) coolsms.send(params);
+            log.info(obj.toString());
+        } catch (CoolsmsException e) {
+            log.info(e.getMessage());
+            log.info("error Code: ", e.getCode());
+        }
     }
 
     private int getNonMemberUserCode(String type) throws Exception {

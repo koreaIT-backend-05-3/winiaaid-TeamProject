@@ -3,7 +3,6 @@ package com.project.winiaaid.service.history;
 import com.project.winiaaid.web.dto.history.ReadServiceHistoryTitleResponseDto;
 import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.history.ReadWritingServiceHistoryTitleResponseDto;
-import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 
 import java.util.List;
 

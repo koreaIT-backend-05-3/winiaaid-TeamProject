@@ -42,7 +42,7 @@ public class RepairServiceRestController {
 
         if(userService.isNonMemberRequest(repairServiceRequestDto.getUserInfoObject().getUserCode())) {
             log.info("들어옴");
-            userService.sendServiceCode(serviceRequestResponseDto.getServiceCode(), repairServiceRequestDto.getUserInfoObject().getMainPhoneNumber());
+//            userService.sendServiceCode(serviceRequestResponseDto.getServiceCode(), repairServiceRequestDto.getUserInfoObject().getMainPhoneNumber());
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", serviceRequestResponseDto));
