@@ -1,6 +1,7 @@
 const MainMn = document.querySelector(".mn-ul");
 const SubWrap = document.querySelector(".sub-wrap");
 const SubUl = document.querySelectorAll("#gnb .sub-ul");
+const TopLoginBtn = document.querySelectorAll(".util .util-li")[0];
 
  MainMn.addEventListener('mouseover',function(){
         for(let i=0; i < SubUl.length; i++){
@@ -14,4 +15,12 @@ const SubUl = document.querySelectorAll("#gnb .sub-ul");
             SubUl[i].classList.remove('on')
         }
     SubWrap.classList.remove('on')
+})
+
+
+TopLoginBtn.addEventListener("mouserover", function(){
+    TopLoginBtn.classList.add('on');
+})
+TopLoginBtn.addEventListener("mouseout", function(){
+    TopLoginBtn.classList.remove('on');
 })
