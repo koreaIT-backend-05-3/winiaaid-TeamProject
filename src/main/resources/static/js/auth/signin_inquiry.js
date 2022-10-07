@@ -3,6 +3,9 @@ const nonMemberInquiry = document.querySelector(".non-member-inquiry");
 const signinView = document.querySelector(".signin-view");
 const nonMemberView = document.querySelector(".non-member-view");
 
+const findUserIdButton = document.querySelector(".find-button-user-id");
+const findUserPasswordButton = document.querySelector(".fint-button-password");
+
 const inquiryButton = document.querySelector(".inquiry-button-div button");
 
 let changedFlag = false;
@@ -16,6 +19,10 @@ memberSigninLi.onclick = (e) => changeView(e.target);
 nonMemberInquiry.onclick = (e) => changeView(e.target);
 
 inquiryButton.onclick = executeInquiry;
+
+findUserIdButton.onclick = loadForgetUserIdPage;
+findUserPasswordButton.onclick = loadForgetUserPassword;
+
 
 function changeView(domObject) {
     if(isMemberSigninClick(domObject)) {
@@ -185,4 +192,12 @@ function submit(authenticationInfo) {
             }
         });
     }
+}
+
+function loadForgetUserIdPage() {
+    location.href = "/auth/forget/user-id";
+}
+
+function loadForgetUserPassword() {
+    location.href = "/auth/forget/user-password";
 }

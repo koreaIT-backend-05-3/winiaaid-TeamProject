@@ -3,6 +3,7 @@ package com.project.winiaaid.util;
 import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
 import com.project.winiaaid.domain.repair.RepairProductInfoEntity;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
+import com.project.winiaaid.web.dto.auth.AuthenticationUserRequestDto;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
@@ -227,6 +228,17 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
 
         log.info("configMap: {}", configMap);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadUserInfoConfigMap(String requestType, AuthenticationUserRequestDto authenticationUserRequestDto) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("request_type", requestType);
+        configMap.put("user_id",authenticationUserRequestDto.getUserId());
+        configMap.put("main_phone_number", authenticationUserRequestDto.getMainPhoneNumber());
 
         return configMap;
     }

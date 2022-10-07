@@ -1,17 +1,16 @@
 package com.project.winiaaid.service.auth;
 
 import com.project.winiaaid.domain.user.User;
-import com.project.winiaaid.web.dto.auth.SignupRequestDto;
-import org.springframework.stereotype.Service;
 import com.project.winiaaid.domain.user.UserRepository;
-import com.project.winiaaid.web.dto.auth.UsernameCheckRequestDto;
+import com.project.winiaaid.util.ConfigMap;
+import com.project.winiaaid.web.dto.auth.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
-import org.json.simple.JSONObject;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @Slf4j
@@ -20,6 +19,7 @@ import java.util.Random;
 public class AuthServiceImpl implements AuthService {
 
 	private final UserRepository userRepository;
+    private final ConfigMap configMapper;
 	
 	
 	@Override
@@ -49,22 +49,44 @@ public class AuthServiceImpl implements AuthService {
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("to", phoneNumber);	// 수신전화번호
-        params.put("from", "010-4966-3160");	// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+        params.put("from", "000-0000-0000");	// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
         params.put("type", "SMS");
         params.put("text", randomAuthenticationNumber);
         params.put("app_version", "test app 1.2"); // application name and version
 
-        try {
-            JSONObject obj = (JSONObject) coolsms.send(params);
-            log.info(obj.toString());
-        } catch (CoolsmsException e) {
-            log.info(e.getMessage());
-            log.info("error Code: ", e.getCode());
-        }
+//        try {
+//            JSONObject obj = (JSONObject) coolsms.send(params);
+//            log.info(obj.toString());
+//        } catch (CoolsmsException e) {
+//            log.info(e.getMessage());
+//            log.info("error Code: ", e.getCode());
+//        }
 
         return randomAuthenticationNumber;
     }
-    
+
+
+    @Override
+    public AuthenticationUserResponseDto getUserInfoByRequestType(String requestType, AuthenticationUserRequestDto authenticationUserRequestDto) throws Exception {
+        User userEntity = null;
+        AuthenticationUserResponseDto authenticationUserResponseDto = null;
+        Map<String, Object> configMap = null;
+
+        configMap = configMapper.setReadUserInfoConfigMap(requestType, authenticationUserRequestDto);
+
+        userEntity = userRepository.findUserInfoByMainPhoneNumberOrUserId(configMap);
+
+        if(userEntity != null) {
+            authenticationUserResponseDto = userEntity.toAuthenticationUserResponseDto();
+        }
+
+        return authenticationUserResponseDto;
+    }
+
+    @Override
+    public boolean updateTempUserPasswordByUserId(UpdateUserPasswordRequestDto updateUserPasswordRequestDto) throws Exception {
+        return userRepository.updateUserPasswordByUserId(updateUserPasswordRequestDto.toUpdateUserPasswordEntity()) > 0;
+    }
 
     private String createRandomAuthenticationNumber() {
         Random random = new Random();

@@ -23,6 +23,15 @@ spring:
     multipart:
       max-file-size: 50MB        
       max-request-size: 50MB
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: dhmkhk47
+    password: dlapdlfxptmxm
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.ssl.trust: smtp.naver.com
           
 mybatis:
   mapper-locations:

@@ -70,10 +70,32 @@
 		user_mst um
 		left outer join user_dtl ud on(ud.user_code = um.user_code)
 	where
-		um.user_id = #{user_id} 
-		
-		
+		um.user_id = #{user_id}
     </select>
+
+	<select id="findUserInfoByMainPhoneNumberOrUserId" parameterType="HashMap" resultType="com.project.winiaaid.domain.user.User">
+		select
+			user_id,
+			user_name,
+			user_email
+		from
+			user_mst
+		where
+			main_phone_number = #{main_phone_number}
+			<if test="request_type == 'user_password'">
+				and user_id = #{user_id}
+			</if>
+			;
+	</select>
+
+	<update id="updateUserPasswordByUserId" parameterType="com.project.winiaaid.domain.user.UpdateUserPasswordEntity">
+		update
+			user_mst
+		set
+			user_password = #{user_password}
+		where
+			user_id = #{user_id};
+	</update>
       
 
 <!--    <select id="findUserByEmail" parameterType="String" resultType="com.project.winiaaid.domain.user.User">-->

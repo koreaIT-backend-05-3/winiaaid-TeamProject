@@ -1,10 +1,14 @@
 package com.project.winiaaid.web.controller.api;
 
+import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.handler.aop.annotation.ValidationCheck;
 import com.project.winiaaid.service.auth.AuthService;
 import com.project.winiaaid.service.auth.PrincipalDetails;
 import com.project.winiaaid.web.dto.CustomResponseDto;
+import com.project.winiaaid.web.dto.auth.AuthenticationUserRequestDto;
+import com.project.winiaaid.web.dto.auth.AuthenticationUserResponseDto;
 import com.project.winiaaid.web.dto.auth.SignupRequestDto;
+import com.project.winiaaid.web.dto.auth.UpdateUserPasswordRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -55,5 +59,34 @@ public class AuthRestController {
         }
 
             return ResponseEntity.ok(new CustomResponseDto<>(1, "Load user information successfully", principalDetails.getUser().toReadUserResponseDto()));
+    }
+
+    @Log
+    @GetMapping("/{requestType}")
+    public ResponseEntity<?> getPrincipal(@PathVariable String requestType, AuthenticationUserRequestDto authenticationUserRequestDto) {
+        AuthenticationUserResponseDto authenticationUserResponseDto = null;
+
+        try {
+            authenticationUserResponseDto = authService.getUserInfoByRequestType(requestType, authenticationUserRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load user information", authenticationUserResponseDto));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Load user information successfully", authenticationUserResponseDto));
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<?> updateTempUserPasswordByUserId(@RequestBody UpdateUserPasswordRequestDto updateUserPasswordRequestDto) {
+        boolean status = false;
+
+        try {
+            status = authService.updateTempUserPasswordByUserId(updateUserPasswordRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Temporary password change failed", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Temporary password change successful", status));
     }
 }

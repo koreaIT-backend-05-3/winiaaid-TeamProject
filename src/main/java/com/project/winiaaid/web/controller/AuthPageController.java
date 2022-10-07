@@ -46,6 +46,10 @@ public class AuthPageController {
 		 return "auth/signin_inquiry";
 	}
 
+	@GetMapping({"/auth/forget/user-id", "/auth/forget/user-password"})
+	public String loadForgetUserAccountPage() {
+		 return "auth/forget_user_account";
+	}
 	 
 //	 @PostMapping("/join") 
 //	    public String join(User user) throws Exception{
