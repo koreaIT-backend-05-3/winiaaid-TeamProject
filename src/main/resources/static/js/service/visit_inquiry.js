@@ -68,6 +68,9 @@ function setRepairServiceCodeSpanClickEvent(repairServiceCodeSpanItems) {
 
     for(repairServiceCodeSpan of repairServiceCodeSpanItems) {
         repairServiceCodeSpan.onclick = (e) => {
+            
+            localStorage.locationInfo = "inquiry";
+
             location.href = `/service/visit/inquiry/detail/${e.target.textContent}`;
         }
     }

@@ -1,0 +1,120 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 980px;
+}
+
+.title {
+    border-bottom: 1px solid #d4d4d4;
+    margin: 60px 0px 40px;
+    padding-bottom: 20px;
+
+    width: 980px;
+
+    text-align: center;
+}
+
+.title h1 {
+    font-size: 30px;
+    font-weight: 300;
+
+}
+
+.password-radio {
+    margin-left: 15px;
+}
+
+.password-reset-select {
+    margin-top: 20px;
+}
+
+table {
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+    width: 980px;
+}
+
+table th {
+    padding: 10px 20px 8px;
+
+    width: 200px;
+    height: 50px;
+
+    text-align: left;
+
+    background-color: #f5f5f5;
+}
+
+table td {
+    padding: 10px 20px;
+}
+
+table input {
+    border: 1px solid #bbb;
+    padding: 0px 5px;
+
+    width: 138px;
+    height: 30px;
+}
+
+.phone-authentication-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 1px solid #d4d4d4;
+    margin: 15px 0px;
+    padding: 40px 0px;
+
+    width: 488px;
+    height: 326px;
+    
+    background: #f5f5f5;
+}
+
+.fa-mobile {
+    margin-bottom: 30px;
+    font-size: 80px;
+    color: #bbb;
+}
+
+.phone-authentication-div p {
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.authentication-button {
+    border: 1px solid #444;
+    margin-top: 40px;
+
+    height: 40px;
+    padding: 0px 20px;
+
+    background: #444;
+    color: #fff;
+}
+
+.main-content-notice {
+    border-top: 1px solid #d4d4d4;
+    margin-top: 40px;
+    padding-top: 20px;
+
+    width: 980px;
+}
+
+.main-content-notice li::before {
+    margin-right: 10px;
+    content: "•"
+}
+
+.visible {
+    display: none;
+}

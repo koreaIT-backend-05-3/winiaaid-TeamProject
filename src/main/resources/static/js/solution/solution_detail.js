@@ -9,9 +9,9 @@ getSolutionDetailData();
 setImageByUri();
 getImageItemsSrc();
 
-goListButton.onclick = goList;
+goListButton.onclick = loadListPage;
 
-function goList() {
+function loadListPage() {
     savePreviousInfoToLocalStorage();
 
     if(checkFaqUri()) {

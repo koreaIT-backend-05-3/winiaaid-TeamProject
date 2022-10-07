@@ -86,15 +86,19 @@ public class BoardRestController {
 	}
 
 	@Log
-	@GetMapping("/{boardCode}")
-	public ResponseEntity<?> getBoardByBoardCode(@PathVariable String boardCode){
+	@GetMapping("/{boardType}/{viewType}/{boardCode}")
+	public ResponseEntity<?> getBoardByBoardCode(@PathVariable String viewType, @PathVariable String boardCode, ReadBoardRequestDto readBoardRequestDto){
 		ReadBoardResponseDto boardDto = null;
 
 		try {
-			boardDto = boardService.getBoardByBoardCode(boardCode);
+			boardDto = boardService.getBoardByBoardCode(viewType, boardCode, readBoardRequestDto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Load Board failed", boardDto));
+		}
+
+		if(boardDto == null) {
+			return ResponseEntity.badRequest().body(new CustomResponseDto<>(-1, "Service application failed", boardDto));
 		}
 		
 		return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Board Successfull", boardDto));

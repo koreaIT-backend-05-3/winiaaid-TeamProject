@@ -5,7 +5,7 @@ getReservationInfo();
 changeRequestButtonToModifyButton();
 
 function getReservationInfo() {
-    let userName = getUserNameByAuthenticationInfo(authenticationInfo);
+    let userName = getUserNameByAuthenticationInfo();
 
     $.ajax({
         async: false,

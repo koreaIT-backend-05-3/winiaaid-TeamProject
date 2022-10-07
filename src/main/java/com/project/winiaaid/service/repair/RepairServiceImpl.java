@@ -37,8 +37,8 @@ public class RepairServiceImpl implements RepairService {
         ServiceInfo repairServiceInfo = null;
         RepairProductInfoEntity productInfoEntity = null;
         ServiceRequestResponseDto serviceRequestResponseDto = null;
-        Map<String, Object> configMap = null;
         RepairServiceCode serviceCodeEntity = null;
+        Map<String, Object> configMap = null;
         int status = 0;
 
         repairServiceInfo = changeToRepairServiceInfoEntity(repairServiceRequestDto);

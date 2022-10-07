@@ -9,4 +9,5 @@ public class ReadBoardFileDto {
     private int fileCode;
     private String originalFileName;
     private String tempFileName;
+    private long fileSize;
 }

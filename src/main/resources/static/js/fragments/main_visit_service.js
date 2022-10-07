@@ -309,14 +309,12 @@ function reservationRequest() {
             if(response.data != null) {
                 alert("서비스 신청 성공");
                 if(userCode == 0) {
-                    localStorage.authenticationInfo = JSON.stringify(response.data);
-                    location.replace(`/service/visit/inquiry/detail/${response.data.serviceCode}`);
-
-
-                }else {
-                    location.replace(`/service/visit/inquiry/detail/${response.data.serviceCode}`);
-
+                    localStorage.serviceAuthenticationInfo = JSON.stringify(response.data);
+                    
                 }
+
+                location.replace(`/service/visit/inquiry/detail/${response.data.serviceCode}`);
+                
             }else {
                 alert("서비스 신청중에 오류가 발생했습니다.");
             }

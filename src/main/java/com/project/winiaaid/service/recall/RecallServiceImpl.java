@@ -4,12 +4,15 @@ import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
 import com.project.winiaaid.domain.recall.RecallRepository;
 import com.project.winiaaid.domain.recall.RecallServiceCode;
 import com.project.winiaaid.domain.recall.RecallUserInfoEntity;
+import com.project.winiaaid.domain.repair.RepairProductInfoEntity;
+import com.project.winiaaid.domain.repair.RepairServiceCode;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.util.RequestService;
 import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.recall.RecallServiceRequestDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ServiceRequestResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,30 +33,36 @@ public class RecallServiceImpl implements RecallService {
 	private final ConfigMap configMapper;
 
 	@Override
-	public ServiceInfo addRecallRequest(RecallServiceRequestDto recallServiceRequestDto) throws Exception {
-		ServiceInfo recallEntity = recallServiceRequestDto.toServiceInfoEntity();
-		RecallProductInfoEntity recallProductInfoEntity = (RecallProductInfoEntity) recallEntity.getProductInfoEntity();
-
+	public ServiceRequestResponseDto addRecallRequest(RecallServiceRequestDto recallServiceRequestDto) throws Exception {
+		ServiceInfo recallEntity = null;
+		RecallProductInfoEntity recallProductInfoEntity = null;
+		ServiceRequestResponseDto serviceRequestResponseDto = null;
 		RecallServiceCode serviceCodeEntity = null;
-		String serviceCode = null;
 		Map<String, Object> configMap = null;
+		int status = 0;
+		String serviceCode = null;
+
+		recallEntity = changeToRecallServiceInfoEntity(recallServiceRequestDto);
+		recallProductInfoEntity = (RecallProductInfoEntity) recallEntity.getProductInfoEntity();
 
 		configMap = configMapper.setCreateModelConfigMap(recallEntity);
+
+		serviceCodeEntity = recallRepository.findServiceCode(configMap);
 
 		if(((RecallUserInfoEntity) recallEntity.getUserInfoEntity()).isNon_member_flag()) {
 			userService.setServiceTypeNonMemberUserCode(recallEntity.getUserInfoEntity());
 		}
 
-		serviceCodeEntity = recallRepository.findServiceCode(configMap);
-
 		serviceCode = createServiceCode(recallEntity, serviceCodeEntity);
 
-		recallProductInfoEntity.setService_code(serviceCode);
-		recallProductInfoEntity.setId2(serviceCodeEntity.getId2());
+		setServiceCodeAndIdToEntity(recallProductInfoEntity, serviceCodeEntity, serviceCode);
 
-		recallRepository.addRecallRequest(recallEntity);
+		status = recallRepository.addRecallRequest(recallEntity);
+
+		serviceRequestResponseDto =
+				requestService.buildServiceRequestResponseDto(recallServiceRequestDto.getUserInfoObject().getUserName(), serviceCode);
 		
-		return recallEntity;
+		return status == 0 ? null : serviceRequestResponseDto;
 	}
 
 	@Override
@@ -71,10 +80,6 @@ public class RecallServiceImpl implements RecallService {
 		}
 
 		return readServiceInfoResponseDto;
-	}
-
-	private String createServiceCode(ServiceInfo serviceInfo, RecallServiceCode serviceCodeEntity) {
-		return ((RecallProductInfoEntity) serviceInfo.getProductInfoEntity()).getModel_number().substring(0, 4).replaceAll("-", "") + "0" + serviceCodeEntity.getService_code();
 	}
 	
 	@Override
@@ -97,6 +102,19 @@ public class RecallServiceImpl implements RecallService {
 	@Override
 	public boolean updateCancelRecallRequest(String serviceCode) throws Exception {
 		return recallRepository.updateCancelRecallRequest(serviceCode) > 0;
+	}
+
+	private ServiceInfo changeToRecallServiceInfoEntity(RecallServiceRequestDto recallServiceRequestDto) {
+		return recallServiceRequestDto.toServiceInfoEntity();
+	}
+
+	private String createServiceCode(ServiceInfo serviceInfo, RecallServiceCode serviceCodeEntity) {
+		return ((RecallProductInfoEntity) serviceInfo.getProductInfoEntity()).getModel_number().substring(0, 4).replaceAll("-", "") + "0" + serviceCodeEntity.getService_code();
+	}
+
+	private void setServiceCodeAndIdToEntity(RecallProductInfoEntity productInfoEntity, RecallServiceCode serviceCodeEntity, String serviceCode) {
+		productInfoEntity.setService_code(serviceCode);
+		productInfoEntity.setId2(serviceCodeEntity.getId2());
 	}
 
 }

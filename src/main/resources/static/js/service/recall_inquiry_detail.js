@@ -1,14 +1,32 @@
-let loginTest = true;
+let loginFlag = user != null;
 
 const listButton = document.querySelector('.list-button')
 let serviceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+let progressStatus = 0;
 
 loadRecallRequestComplete();
 
 
-if(loginTest){
+if(loginFlag){
 	listButton.onclick = () => {
-		location.href = `/service/recall/inquiry`
+        let locationInfo = localStorage.locationInfo;
+        let url = null;
+
+        if(locationInfo != null) {
+            if(locationInfo == "inquiry") {
+                url = `/service/recall/inquiry`;
+
+            }else {
+                url = `/mypage/service/history/${progressStatus == 1 ? "ing" : "end"}`;
+
+            }
+
+        }else {
+            url = `/service/recall/inquiry`;
+        }
+
+        localStorage.removeItem("locationInfo");
+        location.href = url;
 	}
 }else{
 	listButton.onclick = () => {
@@ -17,7 +35,7 @@ if(loginTest){
 }
 
 function loadRecallRequestComplete(){
-    let userName = getUserNameByAuthenticationInfo(authenticationInfo);
+    let userName = getUserNameByAuthenticationInfo();
 
     $.ajax({
         type: "get",
@@ -60,13 +78,13 @@ function getRecallRequest(recallRequest){
     }
 
     address.innerText = recallRequest.userInfo.address;
-    progressStatus.innerText = recallRequest.reservationInfo.progressStatus;
+    progressStatus.innerText = recallRequest.reservationInfo.progressStatus == 0 ? "접수 취소" : recallRequest.reservationInfo.progressStatus == 1 ? "접수 완료" : "방문 완료";
 }
 
 function addCancelButton(data){
 	const note = document.querySelector('.note')
-	const progressStatus = data.reservationInfo.progressStatus
-	if(progressStatus == "접수완료"){
+	progressStatus = data.reservationInfo.progressStatus;
+	if(progressStatus == 1){
 		note.innerHTML = "<button class='cancel'>신청취소</button>"
 	}else{
 		note.innerHTML = ""

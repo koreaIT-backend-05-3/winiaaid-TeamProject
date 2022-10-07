@@ -34,13 +34,13 @@
                                     <option value="yahoo.com">yahoo.com</option>
                                 </select>
                             </div>
-                            <p class="notice-p">※ 이메일이 정확하지 않으면 답변을 받으실 수 없습니다.</p>
+                            <p class="notice-p visible">※ 이메일이 정확하지 않으면 답변을 받으실 수 없습니다.</p>
                         </td>
                     </tr>
                     <tr>
                         <th class="phone-th non-member-require">휴대폰번호</th>
                         <td class="phone-number">
-                            <span class="tel-span">010-1111-9999</span>
+                            <span class="tel-span"></span>
                             <div class="phone-box visible">
                                 <div class="phone-div">
                                     <select name="" id="">
@@ -111,20 +111,20 @@
                             <div class="main-file-div">
                                 <form class="file-upload" enctype="multipart/form-data">
                                     <div class="input-file-div">
-                                        <input name="files" class="fileupload1" type="file" accept=".gif, .jpg, .jepg, .png">
+                                        <input name="files" class="fileupload1" type="file">
                                     </div>
                                     <div class="input-file-div">
-                                        <input name="files" class="fileupload2" type="file" accept=".gif, .jpg, .jepg, .png">
+                                        <input name="files" class="fileupload2" type="file">
                                     </div>
                                     <div class="input-file-div">
-                                        <input name="files" class="fileupload3" type="file" accept=".gif, .jpg, .jepg, .png">
+                                        <input name="files" class="fileupload3" type="file">
                                     </div>
                                 </form>
                                 <div class="file-div visible">
                 
                                 </div>
                             </div>
-                            <p class="file-p">※첨부가능 확장가는 아래와 같으며, 총 50MB 까지 가능합니다.(첨부 3개 제한)<br> -그림 파일 (jpg, jpeg, gif, png)<br> - 문서 파일 (txt, doc, docx, xls, xlsx, ppt, pptx, pdf, hwp)<br> - 압축 파일 (zip)<br>- 동영상 파일(avi, mp4)</p>
+                            <p class="file-p">※첨부가능 확장자는 아래와 같으며, 총 50MB 까지 가능합니다.(첨부 3개 제한)<br> -그림 파일 (jpg, jpeg, gif, png)<br> - 문서 파일 (txt, doc, docx, xls, xlsx, ppt, pptx, pdf, hwp)<br> - 압축 파일 (zip)<br>- 동영상 파일(avi, mp4)</p>
                         </td>
                     </tr>
                 </table>
@@ -146,8 +146,9 @@
         </div>
     </main>
     <th:block th:replace="/fragments/footer"></th:block>
-    <script src="/static/js/util/remove_non_member_service_authentication.js"></script>
     <script src="/static/js/util/principal.js"></script>
+    <script src="/static/js/util/remove_non_member_service_authentication.js"></script>
+    <script src="/static/js/util/check_non_authentication.js"></script>
     <script src="/static/js/fragments/header.js"></script>
     <script src="/static/js/util/location_notice.js"></script>
     <script src="/static/js/util/check_byte.js"></script>

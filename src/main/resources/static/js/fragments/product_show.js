@@ -52,8 +52,7 @@ function setCategoryClickEvent(productInfoList) {
                     selectProductGroupCode = productInfoList[i].productGroup;
                     selectProductCategoryCode = 0;
                     selectProductCode = 0;
-                    getSolutionList();
-                    // getSolutionListByProductGroupCode();
+                    getSolutionList(1);
                     removeVisibleClass(productArea);
                 }
             }
@@ -69,8 +68,7 @@ function setCategoryClickEvent(productInfoList) {
                     selectProductCategoryCode = productInfoList[i].productCategoryCode;
                     selectProductCode = 0;
                     selectProductGroupCode = 0;
-                    getSolutionList();
-                    // getSolutionListByProductCategoryCode();
+                    getSolutionList(1);
                     removeVisibleClass(productArea);
                 }
             }
@@ -314,8 +312,7 @@ function createProductNameSpan(domObject, productInfoObject, categoryIncludeFlag
 
         selectProductCategoryCode = 0;
         selectProductGroupCode = 0;
-        getSolutionList();
-        // getSolutionListByProductCode();
+        getSolutionList(1);
 
     }else {
         getProductTroubleSymptom(productInfoObject.keyCode);

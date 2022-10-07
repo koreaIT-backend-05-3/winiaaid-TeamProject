@@ -1,13 +1,14 @@
 const goListButton = document.querySelector(".go-list-button");
 
 let serviceCode = null;
+let progressStatus = 0;
 
 serviceCode = getServiceCodeByUri();
 
 
 loadReservationDetailInfo();
 
-goListButton.onclick = historyBack;
+goListButton.onclick = loadListPage;
 
 
 function getServiceCodeByUri() {
@@ -19,7 +20,7 @@ function loadReservationDetailInfo() {
 }
 
 function getReservationDetailInfo() {
-    let userName = getUserNameByAuthenticationInfo(authenticationInfo);
+    let userName = getUserNameByAuthenticationInfo();
     
     $.ajax({
         async: false,
@@ -53,7 +54,7 @@ function setReservationDetailInfo(reservationDetailInfo) {
         const userInfoObject = reservationDetailInfo.userInfo;
         const reservationObject = reservationDetailInfo.reservationInfo;
 
-        const progressStatus = reservationObject.progressStatus;
+        progressStatus = reservationObject.progressStatus;
 
         reservationInfoTable.innerHTML = `
             <tr>
@@ -115,15 +116,35 @@ function setReservationDetailInfo(reservationDetailInfo) {
     }
 }
 
-function historyBack() {
-    let pageInfo = localStorage.pageInfo;
+function loadListPage() {
+    let locationInfo = localStorage.locationInfo;
+    let url = null;
 
-    if(pageInfo != null) {
-        history.back();
+    if(locationInfo != null) {
+        if(locationInfo == "inquiry") {
+            url = `/service/visit/inquiry`;
+
+        }else {
+            url = `/mypage/service/history/${progressStatus == 1 ? "ing" : "end"}`;
+
+        }
 
     }else {
-        location.href = "/service/visit/inquiry";
+        url = `/service/visit/inquiry`;
     }
+
+    localStorage.removeItem("locationInfo");
+    location.href = url;
+
+
+    // let pageInfo = localStorage.pageInfo;
+
+    // if(pageInfo != null) {
+    //     history.back();
+
+    // }else {
+    //     location.href = "/service/visit/inquiry";
+    // }
 }
 
 function setButtonClickEvent() {

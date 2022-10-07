@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/auth/winia_header.css">
+    <link rel="stylesheet" href="/static/css/auth/winia_footer.css">
+    <link rel="stylesheet" href="/static/css/auth/forget_user_account.css">
+    <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
+    <title>위니아</title>
+</head>
+<body>
+    <th:block th:replace="/winia_header"></th:block>
+    <main>
+        <div id="container">
+            <div class="main-content">
+                <div class="title">
+                    <h1>ID찾기 / 비밀번호 재설정</h1>
+                </div>
+                <div class="find-account-input-div">
+                    <input type="radio" id="find-id" name="find-account-option">
+                    <label for="find-id">아이디 찾기</label>
+                    <input type="radio" id="password-reset" class="password-radio" name="find-account-option">
+                    <label for="password-reset">비밀번호 재설정</label>
+                </div>
+                <div class="password-reset-select visible">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>통합멤버 아이디</th>
+                                <td><input type="text"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="phone-authentication-div">
+                    <i class="fa-solid fa-mobile"></i>
+                    <p>본인 명의의 휴대전화를 통해 본인 인증을 진행하실 경우</p>
+                    <p>아래 버튼을 클릭하여 주십시요.</p>
+                    <p>본인 명의 휴대전화가 아닐 경우 인증이 되지 않습니다.</p>
+                    <button class="authentication-button" type="button">휴대폰 인증</button>
+                </div>
+                <div class="main-content-notice">
+                    <p class="notice">인증 방법 안내</p>
+                    <ul>
+                        <li>본인인증 : 고객님 명의의 휴대폰을 통해 본인임을 확인 합니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/winia_footer"></th:block>
+    <script src="/static/js/auth/winia_header.js"></script>
+    <script src="/static/js/auth/forget_user_account.js"></script>
+</body>
+</html>

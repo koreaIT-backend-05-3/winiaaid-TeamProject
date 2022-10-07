@@ -5,6 +5,8 @@ const nonMemberView = document.querySelector(".non-member-view");
 
 const inquiryButton = document.querySelector(".inquiry-button-div button");
 
+let changedFlag = false;
+
 addSelectMenuClass(memberSigninLi);
 
 setInputEnterKeyPressEvent();
@@ -25,8 +27,9 @@ function changeView(domObject) {
         addVisibleClass(nonMemberView);
 
     }else {
-        if(checkBoardView()) {
+        if(checkBoardView() && !changedFlag) {
             setNonMemberBoardview();
+            changedFlag = true;
         }
 
         addSelectMenuClass(domObject);

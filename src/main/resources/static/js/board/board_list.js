@@ -62,7 +62,7 @@ function getBoardList(page){
     let searchType = getSelectedOptionValue();
     let keyword = getSearchKeyword();
     
-    authenticationInfo = localStorage.authenticationInfo;
+    let boardAuthenticationInfo = localStorage.boardAuthenticationInfo;
 
     if(!isNonMemberView()) {
         $.ajax({
@@ -95,8 +95,8 @@ function getBoardList(page){
         });
 
     }else {
-        if(authenticationInfo != null) {
-            authenticationInfo = JSON.parse(authenticationInfo);
+        if(boardAuthenticationInfo != null) {
+            authenticationInfo = JSON.parse(boardAuthenticationInfo);
             $.ajax({
                 type:"get",
                 url:`/api/v1/board/${boardType}/list/non-member`,
@@ -252,6 +252,8 @@ function clearDomObject(domObject){
 
 function loadBoardDetailPage(boardCode) {
     setPageInfoLocalStorage();
+
+    localStorage.locationInfo = "board";
 
     if(checkNonMemberViewPage()) {
         location.href = `/customer/praise/non-member/detail/${boardCode}`;

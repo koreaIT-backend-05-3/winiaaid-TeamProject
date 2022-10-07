@@ -5,7 +5,7 @@ let serviceCode = location.pathname.substring(location.pathname.lastIndexOf("/")
 loadRecallRequestComplete();
 
 function loadRecallRequestComplete(){
-    let userName = getUserNameByAuthenticationInfo(authenticationInfo);
+    let userName = getUserNameByAuthenticationInfo();
     
     $.ajax({
         type: "get",

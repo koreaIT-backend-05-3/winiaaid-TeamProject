@@ -5,7 +5,7 @@ import com.project.winiaaid.domain.solution.SolutionRepository;
 import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
-import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
+import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +24,12 @@ public class SolutionServiceImpl implements SolutionService{
     private final ConfigMap configMapper;
 
     @Override
-    public List<ReadSolutionResponseDto> getAllSolutionListByCompanyAndKeyword(String company, String boardType, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
+    public List<ReadSolutionResponseDto> getAllSolutionListByCompanyAndKeyword(String company, String boardType, ReadSolutionRequestDto readSolutionRequestDto) throws Exception {
         List<Solution> solutionEntityList = null;
         List<ReadSolutionResponseDto> readSolutionDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadSolutionListByCompanyConfigMap(company, boardType, readSolutionKeywordRequestDto);
+        configMap = configMapper.setReadSolutionListByCompanyConfigMap(company, boardType, readSolutionRequestDto);
 
         solutionEntityList = solutionRepository.findAllSolutionListByCompanyCodeAndKeyword(configMap);
 
@@ -41,12 +41,12 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
-    public List<ReadSolutionResponseDto> getSolutionListByProductCategoryCodeAndKeyword(String boardType, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception {
+    public List<ReadSolutionResponseDto> getSolutionListByKeyCodeAndKeyword(String boardType, ReadSolutionRequestDto readSolutionRequestDto) throws Exception {
         List<Solution> solutionEntityList = null;
         List<ReadSolutionResponseDto> readSolutionDtoList = null;
         Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadSolutionListByKeyCodeConfigMap(boardType, readSolutionKeywordRequestDto);
+        configMap = configMapper.setReadSolutionListByKeyCodeConfigMap(boardType, readSolutionRequestDto);
 
         log.info("configMap: {}", configMap);
 

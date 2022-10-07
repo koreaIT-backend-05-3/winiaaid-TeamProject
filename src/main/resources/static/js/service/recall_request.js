@@ -241,7 +241,12 @@ function submitRequest(requestData){
 		dataType: "json",
 		success: (response) => {
 			alert('상담사가 고객님께 전화드려 방문시간을 안내해 드리도록 하겠습니다.\n- 신청이 많아 14일 이내에 안내 전화 드리겠습니다.\n- 신속하게 처리를 해 드리지 못해 죄송합니다.')
-            location.href = `/service/recall/request/complete/${response.data.productInfoEntity.service_code}`;
+            if(userCode == 0) {
+                localStorage.serviceAuthenticationInfo = JSON.stringify(response.data);
+
+            }
+            
+            location.href = `/service/recall/request/complete/${response.data.serviceCode}`;
             document.querySelector('.recall-form').reset();
 		},
 		error: errorMessage
