@@ -47,6 +47,7 @@
 
 .first-menu, .second-menu {
     border: 1px solid #f4f4f4;
+    border-bottom: 1px solid #0A71CC;
     padding-top: 20px;
     padding-bottom: 20px;
 
@@ -55,18 +56,20 @@
     color: #7d7d7d;
     font-size: 18px;
     text-align: center;
+    line-height: 1;
 
     cursor: pointer;
 }
 
 .first-menu span, .second-menu span {
-    font-size: 20px;
+    font-size: 18px;
     text-align: center;
+    line-height: 1
 }
 
 .selected-menu-type {
     border: 1px solid #0A71CC;
-
+	border-bottom: 0;
     color: #0A71CC;
 }
 

@@ -1,6 +1,3 @@
-let loginTest = true;
-
-
 const searchModelButton = document.querySelector('.search-model')
 const checkModelButton = document.querySelector('.check-model')
 const searchModelInputs = document.querySelector('.search-model-inputs')
@@ -24,21 +21,21 @@ const submitButton = document.querySelector('.submit-button')
 let modelList = new Array();
 let modelCode = 0;
 
-
-if(loginTest){	//로그인 시
-	userNameInput.value = '테스트'
+if(user != null){	//로그인 시
+	userNameInput.value = user.userName
 	userNameInput.disabled='true'
 	
-	mainPhoneNumber[0].value = '010'
-	mainPhoneNumber[1].value = '1111'
-	mainPhoneNumber[2].value = '2222'
+	let phone = user.mainPhoneNumber.split('-')
+	mainPhoneNumber[0].value = phone[0]
+	mainPhoneNumber[1].value = phone[1]
+	mainPhoneNumber[2].value = phone[2]
 	mainPhoneNumber.forEach(number => {
 		number.disabled = 'true'
 	})
 	
-	postalCodeInput.value = '11111'
-	addressMainInput.value = '테스트주소'
-	addressDetailInput.value = '테스트상세주소'
+	postalCodeInput.value = user.postalCode
+	addressMainInput.value = user.mainAddress
+	addressDetailInput.value = user.detailAddress
 	
 	protectionCheck.checked = 'true'
 	privacyHandlingCheck.checked = 'true'

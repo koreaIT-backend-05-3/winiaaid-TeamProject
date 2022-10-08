@@ -142,15 +142,17 @@
 			from
 				recall_service_table
 			where
-				user_code = #{user_code}) as total_count
+				user_code = #{user_code} and non_member_flag = 0) as total_count
 		from
 			recall_service_table rst
 			LEFT OUTER JOIN service_type_table stt on(stt.service_type_code = rst.service_type_code)
 			LEFT OUTER JOIN product_model_detail pmd on(pmd.model_code = rst.model_code)
-			LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)
+			LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)	
 			LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
 		where
-			user_code = #{user_code}
+			rst.user_code = #{user_code}
+			and
+			rst.non_member_flag = 0
 		order by
 			progress_status desc,
 			request_date desc

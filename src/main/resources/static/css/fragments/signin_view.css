@@ -35,7 +35,7 @@
     position: relative;
     border: 1px solid rgb(231, 231, 231);
     padding: 5px 5px 5px 12px;
-    font-size: 12px;
+    font-size: 13px;
     background-color: rgb(252, 252, 252);
 }
 
@@ -46,6 +46,17 @@
 .save-id {
     font-size: 13px;
     margin-top: 14px;
+    color: #5b5a5a;
+}
+
+.save-id input{
+	vertical-align: top;
+	margin-top: 3px;
+	cursor: pointer;
+}
+
+.save-id label{
+	cursor: pointer;
 }
 
 .find-user {
@@ -62,6 +73,7 @@
     font-size: 13px;
     height: 31px;
     margin-bottom: 5px;
+    color: #5b5a5a;
 }
 
 .bin-area {
@@ -82,6 +94,7 @@
     text-align: center;
     line-height: 30px;
     font-size: 13px;
+    color: #5b5a5a;
     cursor: pointer;
 }
 
@@ -122,6 +135,7 @@
 
 .enjoy-textbox p {
     font-size: 13px;
+    color: #5b5a5a;
 }
 
 .button-area {

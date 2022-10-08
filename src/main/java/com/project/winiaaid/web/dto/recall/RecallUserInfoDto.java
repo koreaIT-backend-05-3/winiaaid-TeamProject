@@ -20,7 +20,6 @@ public class RecallUserInfoDto implements UserInfoDto {
     private String postalCode;
     private String mainAddress;
     private String detailAddress;
-    private String address;
 
     @Override
     public UserInfoEntity toUserInfoEntity() {

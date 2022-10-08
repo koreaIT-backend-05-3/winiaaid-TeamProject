@@ -1,13 +1,10 @@
-let loginTest = true;
-
 const table = document.querySelector('.recall-history table tbody')
 const remainingNumber = document.querySelector('.remaining-number')
 const dataNone = document.querySelector('.data-none')
-const userCode = 0;
 
 let nowPage = 1;
 
-if(loginTest){
+if(user != null){
 	load(nowPage);
 }else{
 	let serviceCode = new URLSearchParams(location.search).get('serviceCode')
@@ -19,7 +16,7 @@ function load(nowPage) {
 	$.ajax({
 		async: false,
 		type: "get",
-		url: `/api/v1/service/recall/list/${nowPage}?userCode=${userCode}`,
+		url: `/api/v1/service/recall/list/${nowPage}?userCode=${user.userCode}`,
 		dataType: "json",
 		success: (response) => {
 			if(response.data[0] != null) {
@@ -90,6 +87,7 @@ function getRecallRequestList(list){
 	            <td class="note">${progressStatus == "접수완료" ? "<button class='cancel'>신청취소</button>" : ""}</td>
 	        </tr>
 		`
+		console.log(recall.reservationInfo.serviceTypeName)
 	})
 	
 }
@@ -116,7 +114,7 @@ function updateCancelRecallRequest(serviceCode){
 		url: `/api/v1/service/recall/cancel/${serviceCode}`,
 		dataType: "json",
 		success: (response) => {
-			if(loginTest){
+			if(user != null){
 				load(1)				
 			}else{
 				nonMemberload(serviceCode)

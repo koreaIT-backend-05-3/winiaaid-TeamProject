@@ -1,24 +1,40 @@
-.fa-house {
-    cursor: pointer;
-    font-size: 12px;
-    color: #5b5a5a;
-}
-
 .location-div {
-    display: flex;
-    align-items: center;
-
-    margin: 20px 0px 40px;
-
-    width: 1580px;
+    width: 1400px;
+    margin: 0 auto 25px;
+    padding-top: 25px;
 }
 
-.location-div ul {
-    display: flex;
+.location-div ul::after{
+    display: block;
+    clear: both;
+    content: '';
 }
 
-.location-li::before {
-    margin: 0px 15px;
-    content: ">";
-    color: #8d8d8d;
+.location-div ul li{
+    float: left;
+    padding-left: 15px;
+    margin-left: 15px;
+    position: relative;
+    font-size: 13px;
+    color: #252525;
+}
+
+.location-div ul li.home{
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.location-div ul li.home a{
+    display: block;
+    margin-top: 1px;
+}
+
+.location-div ul li:not(li.home)::before{
+    width: 6px;
+    height: 10px;
+    content: '';
+    background: url(/static/images/arrow_location.png) no-repeat center;
+    position: absolute;
+    left: 0;
+    top: 4px;
 }

@@ -27,6 +27,7 @@
 
 .location ul li.home a{
     display: block;
+     margin-top: 1px;
 }
 
 .location ul li:not(li.home)::before{
