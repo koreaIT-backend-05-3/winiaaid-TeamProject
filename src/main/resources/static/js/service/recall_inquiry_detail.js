@@ -1,37 +1,28 @@
-let loginFlag = user != null;
-
 const listButton = document.querySelector('.list-button')
 let serviceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 let progressStatus = 0;
 
 loadRecallRequestComplete();
 
+listButton.onclick = () => {
+    let locationInfo = localStorage.locationInfo;
+    let url = null;
 
-if(loginFlag){
-	listButton.onclick = () => {
-        let locationInfo = localStorage.locationInfo;
-        let url = null;
-
-        if(locationInfo != null) {
-            if(locationInfo == "inquiry") {
-                url = `/service/recall/inquiry`;
-
-            }else {
-                url = `/mypage/service/history/${progressStatus == 1 ? "ing" : "end"}`;
-
-            }
+    if(locationInfo != null) {
+        if(locationInfo == "inquiry") {
+            url = `/service/recall/inquiry`;
 
         }else {
-            url = `/service/recall/inquiry`;
+            url = `/mypage/service/history/${progressStatus == 1 ? "ing" : "end"}`;
+
         }
 
-        localStorage.removeItem("locationInfo");
-        location.href = url;
-	}
-}else{
-	listButton.onclick = () => {
-		location.href = `/service/recall/inquiry?serviceCode=${serviceCode}`
-	}	
+    }else {
+        url = `/service/recall/inquiry`;
+    }
+
+    localStorage.removeItem("locationInfo");
+    location.href = url;
 }
 
 function loadRecallRequestComplete(){

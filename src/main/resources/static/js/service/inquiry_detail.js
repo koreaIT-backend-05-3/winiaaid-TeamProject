@@ -135,16 +135,6 @@ function loadListPage() {
 
     localStorage.removeItem("locationInfo");
     location.href = url;
-
-
-    // let pageInfo = localStorage.pageInfo;
-
-    // if(pageInfo != null) {
-    //     history.back();
-
-    // }else {
-    //     location.href = "/service/visit/inquiry";
-    // }
 }
 
 function setButtonClickEvent() {

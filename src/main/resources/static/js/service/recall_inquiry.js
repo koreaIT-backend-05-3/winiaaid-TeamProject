@@ -1,18 +1,11 @@
-let loginFlag = user != null;
-
 const table = document.querySelector('.recall-history table tbody')
 const remainingNumber = document.querySelector('.remaining-number')
 const dataNone = document.querySelector('.data-none')
 
 let nowPage = 1;
 
-if(loginFlag){
-	load(nowPage);
-}else{
-	let serviceCode = new URLSearchParams(location.search).get('serviceCode')
-	loadNonMemberRequest(serviceCode)
-	history.replaceState({}, null, location.pathname);
-}
+load(nowPage);
+
 
 function load(nowPage) {
 	$.ajax({
@@ -31,23 +24,6 @@ function load(nowPage) {
 		},
 		error: errorMessage
 	})
-}
-
-function loadNonMemberRequest(serviceCode){
-    // let userName = getUserNameByAuthenticationInfo();
-
-    $.ajax({
-        type: "get",
-        url: `/api/v1/service/recall/${serviceCode}?userName=테스트`,
-        dataType: "json",
-        async: false,
-        success: (response) => {
-            getRecallRequest(response.data)
-            addcancelClickEvent()
-			addServiceCodeClickEvent()
-        },
-        error : errorMessage
-    })
 }
 
 function addcancelClickEvent() {
@@ -120,10 +96,11 @@ function updateCancelRecallRequest(serviceCode){
 		url: `/api/v1/service/recall/cancel/${serviceCode}`,
 		dataType: "json",
 		success: (response) => {
-			if(loginFlag){
-				load(1)				
-			}else{
-				nonMemberload(serviceCode)
+			if(userCode != 0) {
+				location.replace("/service/visit/inquiry");
+				
+			}else {
+				location.replace("/main");
 			}
 		},
 		error: errorMessage

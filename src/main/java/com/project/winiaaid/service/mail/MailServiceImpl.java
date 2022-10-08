@@ -1,6 +1,5 @@
 package com.project.winiaaid.service.mail;
 
-import com.project.winiaaid.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.mail.SimpleMailMessage;

@@ -451,7 +451,6 @@ function checkFileType(selectFile){
 }
 
 function limitFileSize() {
-    alert("들어옴");
     const fileInputItems = document.querySelectorAll(".input-file-div input");
 
     let maxFileSize = 50 * 1024 * 1024;

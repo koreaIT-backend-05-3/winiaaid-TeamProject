@@ -210,6 +210,8 @@ function setUserIdView(userInfo) {
     removeVisibleClass(userIdSelect);
     userNameSpan.textContent = userInfo.userName;
     userIdSpan.textContent = userInfo.userId;
+
+    setUserIdViewButtonClickEvent();
 }
 
 function resetUserPasswordView(userInfo) {
@@ -252,11 +254,20 @@ function loadForgetUserPasswordPage() {
 function sendEmail(userInfo) {
     let tempPassword = null;
     let email = firstEmailInput.value + "@" + secondEmailInput.value;
-    let regEmail = /^[A-Za-z0-9]+@[A-Za-z0-9]+\.com$/;
 
-    if(!regEmail.test(email)) {
+    if(!isEmpty(email.replaceAll("@", ""))) {
+        let regEmail = /^[A-Za-z0-9]+@[A-Za-z0-9]+\.com$/;
+
+        if(!regEmail.test(email)) {
+            alert("이메일 양식이 올바르지 않습니다.");
+            return false;
+        }
+        
+    }else {
         email = userInfo.userEmail;
+
     }
+    
 
     $.ajax({
         async: false,
@@ -297,6 +308,10 @@ function setTempPassword(tempPassword) {
         },
         error: errorMessage
     });
+}
+
+function isEmpty(data) {
+    return data == "" || data == null || data == undefined;
 }
 
 function addVisibleClass(domObject) {
