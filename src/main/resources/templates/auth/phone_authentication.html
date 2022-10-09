@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <div class="phone-authentication-div">
+        <div class="default-authentication-view">
+            <i class="fa-solid fa-mobile"></i>
+            <p>본인 명의의 휴대전화를 통해 본인 인증을 진행하실 경우</p>
+            <p>아래 버튼을 클릭하여 주십시요.</p>
+            <p>본인 명의 휴대전화가 아닐 경우 인증이 되지 않습니다.</p>
+            <div class="user-authentication-request-div">
+                <div class="user-phone-number-div">
+                    <input class="main-phone-number" type="tel" placeholder="- 포함해서 입력">
+                    <button type="button">인증번호 전송</button>
+                </div>
+                <div class="authentication-number-div visible">
+                    <input class="authentication-number-input" type="text">
+                    <button type="button">인증번호 확인</button>
+                </div>
+            </div>
+        </div>
+        <div class="user-password-select visible">
+            <p>확인을 누르시면, 회원가입 시 등록한 이메일</p>
+            <p><span class="user-email-span"></span> 으로 임시 비밀번호가 발송이 됩니다.</p>
+            <p>만약 해당 이메일을 사용하지 않으시면</p>
+            <p>임시 비밀번호를 받을 메일 주소를 입력해 주세요.</p>
+            <p class="notice-p">*네이버메일 수신이 원활하지 않을 경우 다음, 구글 등 다른 메일 주소를 입력해주세요.</p>
+            <div class="email-div">
+                <input type="text" class="first-email">
+                <em>@</em>
+                <input type="text" class="second-email">
+                <select class="email-select-box">
+                    <option value="">직접입력</option>
+                    <option value="naver.com">naver.com</option>
+                    <option value="daum.net">daum.net</option>
+                    <option value="nate.com">nate.com</option>
+                    <option value="gmail.com">gmail.com</option>
+                    <option value="yahoo.co.kr">yahoo.com</option>
+                    <option value="empas.com">empas.com</option>
+                    <option value="hotmail.com">hotmail.com</option>
+                    <option value="korea.com">korea.com</option>
+                    <option value="dreamwiz.com">dreamwiz.com</option>
+                    <option value="lycos.co.kr">lycos.co.kr</option>
+                </select>
+            </div>
+        </div>
+        <p class="user-id-select visible"><span class="user-name-span"></span> 회원님의 아이디는 <span class="user-id-span"></span> 입니다.</p>
+    </div>
+</html>

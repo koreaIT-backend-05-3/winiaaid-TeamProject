@@ -17,17 +17,22 @@ public class AuthPageController {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	 @GetMapping({"/auth/signin","/auth/logout"})
-	    public String loadSigninPage() {
-	        return "auth/signin";
-	    }
+	public String loadSigninPage() {
+		return "auth/signin";
+	}
 	 
 	 @GetMapping("/auth/signup/step1")
-	    public String loadSignupStep1Page() {
+	 public String loadSignupStep1Page() {
 	        return "auth/signup_step1";
 	    }
 
-	@GetMapping("/auth/signup/step2")
+	@GetMapping("/auth/signup/step-test")
 	public String loadSignupStep2Page() {
+		return "auth/signup_test";
+	}
+
+	@GetMapping("/auth/signup/step2")
+	public String loadSignupStep3Page() {
 		return "auth/signup_step2";
 	}
 	 

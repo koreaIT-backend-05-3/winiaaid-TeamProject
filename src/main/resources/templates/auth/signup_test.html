@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_header.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_footer.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/phone_authentication.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/signup_test.css">
+    <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
+    <title>위니아</title>
+</head>
+<body>
+    <th:block th:replace="/auth/winia_header"></th:block>
+    <main>
+        <div id="container">
+            <div class="main-content">
+                <div class="main-header">
+                    <div class="title">
+                        <h1>통합회원 가입</h1>
+                    </div>
+                    <div>
+                        <img src="/image/images/img_join_step2.gif" alt="step-2">
+                    </div>
+                    <div class="notice-div">
+                        <p>안전한 회원가입을 위한 본인인증 단계입니다.</p>
+                    </div>
+                </div>
+                <div class="main-authentication-content">
+                    <div>
+                        <p>위니아 통합회원에 가입하기 위해서는 본인인증이 필요합니다.</p>
+                        <p>원하시는 인증방법을 선택해 주세요.</p>
+                    </div>
+                    <div class="authentication-div-box">
+                        <th:block th:replace="/auth/phone_authentication"></th:block>
+                    </div>
+                </div>
+                <div class="notice-footer">
+                    <p>본인 인증 유의사항</p>
+                    <ul>
+                        <li>개인정보를 도용하는 경우, 서비스 이용에 제한이 있을 수 있습니다.</li>
+                        <li>본인 인증에 문제가 있을 경우, 위니아 고객센터(1588-9588)로 문의해 주시기 바랍니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/auth/winia_footer"></th:block>
+    <script src="/static/js/auth/winia_header.js"></script>
+    <script src="/static/js/util/remove_non_member_service_authentication.js"></script>
+    <script src="/static/js/util/remove_non_member_board_authentication.js"></script>
+    <script src="/static/js/auth/phone_authentication.js"></script>
+</body>
+</html>

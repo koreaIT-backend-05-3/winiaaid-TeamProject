@@ -2,33 +2,16 @@ const radioItems = document.querySelectorAll(".find-account-input-div input");
 
 const passwordResetSelect = document.querySelector(".password-reset-select");
 const userIdInput = document.querySelector("table input");
-const defaultAuthenticationView = document.querySelector(".default-authentication-view");
-const authenticationMainContent = document.querySelector(".phone-authentication-div");
-const authenticationRequestButton = document.querySelector(".user-authentication-request-div button");
-const authenticationCheckButton = document.querySelector(".authentication-number-div button");
-const mainPhoneNumberInput = document.querySelector(".main-phone-number");
-const authenticationNumberInput = document.querySelector(".authentication-number-input");
-
-const firstEmailInput = document.querySelector(".first-email");
-const secondEmailInput = document.querySelector(".second-email");
-const emailSelectBox = document.querySelector(".email-select-box");
-
-const userIdSelect = document.querySelector(".user-id-select");
-const userPasswordSelect = document.querySelector(".user-password-select");
 
 const mainContentNotice = document.querySelector(".main-content-notice");
 
 const buttonDiv = document.querySelector(".button-div");
 const buttonItems = document.querySelectorAll(".button-div button");
 
-let randomAuthenticationNumber = null;
 
 setRadioInputDefaultSelect();
 setRadioChangeEvent();
-setEmailSelectBoxChangeEvent();
 
-authenticationRequestButton.onclick = authenticationRequest;
-authenticationCheckButton.onclick = checkAuthenticationNumber;
 
 function setRadioInputDefaultSelect() {
     if(isIdForget()) {
@@ -58,68 +41,6 @@ function loadAuthForgetPageByInputType(input) {
     }else {
         location.href = "/auth/forget/user-password";
     }
-    
-
-    // passwordResetSelect.classList.toggle("visible");
-
-    // removeResultContentClass();
-    // removeAllResultContent();
-    // removeVisibleClass(defaultAuthenticationView);
-    // clearAllInput();
-}
-
-function setEmailSelectBoxChangeEvent() {
-    emailSelectBox.onchange = setSecondEmail;
-}
-
-function setSecondEmail() {
-    let selectEmailValue = emailSelectBox.options[emailSelectBox.selectedIndex].value;
-
-    if(selectEmailValue != "") {
-        secondEmailInput.value = selectEmailValue;
-        setSecondEmailInputReadOnly();
-    }else {
-        secondEmailInput.value = "";
-        disableSecondEmailInputReadOnly();
-    }
-}
-
-function setSecondEmailInputReadOnly() {
-    secondEmailInput.setAttribute("readonly", true);
-    secondEmailInput.classList.add("selected-email");
-}
-
-function disableSecondEmailInputReadOnly() {
-    secondEmailInput.removeAttribute("readonly", true);
-    secondEmailInput.classList.remove("selected-email");
-}
-
-function authenticationRequest() {
-    $.ajax({
-        type: "get",
-        url: `/api/v1/auth/phone/${mainPhoneNumberInput.value}`,
-        dataType: "json",
-        success: (response) => {
-            randomAuthenticationNumber = response.data;
-            alert(randomAuthenticationNumber);
-        },
-        error: errorMessage
-    });
-
-    const authenticationNumberDiv = document.querySelector(".authentication-number-div");
-
-    removeVisibleClass(authenticationNumberDiv);
-}
-
-function checkAuthenticationNumber() {
-    const authenticationNumber = authenticationNumberInput.value;
-
-    if(authenticationNumber == randomAuthenticationNumber) {
-        loadUserInfo();
-    }else {
-        alert("인증번호가 다릅니다.");
-    }
-    
 }
 
 function loadUserInfo() {
@@ -161,36 +82,9 @@ function loadUserInfo() {
     }
 }
 
-// function removeAllResultContent() {
-//     addVisibleClass(buttonDiv);
-//     addVisibleClass(userPasswordSelect);
-//     addVisibleClass(userIdSelect);
-// }
-
-// function clearAllInput() {
-//     const emailOptions = document.querySelectorAll("select option");
-//     firstEmailInput.value = "";
-
-//     mainPhoneNumberInput.value = "";
-
-//     authenticationNumberInput.value = "";
-
-//     userIdInput.value = "";
-    
-//     emailOptions.forEach(option => {
-//         if(option.value == "") {
-//             option.selected = true;
-//         }
-//     });
-// }
-
 function addResultContentClass() {
     authenticationMainContent.classList.add("result-content");
 }
-
-// function removeResultContentClass() {
-//     authenticationMainContent.classList.remove("result-content");
-// }
 
 function getUserId() {
     return userIdInput.value == null ? null : userIdInput.value;
@@ -312,18 +206,4 @@ function setTempPassword(tempPassword) {
 
 function isEmpty(data) {
     return data == "" || data == null || data == undefined;
-}
-
-function addVisibleClass(domObject) {
-    domObject.classList.add("visible");
-}
-
-function removeVisibleClass(domObject) {
-    domObject.classList.remove("visible");
-}
-
-function errorMessage(request, status, error) {
-    console.log(request.status);
-    console.log(request.responseText);
-    console.log(error);
 }

@@ -65,80 +65,6 @@ table input {
     height: 30px;
 }
 
-.phone-authentication-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    border: 1px solid #d4d4d4;
-    margin: 15px 0px;
-    padding: 40px 0px;
-
-    width: 488px;
-    
-    background: #f5f5f5;
-}
-
-.default-authentication-view {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.user-authentication-request-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
-}
-
-.user-authentication-request-div input {
-    padding: 5px;
-    height: 30px;
-}
-
-.user-authentication-request-div input:first-child {
-    margin-bottom: 10px;
-}
-
-.user-authentication-request-div button {
-    border: 1px solid #444;
-    padding: 0px 20px;
-
-    height: 30px;
-
-    background: #444;
-    color: #fff;
-}
-
-.fa-mobile {
-    margin-bottom: 30px;
-    font-size: 80px;
-    color: #bbb;
-}
-
-.phone-authentication-div p {
-    font-size: 13px;
-    font-weight: 300;
-}
-
-.authentication-button {
-    border: 1px solid #444;
-    margin-top: 40px;
-
-    height: 40px;
-    padding: 0px 20px;
-
-    background: #444;
-    color: #fff;
-}
-
-.user-password-select {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .main-content-notice {
     border-top: 1px solid #d4d4d4;
     margin-top: 40px;
@@ -150,24 +76,6 @@ table input {
 .main-content-notice li::before {
     margin-right: 10px;
     content: "•"
-}
-
-.notice-p {
-    margin-top: 15px;
-}
-
-.email-div {
-    margin-top: 20px;
-}
-
-.first-email, .second-email {
-    padding: 0px 5px;
-
-    width: 120px;
-}
-
-.email-select-box {
-    background-color: #e7e7e7;
 }
 
 .button-div {
@@ -193,26 +101,4 @@ table input {
 
 .button-div button:last-child {
     background-color: #5b5a5a;
-}
-
-.visible {
-    display: none;
-}
-
-.user-name-span {
-    color: #444;
-    font-weight: 500;
-}
-
-.user-id-span, .user-email-span {
-    color: #0a71cc;
-    font-weight: 500;
-}
-
-.selected-email {
-    background-color: #e7e7e7;
-}
-
-.result-content {
-    width: 980px;
 }

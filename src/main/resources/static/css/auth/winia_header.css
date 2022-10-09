@@ -22,12 +22,22 @@
     color: #222;
 }
 #header .util{
+    display: flex;
+    align-items: center;
+
     width: 113px;
     height: 52px;
-    padding-top:30px;
+}
+
+#header .util ul {
+    display: flex;
+    align-items: center;
 }
 
 #header .util ul li{
+    display: flex;
+    align-items: center;
+
     float: left;
     position: relative;
 }
@@ -39,7 +49,7 @@
     display: inline-block;
     width: 1px;
     height: 12px;
-    margin: 5px 10px 0 10px;
+    margin: 0px 10px 0 10px;
     background: #222;
 }
 #header .util .util-layer{
@@ -51,7 +61,8 @@
     border: 1px solid #e5e5e5;
     z-index: 10;
     background-color: rgb(255, 255, 255);
-}#header .util .util-layer li a:hover{
+}
+#header .util .util-layer li a:hover{
     font-weight: 500;
     color: royalblue;
 }
