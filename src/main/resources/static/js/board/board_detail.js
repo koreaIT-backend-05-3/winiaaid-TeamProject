@@ -25,16 +25,15 @@ function getBoardCodeByUri(){
 }
 
 function setBoardContentByBoardType() {
-    const title = document.querySelector("h2");
+    const h2 = document.querySelector("h2");
 
     if(boardType == "praise") {
-        title.textContent = "칭찬합니다";
+        document.title = "[위니아에이드] 칭찬합니다";
+        h2.textContent = "칭찬합니다";
 
     }else if(boardType == "suggestion") {
-        title.textContent = "제안합니다";
-
-    }else {
-        title.textContent = "불편합니다";
+        document.title = "[위니아에이드] 제안합니다";
+        h2.textContent = "제안합니다";
 
     }
 }

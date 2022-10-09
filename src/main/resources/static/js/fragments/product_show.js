@@ -42,14 +42,14 @@ function setCategoryClickEvent(productInfoList) {
     for(let i = 0; i < productInfoList.length; i++){
         if(productInfoList[i].groupFlag) {
             categoryImages[i].onclick = () => {
-                getProductDetail(productInfoList[i].productGroup, true);
+                getProductDetail(productInfoList[i].productGroupCode, true);
                 setModelName(productNameLi, {"productTitle": productInfoList[i].productCategoryName}, "category");
                 
                 if(!checkFaQPageAndSelfPage()) {
                     initializationTroubleSymptom();
 
                 }else {
-                    selectProductGroupCode = productInfoList[i].productGroup;
+                    selectProductGroupCode = productInfoList[i].productGroupCode;
                     selectProductCategoryCode = 0;
                     selectProductCode = 0;
                     getSolutionList(1);

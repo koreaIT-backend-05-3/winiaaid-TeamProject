@@ -151,7 +151,7 @@
             LEFT OUTER JOIN service_type_table stt on(stt.service_type_code = rst.service_type_code)
             LEFT OUTER JOIN engineer_reservation_table ert on(ert.service_code = rst.service_code)
             LEFT OUTER JOIN engineer_mst em ON(em.engineer_code = ert.engineer_code)
-            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
+            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group_code = wpm.product_group_code)
             LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)
             LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
             LEFT OUTER JOIN (select
@@ -221,7 +221,7 @@
             LEFT OUTER JOIN service_type_table stt on(stt.service_type_code = rst.service_type_code)
             LEFT OUTER JOIN engineer_reservation_table ert on(ert.service_code = rst.service_code)
             LEFT OUTER JOIN engineer_mst em ON(em.engineer_code = ert.engineer_code)
-            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
+            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group_code = wpm.product_group_code)
             <choose>
                 <when test="non_member_flag == false">
                     LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)

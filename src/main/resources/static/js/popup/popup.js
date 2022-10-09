@@ -1,5 +1,5 @@
 function showModelNumberCheckPopup() {
-    window.open("http://localhost:8000/service/popup/modelNamePopup", "modelCheckPopup", 
+    window.open("http://localhost:8000/service/popup/model-name-popup", "modelCheckPopup", 
     "width=700, height=800");
 }
 
@@ -9,12 +9,12 @@ function loadAddressPopup() {
 }
 
 function loadPastRequestInfoPopup() {
-    window.open("http://localhost:8000/service/popup/pastRequestPopup", "setAddressPopup", 
+    window.open("http://localhost:8000/service/popup/past-request-popup", "setAddressPopup", 
     "width=700, height=800");
 }
 
 function loadPastAddressListInfoPopup() {
-    window.open("http://localhost:8000/service/popup/pastAddressPopup", "setAddressPopup", 
+    window.open("http://localhost:8000/service/popup/past-address-popup", "setAddressPopup", 
     "width=700, height=800");
 }
 

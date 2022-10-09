@@ -36,6 +36,7 @@ let deleteTempFileNameList = new Array();
 modifyFlag = getModifyFlagByUri();
 boardType = getBoardTypeByUri();
 setWriteViewByBoardType();
+setBoardContentByBoardType();
 
 if(modifyFlag) {
     boardCode = getBoardCodeByUri();
@@ -58,6 +59,20 @@ inputFileDivItems.forEach(input=>{
         checkFileType(e.target);
     }
 })
+
+function setBoardContentByBoardType() {
+    const h2 = document.querySelector("h2");
+
+    if(boardType == "praise") {
+        document.title = "[위니아에이드] 칭찬합니다";
+        h2.textContent = "칭찬합니다";
+
+    }else if(boardType == "suggestion") {
+        document.title = "[위니아에이드] 제안합니다";
+        h2.textContent = "제안합니다";
+
+    }
+}
 
 function getModifyFlagByUri() {
     return location.pathname.indexOf("update-view") != -1 ? true : false;

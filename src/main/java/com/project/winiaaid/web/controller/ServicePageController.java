@@ -29,17 +29,17 @@ public class ServicePageController {
 		return "service/inquiry_detail";
 	}
 
-	@GetMapping("/popup/modelNamePopup")
+	@GetMapping("/popup/model-name-popup")
 	public String loadModelNamePopupPage() {
 		return "popup/model_name_popup";
 	}
 
-	@GetMapping("/popup/pastRequestPopup")
+	@GetMapping("/popup/past-request-popup")
 	public String loadPastRequestPopupPage() {
 		return "popup/past_request_popup";
 	}
 
-	@GetMapping("/popup/pastAddressPopup")
+	@GetMapping("/popup/past-address-popup")
 	public String loadPastAddressPopupPage() {
 		return "popup/past_address_popup";
 	}

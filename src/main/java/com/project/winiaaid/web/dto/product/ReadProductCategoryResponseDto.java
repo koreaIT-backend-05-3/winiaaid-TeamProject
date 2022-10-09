@@ -9,6 +9,6 @@ public class ReadProductCategoryResponseDto {
     private int productCategoryCode;
     private String productCategoryName;
     private boolean groupFlag;
-    private int productGroup;
+    private int productGroupCode;
     private String productMainCategoryImage;
 }

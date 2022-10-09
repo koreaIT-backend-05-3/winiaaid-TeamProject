@@ -1,6 +1,5 @@
 package com.project.winiaaid.web.dto.product;
 
-import com.project.winiaaid.web.dto.product.ProductDetailDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,7 +13,7 @@ public class ReadProductResponseDto {
     private String productCategoryName;
     private String productGroupCategoryName;
     private int groupFlag;
-    private int productGroup;
+    private int productGroupCode;
     private String productMainCategoryImage;
     private String productMainImage;
     private List<ProductDetailDto> productDetailList;

@@ -198,7 +198,8 @@ function setBoardContentByBoardType() {
     const menuLi = document.querySelector(".menu-li");
 
     if(boardType == "praise") {
-        boardTypeTile.textContent = "칭찬합니다"
+        boardTypeTile.textContent = "칭찬합니다";
+        document.title = "[위니아에이드] 칭찬합니다";
 
         menuLi.innerHTML = `
             <p>고객님의 따스한 격려 한마디를 본보기로 삼아 더욱 친절한 서비스를 위해 노력하겠습니다.</p>
@@ -209,6 +210,7 @@ function setBoardContentByBoardType() {
         `;
     }else if(boardType == "suggestion") {
         boardTypeTile.textContent = "제안합니다"
+        document.title = "[위니아에이드] 제안합니다"
 
         menuLi.innerHTML = `
         <p>위니아를 이용하면서 느꼈던 여러 사항들에 대해 고객님의 의견을 올려주십시오.</p>
