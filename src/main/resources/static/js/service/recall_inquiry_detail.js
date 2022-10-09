@@ -109,7 +109,7 @@ function updateCancelRecallRequest(serviceCode){
 
 function errorMessage(request, status, error) {
     if(request.status == 400) {
-        alert("잘 못 된 접근입니다.");
+        alert("잘못된 접근입니다.");
         location.replace("/main");
     }
     console.log(request.status);

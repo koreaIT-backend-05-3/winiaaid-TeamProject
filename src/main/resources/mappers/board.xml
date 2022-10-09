@@ -175,7 +175,7 @@
 			bm.board_code
 		ORDER BY
 			create_date desc
-		LIMIT #{page}, 2;
+		LIMIT #{page}, 5;
 	
 	</select>
 
@@ -257,7 +257,7 @@
 			main_phone_number = #{main_phone_number}
 		GROUP BY
 			bm.board_code
-		LIMIT #{page}, 2;
+		LIMIT #{page}, 5;
 	</select>
 
 	<select id="findBoardByBoardCode" parameterType="HashMap" resultMap="boardResultMap">

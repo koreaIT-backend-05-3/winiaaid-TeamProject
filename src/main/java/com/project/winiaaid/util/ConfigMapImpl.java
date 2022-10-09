@@ -70,21 +70,6 @@ public class ConfigMapImpl implements ConfigMap{
         return configMap;
     }
 
-//    @Override
-//    public Map<String, Object> setReadSolutionListByGroupCodeConfigMap(int keyCode, String company, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) throws Exception{
-//        Map<String, Object> configMap = new HashMap<>();
-//
-//        configMap.put("keyCode", keyCode);
-//        configMap.put("company_code", company.equals("winia")? 2 : 1);
-//        configMap.put("keyword", readSolutionKeywordRequestDto.getKeyword() != null ? readSolutionKeywordRequestDto.getKeyword() : null);
-//        configMap.put("solution_board_type", readSolutionKeywordRequestDto.getBoardType().equals("faq") ? 1 : 2);
-//        configMap.put("solution_type_code", readSolutionKeywordRequestDto.getSolutionType());
-//        configMap.put("sort_type", readSolutionKeywordRequestDto.getSortType());
-//        configMap.put("limit_date", createLocalDateTimeThreeMonthsAgo());
-//
-//        return configMap;
-//    }
-
     @Override
     public Map<String, Object> setMemberReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
@@ -93,7 +78,7 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("board_type_code", readBoardRequestDto.getBoardType().equals("complaint") ? 1 : readBoardRequestDto.getBoardType().equals("praise") ? 2 : 3);
         configMap.put("search_type", readBoardRequestDto.getSearchType());
         configMap.put("keyword", readBoardRequestDto.getKeyword());
-        configMap.put("page", (readBoardRequestDto.getPage() - 1) * 2);
+        configMap.put("page", (readBoardRequestDto.getPage() - 1) * 5);
 
         return configMap;
     }
@@ -107,7 +92,7 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("main_phone_number", readBoardRequestDto.getMainPhoneNumber());
         configMap.put("search_type", readBoardRequestDto.getSearchType());
         configMap.put("keyword", readBoardRequestDto.getKeyword());
-        configMap.put("page", (readBoardRequestDto.getPage() - 1) * 2);
+        configMap.put("page", (readBoardRequestDto.getPage() - 1) * 5);
 
         return configMap;
     }

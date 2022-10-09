@@ -43,7 +43,7 @@ function checkHasNonMemberInquiryListData() {
     if(nonMemberInquiryList != null){
         nonMemberInquiryList = JSON.parse(nonMemberInquiryList);
 
-        let totalPage = getTotalPage(nonMemberInquiryList[0].totalCount, 2);
+        let totalPage = getTotalPage(nonMemberInquiryList[0].totalCount, 5);
         setPage(totalPage);
         setTotalCount(nonMemberInquiryList[0].totalCount);
         setBoardList(nonMemberInquiryList);
@@ -77,7 +77,7 @@ function getBoardList(page){
             dataType:"json",
             success:(response)=>{
                 if(response.data != null){
-                    let totalPage = getTotalPage(response.data[0].totalCount, 2);
+                    let totalPage = getTotalPage(response.data[0].totalCount, 5);
                     setPage(totalPage);
     
                     setTotalCount(response.data[0].totalCount);
@@ -111,7 +111,7 @@ function getBoardList(page){
                 dataType:"json",
                 success:(response)=>{
                     if(response.data != null){
-                        let totalPage = getTotalPage(response.data[0].totalCount, 2);
+                        let totalPage = getTotalPage(response.data[0].totalCount, 5);
                         setPage(totalPage);
         
                         setTotalCount(response.data[0].totalCount);

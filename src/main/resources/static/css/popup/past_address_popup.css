@@ -61,3 +61,15 @@ table td:not(table td:nth-of-type(3)) {
     padding-right: 24px;
     padding-left: 24px;
 }
+
+.data-none {
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.data-none p {
+    text-align: center;
+}

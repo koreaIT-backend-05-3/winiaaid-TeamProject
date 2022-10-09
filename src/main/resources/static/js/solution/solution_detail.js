@@ -152,7 +152,7 @@ function checkSrcAndSetClickEvent(imageSrc) {
     if(imageSrc.indexOf("frequently_asked_question_service") != -1) {
         location.href = "/solution/faq/list";
     }else if(imageSrc.indexOf("self_examination") != -1) {
-        location.href = "/solution/self/list";
+        location.href = "/solution/self-check/list";
     }else if(imageSrc.indexOf("consulation_inquiry") != -1) {
         
     }else if(imageSrc.indexOf("visit_repair_service") != -1) {
