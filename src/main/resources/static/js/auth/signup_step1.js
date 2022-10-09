@@ -13,8 +13,18 @@ const buttonAgree = document.querySelector(".button-agree");
 
 siteAll.onchange = (e) => familySiteAllCheck(e.target);
 allAgree.onchange = (e) => agreeAllCheck(e.target);
+
 buttonNotAgree.onclick = loadMainPage;
 buttonAgree.onclick = checkAgreeAndLoadStep2Page;
+
+if(hasSignin()) {
+    alert("잘못된 접근입니다.");
+    location.replace("/main");
+}
+
+function hasSignin() {
+    return user != null;
+}
 
 function siteCheckFunction() {
     const siteItems = document.querySelectorAll(".site");

@@ -1,7 +1,7 @@
 let stepPass = getStepPassInLocalStorage();
 
-if(!stepPass) {
-    alert("잘 못 된 접근입니다.");
+if(!stepPass || user != null) {
+    alert("잘못된 접근입니다.");
     location.replace("/main");
 }
 

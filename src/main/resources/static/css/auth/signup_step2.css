@@ -51,6 +51,15 @@
     align-items: center;
 }
 
+.user-info {
+    font-weight: bold;
+    color: #3652a2;
+}
+
+.strong {
+    font-weight: bold;
+}
+
 .notice-footer {
     margin-top: 20px;
 
@@ -60,4 +69,29 @@
 .notice-footer li::before {
     margin-right: 10px;
     content: "•";
+}
+
+.forget-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 50px;
+
+    width: 980px;
+}
+
+.forget-button-div button {
+    border: none;
+    padding: 0px 20px;
+
+    height: 40px;
+
+    font-weight: bold;
+    background: #3652a2;
+    color: #fff;
+}
+
+.forget-button-div button:last-of-type {
+    margin-left: 10px;
 }

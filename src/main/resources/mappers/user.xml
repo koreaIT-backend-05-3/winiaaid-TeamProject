@@ -96,9 +96,36 @@
 		where
 			user_id = #{user_id};
 	</update>
-      
 
-<!--    <select id="findUserByEmail" parameterType="String" resultType="com.project.winiaaid.domain.user.User">-->
+	<update id="updateUserInfoByUserCode" parameterType="com.project.winiaaid.domain.user.User">
+		update
+			user_mst um
+			LEFT OUTER JOIN user_dtl ud on (ud.user_code = um.user_code)
+		set
+			um.user_password = #{user_password},
+			um.user_email = #{user_email},
+			um.postal_code = #{postal_code},
+			um.main_address = #{main_address},
+			um.detail_address = #{detail_address},
+			um.main_phone_number = #{main_phone_number},
+			um.update_date = now(),
 
-<!--    </select>-->
+			ud.sub_phone_number = #{sub_phone_number},
+			ud.mail_receive_flag = #{mail_receive_flag},
+			ud.email_receive_flag = #{email_receive_flag},
+			ud.sms_receive_flag = #{sms_receive_flag},
+			ud.staff_company = #{staff_company},
+			ud.employee_number = #{employee_number},
+			ud.update_date = now()
+		where
+			um.user_code = #{user_code};
+	</update>
+	
+	<delete id="deleteUserByUserCode" parameterType="Integer">
+		delete
+		from
+			user_mst
+		where
+			user_code = #{user_code};
+	</delete>
 </mapper>

@@ -24,7 +24,7 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public boolean signup(SignupRequestDto signupRequestDto) throws Exception {
         int status = 0;
-        User userentity = signupRequestDto.toEntity();
+        User userentity = signupRequestDto.toUserEntity();
         status = userRepository.insertUserMst(userentity);
 
         if(status != 0) {
@@ -87,6 +87,16 @@ public class AuthServiceImpl implements AuthService {
         return userRepository.updateUserPasswordByUserId(updateUserPasswordRequestDto.toUpdateUserPasswordEntity()) > 0;
     }
 
+    @Override
+    public boolean updateUserInfoByUserCode(UpdateUserInfoRequestDto updateUserInfoRequestDto) throws Exception {
+        return userRepository.updateUserInfoByUserCode(updateUserInfoRequestDto.toUserEntity()) > 0;
+    }
+
+    @Override
+    public boolean deleteUserByUserCode(int userCode) throws Exception {
+        return userRepository.deleteUserByUserCode(userCode) > 0;
+    }
+
     private String createRandomAuthenticationNumber() {
         Random random = new Random();
         String randomNumber = "";
@@ -97,5 +107,4 @@ public class AuthServiceImpl implements AuthService {
         log.info(randomNumber);
         return randomNumber;
     }
-
 }

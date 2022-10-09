@@ -8,13 +8,14 @@
     <link rel="stylesheet" type="text/css" href="/static/css/auth/withdrawal.css">
     <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_header.css">
     <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_footer.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <title>회원가입 정보입력</title>
 <body>
     <div id="wrap">
         <th:block th:replace="/auth/winia_header"></th:block>
         <main id="main">
             <div class="main-inner">
-                <form>
+                <div>
                     <h2>회원탈퇴</h2>
                     <div class="section">
                         <p>탈퇴 후 재가입하는 경우 이전에 주어진 해택은 복원되지 않습니다.</p>
@@ -28,16 +29,16 @@
                             </div>
                             <div class="withdrwal-textbox">
                                 <p>
-                                    <input type="radio" name="uncomportsite" id="site4">
-                                    <label for="site4">위니아 브랜드 사이트 (www.winiadimchae.com)</label>
+                                    <input type="radio" name="uncomportsite" id="site1" class="site">
+                                    <label for="site1">위니아 브랜드 사이트 (www.winiadimchae.com)</label>
                                 </p>
                                 <p>
-                                    <input type="radio" name="uncomportsite" id="site4">
-                                    <label for="site4">위니아 e샵 (www.winia-eshop.com)</label>
+                                    <input type="radio" name="uncomportsite" id="site2" class="site">
+                                    <label for="site2">위니아 e샵 (www.winia-eshop.com)</label>
                                 </p>
                                 <p>
-                                    <input type="radio" name="uncomportsite" id="site4">
-                                    <label for="site4">위니아에이드 (www.winiaaid.com)</label>
+                                    <input type="radio" name="uncomportsite" id="site3" class="site">
+                                    <label for="site3">위니아에이드 (www.winiaaid.com)</label>
                                 </p>
                             </div>
                         </div>
@@ -49,42 +50,42 @@
                             <div class="withdrwal-textbox">
                                 <ul>
                                     <li>
-                                        <input type="radio" name="uncomportreason" id="reason1">
+                                        <input type="radio" name="uncomportreason" id="reason1" class="reason">
                                         <label for="reason1">제품 구매 후 불만</label>
-                                        <input type="radio" name="uncomportreason" id="reason2">
+                                        <input type="radio" name="uncomportreason" id="reason2" class="reason">
                                         <label for="reason2">자주 사용하지 않음</label>
-                                        <input type="radio" name="uncomportreason" id="reason3">
+                                        <input type="radio" name="uncomportreason" id="reason3" class="reason">
                                         <label for="reason3">E-mail을 자주 보내옴</label>
                                     </li>
                                     <li>
-                                        <input type="radio" name="uncomportreason" id="reason4">
+                                        <input type="radio" name="uncomportreason" id="reason4" class="reason">
                                         <label for="reason4">개인정보유출 우려</label>
-                                        <input type="radio" name="uncomportreason" id="reason5">
+                                        <input type="radio" name="uncomportreason" id="reason5" class="reason">
                                         <label for="reason5">새로운 ID로 변경</label>
-                                        <input type="radio" name="uncomportreason" id="reason6">
+                                        <input type="radio" name="uncomportreason" id="reason6" class="reason">
                                         <label for="reason6">사이트 이용 불편</label>
                                     </li>
                                     <li>
-                                        <input type="radio" name="uncomportreason" id="reason7">
+                                        <input type="radio" name="uncomportreason" id="reason7" class="reason">
                                         <label for="reason7">기타 사유</label>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="button-center">
-                            <a href="#" class="button blue">확인</a>
+                            <button class="button blue withdrawal-button">확인</button>
                         </div>
                     </div>
-                    
-                </form>
+                </div>
             </div>
         </main>
         <th:block th:replace="/auth/winia_footer"></th:block>
     </div>
+    <script src="/static/js/util/principal.js"></script>
     <script src="/static/js/auth/winia_header.js"></script>
     <script src="/static/js/util/remove_non_member_service_authentication.js"></script>
     <script src="/static/js/util/remove_non_member_board_authentication.js"></script>
-    <script src="/static/js/auth/signup.js"></script>
+    <script src="/static/js/auth/withdrawal.js"></script>
 </head>
 </body>
 </html>

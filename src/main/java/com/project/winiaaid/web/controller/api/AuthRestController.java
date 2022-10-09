@@ -102,4 +102,34 @@ public class AuthRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Temporary password change successful", status));
     }
+
+    @ValidationCheck
+    @Log
+    @PutMapping("/user/{userCode}")
+    public ResponseEntity<?> updateUserInfoByUserCode(@RequestBody @Valid UpdateUserInfoRequestDto updateUserInfoRequestDto, BindingResult bindingResult) {
+        boolean status = false;
+
+        try {
+            status = authService.updateUserInfoByUserCode(updateUserInfoRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to modify user information", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "User information modification successful", status));
+    }
+
+    @DeleteMapping("/user/{userCode}")
+    public ResponseEntity<?> deleteUserByUserCode(@PathVariable int userCode) {
+        boolean status = false;
+
+        try {
+            status = authService.deleteUserByUserCode(userCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to withdraw membership", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful withdrawal of membership", status));
+    }
 }

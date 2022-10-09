@@ -112,6 +112,25 @@
     vertical-align: middle;
 }
 
+.name {
+    padding: 5px;
+
+    width: 138px;
+    height: 28px;
+}
+
+.year {
+    width: 60px;
+    height: 28px;
+    background: #f5f5f5;
+}
+
+.month, .day {
+    width: 50px;
+    height: 28px;
+    background: #f5f5f5;
+}
+
 .main-content table .birth label{
     margin: 0 15px  0 5px;
 }
@@ -123,13 +142,18 @@
     border: 1px solid rgb(187, 187, 187);
 }
 
-.name {
-    padding: 5px;
-}
-
 .user-id-div {
     display: flex;
     align-items: center;
+}
+
+.user-id {
+    width: 138px;
+    height: 28px;
+}
+
+.password, .password-confirm {
+    width: 138px;
 }
 
 input[type=text], input[type=password] {
@@ -190,6 +214,27 @@ input{
     height: 28px;
 }
 
+.postal-code {
+    width: 100px;
+}
+
+.main-address {
+    width: 356px;
+}
+
+.detail-address {
+    width: 354px;
+}
+
+.phone-select-box {
+    width: 80px;
+    height: 28px;
+}
+
+.middle-number, .last-number {
+    width: 58px;
+}
+
 select{
     padding: 0 5px;
     border: 1px solid #bbb;
@@ -239,6 +284,25 @@ option {
 }
 
 .email-select-box {
+    width: 150px;
+    height: 28px;
+}
+
+.first-email {
+    width: 108px;
+}
+
+.second-email {
+    width: 250px;
+}
+
+.email-guide {
+    margin-top: 5px;
+    color:#3652a2;
+}
+
+.staff-company {
+    width: 300px;
     height: 28px;
 }
 

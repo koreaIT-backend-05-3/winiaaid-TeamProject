@@ -8,4 +8,6 @@ public interface AuthService {
     public String getRandomAuthenticationNumber(String phoneNumber) throws Exception;
 	public AuthenticationUserResponseDto getUserInfoByRequestType(String requestType, AuthenticationUserRequestDto authenticationUserRequestDto) throws Exception;
 	public boolean updateTempUserPasswordByUserId(UpdateUserPasswordRequestDto updateUserPasswordRequestDto) throws Exception;
+	public boolean updateUserInfoByUserCode(UpdateUserInfoRequestDto updateUserInfoRequestDto) throws Exception;
+	public boolean deleteUserByUserCode(int userCode) throws Exception;
 }

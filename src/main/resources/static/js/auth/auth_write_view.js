@@ -10,7 +10,7 @@ const birthTypeRadioItems = document.querySelectorAll(".birty-type");
 const userIdInput = document.querySelector(".user-id")
 const userIdCheckButton = document.querySelector(".user-id-check");
 const userPasswordInput = document.querySelector(".password");
-const userPasswordConfirmInput = document.querySelector(".password_confirm");
+const userPasswordConfirmInput = document.querySelector(".password-confirm");
 
 const postalCodeInput = document.querySelector(".postal-code");
 const mainAddressInput = document.querySelector(".main-address");
@@ -37,7 +37,7 @@ const searchAddressButton = document.querySelector(".search-address");
 
 
 const inputs = document.querySelectorAll("input");
-const signupButton = document.querySelector(".signup-button");
+const requestButton = document.querySelector(".request-button");
 
 let gender = 0;
 let mainPhoneNumber = null;
@@ -49,23 +49,59 @@ let checkUserIdFlag = false;
 let tempUserId = null;
 let modifyFlag = false;
 
+if(isUpdateUserInfoPage()) {
+	setUserInfoUpdateView();
 
-setEmailSelectBoxChangeEvent();
-setMainPhoneNumber();
-modifyFlag = setModifyFlag();
+	requestButton.onclick = userInfoUpdate;
 
-if(modifyFlag) {
-	setDefaultInfo();
+}else {
+	setEmailSelectBoxChangeEvent();
+	setMainPhoneNumber();
+	modifyFlag = setModifyFlag();
+	
+	if(modifyFlag) {
+		setDefaultInfo();
+	}
+
+	userIdInput.onblur = checkUserIdChange;
+	
+	requestButton.onclick = loadnextPage;
+
+	userIdCheckButton.onclick = checkUserId;
 }
 
 
 searchAddressButton.onclick = loadAddressPopup;
 
-userIdInput.onblur = checkUserIdChange;
 
-signupButton.onclick = loadnextPage;
 
-userIdCheckButton.onclick = checkUserId;
+function isUpdateUserInfoPage() {
+	return location.pathname.indexOf("/mypage/modify/info") != -1;
+}
+
+function setUserInfoUpdateView() {
+	console.log(user);
+	setUserNameTr();
+	setUserGenderTr();
+	setUserBirthTr();
+	setUserIdTr();
+	setUserAddress(user);
+	setUserEmail(user);
+	setUserMainPhoneNumberInput(user);
+	setUserReceiveCheckBoxes(user);
+	setUserEmployeeNumberInput(user);
+	setRequestButton();
+
+	if(!isEmpty(user.subPhoneNumber)) {
+		setUserSubPhoneNumberInput(user);
+
+	}
+
+	if(!isEmpty(user.staffCompany)) {
+		setUserStaffCompany(user);
+
+	}
+}
 
 function setDefaultInfo() {
 	let userInfoObject = JSON.parse(localStorage.userInfoObject);
@@ -189,6 +225,37 @@ function setAddressInput(postalCode, mainAddress, detailAddress) {
 
 }
 
+function userInfoUpdate() {
+	if(checkRequireData()) {
+		let updateInfo = getUpdateInfo();
+
+		console.log(updateInfo);
+
+		$.ajax({
+			type: "put",
+			url: `/api/v1/auth/user/${user.userCode}`,
+			contentType: "application/json",
+			data: JSON.stringify(updateInfo),
+			dataType: "json",
+			success: (response) => {
+				if(response.data) {
+					alert("정보를 수정하였습니다.");
+					location.replace("/logout");
+				}else {
+					alert("정보 수정 오류");
+				}
+			},
+			error: (error) => {
+				if(error.status == 400){
+					alert(JSON.stringify(error.responseJSON.data));
+				}else{
+					console.log(error);
+				}
+			}
+		});
+	}
+}
+
 	
 function loadnextPage() {
 	if(!checkRequireData()) {
@@ -236,44 +303,44 @@ function checkRequireData(){
 	let regUserId = /^[\w\d]{4,10}$/;
 	let regUserPassword = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^+=])[A-Za-z0-9!@#$%^+=]{8,10}$/;
 
-	if(isEmpty(userNameInput.value)) {
+	if(isEmpty(userNameInput.value) && !isUpdateUserInfoPage()) {
 		alert("이름을 입력해주세요.");
 		userNameInput.focus();
 		return false;
 
-	}else if(userNameInput.value.length < 2){
+	}else if(userNameInput.value.length < 2 && !isUpdateUserInfoPage()){
 		alert("이름을 2자 이상 입력해주세요.");
 		userNameInput.focus();
 		return false;
 
-	}else if(gender == 0){
+	}else if(gender == 0 && !isUpdateUserInfoPage()){
 		alert("성별을 입력해주세요.");
 		return false;
 
-	}else if(isEmpty(birthYear) || isEmpty(birthMonth) || isEmpty(birthDay)) {
+	}else if((isEmpty(birthYear) || isEmpty(birthMonth) || isEmpty(birthDay)) && !isUpdateUserInfoPage()) {
 		alert("생년월일을 입력해주세요.");
 		birthYearInput.focus();
 		return false;
 
-	}else if(birthType == 0) {
+	}else if(birthType == 0 && !isUpdateUserInfoPage()) {
 		alert("양력, 음력중 선택해주세요.");
 		return false;
 
-	}else if(isEmpty(userIdInput.value)){
+	}else if(isEmpty(userIdInput.value) && !isUpdateUserInfoPage()){
 		alert('로그인 아이디를 입력해주세요.');
 		userIdInput.focus();
 		return false;
 
-	}else if(!regUserId.test(userIdInput.value)){
+	}else if(!regUserId.test(userIdInput.value) && !isUpdateUserInfoPage()){
 		alert('로그인 아이디는 4자에서 10자 사이로 입력해주세요.');
 		userIdInput.focus();
 		return false;
 
-	}else if(!checkUserIdFlag){
+	}else if(!checkUserIdFlag && !isUpdateUserInfoPage()){
 		alert('아이디 중복체크를 진행헤 주세요.');
 		return false;
 
-	}else if(isAlphaNumberic(userIdInput.value) == false){
+	}else if(isAlphaNumberic(userIdInput.value) == false && !isUpdateUserInfoPage()){
 		alert('로그인 아이디는 영문자 소문자와 숫자만 사용할수 있습니다.');
 		userIdInput.focus();
 		return false;
@@ -352,6 +419,27 @@ function getSignupInfo() {
 	return signupData;
 }
 
+function getUpdateInfo() {
+	console.log(userPasswordInput);
+	let updateInfo = {
+		"userPassword": userPasswordInput.value,
+		"postalCode" : postalCodeInput.value,
+		"mainAddress" : mainAddressInput.value,
+		"detailAddress" : detailAddressInput.value,
+		"mainPhoneNumber" : mainPhoneNumber,
+		"subPhoneNumber" : subPhoneNumber,
+		"userEmail" : email,
+		"emailReceiveFlag" : receiveCheckBoxItems[0].checked,
+		"smsReceiveFlag" : receiveCheckBoxItems[1].checked,
+		"mailReceiveFlag" : receiveCheckBoxItems[2].checked,
+		"staffCompany" : staffCompanySelect.options[staffCompanySelect.selectedIndex].value,
+		"employeeNumber" : employeeNumberInput.value,
+		"checkUserIdFlag": checkUserIdFlag
+	}
+
+	return updateInfo;
+}
+
 function isEmpty(data) {
 	return data == "" || data == undefined || data == null;
 }
@@ -359,6 +447,83 @@ function isEmpty(data) {
 function setModifyFlag() {
 	return localStorage.modifyFlag ? true : false;
 }
+
+
+
+
+function setUserNameTr() {
+	const userNameTr = document.querySelector(".user-name-tr");
+
+	userNameTr.innerHTML = `
+		<th scope="row">
+			<span>이름</span>
+		</th>
+		<td>
+			${user.userName}
+		</td>
+	`;
+	
+}
+
+function setUserGenderTr() {
+	const userGenderTr = document.querySelector(".user-gender-tr");
+
+	userGenderTr.innerHTML = `
+		<th scope="row">
+			<span>성별</span>
+		</th>
+		<td>
+			${user.userGender == 1 ? "남자" : "여자"}	
+		</td>
+	`;
+}
+
+function setUserBirthTr() {
+	const userBirthTr = document.querySelector(".user-birth-tr");
+	let userBirth = user.userBirth;
+
+	let birthYear = userBirth.substring(0, userBirth.indexOf("-"));
+	let birthMonth = userBirth.substring(userBirth.indexOf("-") + 1, userBirth.lastIndexOf("-"));
+	let birthDay = userBirth.substring(userBirth.lastIndexOf("-") + 1);
+
+	userBirthTr.innerHTML = `
+		<th scope="row">
+			<span>생년월일</span>
+		</th>
+		<td>
+			<div class="birth">
+				<input type="text" id="year" class="year" maxlength="4" value="${birthYear}">
+				<label for="year">년</label>
+				<input type="text" id="month" class="month" maxlength="2" value="${birthMonth}">
+				<label for="month">월</label>
+				<input type="text" id="day" class="day" maxlength="2" value="${birthDay}">
+				<label for="day">일</label>
+				<input type="radio" id="yM" class="birty-type" name="birty-type" value="1" ${user.birthType == 1 ? "checked" : ""} disabled>
+				<label for="yM">양력</label>
+				<input type="radio" id="eM" class="birty-type" name="birty-type" value="2" ${user.birthType == 2 ? "checked" : ""} disabled>
+				<label for="eM">음력</label>
+			</div>
+		</td>
+	`;
+}
+
+function setUserIdTr() {
+	const userIdTr = document.querySelector(".user-id-tr");
+
+	userIdTr.innerHTML = `
+		<th scope="row">
+			<span><label for="username">아이디</label></span>
+		</th>
+		<td class="user-id-div">
+			${user.userId}
+		</td>
+	`;
+}
+
+function setRequestButton() {
+	requestButton.textContent = "완료";
+}
+
 
 function setUserNameInput(userInfoObject) {
 	userNameInput.value = userInfoObject.userName;
@@ -396,6 +561,15 @@ function setUserAddress(userInfoObject) {
 	postalCodeInput.value = userInfoObject.postalCode;
 	mainAddressInput.value = userInfoObject.mainAddress;
 	detailAddressInput.value = userInfoObject.detailAddress;
+}
+
+function setUserMainPhoneNumberInput(userInfoObject) {
+	const phoneSelectOption = document.querySelectorAll(".main-phone-box .phone-select-box option");
+	let mainPhoneNumber = userInfoObject.mainPhoneNumber;
+	
+	setFirstNumber(phoneSelectOption, mainPhoneNumber);
+	setMiddleNumber(mainMiddlePhoneNumber, mainPhoneNumber);
+	setLastNumber(mainLastPhoneNumber, mainPhoneNumber);
 }
 
 function setUserSubPhoneNumberInput(userInfoObject) {

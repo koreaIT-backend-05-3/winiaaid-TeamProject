@@ -11,5 +11,6 @@ public interface UserRepository {
 	public User findUserByUserId(String username) throws Exception;
 	public User findUserInfoByMainPhoneNumberOrUserId(Map<String, Object> config_map) throws Exception;
 	public int updateUserPasswordByUserId(UpdateUserPasswordEntity updateUserPasswordEntity) throws Exception;
-	
+	public int updateUserInfoByUserCode(User user) throws Exception;
+	public int deleteUserByUserCode(int user_code) throws Exception;
 }

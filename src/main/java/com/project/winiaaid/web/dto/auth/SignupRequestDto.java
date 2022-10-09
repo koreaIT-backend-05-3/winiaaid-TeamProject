@@ -57,7 +57,7 @@ public class SignupRequestDto {
 	private boolean checkUserIdFlag;
 	
 
-	public User toEntity() {
+	public User toUserEntity() {
 		return User.builder()
 				.user_name(userName)
 				.user_id(userId)

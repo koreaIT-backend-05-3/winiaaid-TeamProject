@@ -1,4 +1,3 @@
-
 #header{
     width: 100%;
     height: 110px;
@@ -10,6 +9,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.main-logo, .logout-span {
+    cursor: pointer;
 }
 
 #header .inner h1{
@@ -34,25 +37,27 @@
     align-items: center;
 }
 
-#header .util ul li{
+#header .util ul li {
     display: flex;
     align-items: center;
 
     float: left;
     position: relative;
 }
-#header .util ul li a:hover{
+#header .util ul li span, .signup-li, .util-layer li {
+    cursor: pointer;
+}
+
+#header .util ul li:hover{
     border-bottom: 1px solid #222;
 }
-#header .util > ul > li + li:before {
-    content: '';
-    display: inline-block;
-    width: 1px;
-    height: 12px;
-    margin: 0px 10px 0 10px;
-    background: #222;
+#header .util .signup-li {
+    margin-left: 10px;
 }
 #header .util .util-layer{
+    display: flex;
+    flex-direction: column;
+
     position: absolute;
     left: -9px;
     top: 27px;
@@ -62,7 +67,7 @@
     z-index: 10;
     background-color: rgb(255, 255, 255);
 }
-#header .util .util-layer li a:hover{
+#header .util .util-layer li:hover{
     font-weight: 500;
     color: royalblue;
 }
@@ -92,8 +97,7 @@
     border-right: 1px solid #e5e5e5;
 }
 
-
-#gnb .sub-ul{
+#gnb .sub-ul {
     position: relative;
     margin-top: 10px;
     width: 325px;
@@ -105,10 +109,12 @@
     border-right: 1px solid #e5e5e5;
     display: none;
 }
+
 #gnb .mn-ul .main-mn:first-child{
     width: 326px;
     border-left: 1px solid #e5e5e5;
 }
+
 #gnb .mn-ul .main-mn:first-child >ul{
     margin-left: -1px;
     width: 326px;
@@ -117,18 +123,17 @@
 
 }
 
-
-
 #gnb .sub-mn{
     width: 266px;
     height: 26px;
     line-height: 25px;
     list-style-type: disc;
+    cursor: pointer;
 }
 #gnb .sub-mn:hover{
     text-decoration-line: underline;
 }
-#gnb .sub-mn a{
+#gnb .sub-mn {
     font-size: 14px;
     font-weight: 500;
 }
@@ -147,4 +152,8 @@
 
 #gnb .on{
     display: block;
+}
+
+.visible {
+    display: none !important;
 }

@@ -10,10 +10,6 @@
     margin: 0 auto;
 }
 
-form{
-    display: block;
-}
-
 #main .main-inner h2{
     margin: 60px 0 40px;
     font-size: 25px;
@@ -25,6 +21,10 @@ form{
 #main .main-inner h2 span{
     display: block;
     margin-top: 20px;
+    font-size: 25px;
+}
+
+.comapny {
     font-size: 25px;
 }
 
@@ -50,6 +50,7 @@ form{
 }
 
 .login_section .button{
+    border: none;
     font-size: 16px;
     font-weight: normal;
     text-align: center;
@@ -58,7 +59,7 @@ form{
     color: #fff;
 }
 
-.login_section > a{
+.login_section > button{
     position: absolute;
     right: 179px;
     top: 40px;
@@ -69,6 +70,15 @@ form{
 
 .blue{
     background-color: #3652a2;
+}
+
+.save-id-box {
+    display: flex;
+    align-items: center;
+}
+
+.save-id-box input {
+    margin-right: 10px;
 }
 
 .attention{

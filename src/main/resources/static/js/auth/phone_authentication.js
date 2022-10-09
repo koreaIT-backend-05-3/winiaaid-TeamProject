@@ -74,7 +74,7 @@ function authenticationRequest() {
 }
 
 function checkPhonNumberReg() {
-	let regMainPhone = /^01([0|1|6|7|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+	let regMainPhone = /^01([0|1|6|7|9])-+?([0-9]{3,4})-+?([0-9]{4})$/;
 
     if(!regMainPhone.test(mainPhoneNumberInput.value)) {
         return false;
@@ -117,9 +117,9 @@ function checkUser() {
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
-                alert("이미 등록되어 있는 회원입니다.");
                 clearAuthenticationNumber();
                 addVisibleClass(authenticationNumberDiv);
+                setAlreadyHasSignupUserView(response.data);
                 return false;
 
             }else {
@@ -141,13 +141,50 @@ function setMainPhoneNumberInLocalStorage() {
     localStorage.userMainPhoneNumber = JSON.stringify(mainPhoneNumberInput.value);
 }
 
-function addVisibleClass(domObject) {
-    domObject.classList.add("visible");
+function setAlreadyHasSignupUserView(userInfo) {
+    const titleContent = document.querySelector(".title-content");
+    const authenticationNoticeDiv = document.querySelector(".authentication-notice-div");
+    const noticeFooter = document.querySelector(".notice-footer");
+    const forgetButtonDiv = document.querySelector(".forget-button-div");
+    
+    setTitle();
+
+    addVisibleClass(titleContent);
+    addVisibleClass(authenticationNoticeDiv);
+    addVisibleClass(noticeFooter);
+
+    setAuthenticationDivBoxView(userInfo);
+
+    removeVisibleClass(forgetButtonDiv);
+
+    setForgetButtonDivButtons();
 }
 
-function removeVisibleClass(domObject) {
-    domObject.classList.remove("visible");
+function setTitle() {
+    const titleH1 = document.querySelector(".title h1");
+
+    titleH1.textContent = "실명확인 결과";
 }
+
+function setAuthenticationDivBoxView(userInfo) {
+    authenticationMainContent.classList.add("result-content");
+
+    authenticationMainContent.innerHTML = `
+        <p><span class="user-info">${userInfo.userName} (${userInfo.userId.substring(0, 2)}**********)</span>님은 이미 가입되어 있습니다.</p>
+        <p>ID와 비밀번호를 잊으셨다면<span class="strong"> ID 찾기 / 비밀번호 재설정</span>을 하시기 바랍니다.</p>
+    `;
+}
+
+function setForgetButtonDivButtons() {
+    const forgetUserIdButton = document.querySelector(".forget-user-id");
+    const forgetUserPasswordButton = document.querySelector(".forget-user-password");
+
+    forgetUserIdButton.onclick = loadForgetUserIdPage;
+    forgetUserPasswordButton.onclick = loadForgetUserPasswordPage;
+
+}
+
+
 
 function errorMessage(request, status, error) {
     console.log(request.status);

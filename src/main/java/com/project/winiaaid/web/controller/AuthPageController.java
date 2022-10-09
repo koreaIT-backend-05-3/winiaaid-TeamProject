@@ -42,11 +42,6 @@ public class AuthPageController {
 	public String loadSignupStep5Page() {
 		return "auth/signup_step5";
 	}
-	 
-	@GetMapping("/auth/withdrawal/login")
-	    public String withdrawalLoginPage() {
-	        return "auth/withdrawal_login"; 
-	    }
 
 	@GetMapping("/auth/withdrawal")
 	public String withdrawalPage() {
