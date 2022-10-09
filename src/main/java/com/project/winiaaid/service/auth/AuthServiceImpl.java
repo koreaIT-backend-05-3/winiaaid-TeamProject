@@ -20,12 +20,6 @@ public class AuthServiceImpl implements AuthService {
 
 	private final UserRepository userRepository;
     private final ConfigMap configMapper;
-	
-	
-	@Override
-	public boolean checkUsername(UsernameCheckRequestDto usernameCheckReqDto) throws Exception {
-		return userRepository.findUserByUsername(usernameCheckReqDto.getUsername()) == null;
-	}
 
 	@Override
 	public boolean signup(SignupRequestDto signupRequestDto) throws Exception {
@@ -38,6 +32,11 @@ public class AuthServiceImpl implements AuthService {
         }
 		return status == 2;
 	}
+
+    @Override
+    public boolean checkUserId(UsernameCheckRequestDto usernameCheckReqDto) throws Exception {
+        return userRepository.findUserByUserId(usernameCheckReqDto.getUserId()) == null;
+    }
 
     @Override
     public String getRandomAuthenticationNumber(String phoneNumber) throws Exception {

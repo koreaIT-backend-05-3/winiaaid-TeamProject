@@ -40,13 +40,15 @@
 }
 
 .button{
-    display: inline-block;
-    height: 40px;
+    border: none;
     padding: 0 20px;
+
+    height: 40px;
+    
     font-weight: bold;
-    line-height: 40px;
     color: #fff;
 }
+
 .blue{
     background-color: #3652a2;
 }

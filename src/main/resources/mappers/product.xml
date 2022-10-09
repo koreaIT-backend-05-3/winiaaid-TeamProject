@@ -17,12 +17,12 @@
     </resultMap>
 
     <resultMap id="productModelCollectionResult" type="com.project.winiaaid.domain.product.ModelNumberInfo">
-        <id property="model_category_code" column="model_category_code"/>
-        <result property="model_category_name" column="model_category_name"/>
-        <result property="model_category_number_info" column="model_category_number_info"/>
-        <result property="model_category_number_info_detail" column="model_category_number_info_detail"/>
-        <collection property="model_number_image_list" ofType="com.project.winiaaid.domain.product.ModelNumberImage">
-            <result property="model_category_image_name" column="model_category_image_name"/>
+        <id property="product_category_code" column="product_category_code"/>
+        <result property="product_category_name" column="product_category_name"/>
+        <result property="product_category_number_info" column="product_category_number_info"/>
+        <result property="product_category_number_info_detail" column="product_category_number_info_detail"/>
+        <collection property="product_number_image_list" ofType="com.project.winiaaid.domain.product.ModelNumberImage">
+            <result property="product_category_image_name" column="product_category_image_name"/>
         </collection>
     </resultMap>
 
@@ -57,15 +57,17 @@
 
     <select id="findListToProductNumberInfo" resultMap="productModelCollectionResult">
         SELECT
-            pmc.model_category_code,
-            pmc.model_category_name,
-            pmc.model_category_number_info,
-            pmc.model_category_number_info_detail,
+            pmc.product_category_code,
+            pmc.product_category_number_info,
+            pmc.product_category_number_info_detail,
 
-            pmci.model_category_image_name
+            wpm.product_category_name,
+
+            pmci.product_category_image_name
         FROM
             product_model_category pmc
-            LEFT OUTER JOIN product_model_category_image pmci ON(pmci.model_category_code = pmc.model_category_code);
+            LEFT OUTER JOIN winia_product_mst wpm ON(pmc.product_category_code = wpm.product_category_code)
+            LEFT OUTER JOIN product_model_category_image pmci ON(pmci.product_category_code = pmc.product_category_code);
     </select>
 
     <select id="findListToProductMainCategory" parameterType="Integer" resultType="com.project.winiaaid.domain.product.Product">

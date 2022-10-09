@@ -26,7 +26,7 @@ public class PrincipalDetailsService implements UserDetailsService{
 		User userEntity = null;
 		
 		try {
-			userEntity = userRepository.findUserByUsername(username);
+			userEntity = userRepository.findUserByUserId(username);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UsernameNotFoundException(username);

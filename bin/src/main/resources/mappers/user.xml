@@ -21,7 +21,7 @@
 	
     </insert>
 
-    <select id="findUserByUsername" parameterType="String" resultType="com.project.winiaaid.domain.user.User">
+    <select id="findUserByUserId" parameterType="String" resultType="com.project.winiaaid.domain.user.User">
 	 select
 	 	um.user_code,
 		um.user_name,

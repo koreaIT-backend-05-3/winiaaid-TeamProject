@@ -12,19 +12,19 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ModelNumberInfo {
-    private int model_category_code;
-    private String model_category_name;
-    private String model_category_number_info;
-    private String model_category_number_info_detail;
-    private List<ModelNumberImage> model_number_image_list;
+    private int product_category_code;
+    private String product_category_name;
+    private String product_category_number_info;
+    private String product_category_number_info_detail;
+    private List<ModelNumberImage> product_number_image_list;
 
     public ReadModelNumberInfoResponseDto toReadModelNumberInfoResponseDto() {
         return ReadModelNumberInfoResponseDto.builder()
-                .modelCategoryCode(model_category_code)
-                .modelCategoryName(model_category_name)
-                .modelCategoryNumberInfo(model_category_number_info)
-                .modelCategoryNumberInfoDetail(model_category_number_info_detail)
-                .modelNumberImageDtoList(model_number_image_list.stream()
+                .modelCategoryCode(product_category_code)
+                .modelCategoryName(product_category_name)
+                .modelCategoryNumberInfo(product_category_number_info)
+                .modelCategoryNumberInfoDetail(product_category_number_info_detail)
+                .modelNumberImageDtoList(product_number_image_list.stream()
                         .map(ModelNumberImage::toModelNumberImageDto)
                         .collect(Collectors.toList()))
                 .build();

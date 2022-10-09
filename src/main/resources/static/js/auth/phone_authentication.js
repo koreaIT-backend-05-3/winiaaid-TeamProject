@@ -53,6 +53,12 @@ function disableSecondEmailInputReadOnly() {
 }
 
 function authenticationRequest() {
+
+    if(!checkPhonNumberReg()) {
+        alert("휴대폰 번호를 올바르게 입력해주세요.");
+        return false;
+    }
+   
     $.ajax({
         type: "get",
         url: `/api/v1/auth/phone/${mainPhoneNumberInput.value}`,
@@ -65,6 +71,16 @@ function authenticationRequest() {
     });
 
     removeVisibleClass(authenticationNumberDiv);
+}
+
+function checkPhonNumberReg() {
+	let regMainPhone = /^01([0|1|6|7|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
+    if(!regMainPhone.test(mainPhoneNumberInput.value)) {
+        return false;
+    }
+
+    return true;
 }
 
 function checkAuthenticationNumber() {
@@ -87,7 +103,7 @@ function checkAuthenticationNumber() {
 }
 
 function isSignupStep2() {
-    return location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == "step-test";
+    return location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == "step2";
 }
 
 function checkUser() {
@@ -108,6 +124,8 @@ function checkUser() {
 
             }else {
                 setMainPhoneNumberInLocalStorage();
+                localStorage.stepPass = true;
+                localStorage.mainPhoneNumber = mainPhoneNumberInput.value;
                 location.replace("/auth/signup/step3");
             }
         },

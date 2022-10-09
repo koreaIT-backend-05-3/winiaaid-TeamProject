@@ -44,7 +44,7 @@
 	</insert>
 
 
-    <select id="findUserByUsername" parameterType="String" resultType="com.project.winiaaid.domain.user.User">
+    <select id="findUserByUserId" parameterType="String" resultType="com.project.winiaaid.domain.user.User">
 	 select
 	 	um.user_code,
 		um.user_name,
@@ -70,7 +70,7 @@
 		user_mst um
 		left outer join user_dtl ud on(ud.user_code = um.user_code)
 	where
-		um.user_id = #{user_id}
+		um.user_id = #{userId}
     </select>
 
 	<select id="findUserInfoByMainPhoneNumberOrUserId" parameterType="HashMap" resultType="com.project.winiaaid.domain.user.User">

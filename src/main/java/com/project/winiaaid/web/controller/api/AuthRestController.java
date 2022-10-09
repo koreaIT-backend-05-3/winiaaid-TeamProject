@@ -5,13 +5,11 @@ import com.project.winiaaid.handler.aop.annotation.ValidationCheck;
 import com.project.winiaaid.service.auth.AuthService;
 import com.project.winiaaid.service.auth.PrincipalDetails;
 import com.project.winiaaid.web.dto.CustomResponseDto;
-import com.project.winiaaid.web.dto.auth.AuthenticationUserRequestDto;
-import com.project.winiaaid.web.dto.auth.AuthenticationUserResponseDto;
-import com.project.winiaaid.web.dto.auth.SignupRequestDto;
-import com.project.winiaaid.web.dto.auth.UpdateUserPasswordRequestDto;
+import com.project.winiaaid.web.dto.auth.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,7 +23,7 @@ public class AuthRestController {
 
     @ValidationCheck
     @PostMapping("signup")
-    public ResponseEntity<?> signupUser(@RequestBody @Valid SignupRequestDto signupRequestDto) {
+    public ResponseEntity<?> signupUser(@RequestBody @Valid SignupRequestDto signupRequestDto, BindingResult bindingResult) {
         boolean status = false;
 
         try {
@@ -36,6 +34,21 @@ public class AuthRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Member registration successful", status));
+    }
+
+    @ValidationCheck
+    @GetMapping("/signup/validation/user-id")
+    public ResponseEntity<?> checkUserId(@Valid UsernameCheckRequestDto usernameCheckRequestDto, BindingResult bindingResult) {
+        boolean status = false;
+
+        try {
+            status = authService.checkUserId(usernameCheckRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CustomResponseDto<>(1, "Duplicate ID check failed", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "ID duplicated check completed", status));
     }
 
     @GetMapping("/phone/{phoneNumber}")
