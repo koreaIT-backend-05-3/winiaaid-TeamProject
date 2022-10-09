@@ -28,7 +28,7 @@ checkPreviousInfoInLocalStorage();
 solutionTypeSelect.onchange = () => {
     solutionType = getSolutionTypeCode();
     console.log("check solutionType: " + solutionType);
-    getSolutionListByKeyCode();
+    getSolutionList();
 }
 
 searchInput.onkeypress = (e) => {
@@ -40,9 +40,7 @@ searchInput.onkeypress = (e) => {
 solutionTypeUnitItems[0].onclick = loadFaqPage;
 solutionTypeUnitItems[1].onclick = loadSelfCheckPage;
 
-searchKeywordButton.onclick = () => {
-    getSolutionListByKeyCodeAndKeyword();
-};
+searchKeywordButton.onclick = getSolutionListByKeyword;
 
 latestSortButton.onclick = sortChange;
 
@@ -54,7 +52,7 @@ function getSolutionTypeCode() {
     return solutionTypeSelect.options[solutionTypeSelect.selectedIndex].value;
 }
 
-function getSolutionListByKeyCode() {
+function getSolutionList() {
 
     console.log("제품코드: " + selectProductCode);
     console.log("그룹코드: " + selectProductGroupCode);
@@ -63,27 +61,22 @@ function getSolutionListByKeyCode() {
     if(selectProductCode != 0) {
         console.log("제품");
         console.log(selectProductCode);
-        getSolutionListByProductCode();
+        getSolutionListByKeyCode("product", selectProductCode);
     }else if(selectProductGroupCode != 0) {
         console.log("그룹");
         console.log(selectProductGroupCode);
-        getSolutionListByProductGroupCode();
+        getSolutionListByKeyCode("group", selectProductGroupCode);
     }else if(selectProductCategoryCode != 0){
         console.log("카테고리");
         console.log(selectProductCategoryCode);
-        getSolutionListByProductCategoryCode();
+        getSolutionListByKeyCode("category", selectProductCategoryCode);
     }else {
-        if(company == "winia") {
-            console.log("winia");
-            getWiniaAllProductSolution();
-        }else {
-            console.log("daewoo");
-            getDaewooAllProductSolution();
-        }
+        getAllProductSolutionByCompany();
+
     }
 }
 
-function getSolutionListByKeyCodeAndKeyword() {
+function getSolutionListByKeyword() {
 
     console.log("제품코드: " + selectProductCode);
     console.log("그룹코드: " + selectProductGroupCode);
@@ -91,30 +84,28 @@ function getSolutionListByKeyCodeAndKeyword() {
     
     if(selectProductCode != 0) {
         console.log("제품");
-        searchSolutionByKeyWordAndProductCode();
+        searchSolutionByKeyWordAndKeyCode("product", selectProductCode);
     }else if(selectProductGroupCode != 0) {
         console.log("그룹");
-        searchSolutionByKeyWordAndProductGroupCode();
+        searchSolutionByKeyWordAndKeyCode("group", selectProductGroupCode);
     }else if(selectProductCategoryCode != 0) {
         console.log("카테고리");
-        searchSolutionByKeyWordAndProductCategoryCode();
+        searchSolutionByKeyWordAndKeyCode("category", selectProductCategoryCode);
     }else {
-        if(company == "winia") {
-            console.log("winia");
-            searchWiniaAllProductSolutionByKeyWord();
-        }else {
-            console.log("daewoo");
-            searchDaewooAllProductSolutionByKeyWord();
-        }
+        searchAllProductSolutionByCompanyAndKeyWord();
+
     }
 }
 
-function getWiniaAllProductSolution() {
+function getAllProductSolutionByCompany() {
     removeSolutionTypeOption();
 
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/winia?boardType=${boardType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/${company}/${boardType}/list`,
+        data: {
+            "sortType": latestSortFlag ? "latest" : "viewed"
+        },
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -124,27 +115,19 @@ function getWiniaAllProductSolution() {
     });
 }
 
-function getDaewooAllProductSolution() {
-    removeSolutionTypeOption();
-
-    $.ajax({
-        type: "get",
-        url: `/api/v1/solution/list/daewoo?boardType=${boardType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
-        dataType: "json",
-        success: (response) => {
-            setSolutionList(response.data);
-            visibleSearchKeywordResultNoticeAndClearSearchInput();
-        },
-        error: errorMessage
-    });
-}
-
-function getSolutionListByProductCategoryCode() {
+function getSolutionListByKeyCode(codeType, keyCode) {
     solutionType = getSolutionTypeCode();
-    
+
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-category-code/${selectProductCategoryCode}?boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/${boardType}/list`,
+        data: {
+            "company": company,
+            "codeType": codeType,
+            "keyCode": keyCode,
+            "solutionType": solutionType,
+            "sortType": latestSortFlag ? "latest" : "viewed"
+        },
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
@@ -155,30 +138,17 @@ function getSolutionListByProductCategoryCode() {
     });
 }
 
-function getSolutionListByProductGroupCode() {
-    initializationSolutionTypeOption();
-    solutionType = getSolutionTypeCode();
-    
-    $.ajax({
-        type: "get",
-        url: `/api/v1/solution/list/${company}/product-group-code/${selectProductGroupCode}?boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
-        dataType: "json",
-        success: (response) => {
-            setSolutionList(response.data);
-            setSolutionTypeOption();
-            visibleSearchKeywordResultNoticeAndClearSearchInput();
-        },
-        error: errorMessage
-    });
-}
-
-function searchSolutionByKeyWordAndProductGroupCode() {
+function searchAllProductSolutionByCompanyAndKeyWord() {
     let keyword = searchInput.value;
-
+    
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-group-code/${selectProductGroupCode}/search?keyword=${keyword}&boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/${company}/${boardType}/list`,
         dataType: "json",
+        data: {
+            "sortType": latestSortFlag ? "latest" : "viewed",
+            "keyword": keyword
+        },
         success: (response) => {
             setSolutionList(response.data);
             showSearchKeywordResultNotcie();
@@ -189,20 +159,26 @@ function searchSolutionByKeyWordAndProductGroupCode() {
     });
 }
 
-function getSolutionListByProductCode() {
-    solutionType = getSolutionTypeCode();
-    console.log("solutionType: " + solutionType);
-    console.log(company);
-    console.log(selectProductCode);
-    console.log(boardType);
-    console.log(latestSortFlag);
+function searchSolutionByKeyWordAndKeyCode(codeType, keyCode) {
+    let keyword = searchInput.value;
+
     $.ajax({
         type: "get",
-        url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}?boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
+        url: `/api/v1/solution/${boardType}/list`,
+        data: {
+            "company": company,
+            "codeType": codeType,
+            "keyCode": keyCode,
+            "solutionType": solutionType,
+            "sortType": latestSortFlag ? "latest" : "viewed",
+            "keyword": keyword
+        },
         dataType: "json",
         success: (response) => {
             setSolutionList(response.data);
-            visibleSearchKeywordResultNoticeAndClearSearchInput();
+            showSearchKeywordResultNotcie();
+            setSearchKeywordTotalCount(response.data);
+            setSearchKeywordNotice();
         },
         error: errorMessage
     });
@@ -304,74 +280,6 @@ function removeSolutionTypeOption() {
     solutionTypeSelect.innerHTML = `<option value="1">전체</option>`;
 }
 
-function searchWiniaAllProductSolutionByKeyWord() {
-    let keyword = searchInput.value;
-    
-    $.ajax({
-        type: "get",
-        url: `/api/v1/solution/list/winia/search?keyword=${keyword}&boardType=${boardType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
-        dataType: "json",
-        success: (response) => {
-            setSolutionList(response.data);
-            showSearchKeywordResultNotcie();
-            setSearchKeywordTotalCount(response.data);
-            setSearchKeywordNotice();
-        },
-        error: errorMessage
-    });
-}
-
-function searchDaewooAllProductSolutionByKeyWord() {
-    let keyword = searchInput.value;
-
-    $.ajax({
-        type: "get",
-        url: `/api/v1/solution/list/daewoo/search?keyword=${keyword}&boardType=${boardType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
-        dataType: "json",
-        success: (response) => {
-            setSolutionList(response.data);
-            showSearchKeywordResultNotcie();
-            setSearchKeywordTotalCount(response.data);
-            setSearchKeywordNotice();
-        },
-        error: errorMessage
-    });
-}
-
-function searchSolutionByKeyWordAndProductCategoryCode() {
-    let keyword = searchInput.value;
-
-    $.ajax({
-        type: "get",
-        url: `/api/v1/solution/list/${company}/product-category-code/${selectProductCategoryCode}/search?keyword=${keyword}&boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
-        dataType: "json",
-        success: (response) => {
-            setSolutionList(response.data);
-            showSearchKeywordResultNotcie();
-            setSearchKeywordTotalCount(response.data);
-            setSearchKeywordNotice();
-        },
-        error: errorMessage
-    });
-}
-
-function searchSolutionByKeyWordAndProductCode() {
-    let keyword = searchInput.value;
-
-    $.ajax({
-        type: "get",
-        url: `/api/v1/solution/list/${company}/product-code/${selectProductCode}/search?keyword=${keyword}&boardType=${boardType}&solutionType=${solutionType}&sortType=${latestSortFlag ? "latest" : "viewed"}`,
-        dataType: "json",
-        success: (response) => {
-            setSolutionList(response.data);
-            showSearchKeywordResultNotcie();
-            setSearchKeywordTotalCount(response.data);
-            setSearchKeywordNotice();
-        },
-        error: errorMessage
-    });
-}
-
 function showSearchKeywordResultNotcie() {
     removeVisibleClass(searchKeywordResultNoticeDiv);
 }
@@ -403,9 +311,9 @@ function sortChange() {
     }
 
     if(isEmpty(searchInput.value)) {
-        getSolutionListByKeyCode();
+        getSolutionList();
     }else {
-        getSolutionListByKeyCodeAndKeyword();
+        getSolutionListByKeyword();
     }
     changeSortButton();
 }

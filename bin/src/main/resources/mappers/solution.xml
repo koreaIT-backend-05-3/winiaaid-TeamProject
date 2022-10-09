@@ -110,365 +110,185 @@
         </choose>
     </select>
 
-    <select id="findSolutionListByProductCategoryCodeAndKeyword" parameterType="HashMap" resultType="com.project.winiaaid.domain.solution.Solution">
+    <select id="findSolutionListByKeyCodeAndKeyword" parameterType="HashMap" resultType="com.project.winiaaid.domain.solution.Solution">
         SELECT
-            '1' AS seq_order,
-            spt.views,
-            spt.solution_board_code,
+        '1' AS seq_order,
+        spt.views,
+        spt.solution_board_code,
 
-            st.solution_title,
-            st.solution_content,
-            st.create_date,
+        st.solution_title,
+        st.solution_content,
+        st.create_date,
 
-            stt.solution_name,
+        stt.solution_name,
 
-            wpd.product_detail_name,
+        wpd.product_detail_name,
 
-            wpm.product_category_name,
+        wpm.product_category_name,
 
-            tct.total_count
+        tct.total_count
         FROM
-            solution_product_table spt
-            LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
-            LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
-            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-            LEFT OUTER JOIN (SELECT
-                                COUNT(*) AS total_count
-                            FROM
-                                solution_table st
-                                LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
-                                LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-                                LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-                            WHERE
-                                wpm.product_category_code = #{keyCode}
-                                AND st.solution_board_type = #{solution_board_type}
-                                <if test="solution_type_code != 1">
-                                    AND st.solution_type_code = #{solution_type_code}
-                                </if>
-                                <if test="keyword != null">
-                                    AND (st.solution_title like concat('%', #{keyword}, '%')
-                                    OR st.solution_content like concat('%', #{keyword}, '%'))
-                                </if>
-                                ) tct ON (1 = 1)
+        solution_product_table spt
+        LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
+        LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
+        LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
+        LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+        LEFT OUTER JOIN (SELECT
+        COUNT(*) AS total_count
+        FROM
+        solution_table st
+        LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
+        LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
+        LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
         WHERE
-            wpm.product_category_code = #{keyCode}
-            AND st.solution_board_type = #{solution_board_type}
-            <if test="solution_type_code != 1">
-                AND st.solution_type_code = #{solution_type_code}
-            </if>
-            <if test="keyword != null">
-                AND (st.solution_title like concat('%', #{keyword}, '%')
-                OR st.solution_content like concat('%', #{keyword}, '%'))
-            </if>
-            <if test="sort_type == 'viewed'">
-                AND st.create_date > #{limit_date}
-            </if>
+        <choose>
+            <when test="code_type == 'category'">
+                wpm.product_category_code = #{key_code}
+            </when>
+            <when test="code_type == 'group'">
+                wpm.product_group = #{key_code}
+            </when>
+            <otherwise>
+                spt.product_code = #{key_code}
+            </otherwise>
+        </choose>
+
+        AND st.solution_board_type = #{solution_board_type}
+        AND wpm.company_code = #{company_code}
+
+        <if test="solution_type_code != 1">
+            AND st.solution_type_code = #{solution_type_code}
+        </if>
+
+        <if test="keyword != null">
+            AND (st.solution_title like concat('%', #{keyword}, '%')
+            OR st.solution_content like concat('%', #{keyword}, '%'))
+        </if>
+        ) tct ON (1 = 1)
+        WHERE
+        <choose>
+            <when test="code_type == 'category'">
+                wpm.product_category_code = #{key_code}
+            </when>
+            <when test="code_type == 'group'">
+                wpm.product_group = #{key_code}
+            </when>
+            <otherwise>
+                spt.product_code = #{key_code}
+            </otherwise>
+        </choose>
+
+        AND st.solution_board_type = #{solution_board_type}
+        AND wpm.company_code = #{company_code}
+
+        <if test="solution_type_code != 1">
+            AND st.solution_type_code = #{solution_type_code}
+        </if>
+
+        <if test="keyword != null">
+            AND (st.solution_title like concat('%', #{keyword}, '%')
+            OR st.solution_content like concat('%', #{keyword}, '%'))
+        </if>
+
+        <if test="sort_type == 'viewed'">
+            AND st.create_date > #{limit_date}
+        </if>
+
         <choose>
             <when test="sort_type == 'viewed'">
                 UNION
 
                 SELECT
-                    '2' AS seq_order,
-                    spt.views,
-                    spt.solution_board_code,
+                '2' AS seq_order,
+                spt.views,
+                spt.solution_board_code,
 
-                    st.solution_title,
-                    st.solution_content,
-                    st.create_date,
+                st.solution_title,
+                st.solution_content,
+                st.create_date,
 
-                    stt.solution_name,
+                stt.solution_name,
 
-                    wpd.product_detail_name,
+                wpd.product_detail_name,
 
-                    wpm.product_category_name,
+                wpm.product_category_name,
 
-                    tct.total_count
+                tct.total_count
                 FROM
-                    solution_product_table spt
-                    LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
-                    LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
-                    LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-                    LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-                    LEFT OUTER JOIN (SELECT
-                                        COUNT(*) AS total_count
-                                    FROM
-                                        solution_table st
-                                        LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
-                                        LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-                                        LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-                                    WHERE
-                                        wpm.product_category_code = #{keyCode}
-                                        AND st.solution_board_type = #{solution_board_type}
-                                        <if test="solution_type_code != 1">
-                                            AND st.solution_type_code = #{solution_type_code}
-                                        </if>
-                                        <if test="keyword != null">
-                                            AND (st.solution_title like concat('%', #{keyword}, '%')
-                                            OR st.solution_content like concat('%', #{keyword}, '%'))
-                                        </if>
-                                    ) tct ON (1 = 1)
+                solution_product_table spt
+                LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
+                LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
+                LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
+                LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+                LEFT OUTER JOIN (SELECT
+                COUNT(*) AS total_count
+                FROM
+                solution_table st
+                LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
+                LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
+                LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
                 WHERE
-                    wpm.product_category_code = #{keyCode}
-                    AND st.solution_board_type = #{solution_board_type}
-                    AND NOT st.create_date > #{limit_date}
-                    <if test="solution_type_code != 1">
-                        AND st.solution_type_code = #{solution_type_code}
-                    </if>
-                    <if test="keyword != null">
-                        AND (st.solution_title like concat('%', #{keyword}, '%')
-                        OR st.solution_content like concat('%', #{keyword}, '%'))
-                    </if>
+                <choose>
+                    <when test="code_type == 'category'">
+                        wpm.product_category_code = #{key_code}
+                    </when>
+                    <when test="code_type == 'group'">
+                        wpm.product_group = #{key_code}
+                    </when>
+                    <otherwise>
+                        spt.product_code = #{key_code}
+                    </otherwise>
+                </choose>
+
+                AND st.solution_board_type = #{solution_board_type}
+                AND wpm.company_code = #{company_code}
+
+                <if test="solution_type_code != 1">
+                    AND st.solution_type_code = #{solution_type_code}
+                </if>
+
+                <if test="keyword != null">
+                    AND (st.solution_title like concat('%', #{keyword}, '%')
+                    OR st.solution_content like concat('%', #{keyword}, '%'))
+                </if>
+
+                ) tct ON (1 = 1)
+                WHERE
+                <choose>
+                    <when test="code_type == 'category'">
+                        wpm.product_category_code = #{key_code}
+                    </when>
+                    <when test="code_type == 'group'">
+                        wpm.product_group = #{key_code}
+                    </when>
+                    <otherwise>
+                        spt.product_code = #{key_code}
+                    </otherwise>
+                </choose>
+
+                AND st.solution_board_type = #{solution_board_type}
+                AND NOT st.create_date > #{limit_date}
+                AND wpm.company_code = #{company_code}
+
+                <if test="solution_type_code != 1">
+                    AND st.solution_type_code = #{solution_type_code}
+                </if>
+
+                <if test="keyword != null">
+                    AND (st.solution_title like concat('%', #{keyword}, '%')
+                    OR st.solution_content like concat('%', #{keyword}, '%'))
+                </if>
                 ORDER BY
-                    seq_order,
-                    views desc
+                seq_order,
+                views desc
             </when>
             <otherwise>
                 ORDER BY
-                    st.create_date desc
+                st.create_date desc
             </otherwise>
         </choose>
     </select>
 
-    <select id="findSolutionListByProductGroupCodeAndKeyword" parameterType="HashMap" resultType="com.project.winiaaid.domain.solution.Solution">
-        SELECT
-            '1' AS seq_order,
-            spt.views,
-            spt.solution_board_code,
-
-            st.solution_title,
-            st.solution_content,
-            st.create_date,
-
-            stt.solution_name,
-
-            wpd.product_detail_name,
-
-            wpm.product_category_name,
-
-            tct.total_count
-        FROM
-            solution_product_table spt
-            LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
-            LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
-            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-            LEFT OUTER JOIN (SELECT
-                                COUNT(*) AS total_count
-                            FROM
-                                solution_table st
-                                LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
-                                LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-                                LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-                            WHERE
-                                wpm.product_group = #{keyCode}
-                                AND st.solution_board_type = #{solution_board_type}
-                                AND wpm.company_code = #{company_code}
-                                <if test="solution_type_code != 1">
-                                    AND st.solution_type_code = #{solution_type_code}
-                                </if>
-                                <if test="keyword != null">
-                                    AND (st.solution_title like concat('%', #{keyword}, '%')
-                                    OR st.solution_content like concat('%', #{keyword}, '%'))
-                                </if>
-                                ) tct ON (1 = 1)
-        WHERE
-            wpm.product_group = #{keyCode}
-            AND st.solution_board_type = #{solution_board_type}
-            AND wpm.company_code = #{company_code}
-            <if test="solution_type_code != 1">
-                AND st.solution_type_code = #{solution_type_code}
-            </if>
-            <if test="keyword != null">
-                AND (st.solution_title like concat('%', #{keyword}, '%')
-                OR st.solution_content like concat('%', #{keyword}, '%'))
-            </if>
-            <if test="sort_type == 'viewed'">
-                AND st.create_date > #{limit_date}
-            </if>
-        <choose>
-            <when test="sort_type == 'viewed'">
-                UNION
-
-                SELECT
-                    '2' AS seq_order,
-                    spt.views,
-                    spt.solution_board_code,
-
-                    st.solution_title,
-                    st.solution_content,
-                    st.create_date,
-
-                    stt.solution_name,
-
-                    wpd.product_detail_name,
-
-                    wpm.product_category_name,
-
-                    tct.total_count
-                FROM
-                    solution_product_table spt
-                    LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
-                    LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
-                    LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-                    LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-                    LEFT OUTER JOIN (SELECT
-                                        COUNT(*) AS total_count
-                                    FROM
-                                        solution_table st
-                                        LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
-                                        LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-                                        LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-                                    WHERE
-                                        wpm.product_group = #{keyCode}
-                                        AND st.solution_board_type = #{solution_board_type}
-                                        AND wpm.company_code = #{company_code}
-                                        <if test="solution_type_code != 1">
-                                            AND st.solution_type_code = #{solution_type_code}
-                                        </if>
-                                        <if test="keyword != null">
-                                            AND (st.solution_title like concat('%', #{keyword}, '%')
-                                            OR st.solution_content like concat('%', #{keyword}, '%'))
-                                        </if>
-                                    ) tct ON (1 = 1)
-                WHERE
-                    wpm.product_group = #{keyCode}
-                    AND st.solution_board_type = #{solution_board_type}
-                    AND wpm.company_code = #{company_code}
-                    AND NOT st.create_date > #{limit_date}
-                    <if test="solution_type_code != 1">
-                        AND st.solution_type_code = #{solution_type_code}
-                    </if>
-                    <if test="keyword != null">
-                        AND (st.solution_title like concat('%', #{keyword}, '%')
-                        OR st.solution_content like concat('%', #{keyword}, '%'))
-                    </if>
-                ORDER BY
-                    seq_order,
-                    views desc
-            </when>
-            <otherwise>
-                ORDER BY
-                    st.create_date desc
-            </otherwise>
-        </choose>
-    </select>
-
-    <select id="findSolutionListByProductCodeAndKeyword" parameterType="HashMap" resultType="com.project.winiaaid.domain.solution.Solution">
-        SELECT
-            '1' AS seq_order,
-            spt.views,
-            spt.solution_board_code,
-
-            st.solution_title,
-            st.solution_content,
-            st.create_date,
-
-            stt.solution_name,
-
-            wpd.product_detail_name,
-
-            wpm.product_category_name,
-
-            tct.total_count
-        FROM
-            solution_product_table spt
-            LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
-            LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
-            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-            LEFT OUTER JOIN (SELECT
-                                COUNT(*) AS total_count
-                            FROM
-                                solution_table st
-                                LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
-                            WHERE
-                                spt.product_code = #{keyCode}
-                                AND st.solution_board_type = #{solution_board_type}
-                                <if test="solution_type_code != 1">
-                                    AND st.solution_type_code = #{solution_type_code}
-                                </if>
-                                <if test="keyword != null">
-                                    AND (st.solution_title like concat('%', #{keyword}, '%')
-                                    OR st.solution_content like concat('%', #{keyword}, '%'))
-                                </if>
-                                ) tct ON (1 = 1)
-        WHERE
-            spt.product_code = #{keyCode}
-            AND st.solution_board_type = #{solution_board_type}
-            <if test="solution_type_code != 1">
-                AND st.solution_type_code = #{solution_type_code}
-            </if>
-            <if test="keyword != null">
-                AND (st.solution_title like concat('%', #{keyword}, '%')
-                OR st.solution_content like concat('%', #{keyword}, '%'))
-            </if>
-            <if test="sort_type == 'viewed'">
-                AND st.create_date > #{limit_date}
-            </if>
-        <choose>
-            <when test="sort_type == 'viewed'">
-                UNION
-
-                SELECT
-                    '2' AS seq_order,
-                    spt.views,
-                    spt.solution_board_code,
-
-                    st.solution_title,
-                    st.solution_content,
-                    st.create_date,
-
-                    stt.solution_name,
-
-                    wpd.product_detail_name,
-
-                    wpm.product_category_name,
-
-                    tct.total_count
-                FROM
-                    solution_product_table spt
-                    LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
-                    LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
-                    LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-                    LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-                    LEFT OUTER JOIN (SELECT
-                                        COUNT(*) AS total_count
-                                    FROM
-                                        solution_table st
-                                        LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
-                                    WHERE
-                                        spt.product_code = #{keyCode}
-                                        AND st.solution_board_type = #{solution_board_type}
-                                        <if test="solution_type_code != 1">
-                                            AND st.solution_type_code = #{solution_type_code}
-                                        </if>
-                                        <if test="keyword != null">
-                                            AND (st.solution_title like concat('%', #{keyword}, '%')
-                                            OR st.solution_content like concat('%', #{keyword}, '%'))
-                                        </if>
-                                    ) tct ON (1 = 1)
-                WHERE
-                    spt.product_code = #{keyCode}
-                    AND st.solution_board_type = #{solution_board_type}
-                    AND NOT st.create_date > #{limit_date}
-                    <if test="solution_type_code != 1">
-                        AND st.solution_type_code = #{solution_type_code}
-                    </if>
-                    <if test="keyword != null">
-                        AND (st.solution_title like concat('%', #{keyword}, '%')
-                        OR st.solution_content like concat('%', #{keyword}, '%'))
-                    </if>
-                ORDER BY
-                    seq_order,
-                    views desc
-            </when>
-            <otherwise>
-                ORDER BY
-                    st.create_date desc
-            </otherwise>
-        </choose>
-    </select>
 
     <resultMap id="solutionDetailMap" type="com.project.winiaaid.domain.solution.Solution">
         <result property="solution_title" column="solution_title"/>
@@ -486,39 +306,39 @@
 
     <select id="findSolutionDetailBySolutionBoardCode" parameterType="HashMap" resultMap="solutionDetailMap">
         SELECT
-            st.solution_title,
-            st.solution_content,
-            st.create_date,
+        st.solution_title,
+        st.solution_content,
+        st.create_date,
 
-            stt.solution_name,
+        stt.solution_name,
 
-            wpd.product_detail_name,
+        wpd.product_detail_name,
 
-            wpm.product_category_name,
-            wpm.company_code,
+        wpm.product_category_name,
+        wpm.company_code,
 
-            pmg.product_category_name as product_group_name,
+        pmg.product_category_name as product_group_name,
 
-            sf.file_name
+        sf.file_name
         FROM
-            solution_table st
-            LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
-            LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
-            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
-            LEFT OUTER JOIN solution_file sf ON(sf.solution_code = st.solution_code)
+        solution_table st
+        LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
+        LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
+        LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
+        LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+        LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
+        LEFT OUTER JOIN solution_file sf ON(sf.solution_code = st.solution_code)
         WHERE
-            solution_board_code = #{solution_board_code}
-            AND solution_board_type = #{solution_board_type};
+        solution_board_code = #{solution_board_code}
+        AND solution_board_type = #{solution_board_type};
     </select>
 
     <update id="updateViewCountBySolutionBoardCode" parameterType="Integer">
         update
-            solution_product_table
+        solution_product_table
         set
-            views = views + 1
+        views = views + 1
         where
-            solution_board_code = #{solution_board_code};
+        solution_board_code = #{solution_board_code};
     </update>
 </mapper>

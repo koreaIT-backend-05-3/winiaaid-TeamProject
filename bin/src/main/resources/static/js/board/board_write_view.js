@@ -1,4 +1,5 @@
 const nameSpan = document.querySelector(".name-span");
+const emailBoxSelect = document.querySelector(".email-box select");
 const emailSpan = document.querySelector(".email-span");
 const telSpan = document.querySelector(".tel-span");
 const nameInput = document.querySelector(".name-input");
@@ -7,6 +8,7 @@ const phoneBox = document.querySelector(".phone-box");
 const titleInput = document.querySelector(".title-input");
 const contentTextarea = document.querySelector(".content-textarea")
 const brandInputItems = document.querySelectorAll(".brand-td input");
+const personalAuthenticationInput = document.querySelector(".personal-authentication-number");
 const responseInputItems = document.querySelectorAll(".response-td input");
 const fileDiv = document.querySelector(".file-div");
 const inputFileDivItems = document.querySelectorAll(".input-file-div");
@@ -14,21 +16,23 @@ const inputFileDivItems = document.querySelectorAll(".input-file-div");
 const uploadButton = document.querySelector(".upload-button");
 const cancelButton = document.querySelector(".cancle-button")
 
-
-let userCode = 0;
 let email = null;
 let phoneNumber = null;
 let companyCode = 0;
 let responseCode = 0;
 let responseSelectedFlag = false;
+let smsAuthenticationFlag = true;
 
 let modifyFlag = false;
 let boardType = null;
 let boardCode = 0;
 let fileSize = 0;
 
-let deleteFileCodeList = null;
-let deleteTempFileNameList = null;
+let nonMemberRequestData = null;
+
+let deleteFileCodeList = new Array();
+let deleteTempFileNameList = new Array();
+
 
 modifyFlag = getModifyFlagByUri();
 boardType = getBoardTypeByUri();
@@ -38,15 +42,23 @@ if(modifyFlag) {
     boardCode = getBoardCodeByUri();
     loadBoardInfo(boardCode);
     setModifyBoardView();
+}else {
+    checkUnalterableUserInfoByuserCode();
 }
 
-checkUnalterableUserInfoByuserCode();
+emailBoxSelect.onchange = setEmail;
 
 contentTextarea.onkeyup = () => checkByte(contentTextarea, 5000);
 
 uploadButton.onclick = submit;
 
 cancelButton.onclcik = historyBack;
+
+inputFileDivItems.forEach(input=>{
+    input.onchange = (e) => {
+        checkFileType(e.target);
+    }
+})
 
 function getModifyFlagByUri() {
     return location.pathname.indexOf("update-view") != -1 ? true : false;
@@ -80,7 +92,7 @@ function setBoardData(boardData) {
     const daewooRadio = document.querySelector(".daewoo");
 
     nameSpan.textContent = boardData.userName;
-    emailSpan.textContent = boardData.email;
+    emailSpan.textContent = boardData.userEmail;
     telSpan.textContent = boardData.mainPhoneNumber;
 
     boardData.companyCode == 1 ? daewooRadio.setAttribute("checked", true) : winiaRadio.setAttribute("checked", true);
@@ -96,8 +108,6 @@ function setBoardData(boardData) {
         boardData.responseFlag ? responseReceiveRadio.setAttribute("checked", true) : responseNotReceiveRadio.setAttribute("checked", true);
 
         if(boardData.fileList != null) {
-            deleteFileCodeList = new Array();
-            deleteTempFileNameList = new Array();
             setBoardFile(boardData.fileList);
         }
     }
@@ -115,6 +125,18 @@ function setBoardFile(fileList) {
 
     setDeleteFileClickEvent(fileList);
     inputFileBlock(fileList.length);
+}
+
+function setEmail() {
+    const secondEmail = document.querySelector(".email-2");
+
+    if(emailBoxSelect.options[emailBoxSelect.selectedIndex].value != "custom") {
+        secondEmail.value = emailBoxSelect.options[emailBoxSelect.selectedIndex].value;
+        secondEmail.setAttribute("readonly", true);
+    }else {
+        secondEmail.value = "";
+        secondEmail.removeAttribute("readonly", false);
+    }
 }
 
 function inputFileBlock(size) {
@@ -156,6 +178,7 @@ function setModifyBoardView() {
 function checkUnalterableUserInfoByuserCode() {
     if(userCode == 0) {
         const nonMemberRequireItems = document.querySelectorAll(".non-member-require");
+        const authenticationTr = document.querySelector(".authentication-tr");
 
         addVisibleClass(nameSpan);
         addVisibleClass(emailSpan);
@@ -164,6 +187,7 @@ function checkUnalterableUserInfoByuserCode() {
         removeVisibleClass(nameInput);
         removeVisibleClass(emailBox);
         removeVisibleClass(phoneBox);
+        removeVisibleClass(authenticationTr);
         
         nonMemberRequireItems.forEach(item => item.classList.add("require-menu"));
     }
@@ -212,7 +236,14 @@ function modifyBoard(form) {
         data: form,
         dataType: "json",
         success: (response) => {
-            location.replace(`/customer/${boardType}/detail/${response.data}`);
+
+            if(nonMemberRequestData != null) {
+                location.replace(`/customer/praise/non-member/detail/${response.data}`);
+
+            }else {
+                location.replace(`/customer/${boardType}/detail/${response.data}`);
+
+            }
         },
         error: errorMessage
     });
@@ -228,6 +259,8 @@ function setFormData(form, boardType) {
         form.append("userName", nameInput.value);
         form.append("email", email);
         form.append("mainPhoneNumber", phoneNumber);
+        form.append("authenticationNumber", personalAuthenticationInput.value);
+
     }
     
     form.append("boardTitle", titleInput.value);
@@ -273,7 +306,9 @@ function removeVisibleClass(domObject) {
 }
 
 function checkRequireMenu() {
-    if(userCode == 0) {
+    loadNonMemberRequestDataByLocalStorage();
+
+    if(userCode == 0 && nonMemberRequestData == null) {
         const firstEmail = document.querySelector(".email-1");
         const lastEmail = document.querySelector(".email-2");
         const phoneSelect = document.querySelector(".phone-box select");
@@ -287,6 +322,7 @@ function checkRequireMenu() {
         
         let regPhone = /^01([0|1|6|7|9])-?([0-9]{3,4})-?([0-9]{4})$/;
         let regEmail = /^[A-Za-z0-9]+@[A-Za-z0-9]+\.com$/;
+        let regPersonalAuthentication = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^+=])[a-zA-Z0-9!@#$%^+=]{4,16}$/;
 
         if(isEmpty(nameInput)) {
             alert("이름을 입력해주세요.");
@@ -301,6 +337,14 @@ function checkRequireMenu() {
         }else if(!regPhone.test(phoneNumber)) {
             alert("휴대폰번호를 확인해주세요.");
             middlePhoneNUmber.focus();
+            return false;
+        }else if(!smsAuthenticationFlag){
+            alert("휴대폰 인증을 진행해 주세요.");
+            return false;
+
+        }else if(!regPersonalAuthentication.test(personalAuthenticationInput.value)) {
+            alert("본인확인번호를 확인해주세요.\n사용가능 특수문자: !, @, #, $, %, ^, +, =");
+            personalAuthenticationInput.focus();
             return false;
         }
     }
@@ -341,6 +385,15 @@ function checkRequireMenu() {
     return true;
 }
 
+function loadNonMemberRequestDataByLocalStorage() {
+    nonMemberRequestData = localStorage.nonMemberRequestData;
+
+    if(nonMemberRequestData != null) {
+        nonMemberRequestData = JSON.parse(nonMemberRequestData);
+    }
+}
+
+
 function isEmpty(data) {
     return data == null || data == undefined || data == "";
 }
@@ -349,4 +402,26 @@ function errorMessage(request, status, error) {
     console.log(request.status);
     console.log(request.responseText);
     console.log(error);
+}
+
+
+// 1번
+function checkFileType(selectFile){
+    var fileKind = selectFile.value.lastIndexOf('.');
+    var fileName = selectFile.value.substring(fileKind+1,selectFile.length);
+    var flieType = fileName.toLowerCase();
+    var checkFileType = ['jpg','gif','png','jpeg'];
+
+    if(checkFileType.indexOf(flieType)==-1){
+        alert('이미지 파일만 업로드 할 수 있습니다.');
+        // var parentSelectFile = selectFile.parentNode;
+        // var node = parentSelectFile.replaceChild(selectFile.cloneNode(true),selectFile);
+
+        selectFile.value = "";
+        // selectFile.select();
+        // document.getSelection.clear();
+        return false;
+    }else{
+        console.log(fileName);
+    }
 }

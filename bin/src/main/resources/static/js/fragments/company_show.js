@@ -18,7 +18,9 @@ function checkWiniaProduct() {
         addVisibleClass(productArea);
         addVisibleClass(explainationP);
         removeVisibleClass(productResult);
-        getWiniaAllProductSolution();
+        
+        getAllProductSolutionByCompany();
+        // getWiniaAllProductSolution();
         productResult.innerHTML = `<span>위니아 제품</span>`;
 
         selectProductCategoryCode = 0;
@@ -52,8 +54,10 @@ function checkDaewooProduct() {
         addVisibleClass(productArea);
         addVisibleClass(explainationP);
         removeVisibleClass(productResult);
-        
-        getDaewooAllProductSolution();
+
+        getAllProductSolutionByCompany();
+        // getWiniaAllProductSolution();
+        // getDaewooAllProductSolution();
         productResult.innerHTML = `<span>대우전자 제품</span>`;
 
         selectProductCategoryCode = 0;

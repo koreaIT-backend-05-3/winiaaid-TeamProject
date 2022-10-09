@@ -42,7 +42,7 @@ if(loginTest){	//로그인 시
 	
 	protectionCheck.checked = 'true'
 	privacyHandlingCheck.checked = 'true'
-	agreementDiv.remove()
+	agreementDiv.remove();
 }
 
 
@@ -56,20 +56,20 @@ checkModelButton.onclick = showModelNumberCheckPopup;
 writeModel.oninput = () => {
     setTimeout(function(){
         writeModel.value = writeModel.value.replace(/[^a-zA-Z0-9-()]/ig, '')
-    }, 100)
+    }, 100);
 }
 
 mainPhoneNumber[1].oninput = () => {
-    onlyNumberOnInput(mainPhoneNumber[1])
+    onlyNumberOnInput(mainPhoneNumber[1]);
 }
 mainPhoneNumber[2].oninput = () => {
-    onlyNumberOnInput(mainPhoneNumber[2])
+    onlyNumberOnInput(mainPhoneNumber[2]);
 }
 subPhoneNumber[1].oninput = () => {
-    onlyNumberOnInput(subPhoneNumber[1])
+    onlyNumberOnInput(subPhoneNumber[1]);
 }
 subPhoneNumber[2].oninput = () => {
-    onlyNumberOnInput(subPhoneNumber[2])
+    onlyNumberOnInput(subPhoneNumber[2]);
 }
 
 searchAddressButtonn.onclick = loadAddressPopup;
@@ -104,7 +104,7 @@ submitButton.onclick = () => {
         }
 
         userInfoObject = {
-            "userCode": 0,
+            "userCode": userCode,
 			"userName": userNameInput.value,
 			"mainPhoneNumber": `${mainPhoneNumber[0].value}-${mainPhoneNumber[1].value}-${mainPhoneNumber[2].value}`,
 			"subPhoneNumber": subPhoneNumber[0].value == '선택' ? null : `${subPhoneNumber[0].value}-${subPhoneNumber[1].value}-${subPhoneNumber[2].value}`,
@@ -162,7 +162,7 @@ function searchModelByModelName() {
     let modelList = null;
     $.ajax({
         type: "get",
-        url: `/api/v1/product/model/list/${writeModel.value}?request-type=recall&code=1`,
+        url: `/api/v1/product/model/list/${writeModel.value}?requestType=recall&code=1`,
         dataType: "json",
         async: false,
         success: (response) => {

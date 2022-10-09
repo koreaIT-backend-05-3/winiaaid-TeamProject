@@ -1,22 +1,29 @@
 const writeButton = document.querySelector(".write-button");
+const showMyWritingHistoryButton = document.querySelector(".board-history-button");
 const searchKeyword = document.querySelector(".input-box");
 const searchButton = document.querySelector(".search-btn");
 
 const contentTableBody = document.querySelector(".content-table-body");
 
-let userCode = 1;
-let boardType = null;
 
-loadPageHistoryByLocalStorage();
+let nonMemberRequestData = null;
+let boardType = null;
+let authenticationNumber = null;
+
+
 
 boardType = getBoardType();
 
-loadPage(nowPage);
+
+loadPageHistoryByLocalStorage();
+
+checkHasNonMemberInquiryListData();
 
 setBoardContentByBoardType();
 setBoardTableByBoardType();
 
 writeButton.onclick = loadBoardWritePage;
+showMyWritingHistoryButton.onclick = loadWritingHistoryPage;
 
 searchButton.onclick = () => getBoardList(1);
 
@@ -26,6 +33,27 @@ function getBoardType() {
     return location.pathname.indexOf("complaint") != -1 ? "complaint" : location.pathname.indexOf("praise") != -1 ? "praise" : "suggestion";
 }
 
+function isNonMemberView() {
+    return location.pathname.indexOf("non-member") != -1;
+}
+
+function checkHasNonMemberInquiryListData() {
+    let nonMemberInquiryList = localStorage.nonMemberInquiryList;
+
+    if(nonMemberInquiryList != null){
+        nonMemberInquiryList = JSON.parse(nonMemberInquiryList);
+
+        let totalPage = getTotalPage(nonMemberInquiryList[0].totalCount, 2);
+        setPage(totalPage);
+        setTotalCount(nonMemberInquiryList[0].totalCount);
+        setBoardList(nonMemberInquiryList);
+
+        localStorage.removeItem("nonMemberInquiryList");
+    }else {
+        loadPage(nowPage);
+    }
+}
+
 function loadPage(page) {
     getBoardList(page)
 }
@@ -33,34 +61,78 @@ function loadPage(page) {
 function getBoardList(page){
     let searchType = getSelectedOptionValue();
     let keyword = getSearchKeyword();
+    
+    nonMemberRequestData = localStorage.nonMemberRequestData;
 
-    $.ajax({
-        type:"get",
-        url:`/api/v1/board/${boardType}/list/user/${userCode}`,
-        data: {
-            "searchType": searchType,
-            "keyword": keyword,
-            "page": page
-        },
-        dataType:"json",
-        success:(response)=>{
-            if(response.data != null){
-                let totalPage = getTotalPage(response.data[0].totalCount, 2);
-                setPage(totalPage);
-
-                setTotalCount(response.data[0].totalCount);
-                setBoardList(response.data)
-            }else {
-                boardListNoResult();
-                setTotalCount(0);
+    if(!isNonMemberView()) {
+        $.ajax({
+            type:"get",
+            url:`/api/v1/board/${boardType}/list/member`,
+            data: {
+                "userCode": userCode,
+                "searchType": searchType,
+                "keyword": keyword,
+                "page": page
+            },
+            dataType:"json",
+            success:(response)=>{
+                if(response.data != null){
+                    let totalPage = getTotalPage(response.data[0].totalCount, 2);
+                    setPage(totalPage);
+    
+                    setTotalCount(response.data[0].totalCount);
+                    setBoardList(response.data);
+                }else {
+                    boardListNoResult();
+                    setTotalCount(0);
+                }
+            },
+            error:(request, status, error)=>{
+                console.log(request.status);
+                console.log(request.responseText);
+                console.log(error);
             }
-        },
-        error:(request, status, error)=>{
-            console.log(request.status);
-            console.log(request.responseText);
-            console.log(error);
+        });
+
+    }else {
+        if(nonMemberRequestData != null) {
+            nonMemberRequestData = JSON.parse(nonMemberRequestData);
+            $.ajax({
+                type:"get",
+                url:`/api/v1/board/${boardType}/list/non-member`,
+                data: {
+                    "userName": nonMemberRequestData.userName,
+                    "mainPhoneNumber": nonMemberRequestData.mainPhoneNumber,
+                    "authenticationNumber": nonMemberRequestData.authenticationNumber,
+                    "searchType": searchType,
+                    "keyword": keyword,
+                    "page": page
+                },
+                dataType:"json",
+                success:(response)=>{
+                    if(response.data != null){
+                        let totalPage = getTotalPage(response.data[0].totalCount, 2);
+                        setPage(totalPage);
+        
+                        setTotalCount(response.data[0].totalCount);
+                        setBoardList(response.data)
+                    }else {
+                        boardListNoResult();
+                        setTotalCount(0);
+                    }
+                },
+                error:(request, status, error)=>{
+                    console.log(request.status);
+                    console.log(request.responseText);
+                    console.log(error);
+                }
+            });
+
+        }else {
+            boardListNoResult();
+            setTotalCount(0);
         }
-    });
+    }
 }
 
 function setTotalCount(totalCount) {
@@ -181,12 +253,22 @@ function clearDomObject(domObject){
 function loadBoardDetailPage(boardCode) {
     setPageInfoLocalStorage();
 
-    location.href = `/customer/${boardType}/detail/${boardCode}`;
+    if(checkNonMemberViewPage()) {
+        location.href = `/customer/praise/non-member/detail/${boardCode}`;
+
+    }else {
+        location.href = `/customer/${boardType}/detail/${boardCode}`;
+
+    }
 
 }
 
 function loadBoardWritePage() {
     location.href = `/customer/${boardType}/regist-view`;
+}
+
+function loadWritingHistoryPage() {
+    location.href = `/mypage/writing/customer`;
 }
 
 
@@ -230,4 +312,8 @@ function loadPageHistoryByLocalStorage() {
         
         localStorage.removeItem("boardPageInfo");
     }
+}
+
+function checkNonMemberViewPage() {
+    return location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == "non-member";
 }

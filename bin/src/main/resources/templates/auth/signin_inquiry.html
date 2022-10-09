@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/util/location_notice.css">
+    <link rel="stylesheet" href="/static/css/fragments/signin_view.css">
+    <link rel="stylesheet" href="/static/css/auth/signin_inquiry.css">
+    <title>[위니아에이드] 비회원</title>
+</head>
+<body>
+    <th:block th:replace="/fragments/header"></th:block>
+    <main>
+        <div id="container">
+            <div class="main-content">
+                <div class="location-div">
+        
+                </div>
+                <div class="title-div">
+                    <h1 class="title-h1">비회원 조회</h1>
+                </div>
+                <div class="menu-type">
+                    <ul>
+                        <li class="member-signin">회원 로그인</li>
+                        <li class="non-member-inquiry">비회원 조회</li>
+                    </ul>
+                </div>
+                <div class="notice-div">
+                    <p>고객님의 휴대폰 또는 이메일로 발송된 접수번호를 입력해 주시기 바랍니다.</p>
+                </div>
+                <div class="main-content-view">
+                    <div class="signin-view">
+                        <th:block th:replace="/fragments/signin_view"></th:block>
+                    </div>
+                    <div class="non-member-view visible">
+                        <div class="main-inquiry-view">
+                            <div class="user-name-div">
+                                <label for="user-name">성명</label>
+                                <input type="text" id="user-name" class="user-name-input" placeholder="성명">
+                            </div>
+                            <div class="service-code-div">
+                                <label for="service-code">접수번호</label>
+                                <input type="text" id="service-code" class="service-code-input" placeholder="접수번호 입력">
+                            </div>
+                            <div class="personal-authentication-div visible">
+                                <label for="authentication-code">본인확인번호</label>
+                                <input type="text" id="authentication-code" class="authentication-code-input" placeholder="본인확인번호 입력">
+                            </div>
+                            <div class="inquiry-button-div">
+                                <button type="button">조회(홈페이지 접수건)</button>
+                            </div>
+                            <div class="explaination-div">
+                                <p>• 서비스 신청의 회원/비회원 조회는 홈페이지를 통해서 접수하신 건만 조회 가능합니다.</p>
+                                <p>• 콜센터(1588-9588/1588-1588)를 통해서 접수하신 방문 서비스 취소/변경은 <span class="notice-span">콜센터 접수 건 변경/취소 바로가기</span> 버튼을 눌러주세요.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="call-center-inquiry-div">
+                    <button type="button">콜센터 접수 건 변경/취소 바로가기</button>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/fragments/footer"></th:block>
+    <script src="/static/js/util/remove_non_member_authentication.js"></script>
+    <script src="/static/js/util/principal.js"></script>
+    <script src="/static/js/fragments/header.js"></script>
+    <script src="/static/js/util/location_notice.js"></script>
+    <script src="/static/js/fragments/signin_view.js"></script>
+    <script src="/static/js/auth/signin_inquiry.js"></script>
+</body>
+</html>

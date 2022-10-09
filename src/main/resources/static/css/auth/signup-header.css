@@ -22,21 +22,24 @@
     color: #222;
 }
 #header .util{
-    width: 113px;
+    width: 114px;
     height: 52px;
     padding-top:30px;
-}
-
-#header .util ul li{
-    float: left;
     position: relative;
 }
-#header .util ul li a:hover{
+#header .util .util-ul{
+	display: flex;
+}
+
+#header .util .util-li{
+    display: flex;
+}
+#header .util-li a:hover{
     border-bottom: 1px solid #222;
 }
 #header .util > ul > li + li:before {
     content: '';
-    display: inline-block;
+    display: block;
     width: 1px;
     height: 12px;
     margin: 5px 10px 0 10px;
@@ -45,7 +48,7 @@
 #header .util .util-layer{
     position: absolute;
     left: -9px;
-    top: 27px;
+    top: 57px;
     width: 130px;
     padding: 10px;
     border: 1px solid #e5e5e5;

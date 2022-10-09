@@ -18,6 +18,7 @@
             <result property="company_name" column="company_name"/>
         </association>
         <association property="userInfoEntity" javaType="com.project.winiaaid.domain.repair.RepairUserInfoEntity">
+            <id property="user_code" column="user_code"/>
             <result property="user_name" column="user_name"/>
             <result property="user_email" column="user_email"/>
             <result property="main_phone_number" column="main_phone_number"/>
@@ -50,12 +51,17 @@
             #{productInfoEntity.model_code},
             #{productInfoEntity.trouble_code},
             #{productInfoEntity.description},
-
             #{userInfoEntity.user_code},
-            #{userInfoEntity.user_name},
-            #{userInfoEntity.main_phone_number},
-            #{userInfoEntity.sub_phone_number},
-            #{userInfoEntity.email},
+
+            <choose>
+                <when test="userInfoEntity.non_member_flag != true">
+                    0,
+                </when>
+                <otherwise>
+                    1,
+                </otherwise>
+            </choose>
+
             #{userInfoEntity.postal_code},
             #{userInfoEntity.main_address},
             #{userInfoEntity.detail_address},
@@ -64,6 +70,18 @@
             #{reservationInfoEntity.progress_status},
             now()
         );
+
+        <if test="userInfoEntity.non_member_flag == true">
+            insert into
+                non_member_service_table
+            value(
+                #{userInfoEntity.user_code},
+                #{userInfoEntity.user_name},
+                #{userInfoEntity.user_email},
+                #{userInfoEntity.main_phone_number},
+                #{userInfoEntity.sub_phone_number}
+            );
+        </if>
 
         insert into
             engineer_reservation_table
@@ -87,11 +105,15 @@
 
     <select id="findRepairServiceHistoryDetailInfoListByUserCode" parameterType="HashMap" resultMap="repairServiceInfoMap">
         SELECT
+            rst.user_code,
             rst.service_code,
             rst.description,
             rst.progress_status,
             rst.trouble_code,
             rst.request_date,
+            rst.postal_code,
+            rst.main_address,
+            rst.detail_address,
 
             wpm.product_category_name,
 
@@ -111,26 +133,13 @@
             em.engineer_name,
 
             pmg.product_category_name AS product_group_name,
-            <choose>
-                <when test="non_member_flag == false">
-                    um.user_name,
-                    um.main_phone_number,
-                    um.user_email,
-                    um.postal_code,
-                    um.main_address,
-                    um.detail_address,
-                    ud.sub_phone_number,
-                </when>
-                <otherwise>
-                    nmrst.user_name,
-                    nmrst.main_phone_number,
-                    nmrst.user_email,
-                    nmrst.postal_code,
-                    nmrst.main_address,
-                    nmrst.detail_address,
-                    nmrst.sub_phone_number,
-                </otherwise>
-            </choose>
+
+            um.user_name,
+            um.main_phone_number,
+            um.user_email,
+
+            ud.sub_phone_number,
+
             rst_total_count.total_count
         FROM
             repair_service_table rst
@@ -143,16 +152,8 @@
             LEFT OUTER JOIN engineer_reservation_table ert on(ert.service_code = rst.service_code)
             LEFT OUTER JOIN engineer_mst em ON(em.engineer_code = ert.engineer_code)
             LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group = wpm.product_group)
-            <choose>
-                <when test="non_member_flag == false">
-                    LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)
-                    LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
-                </when>
-                <otherwise>
-                    LEFT OUTER JOIN non_member_repair_service_table nmrst on(nmrst.service_code = rst.service_code)
-                </otherwise>
-            </choose>
-
+            LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)
+            LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
             LEFT OUTER JOIN (select
                                 COUNT(*) AS total_count
                             from
@@ -165,13 +166,17 @@
             LIMIT #{page}, 3;
     </select>
 
-    <select id="findRepairServiceDetailHistoryInfo" parameterType="String" resultMap="repairServiceInfoMap">
+    <select id="findRepairServiceDetailHistoryInfo" parameterType="HashMap" resultMap="repairServiceInfoMap">
         SELECT
+            rst.user_code,
             rst.service_code,
             rst.description,
             rst.progress_status,
             rst.trouble_code,
             rst.request_date,
+            rst.postal_code,
+            rst.main_address,
+            rst.detail_address,
 
             wpm.product_category_name,
 
@@ -195,19 +200,13 @@
                     um.user_name,
                     um.main_phone_number,
                     um.user_email,
-                    um.postal_code,
-                    um.main_address,
-                    um.detail_address,
                     ud.sub_phone_number,
                 </when>
                 <otherwise>
-                    nmrst.user_name,
-                    nmrst.main_phone_number,
-                    nmrst.user_email,
-                    nmrst.postal_code,
-                    nmrst.main_address,
-                    nmrst.detail_address,
-                    nmrst.sub_phone_number,
+                    nmst.user_name,
+                    nmst.main_phone_number,
+                    nmst.user_email,
+                    nmst.sub_phone_number,
                 </otherwise>
             </choose>
 
@@ -229,23 +228,34 @@
                     LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
                 </when>
                 <otherwise>
-                    LEFT OUTER JOIN non_member_repair_service_table nmrst on(nmrst.service_code = rst.service_code)
+                    LEFT OUTER JOIN non_member_service_table nmst on(nmst.user_code = rst.user_code)
                 </otherwise>
             </choose>
         WHERE
-            rst.service_code = #{service_code};
+            rst.service_code = #{service_code}
+            and
+        <choose>
+            <when test="non_member_flag == true">
+                non_member_flag = 1
+                and nmst.user_name = #{user_name}
+            </when>
+            <otherwise>
+                non_member_flag = 0
+                and rst.user_code = #{user_code}
+            </otherwise>
+        </choose>
+        ;
     </select>
 
     <select id="findPastReceptionAddressListByUserCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.repair.Address">
         SELECT
-            um.postal_code,
-            um.main_address,
-            um.detail_address,
+            rst.postal_code,
+            rst.main_address,
+            rst.detail_address,
 
             tct.total_count
         FROM
             repair_service_table rst
-            LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)
             LEFT OUTER JOIN (select
                                 COUNT(DISTINCT postal_code, main_address, detail_address) AS total_count
                             from
@@ -278,18 +288,18 @@
             ert.engineer_code = #{reservationInfoEntity.engineer_code},
             ert.reservation_date = #{reservationInfoEntity.reservation_date}
         WHERE
-            service_code = #{productInfoEntity.service_code};
+            rst.service_code = #{productInfoEntity.service_code};
     </update>
 
     <update id="cancelRepairServiceByRepairServiceCode" parameterType="String">
         UPDATE
             repair_service_table rst
-            engineer_reservation_table ert on(ert.service_code = rst.service_code)
+            left outer join engineer_reservation_table ert on(ert.service_code = rst.service_code)
         SET
-            rst.progress_status = 0
+            rst.progress_status = 0,
             ert.progress_status = 0
         WHERE
-            service_code = ${service_code};
+            rst.service_code = ${service_code};
     </update>
 
 </mapper>

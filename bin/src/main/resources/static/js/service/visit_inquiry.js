@@ -1,5 +1,3 @@
-let userCode = 0;
-
 loadPage(1);
 
 function loadPage(page) {

@@ -144,15 +144,21 @@ input{
     height: 40px;
     padding: 0 20px;
     background: #444;
-    font-weight: bold;
+    font-weight: 400;
     color: #fff;
+    border: 0px;
 }
 
 .button .light {
     height: 30px;
     background: #777;
     font-size: 13px;
-    font-weight: normal;
+    line-height: 30px;
+}
+.button .dark {
+    height: 30px;
+    background: #444;
+    font-size: 13px;
     line-height: 30px;
 }
 
