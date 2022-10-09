@@ -29,7 +29,7 @@ public class RecallReservationInfoEntity implements ReservationInfoEntity {
                 .serviceTypeCode(service_type_code)
                 .serviceTypeName(service_type_name)
                 .requestDate(request_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                .progressStatus(progress_status == 0 ? "접수취소" : progress_status == 1 ? "접수완료" : "방문완료")
+                .progressStatus(progress_status)
                 .totalCount(total_count)
                 .build();
     }

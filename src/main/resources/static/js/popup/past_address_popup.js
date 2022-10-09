@@ -1,5 +1,4 @@
 const cancelImage = document.querySelector(".cancel-image");
-const amountSpan = document.querySelector(".amount-span");
 const requestButton = document.querySelector(".request-button");
 const cancelButton = document.querySelector(".cancel-button");
 
@@ -40,10 +39,10 @@ function getPastReceptionAddress(page) {
 function setPastReceptionAddress(addressList) {
     const tbody = document.querySelector("tbody");
 
-    amountSpan.textContent = addressList[0].totalCount;
     clearObject(tbody);
 
     if(addressList != null) {
+        setTotalAmountSpan(addressList[0].totalCount);
         
         for(address of addressList) {
             let addressInfoObject = {
@@ -73,6 +72,7 @@ function setPastReceptionAddress(addressList) {
             `;
         }
     }else {
+        setTotalAmountSpan(0);
         tbody.innerHTML = `
             <tr>
                 <td colspan="3">
@@ -82,6 +82,12 @@ function setPastReceptionAddress(addressList) {
         `;
     }
 
+}
+
+function setTotalAmountSpan(totalAmount) {
+    const amountSpan = document.querySelector(".amount-span");
+
+    amountSpan.textContent = totalAmount;
 }
 
 function clearObject(domObject) {

@@ -27,6 +27,7 @@
     );
     </insert>
 
+
 	<insert id="insertUserDtl" parameterType="com.project.winiaaid.domain.user.User">
 		insert into
 			user_dtl
@@ -43,8 +44,7 @@
 		);
 	</insert>
 
-
-    <select id="findUserByUsername" parameterType="String" resultType="com.project.winiaaid.domain.user.User">
+    <select id="findUserByUserId" parameterType="String" resultType="com.project.winiaaid.domain.user.User">
 	 select
 	 	um.user_code,
 		um.user_name,
@@ -71,12 +71,6 @@
 		left outer join user_dtl ud on(ud.user_code = um.user_code)
 	where
 		um.user_id = #{user_id} 
-		
-		
     </select>
-      
 
-<!--    <select id="findUserByEmail" parameterType="String" resultType="com.project.winiaaid.domain.user.User">-->
-
-<!--    </select>-->
 </mapper>

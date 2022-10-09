@@ -6,7 +6,7 @@ const searchButton = document.querySelector(".search-btn");
 const contentTableBody = document.querySelector(".content-table-body");
 
 
-let nonMemberRequestData = null;
+let authenticationInfo = null;
 let boardType = null;
 let authenticationNumber = null;
 
@@ -43,7 +43,7 @@ function checkHasNonMemberInquiryListData() {
     if(nonMemberInquiryList != null){
         nonMemberInquiryList = JSON.parse(nonMemberInquiryList);
 
-        let totalPage = getTotalPage(nonMemberInquiryList[0].totalCount, 2);
+        let totalPage = getTotalPage(nonMemberInquiryList[0].totalCount, 5);
         setPage(totalPage);
         setTotalCount(nonMemberInquiryList[0].totalCount);
         setBoardList(nonMemberInquiryList);
@@ -62,7 +62,7 @@ function getBoardList(page){
     let searchType = getSelectedOptionValue();
     let keyword = getSearchKeyword();
     
-    nonMemberRequestData = localStorage.nonMemberRequestData;
+    let boardAuthenticationInfo = localStorage.boardAuthenticationInfo;
 
     if(!isNonMemberView()) {
         $.ajax({
@@ -77,7 +77,7 @@ function getBoardList(page){
             dataType:"json",
             success:(response)=>{
                 if(response.data != null){
-                    let totalPage = getTotalPage(response.data[0].totalCount, 2);
+                    let totalPage = getTotalPage(response.data[0].totalCount, 5);
                     setPage(totalPage);
     
                     setTotalCount(response.data[0].totalCount);
@@ -95,15 +95,15 @@ function getBoardList(page){
         });
 
     }else {
-        if(nonMemberRequestData != null) {
-            nonMemberRequestData = JSON.parse(nonMemberRequestData);
+        if(boardAuthenticationInfo != null) {
+            authenticationInfo = JSON.parse(boardAuthenticationInfo);
             $.ajax({
                 type:"get",
                 url:`/api/v1/board/${boardType}/list/non-member`,
                 data: {
-                    "userName": nonMemberRequestData.userName,
-                    "mainPhoneNumber": nonMemberRequestData.mainPhoneNumber,
-                    "authenticationNumber": nonMemberRequestData.authenticationNumber,
+                    "userName": authenticationInfo.userName,
+                    "mainPhoneNumber": authenticationInfo.mainPhoneNumber,
+                    "authenticationNumber": authenticationInfo.authenticationNumber,
                     "searchType": searchType,
                     "keyword": keyword,
                     "page": page
@@ -111,7 +111,7 @@ function getBoardList(page){
                 dataType:"json",
                 success:(response)=>{
                     if(response.data != null){
-                        let totalPage = getTotalPage(response.data[0].totalCount, 2);
+                        let totalPage = getTotalPage(response.data[0].totalCount, 5);
                         setPage(totalPage);
         
                         setTotalCount(response.data[0].totalCount);
@@ -252,6 +252,8 @@ function clearDomObject(domObject){
 
 function loadBoardDetailPage(boardCode) {
     setPageInfoLocalStorage();
+
+    localStorage.locationInfo = "board";
 
     if(checkNonMemberViewPage()) {
         location.href = `/customer/praise/non-member/detail/${boardCode}`;

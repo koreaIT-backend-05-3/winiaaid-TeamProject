@@ -108,14 +108,18 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public ReadBoardResponseDto getBoardByBoardCode(String boardCode) throws Exception {
+	public ReadBoardResponseDto getBoardByBoardCode(String viewType, String boardCode, ReadBoardRequestDto readBoardRequestDto) throws Exception {
 		Board boardEntity = null;
 		ReadBoardResponseDto boardDto = null;
+		Map<String, Object> configMap = null;
 
-		boardEntity = boardRepository.findBoardByBoardCode(boardCode);
+		configMap = configMapper.setReadBoardDetailHistoryConfigMap(viewType, boardCode, readBoardRequestDto);
+
+		boardEntity = boardRepository.findBoardByBoardCode(configMap);
 
 		if(boardEntity != null) {
 			boardDto = boardEntity.toBoardResponseDto();
+
 		}
 		return boardDto;
 	}
@@ -159,7 +163,6 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardFile>fileList = null;
 		
 		fileList = boardRepository.findBoardFileListByBoardCode(boardCode);
-		System.out.println(fileList);
 		
 		if(fileList.size() != 0) {
 			for(BoardFile fileName:fileList) {
@@ -183,6 +186,7 @@ public class BoardServiceImpl implements BoardService {
 		String tempFileName = UUID.randomUUID().toString().replaceAll("-", "") + "_" + file.getOriginalFilename();
 
 		Path path = Paths.get(filePath + customPath + "/" + tempFileName);
+
 
 		File f = new File(filePath + customPath);
 

@@ -3,9 +3,11 @@ package com.project.winiaaid.web.controller.api;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.service.recall.RecallService;
+import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.recall.RecallServiceRequestDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ServiceRequestResponseDto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -18,21 +20,30 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/service")
 public class RecallServiceRestController {
 
+	private final UserService userService;
 	private final RecallService recallService;
 
 	@Log
 	@PostMapping("recall/request")
 	public ResponseEntity<?> addRecallRequest(@RequestBody RecallServiceRequestDto recallServiceRequestDto){
-		ServiceInfo serviceInfo = null;
+		ServiceRequestResponseDto serviceRequestResponseDto = null;
 		
 		try {
-			serviceInfo = recallService.addRecallRequest(recallServiceRequestDto);
+			serviceRequestResponseDto = recallService.addRecallRequest(recallServiceRequestDto);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Recall Request Failed", serviceInfo));
+			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Recall Request Failed", serviceRequestResponseDto));
+		}
+
+		if(serviceRequestResponseDto == null) {
+			return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Service application failed", serviceRequestResponseDto));
+		}
+
+		if(userService.isNonMemberRequest(recallServiceRequestDto.getUserInfoObject().getUserCode())) {
+//            userService.sendServiceCode(serviceRequestResponseDto.getServiceCode(), recallServiceRequestDto.getUserInfoObject().getMainPhoneNumber());
 		}
 		
-		return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful Added Recall Request", serviceInfo));
+		return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful Added Recall Request", serviceRequestResponseDto));
 	}
 	
 	@Log

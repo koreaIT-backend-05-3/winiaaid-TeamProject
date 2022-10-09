@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ModelNumberImage {
-    private String model_category_image_name;
+    private String product_category_image_name;
 
     public ModelNumberImageDto toModelNumberImageDto() {
         return ModelNumberImageDto.builder()
-                .modelCategoryImageName(model_category_image_name)
+                .modelCategoryImageName(product_category_image_name)
                 .build();
     }
 }

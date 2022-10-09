@@ -6,7 +6,7 @@ import com.project.winiaaid.handler.aop.annotation.UriCheck;
 import com.project.winiaaid.service.solution.SolutionService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
-import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
+import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +26,11 @@ public class SolutionRestController {
     @GetMapping("/{company}/{boardType}/list")
     @CompanyCheck
     @UriCheck
-    public ResponseEntity<?> getAllSolutionListByCompany(@PathVariable String company, @PathVariable String boardType, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) {
+    public ResponseEntity<?> getAllSolutionListByCompany(@PathVariable String company, @PathVariable String boardType, ReadSolutionRequestDto readSolutionRequestDto) {
         List<ReadSolutionResponseDto> solutionList = null;
 
         try {
-            solutionList = solutionService.getAllSolutionListByCompanyAndKeyword(company, boardType, readSolutionKeywordRequestDto);
+            solutionList = solutionService.getAllSolutionListByCompanyAndKeyword(company, boardType, readSolutionRequestDto);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,14 +40,15 @@ public class SolutionRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Solution Successful", solutionList));
     }
 
-    @GetMapping("/{boardType}/list")
+    @Log
     @CompanyCheck
     @UriCheck
-    public ResponseEntity<?> getSolutionListByKeyCode(@PathVariable String boardType, ReadSolutionKeywordRequestDto readSolutionKeywordRequestDto) {
+    @GetMapping("/{boardType}/list")
+    public ResponseEntity<?> getSolutionListByKeyCode(@PathVariable String boardType, ReadSolutionRequestDto readSolutionRequestDto) {
         List<ReadSolutionResponseDto> solutionList = null;
 
         try {
-            solutionList = solutionService.getSolutionListByProductCategoryCodeAndKeyword(boardType, readSolutionKeywordRequestDto);
+            solutionList = solutionService.getSolutionListByKeyCodeAndKeyword(boardType, readSolutionRequestDto);
 
         } catch (Exception e) {
             e.printStackTrace();

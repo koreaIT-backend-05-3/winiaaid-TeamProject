@@ -17,7 +17,7 @@ public class RecallReservationInfoDto implements ReservationInfoDto {
     private int serviceTypeCode;
     private String serviceTypeName;
     private String requestDate;
-    private String progressStatus;
+    private int progressStatus;
     
     private int totalCount;
 

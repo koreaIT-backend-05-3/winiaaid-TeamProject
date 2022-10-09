@@ -3,10 +3,12 @@ package com.project.winiaaid.service.history;
 import com.project.winiaaid.domain.history.ServiceHistoryRepository;
 import com.project.winiaaid.domain.history.ServiceHistoryTitle;
 import com.project.winiaaid.domain.history.WritingServiceHistoryTitle;
+import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.web.dto.history.ReadServiceHistoryTitleResponseDto;
 import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.history.ReadWritingServiceHistoryTitleResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -55,6 +57,18 @@ public class HistoryServiceImpl implements HistoryService {
         }
 
         return serviceHistoryTitleResponseDtoList;
+    }
+
+    @Override
+    public int getNonMemberServiceCodeTypeByServiceCodeAndUserName(String serviceCode, String userName) throws Exception {
+        Map<String, Object> configMap = null;
+        int serviceCodeType = 0;
+
+        configMap = configMapper.setReadNonMemberServiceDetailHistoryConfigMap(serviceCode, userName);
+
+        serviceCodeType = serviceHistoryRepository.findNonMemberRequestDetailInfoByServiceCodnAndUserName(configMap);
+
+        return serviceCodeType;
     }
 
     private List<ReadServiceHistoryTitleResponseDto> changeToServiceHistoryTitleResponseDtoList(List<ServiceHistoryTitle> serviceResponseDtoList) {

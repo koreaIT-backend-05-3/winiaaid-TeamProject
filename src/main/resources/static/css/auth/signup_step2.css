@@ -1,0 +1,97 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-bottom: 50px;
+
+    width: 980px;
+}
+
+.main-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    margin: 60px 0px 40px;
+}
+
+.title h1 {
+    font-size: 25px;
+    font-weight: normal;
+}
+
+.notice-div {
+    margin: 55px 0px 35px;
+}
+
+.notice-div p {
+    font-size: 18px;
+}
+
+.main-authentication-content {
+    border-top: 1px solid #d4d4d4;
+    border-bottom: 1px solid #d4d4d4;
+    padding: 40px 0px;
+
+    width: 980px;
+}
+
+.authentication-div-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-info {
+    font-weight: bold;
+    color: #3652a2;
+}
+
+.strong {
+    font-weight: bold;
+}
+
+.notice-footer {
+    margin-top: 20px;
+
+    width: 980px;
+}
+
+.notice-footer li::before {
+    margin-right: 10px;
+    content: "•";
+}
+
+.forget-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 50px;
+
+    width: 980px;
+}
+
+.forget-button-div button {
+    border: none;
+    padding: 0px 20px;
+
+    height: 40px;
+
+    font-weight: bold;
+    background: #3652a2;
+    color: #fff;
+}
+
+.forget-button-div button:last-of-type {
+    margin-left: 10px;
+}

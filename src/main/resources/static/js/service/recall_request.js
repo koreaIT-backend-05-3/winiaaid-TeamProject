@@ -1,3 +1,4 @@
+const inquiryButton = document.querySelector(".inquiry-button");
 const searchModelButton = document.querySelector('.search-model')
 const checkModelButton = document.querySelector('.check-model')
 const searchModelInputs = document.querySelector('.search-model-inputs')
@@ -21,7 +22,7 @@ const submitButton = document.querySelector('.submit-button')
 let modelList = new Array();
 let modelCode = 0;
 
-if(user != null){	//로그인 시
+if(user != null){ 
 	userNameInput.value = user.userName
 	userNameInput.disabled='true'
 	
@@ -41,6 +42,8 @@ if(user != null){	//로그인 시
 	privacyHandlingCheck.checked = 'true'
 	agreementDiv.remove();
 }
+
+inquiryButton.onclick = loadRecallInquiryPage;
 
 
 searchModelButton.onclick = () => {
@@ -117,6 +120,10 @@ submitButton.onclick = () => {
 
 		submitRequest(requestData);    
     }
+}
+
+function loadRecallInquiryPage() {
+    location.href = "/service/recall/inquiry";
 }
 
 
@@ -232,7 +239,12 @@ function submitRequest(requestData){
 		dataType: "json",
 		success: (response) => {
 			alert('상담사가 고객님께 전화드려 방문시간을 안내해 드리도록 하겠습니다.\n- 신청이 많아 14일 이내에 안내 전화 드리겠습니다.\n- 신속하게 처리를 해 드리지 못해 죄송합니다.')
-            location.href = `/service/recall/request/complete/${response.data.productInfoEntity.service_code}`;
+            if(userCode == 0) {
+                localStorage.serviceAuthenticationInfo = JSON.stringify(response.data);
+
+            }
+            
+            location.href = `/service/recall/request/complete/${response.data.serviceCode}`;
             document.querySelector('.recall-form').reset();
 		},
 		error: errorMessage

@@ -5,6 +5,8 @@ const nonMemberView = document.querySelector(".non-member-view");
 
 const inquiryButton = document.querySelector(".inquiry-button-div button");
 
+let changedFlag = false;
+
 addSelectMenuClass(memberSigninLi);
 
 setInputEnterKeyPressEvent();
@@ -14,6 +16,8 @@ memberSigninLi.onclick = (e) => changeView(e.target);
 nonMemberInquiry.onclick = (e) => changeView(e.target);
 
 inquiryButton.onclick = executeInquiry;
+
+
 
 function changeView(domObject) {
     if(isMemberSigninClick(domObject)) {
@@ -25,8 +29,9 @@ function changeView(domObject) {
         addVisibleClass(nonMemberView);
 
     }else {
-        if(checkBoardView()) {
+        if(checkBoardView() && !changedFlag) {
             setNonMemberBoardview();
+            changedFlag = true;
         }
 
         addSelectMenuClass(domObject);
@@ -105,7 +110,7 @@ function executeInquiry() {
     let phoneNumber = null;
     let authenticationNumber = null;
 
-    let requestData = {
+    let authenticationInfo = {
         "userCode": userCode,
         "userName": userName,
         "serviceCode": serviceCode,
@@ -116,34 +121,34 @@ function executeInquiry() {
     };
 
     if(checkBoardView()) {
-        requestData.mainPhoneNumber = document.querySelector(".phone-number-input").value;
-        requestData.authenticationNumber = document.querySelector(".authentication-code-input").value;
+        authenticationInfo.mainPhoneNumber = document.querySelector(".phone-number-input").value;
+        authenticationInfo.authenticationNumber = document.querySelector(".authentication-code-input").value;
     }else {
-        requestData.serviceCode = document.querySelector(".service-code-input").value;
+        authenticationInfo.serviceCode = document.querySelector(".service-code-input").value;
     }
 
-    submit(requestData);
+    submit(authenticationInfo);
 
 }
 
-function submit(requestData) {
+function submit(authenticationInfo) {
     if(checkBoardView()) {
         $.ajax({
             type:"get",
             url:`/api/v1/board/praise/list/non-member`,
-            data: requestData,
+            data: authenticationInfo,
             dataType:"json",
             success:(response)=>{
                 if(response.data != null){
                     localStorage.nonMemberInquiryList = JSON.stringify(response.data);
-                    localStorage.nonMemberRequestData = JSON.stringify(requestData);
+                    localStorage.boardAuthenticationInfo = JSON.stringify(authenticationInfo);
                     
                     location.href = "/customer/praise/list/non-member";
                 }else {
                     alert("정보를 올바르게 입력해주세요.");
                 }
             },
-            error:(request, status, error)=>{
+            error:(request, status, error) => {
                 console.log(request.status);
                 console.log(request.responseText);
                 console.log(error);
@@ -154,11 +159,25 @@ function submit(requestData) {
         $.ajax({
             async: false,
             type: "get",
-            url: `/api/v1/service/repair/detail/history/${serviceCode}`,
-            data: requestData,
+            url: `/api/v1/service/non-member/service-code-type`,
+            data: authenticationInfo,
             dataType: "json",
             success: (response) => {
-                setReservationDetailInfo(response.data);
+                let serivceTypeCode = response.data;
+                if(serivceTypeCode != 0) {
+                    localStorage.serviceAuthenticationInfo = JSON.stringify(authenticationInfo);
+
+                    if(serivceTypeCode == 2) {
+                        location.replace(`/service/visit/inquiry/detail/${authenticationInfo.serviceCode}`);
+                        
+                    }else if(serivceTypeCode == 3) {
+                        location.replace(`/service/recall/inquiry/detail/${authenticationInfo.serviceCode}`);
+
+                    }
+                }else {
+                    alert("정보를 올바르게 입력해주세요.");
+
+                }
             },
             error: (request, status, error) => {
                 alert("요청중에 오류가 발생했습니다.")
@@ -166,6 +185,6 @@ function submit(requestData) {
                 console.log(request.responseText);
                 console.log(error);
             }
-        })
+        });
     }
 }

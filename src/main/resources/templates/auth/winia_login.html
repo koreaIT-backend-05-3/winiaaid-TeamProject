@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_login.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_header.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_footer.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <title>회원가입 정보입력</title>
+<body>
+    <div id="wrap">
+        <th:block th:replace="/auth/winia_header"></th:block>
+        <main id="main">
+            <div class="main-inner">
+                <form action ="/auth/signin" method="post">
+                    <h2>
+                        로그인<br>
+                        <span>
+                            <strong class="comapny">주(위니아)</strong>
+                            에 오신것을 환영합니다.
+                        </span>
+                    </h2>>
+                    <div class="login_section">
+                        <ul>
+                            <li>
+                                <input type="text" class="user-id" name="username" id="userId" placeholder="ID를 입력해 주세요">
+                            </li>
+                            <li>
+                                <input type="password" class="user-password" name="password" id="userPw" placeholder="비밀번호를 입력해 주세요">
+                            </li>
+                        </ul>
+                        <button class="blue button signin-button">로그인</button>
+                        <div class="save-id-box">
+                            <input type="checkbox" id="save-id">
+                            <label for="save-id">아이디 저장</label>
+                        </div>
+                    </div>
+                    <ul class="attention">
+                        <li>
+                            ID 또는 비밀번호가 기억나지 않으세요?
+                            <button class="button line find-button-user-id">ID 찾기</button>
+                            <button class="button line find-button-password">비밀번호 재설정</button>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </main>
+        <th:block th:replace="/auth/winia_footer"></th:block>
+    </div>
+    <script src="/static/js/auth/winia_header.js"></script>
+    <script src="/static/js/util/remove_non_member_service_authentication.js"></script>
+    <script src="/static/js/util/remove_non_member_board_authentication.js"></script>
+    <script src="/static/js/fragments/signin_view.js"></script>
+</head>
+</body>
+</html>

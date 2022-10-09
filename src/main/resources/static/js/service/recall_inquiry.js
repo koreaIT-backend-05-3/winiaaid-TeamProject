@@ -4,13 +4,8 @@ const dataNone = document.querySelector('.data-none')
 
 let nowPage = 1;
 
-if(user != null){
-	load(nowPage);
-}else{
-	let serviceCode = new URLSearchParams(location.search).get('serviceCode')
-	loadNonMemberRequest(serviceCode)
-	history.replaceState({}, null, location.pathname);
-}
+
+load(nowPage);
 
 function load(nowPage) {
 	$.ajax({
@@ -29,21 +24,6 @@ function load(nowPage) {
 		},
 		error: errorMessage
 	})
-}
-
-function loadNonMemberRequest(serviceCode){
-    $.ajax({
-        type: "get",
-        url: `/api/v1/service/recall/${serviceCode}`,
-        dataType: "json",
-        async: false,
-        success: (response) => {
-            getRecallRequest(response.data)
-            addcancelClickEvent()
-			addServiceCodeClickEvent()
-        },
-        error : errorMessage
-    })
 }
 
 function addcancelClickEvent() {
@@ -66,6 +46,9 @@ function addServiceCodeClickEvent(){
 		recallCodes.forEach(code => {
 			code.onclick = () => {
 				let recallCode = code.innerText;
+				
+				localStorage.locationInfo = "inquiry";
+				
 				location.href = `/service/recall/inquiry/detail/${recallCode}`
 			}
 		})		
@@ -114,10 +97,12 @@ function updateCancelRecallRequest(serviceCode){
 		url: `/api/v1/service/recall/cancel/${serviceCode}`,
 		dataType: "json",
 		success: (response) => {
-			if(user != null){
-				load(1)				
-			}else{
-				nonMemberload(serviceCode)
+			if(userCode != 0) {
+				location.replace("/service/visit/inquiry");
+				
+			}else {
+				location.replace("/main");
+				
 			}
 		},
 		error: errorMessage

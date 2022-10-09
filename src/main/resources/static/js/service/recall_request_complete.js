@@ -5,9 +5,11 @@ let serviceCode = location.pathname.substring(location.pathname.lastIndexOf("/")
 loadRecallRequestComplete();
 
 function loadRecallRequestComplete(){
+    let userName = getUserNameByAuthenticationInfo();
+    
     $.ajax({
         type: "get",
-        url: `/api/v1/service/recall/${serviceCode}?userCode=${userCode}`,
+        url: `/api/v1/service/recall/${serviceCode}?userCode=${userCode}&userName=${userName}`,
         dataType: "json",
         async: false,
         success: (response) => {

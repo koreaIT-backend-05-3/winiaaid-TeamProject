@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 정보입력</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_header.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_footer.css">
+    <link rel="stylesheet" href="/static/css/auth/main_signup_modify_content.css">
+    <link rel="stylesheet" href="/static/css/auth/user_info_update.css">
+<body>
+    <div id="wrap">
+        <th:block th:replace="/auth/winia_header"></th:block>
+        <main id="main">
+            <div class="main-content">
+                <div class="title">
+                    <h1>개인정보 수정</h1>
+                </div>
+                <div class="main-inner">
+                    <th:block th:replace="/auth/auth_write_view"></th:block>
+                </div>
+            </div>
+        </main>
+         <th:block th:replace="/auth/winia_footer"></th:block>
+    </div>
+    <script src="/static/js/util/principal.js"></script>
+    <script src="/static/js/auth/winia_header.js"></script>
+    <script src="/static/js/util/remove_non_member_board_authentication.js"></script>
+    <script src="/static/js/util/remove_non_member_service_authentication.js"></script>
+    <script src="/static/js/auth/common.js"></script>
+    <script src="/static/js/popup/popup.js"></script>
+    <script src="/static/js/auth/auth_write_view.js"></script>
+</head>
+</body>
+</html>

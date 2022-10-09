@@ -38,6 +38,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         }else if(uri.equals("/mypage/writing/customer")) {
             stringBuilder.append("location.href=\'/signin/inquiry/board\';");
 
+        }else {
+            stringBuilder.append("location.href=\'/auth/signin\';");
+
         }
 
         stringBuilder.append("</script></body></html>");

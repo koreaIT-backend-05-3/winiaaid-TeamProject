@@ -173,7 +173,9 @@
 			bm.board_type_code = #{board_type_code}
 		GROUP BY
 			bm.board_code
-		LIMIT #{page}, 2;
+		ORDER BY
+			create_date desc
+		LIMIT #{page}, 5;
 	
 	</select>
 
@@ -255,10 +257,10 @@
 			main_phone_number = #{main_phone_number}
 		GROUP BY
 			bm.board_code
-		LIMIT #{page}, 2;
+		LIMIT #{page}, 5;
 	</select>
 
-	<select id="findBoardByBoardCode" parameterType="String" resultMap="boardResultMap">
+	<select id="findBoardByBoardCode" parameterType="HashMap" resultMap="boardResultMap">
 		SELECT
 			bm.user_code,
 			bm.company_code,
@@ -283,6 +285,23 @@
 			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
 			LEFT OUTER JOIN non_member_board_table nmbt on(nmbt.board_code = bm.board_code)
 		WHERE
+			<if test="modify_flag == true">
+				<choose>
+					<when test="non_member_flag == true">
+						nmbt.user_name = #{user_name}
+						and nmbt.authentication_number = #{authentication_number}
+						and nmbt.main_phone_number = #{main_phone_number}
+					</when>
+					<otherwise>
+						um.user_code = #{user_code}
+					</otherwise>
+				</choose>
+				and
+			</if>
+			<if test="board_type_code != 2">
+				um.user_code = #{user_code}
+				and
+			</if>
 			bm.board_code = #{board_code}
 	</select>
 	

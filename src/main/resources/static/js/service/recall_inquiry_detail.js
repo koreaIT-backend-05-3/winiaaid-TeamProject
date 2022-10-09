@@ -1,23 +1,36 @@
 const listButton = document.querySelector('.list-button')
 let serviceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+let progressStatus = 0;
 
 loadRecallRequestComplete();
 
+listButton.onclick = () => {
+    let locationInfo = localStorage.locationInfo;
+    let url = null;
 
-if(user != null){
-	listButton.onclick = () => {
-		location.href = `/service/recall/inquiry`
-	}
-}else{
-	listButton.onclick = () => {
-		location.href = `/service/recall/inquiry?serviceCode=${serviceCode}`
-	}	
+    if(locationInfo != null) {
+        if(locationInfo == "inquiry") {
+            url = `/service/recall/inquiry`;
+
+        }else {
+            url = `/mypage/service/history/${progressStatus == 1 ? "ing" : "end"}`;
+
+        }
+
+    }else {
+        url = `/service/recall/inquiry`;
+    }
+
+    localStorage.removeItem("locationInfo");
+    location.href = url;
 }
 
 function loadRecallRequestComplete(){
+    let userName = getUserNameByAuthenticationInfo();
+
     $.ajax({
         type: "get",
-        url: `/api/v1/service/recall/${serviceCode}?userCode=${userCode}`,
+        url: `/api/v1/service/recall/${serviceCode}?userCode=${userCode}&userName=${userName}`,
         dataType: "json",
         async: false,
         success: (response) => {
@@ -55,14 +68,14 @@ function getRecallRequest(recallRequest){
         subPhoneNumber.innerText = recallRequest.userInfo.subPhoneNumber;
     }
 
-    address.innerText = `${recallRequest.userInfo.postalCode} ${recallRequest.userInfo.mainAddress} ${recallRequest.userInfo.detailAddress}`;
-    progressStatus.innerText = recallRequest.reservationInfo.progressStatus;
+    address.innerText = recallRequest.userInfo.address;
+    progressStatus.innerText = recallRequest.reservationInfo.progressStatus == 0 ? "접수 취소" : recallRequest.reservationInfo.progressStatus == 1 ? "접수 완료" : "방문 완료";
 }
 
 function addCancelButton(data){
 	const note = document.querySelector('.note')
-	const progressStatus = data.reservationInfo.progressStatus
-	if(progressStatus == "접수완료"){
+	progressStatus = data.reservationInfo.progressStatus;
+	if(progressStatus == 1){
 		note.innerHTML = "<button class='cancel'>신청취소</button>"
 	}else{
 		note.innerHTML = ""
@@ -95,7 +108,10 @@ function updateCancelRecallRequest(serviceCode){
 }
 
 function errorMessage(request, status, error) {
-    alert("요청 중에 오류가 발생했습니다.");
+    if(request.status == 400) {
+        alert("잘못된 접근입니다.");
+        location.replace("/main");
+    }
     console.log(request.status);
     console.log(request.responseText);
     console.log(error);

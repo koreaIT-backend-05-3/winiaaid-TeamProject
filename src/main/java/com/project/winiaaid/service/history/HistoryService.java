@@ -9,4 +9,5 @@ import java.util.List;
 public interface HistoryService {
     public List<ReadServiceHistoryTitleResponseDto> getServiceHistoryInfoListByServiceTypeCode(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception;
     public List<ReadWritingServiceHistoryTitleResponseDto> getWritingServiceHistoryInfoListByServiceTypeCode(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception;
+    public int getNonMemberServiceCodeTypeByServiceCodeAndUserName(String serviceCode, String userName) throws Exception;
 }

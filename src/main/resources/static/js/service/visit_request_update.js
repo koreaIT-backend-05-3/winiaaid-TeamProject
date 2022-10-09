@@ -5,15 +5,25 @@ getReservationInfo();
 changeRequestButtonToModifyButton();
 
 function getReservationInfo() {
+    let userName = getUserNameByAuthenticationInfo();
+
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/detail/history/${serviceCode}?userCode=${userCode}`,
+        url: `/api/v1/service/repair/detail/history/${serviceCode}?userCode=${userCode}&userName=${userName}`,
         dataType: "json",
         success: (response) => {
             setPastReservationInfo(response.data);
         },
-        error: errorMessage
+        error: (request, status, error) => {
+            if(request.status == 400) {
+                alert("잘못된 접근입니다.");
+                location.replace("/main");
+            }
+            console.log(request.status);
+            console.log(request.responseText);
+            console.log(error);
+        }
     });
 }
 

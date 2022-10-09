@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보 수정완료</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/join.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/signup-header.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/signup-footer.css">
+    
+<body>
+    <div id="wrap">
+        <th:block th:replace="/auth/winia_header"></th:block>
+        <main id="main">
+            <div class="main-inner">
+                <form>
+                    <h2>개인정보 수정완료</h2>
+                    <div class="complete">
+                        <p>
+                            <span>username(id)</span>님  개인정보 수정 완료 되었습니다.<br>
+                            소중한 고객님을 위해 언제나 최선을 다하는 위니아가 되겠습니다.
+                        </p>
+                         </div>
+                    <div class="button-center">
+                        <a href="/main" class="button blue">메인으로 이동</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <th:block th:replace="/auth/winia_footer"></th:block>
+    </div>
+    <script src="/static/js/util/remove_non_member_authentication.js"></script>
+    <script src="/static/js/auth/signup.js"></script>
+    <script src="/static/js/auth/signup_header.js"></script>
+    <script src="/static/js/util/princioal.js"></script>
+    <script src="/static/js/auth/signup_update.js"></script>
+</head>
+</body>
+</html>

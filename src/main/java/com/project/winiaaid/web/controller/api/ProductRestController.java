@@ -1,6 +1,7 @@
 package com.project.winiaaid.web.controller.api;
 
 import com.project.winiaaid.handler.aop.annotation.CompanyCheck;
+import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.handler.aop.annotation.UriCheck;
 import com.project.winiaaid.service.product.ProductService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
@@ -9,11 +10,13 @@ import com.project.winiaaid.web.dto.product.ReadProductCategoryResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductModelResponseDto;
 import com.project.winiaaid.web.dto.product.ReadProductTroubleResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/product")
@@ -36,6 +39,7 @@ public class ProductRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "load categoryList success", productCategoryList));
     }
 
+    @Log
     @CompanyCheck
     @UriCheck
     @GetMapping("/list/category/{company}/{type}/{code}")

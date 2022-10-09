@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/css/auth/signup.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/auth/signup-footer.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/auth/signup-header.css">
+    <th:block th:replace="/fragments/head"></th:block>
     <link rel="stylesheet" type="text/css" href="/static/css/auth/style.css">
-
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_header.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_footer.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/signup_step1.css">
     <title>회원가입 약관동의</title>
 </head>
 <body>
     <div id="wrap">
-        <th:block th:replace="/auth/signup_header"></th:block>
+        <th:block th:replace="/auth/winia_header"></th:block>
         <main id="main">
             <div class="main-inner">
-                <form id="form-main">
+                <div id="div-main">
                     <h2>통합회원 가입</h2>
                     <p class="img-wrap">
                         <img src="https://member.winiadimchae.com/images/img_join_step1.gif">
@@ -24,13 +24,13 @@
                     <div class="section">
                         <h3 class="section-header">위니아 패밀리사이트 가입</h3>
                         <div class="box">
-                            <input type="checkbox" name="site_ALL" id="family1" onclick="">
+                            <input type="checkbox" name="site_ALL" id="family1">
                             <label for="family1">전체 사이트</label>
-                            <input type="checkbox" name="site" id="site04" value="WENIA">
+                            <input type="checkbox" name="site" id="site04" class="site" value="WENIA">
                             <label for="site04">위니아 브랜드 사이트</label>
-                            <input type="checkbox" name="site" id="site05" value="SERVICE">
+                            <input type="checkbox" name="site" id="site05" class="site" value="SERVICE">
                             <label for="site05">위니아에이드</label>
-                            <input type="checkbox" name="site" id="site06" value="ESHOP">
+                            <input type="checkbox" name="site" id="site06" class="site" value="ESHOP">
                             <label for="site06">위니아e샵</label>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                                 </h4>
                             </div>
                             <p class="check-right">
-                                <input type="checkbox" name="isagreefamily" id="agree01" value="Y">
+                                <input type="checkbox" name="isagreefamily" id="agree01" class="agree" value="Y">
                                 <label for="agree01">이용약관에 동의합니다.</label>
                             </p>
                         </div>
@@ -97,7 +97,7 @@
                                 </h4>
                             </div>
                             <p class="check-right">
-                                <input type="checkbox" name="isagree" id="agree02" value="Y">
+                                <input type="checkbox" name="isagree" id="agree02" class="agree" value="Y">
                                 <label for="agree01">개인정보 수집 및 이용에 동의 합니다.</label>
                             </p>
                         </div>
@@ -131,7 +131,7 @@
                                 </h4>
                             </div>
                             <p class="check-right">
-                                <input type="checkbox" name="isagreeperson" id="agree03" value="Y">
+                                <input type="checkbox" name="isagreeperson" id="agree03" class="agree" value="Y">
                                 <label for="agree01">개인정보의 위탁처리에 동의 합니다.</label>
                             </p>
                         </div>
@@ -141,17 +141,22 @@
                         <label for="agree04">전체 약관에 동의 합니다.</label>
                     </p>
                     <div class="button-center">
-                        <a href="" class="button-notagree">동의하지 않음</a>
-                        <a href="/auth/signup2" class="button-agree">동의</a>
+                        <button class="button-not-agree">동의하지 않음</button>
+                        <button class="button-agree">동의</button>
                     </div>
-                </form>
+                </div>
             </div>
         </main>
+<<<<<<< HEAD
           <th:block th:replace="/auth/signup_footer"></th:block>
+=======
+        <th:block th:replace="/auth/winia_footer"></th:block>
+>>>>>>> daegyeong
     </div>
-    <script src="/static/js/util/remove_non_member_authentication.js"></script>
-    <script src="/static/js/auth/sign.js"></script>
-    <script src="/static/js/auth/signup.js"></script>
-    <script src="/static/js/auth/sign.js"></script>
+    <script src="/static/js/util/principal.js"></script>
+    <script src="/static/js/auth/winia_header.js"></script>
+    <script src="/static/js/util/remove_non_member_service_authentication.js"></script>
+    <script src="/static/js/util/remove_non_member_board_authentication.js"></script>
+    <script src="/static/js/auth/signup_step1.js"></script>
 </body>
 </html>

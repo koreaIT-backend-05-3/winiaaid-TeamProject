@@ -1,19 +1,16 @@
 package com.project.winiaaid.domain.user;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.persistence.Entity;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.project.winiaaid.web.dto.auth.AuthenticationUserResponseDto;
 import com.project.winiaaid.web.dto.auth.ReadUserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Builder
@@ -73,6 +70,15 @@ public class User {
 				.staffCompany(staff_company)
 				.employeeNumber(employee_number)
 				.createDate(create_date)
+				.build();
+	}
+
+	public AuthenticationUserResponseDto toAuthenticationUserResponseDto() {
+		return AuthenticationUserResponseDto.builder()
+				.userId(user_id)
+				.userName(user_name)
+				.userPassword(user_password)
+				.userEmail(user_email)
 				.build();
 	}
 }

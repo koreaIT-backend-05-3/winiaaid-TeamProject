@@ -52,8 +52,7 @@ function setCategoryClickEvent(productInfoList) {
                     selectProductGroupCode = productInfoList[i].productGroup;
                     selectProductCategoryCode = 0;
                     selectProductCode = 0;
-                    getSolutionList();
-                    // getSolutionListByProductGroupCode();
+                    getSolutionList(1);
                     removeVisibleClass(productArea);
                 }
             }
@@ -69,8 +68,7 @@ function setCategoryClickEvent(productInfoList) {
                     selectProductCategoryCode = productInfoList[i].productCategoryCode;
                     selectProductCode = 0;
                     selectProductGroupCode = 0;
-                    getSolutionList();
-                    // getSolutionListByProductCategoryCode();
+                    getSolutionList(1);
                     removeVisibleClass(productArea);
                 }
             }
@@ -147,7 +145,7 @@ function setProductDetail(domObject, productInfoList) {
 
         for(startIndex; startIndex < endIndex; startIndex++) {
             innerHTML += `<li>
-                            <img class="product-detail-image" src="/image/winia-product/detail-images/${productInfoList[0].productDetailList[startIndex].productDetailImage}" alt="${productInfoList[0].productDetailList[startIndex].productDetailName}">
+                            <img class="product-detail-image" src="/image/winia-product/images/${productInfoList[0].productDetailList[startIndex].productDetailImage}" alt="${productInfoList[0].productDetailList[startIndex].productDetailName}">
                             <span>${productInfoList[0].productDetailList[startIndex].productDetailName}</span>
                         </li>
                         `;
@@ -314,8 +312,7 @@ function createProductNameSpan(domObject, productInfoObject, categoryIncludeFlag
 
         selectProductCategoryCode = 0;
         selectProductGroupCode = 0;
-        getSolutionList();
-        // getSolutionListByProductCode();
+        getSolutionList(1);
 
     }else {
         getProductTroubleSymptom(productInfoObject.keyCode);
@@ -348,7 +345,7 @@ function setGroupProductDetail(domObject, productInfoList) {
             let productImage = document.createElement("img");
             productImage.setAttribute("class", integratedFlag ? "integrated product-detail-image" : "");
 
-            productImage.setAttribute("src", `/image/winia-product/main-images/${productInfoList[startIndex].productMainImage}`);
+            productImage.setAttribute("src", `/image/winia-product/images/${productInfoList[startIndex].productMainImage}`);
             productImage.setAttribute("alt", productInfoList[startIndex].productCategoryName);
 
             let productCategoryNameP = document.createElement("p");

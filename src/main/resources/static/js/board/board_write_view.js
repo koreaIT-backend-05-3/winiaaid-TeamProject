@@ -28,7 +28,6 @@ let boardType = null;
 let boardCode = 0;
 let fileSize = 0;
 
-let nonMemberRequestData = null;
 
 let deleteFileCodeList = new Array();
 let deleteTempFileNameList = new Array();
@@ -66,24 +65,43 @@ function getModifyFlagByUri() {
 
 function getBoardTypeByUri(){
     let uri = location.pathname;
-    return uri.indexOf("praise")!= -1?"praise"
-    :uri.indexOf("complaint")!= -1?"complaint"
-    :"suggestion";
+    
+    return uri.indexOf("praise") != -1 ? "praise"
+    : uri.indexOf("complaint") != -1 ? "complaint"
+    : "suggestion";
 }
 
 function loadBoardInfo(boardCode) {
+    let userName = getUserNameByAuthenticationInfo();
+    let authenticationNumber = getAuthenticationNumberByAuthenticationInfo();
+    let mainPhoneNumber = getMainPhoneNumberByAuthenticationInfo();
+
     $.ajax({
         type: "get",
-        url: `/api/v1/board/${boardCode}`,
+        url: `/api/v1/board/${boardType}/${modifyFlag ? "modification" : "writing"}/${boardCode}`,
+        data: {
+            "userCode": userCode,
+            "userName": userName,
+            "authenticationNumber": authenticationNumber,
+            "mainPhoneNumber": mainPhoneNumber
+        },
         dataType: "json",
         success: (response) => {
-            if(response.data != null) {
-                setBoardData(response.data);
-            }else {
-                alert("존재하지 않는 게시글 입니다..")
-            }
+            setBoardData(response.data);
         },
-        error: errorMessage
+        error: (request, status, error) => {
+            if(request.status == 400) {
+                if(modifyFlag) {
+                    alert("잘못된 접근입니다.");
+                }else {
+                    alert("존재 하지 않는 게시글입니다.");
+                }
+                location.replace("/main");
+            }
+            console.log(request.status);
+            console.log(request.responseText);
+            console.log(error);
+        }
     });
 }
 
@@ -179,6 +197,7 @@ function checkUnalterableUserInfoByuserCode() {
     if(userCode == 0) {
         const nonMemberRequireItems = document.querySelectorAll(".non-member-require");
         const authenticationTr = document.querySelector(".authentication-tr");
+        const noticeP = document.querySelector(".notice-p");
 
         addVisibleClass(nameSpan);
         addVisibleClass(emailSpan);
@@ -188,13 +207,18 @@ function checkUnalterableUserInfoByuserCode() {
         removeVisibleClass(emailBox);
         removeVisibleClass(phoneBox);
         removeVisibleClass(authenticationTr);
+        removeVisibleClass(noticeP);
         
         nonMemberRequireItems.forEach(item => item.classList.add("require-menu"));
+    }else {
+        nameSpan.textContent = user.userName;
+        emailSpan.textContent = user.userEmail;
+        telSpan.textContent = user.mainPhoneNumber;
     }
 }
 
 function submit() {
-    if(!checkRequireMenu()) {
+    if(!checkRequireMenu() || limitFileSize()) {
         return false;
     }
 
@@ -237,7 +261,7 @@ function modifyBoard(form) {
         dataType: "json",
         success: (response) => {
 
-            if(nonMemberRequestData != null) {
+            if(authenticationInfo != null) {
                 location.replace(`/customer/praise/non-member/detail/${response.data}`);
 
             }else {
@@ -306,9 +330,9 @@ function removeVisibleClass(domObject) {
 }
 
 function checkRequireMenu() {
-    loadNonMemberRequestDataByLocalStorage();
+    // loadNonMemberRequestDataByLocalStorage();
 
-    if(userCode == 0 && nonMemberRequestData == null) {
+    if(userCode == 0 && authenticationInfo == null) {
         const firstEmail = document.querySelector(".email-1");
         const lastEmail = document.querySelector(".email-2");
         const phoneSelect = document.querySelector(".phone-box select");
@@ -385,13 +409,13 @@ function checkRequireMenu() {
     return true;
 }
 
-function loadNonMemberRequestDataByLocalStorage() {
-    nonMemberRequestData = localStorage.nonMemberRequestData;
+// function loadNonMemberRequestDataByLocalStorage() {
+//     authenticationInfo = localStorage.authenticationInfo;
 
-    if(nonMemberRequestData != null) {
-        nonMemberRequestData = JSON.parse(nonMemberRequestData);
-    }
-}
+//     if(authenticationInfo != null) {
+//         authenticationInfo = JSON.parse(authenticationInfo);
+//     }
+// }
 
 
 function isEmpty(data) {
@@ -405,15 +429,15 @@ function errorMessage(request, status, error) {
 }
 
 
-// 1번
 function checkFileType(selectFile){
     var fileKind = selectFile.value.lastIndexOf('.');
-    var fileName = selectFile.value.substring(fileKind+1,selectFile.length);
+    var fileName = selectFile.value.substring(fileKind + 1, selectFile.length);
     var flieType = fileName.toLowerCase();
-    var checkFileType = ['jpg','gif','png','jpeg'];
+    var checkFileType = ['jpg','gif','png','jpeg', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'hwp', 'zip', 'avi', 'mp4'];
+
 
     if(checkFileType.indexOf(flieType)==-1){
-        alert('이미지 파일만 업로드 할 수 있습니다.');
+        alert("첨부 가능 확장자가 아닙니다.");
         // var parentSelectFile = selectFile.parentNode;
         // var node = parentSelectFile.replaceChild(selectFile.cloneNode(true),selectFile);
 
@@ -424,4 +448,25 @@ function checkFileType(selectFile){
     }else{
         console.log(fileName);
     }
+}
+
+function limitFileSize() {
+    const fileInputItems = document.querySelectorAll(".input-file-div input");
+
+    let maxFileSize = 50 * 1024 * 1024;
+    let totalFileSize = 0;
+
+    fileInputItems.forEach(input => {
+        if(input.files[0] != undefined) {
+            totalFileSize += input.files[0].size;
+
+        }
+    });
+
+    if(maxFileSize < totalFileSize) {
+        alert("최대 50MB 까지 첨부 가능합니다.");
+        return true;
+    }
+
+    return false;
 }

@@ -1,14 +1,14 @@
 const goListButton = document.querySelector(".go-list-button");
 
 let serviceCode = null;
+let progressStatus = 0;
 
-setUserCode = getUser();
 serviceCode = getServiceCodeByUri();
+
 
 loadReservationDetailInfo();
 
-goListButton.onclick = historyBack;
-
+goListButton.onclick = loadListPage;
 
 
 function getServiceCodeByUri() {
@@ -20,22 +20,30 @@ function loadReservationDetailInfo() {
 }
 
 function getReservationDetailInfo() {
+    let userName = getUserNameByAuthenticationInfo();
+    
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/detail/history/${serviceCode}?userCode=${userCode}`,
+        url: `/api/v1/service/repair/detail/history/${serviceCode}?userCode=${userCode}&userName=${userName}`,
         dataType: "json",
         success: (response) => {
             setReservationDetailInfo(response.data);
         },
         error: (request, status, error) => {
-            alert("요청중에 오류가 발생했습니다.")
+            if(request.status == 400) {
+                alert("잘못된 접근입니다.");
+                location.replace("/main");
+            }
             console.log(request.status);
             console.log(request.responseText);
             console.log(error);
         }
     });
 }
+
+
+
 
 function setReservationDetailInfo(reservationDetailInfo) {
     const reservationInfoTable = document.querySelector(".reservation-info-table");
@@ -46,7 +54,7 @@ function setReservationDetailInfo(reservationDetailInfo) {
         const userInfoObject = reservationDetailInfo.userInfo;
         const reservationObject = reservationDetailInfo.reservationInfo;
 
-        const progressStatus = reservationObject.progressStatus;
+        progressStatus = reservationObject.progressStatus;
 
         reservationInfoTable.innerHTML = `
             <tr>
@@ -108,15 +116,25 @@ function setReservationDetailInfo(reservationDetailInfo) {
     }
 }
 
-function historyBack() {
-    let pageInfo = localStorage.pageInfo;
+function loadListPage() {
+    let locationInfo = localStorage.locationInfo;
+    let url = null;
 
-    if(pageInfo != null) {
-        history.back();
+    if(locationInfo != null) {
+        if(locationInfo == "inquiry") {
+            url = `/service/visit/inquiry`;
+
+        }else {
+            url = `/mypage/service/history/${progressStatus == 1 ? "ing" : "end"}`;
+
+        }
 
     }else {
-        location.href = "/service/visit/inquiry";
+        url = `/service/visit/inquiry`;
     }
+
+    localStorage.removeItem("locationInfo");
+    location.href = url;
 }
 
 function setButtonClickEvent() {

@@ -2,7 +2,7 @@ const updateButton = document.querySelector(".update-button");
 const deleteButton = document.querySelector(".delete-button");
 const listButton = document.querySelector(".list-button");
 
-let nonMemberRequestData = null;
+let authenticationInfo = null;
 let boardCode = getBoardCodeByUri();
 let boardType = getBoardType();
 
@@ -18,7 +18,7 @@ updateButton.onclick = loadModifyBoardPageByBoardCode;
 
 deleteButton.onclick = deleteBoard;
 
-listButton.onclick = historyBack;
+listButton.onclick = loadListPage;
 
 function getBoardCodeByUri(){
     return location.pathname.substring(location.pathname.lastIndexOf("/") +1);
@@ -42,12 +42,18 @@ function setBoardContentByBoardType() {
 function getBoardDetailByBoardCode(){
     $.ajax({
         type:"get",
-        url:`/api/v1/board/${boardCode}`,
+        url:`/api/v1/board/${boardType}/view/${boardCode}?userCode=${userCode}`,
         dataType:"json",    
         success:(response)=>{
             setBoardDetail(response.data);
         },
-        error:(error)=>{
+        error:(request, stauts, error)=>{
+            if(request.status == 400) {
+                alert("잘못된 접근입니다.");
+                location.replace("/main");
+            }
+            console.log(request.status);
+            console.log(request.responseText);
             console.log(error);
         }
     });
@@ -100,8 +106,8 @@ function setBoardDetail(boardDetail){
 
     if(boardDetail.userCode != userCode) {
 
-        if(nonMemberRequestData != null) {
-            if(nonMemberRequestData.userName == boardDetail.userName) {
+        if(authenticationInfo != null) {
+            if(authenticationInfo.userName == boardDetail.userName) {
                 return;
             }
         }
@@ -112,9 +118,9 @@ function setBoardDetail(boardDetail){
 
 function getBoardType(){
     let uri = location.pathname;
-    return uri.indexOf("praise")!= -1?"praise"
-    :uri.indexOf("complaint")!= -1?"complaint"
-    :"suggestion";
+    return uri.indexOf("praise") != -1 ? "praise"
+    : uri.indexOf("complaint") != -1 ? "complaint"
+    : "suggestion";
 }
 
 function setFile(fileList) {
@@ -139,18 +145,45 @@ function loadModifyBoardPageByBoardCode() {
     location.href = `/customer/${boardType}/update-view/${boardCode}`;
 }
 
-function historyBack() {
-    history.back();
+function loadListPage() {
+    let locationInfo = localStorage.locationInfo;
+    let url = null;
+
+    if(locationInfo != null) {
+        if(locationInfo == "board") {
+            if(authenticationInfo != null) {
+                url = `/customer/praise/list/non-member`;
+
+            }else {
+                url = `/customer/${boardType}/list`;
+                
+            }
+
+        }else {
+            url = `/mypage/writing/customer`;
+
+        }
+
+    }else {
+        url = `/customer/${boardType}/list`;
+    }
+
+    localStorage.removeItem("locationInfo");
+    location.href = url;
 }
 
 function checkIsNonMemberBoard() {
-    return location.pathname.indexOf("non-member") != -1;
+    return location.pathname.indexOf("non-member") != -1 && boardType == "praise";
 }
 
 function loadNonMemberRequestDataByLocalStorage() {
-    nonMemberRequestData = localStorage.nonMemberRequestData;
+    authenticationInfo = localStorage.boardAuthenticationInfo;
 
-    if(nonMemberRequestData != null) {
-        nonMemberRequestData = JSON.parse(nonMemberRequestData);
+    if(authenticationInfo != null) {
+        authenticationInfo = JSON.parse(authenticationInfo);
+    }else {
+        alert("잘못된 접근입니다.");
+        location.replace("/main");
     }
+
 }

@@ -223,15 +223,18 @@ function setServiceCodeItemsClickEvent(serviceHistoryDataList) {
     for(let i = 0; i < serviceCodeItems.length; i++) {
         serviceCodeItems[i].onclick = () => {
 
+            localStorage.locationInfo = "history";
+
             setPageInfoLocalStorage();
 
             if(serviceHistoryType == "service") {
                 if(serviceHistoryDataList[i + 1].serviceTypeCode == 2) {
                     location.href = `/service/visit/inquiry/detail/${serviceHistoryDataList[i + 1].serviceCode}`;
-    
+
                 }else if(serviceHistoryDataList[i + 1].serviceTypeCode == 3) {
                     ///////////////////////// 리콜 신청 조회
-    
+                    location.href = `/service/recall/inquiry/detail/${serviceHistoryDataList[i + 1].serviceCode}`;
+                    
                 }
 
             }else {

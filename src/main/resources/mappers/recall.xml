@@ -110,6 +110,7 @@
 			<choose>
 				<when test="non_member_flag == true">
 					non_member_flag = 1
+					and nmst.user_name = #{user_name}
 				</when>
 				<otherwise>
 					non_member_flag = 0
@@ -151,8 +152,6 @@
 			LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
 		where
 			rst.user_code = #{user_code}
-			and
-			rst.non_member_flag = 0
 		order by
 			progress_status desc,
 			request_date desc

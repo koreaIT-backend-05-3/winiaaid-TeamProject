@@ -40,9 +40,19 @@ searchInput.onkeypress = (e) => {
 solutionTypeUnitItems[0].onclick = loadFaqPage;
 solutionTypeUnitItems[1].onclick = loadSelfCheckPage;
 
-searchKeywordButton.onclick = getSolutionListByKeyword;
+searchKeywordButton.onclick = () => getSolutionListByKeyword(1);
 
 latestSortButton.onclick = sortChange;
+
+
+function loadPage(page) {
+    if(isEmpty(searchInput.value)) {
+        getSolutionList(page);
+    }else {
+        getSolutionListByKeyword(page);
+    }
+}
+
 
 function getBoardType() {
     return location.pathname.indexOf("faq") != -1 ? "faq" : "selfCheck";
@@ -52,7 +62,7 @@ function getSolutionTypeCode() {
     return solutionTypeSelect.options[solutionTypeSelect.selectedIndex].value;
 }
 
-function getSolutionList() {
+function getSolutionList(page) {
 
     console.log("제품코드: " + selectProductCode);
     console.log("그룹코드: " + selectProductGroupCode);
@@ -61,22 +71,22 @@ function getSolutionList() {
     if(selectProductCode != 0) {
         console.log("제품");
         console.log(selectProductCode);
-        getSolutionListByKeyCode("product", selectProductCode);
+        getSolutionListByKeyCode("product", selectProductCode, page);
     }else if(selectProductGroupCode != 0) {
         console.log("그룹");
         console.log(selectProductGroupCode);
-        getSolutionListByKeyCode("group", selectProductGroupCode);
+        getSolutionListByKeyCode("group", selectProductGroupCode, page);
     }else if(selectProductCategoryCode != 0){
         console.log("카테고리");
         console.log(selectProductCategoryCode);
-        getSolutionListByKeyCode("category", selectProductCategoryCode);
+        getSolutionListByKeyCode("category", selectProductCategoryCode, page);
     }else {
-        getAllProductSolutionByCompany();
+        getAllProductSolutionByCompany(page);
 
     }
 }
 
-function getSolutionListByKeyword() {
+function getSolutionListByKeyword(page) {
 
     console.log("제품코드: " + selectProductCode);
     console.log("그룹코드: " + selectProductGroupCode);
@@ -84,27 +94,28 @@ function getSolutionListByKeyword() {
     
     if(selectProductCode != 0) {
         console.log("제품");
-        searchSolutionByKeyWordAndKeyCode("product", selectProductCode);
+        searchSolutionByKeyWordAndKeyCode("product", selectProductCode, page);
     }else if(selectProductGroupCode != 0) {
         console.log("그룹");
-        searchSolutionByKeyWordAndKeyCode("group", selectProductGroupCode);
+        searchSolutionByKeyWordAndKeyCode("group", selectProductGroupCode, page);
     }else if(selectProductCategoryCode != 0) {
         console.log("카테고리");
-        searchSolutionByKeyWordAndKeyCode("category", selectProductCategoryCode);
+        searchSolutionByKeyWordAndKeyCode("category", selectProductCategoryCode, page);
     }else {
-        searchAllProductSolutionByCompanyAndKeyWord();
+        searchAllProductSolutionByCompanyAndKeyWord(page);
 
     }
 }
 
-function getAllProductSolutionByCompany() {
+function getAllProductSolutionByCompany(page) {
     removeSolutionTypeOption();
 
     $.ajax({
         type: "get",
         url: `/api/v1/solution/${company}/${boardType}/list`,
         data: {
-            "sortType": latestSortFlag ? "latest" : "viewed"
+            "sortType": latestSortFlag ? "latest" : "viewed",
+            "page": page
         },
         dataType: "json",
         success: (response) => {
@@ -115,7 +126,7 @@ function getAllProductSolutionByCompany() {
     });
 }
 
-function getSolutionListByKeyCode(codeType, keyCode) {
+function getSolutionListByKeyCode(codeType, keyCode, page) {
     solutionType = getSolutionTypeCode();
 
     $.ajax({
@@ -126,7 +137,8 @@ function getSolutionListByKeyCode(codeType, keyCode) {
             "codeType": codeType,
             "keyCode": keyCode,
             "solutionType": solutionType,
-            "sortType": latestSortFlag ? "latest" : "viewed"
+            "sortType": latestSortFlag ? "latest" : "viewed",
+            "page": page
         },
         dataType: "json",
         success: (response) => {
@@ -138,7 +150,7 @@ function getSolutionListByKeyCode(codeType, keyCode) {
     });
 }
 
-function searchAllProductSolutionByCompanyAndKeyWord() {
+function searchAllProductSolutionByCompanyAndKeyWord(page) {
     let keyword = searchInput.value;
     
     $.ajax({
@@ -147,7 +159,8 @@ function searchAllProductSolutionByCompanyAndKeyWord() {
         dataType: "json",
         data: {
             "sortType": latestSortFlag ? "latest" : "viewed",
-            "keyword": keyword
+            "keyword": keyword,
+            "page": page
         },
         success: (response) => {
             setSolutionList(response.data);
@@ -159,7 +172,7 @@ function searchAllProductSolutionByCompanyAndKeyWord() {
     });
 }
 
-function searchSolutionByKeyWordAndKeyCode(codeType, keyCode) {
+function searchSolutionByKeyWordAndKeyCode(codeType, keyCode, page) {
     let keyword = searchInput.value;
 
     $.ajax({
@@ -171,7 +184,8 @@ function searchSolutionByKeyWordAndKeyCode(codeType, keyCode) {
             "keyCode": keyCode,
             "solutionType": solutionType,
             "sortType": latestSortFlag ? "latest" : "viewed",
-            "keyword": keyword
+            "keyword": keyword,
+            "page": page
         },
         dataType: "json",
         success: (response) => {
@@ -182,11 +196,16 @@ function searchSolutionByKeyWordAndKeyCode(codeType, keyCode) {
         },
         error: errorMessage
     });
+
+    
 }
 
 function setSolutionList(solutionList) {
     if(solutionList != null) {
         let solutionDataMap = new Map();
+
+        let totalPage = getTotalPage(solutionList[0].totalCount, 3);
+        setPage(totalPage);
 
         setSearchTotalCount(solutionList[0].totalCount);
         clearDomObject(solutionSearchResult);
@@ -352,7 +371,7 @@ function isEmpty(value) {
 
 function checkPreviousInfoInLocalStorage() {
     let pastSolutionListHistoryInfoObject = localStorage.pastSolutionListHistoryInfoObject;
-    localStorage.clear();
+    localStorage.removeItem("pastSolutionListHistoryInfoObject");
 
     if(pastSolutionListHistoryInfoObject != null) {
         pastSolutionListHistoryInfoObject = JSON.parse(pastSolutionListHistoryInfoObject);

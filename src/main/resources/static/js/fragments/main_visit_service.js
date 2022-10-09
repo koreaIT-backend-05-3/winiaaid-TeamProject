@@ -306,9 +306,15 @@ function reservationRequest() {
         }),
         dataType: "json",
         success: (response) => {
-            if(response.data) {
+            if(response.data != null) {
                 alert("서비스 신청 성공");
-                location.replace(`/service/visit/inquiry/detail/${response.data}`);
+                if(userCode == 0) {
+                    localStorage.serviceAuthenticationInfo = JSON.stringify(response.data);
+                    
+                }
+
+                location.replace(`/service/visit/inquiry/detail/${response.data.serviceCode}`);
+                
             }else {
                 alert("서비스 신청중에 오류가 발생했습니다.");
             }
@@ -1080,13 +1086,13 @@ function checkRequireInputAndSaveUserInfo() {
     let mainFirstNumber = mainFirstPhoneNumber.options[mainFirstPhoneNumber.selectedIndex].value;
     let mainPhoneNumber = mainFirstNumber +"-"+ mainMiddlePhoneNumber.value +"-"+ mainLastPhoneNumber.value;
 
-    let regPhone = /^01([0|1|6|7|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+    let regPhone = /^01([0|1|6|7|9])-+?([0-9]{3,4})-+?([0-9]{4})$/;
 
 
     let subFirstNumber = subFirstPhoneNumber.options[subFirstPhoneNumber.selectedIndex].value;
     let subPhoneNumber = subFirstNumber +"-"+ subMiddlePhoneNumber.value +"-"+ subLastPhoneNumber.value;
 
-    let regPhone2 = /^([0-9]{2,3})-?([0-9]{3,4})-?([0-9]{4})$/;
+    let regPhone2 = /^([0-9]{2,3})-+?([0-9]{3,4})-+?([0-9]{4})$/;
     
     if(isEmpty(nameInput.value)) {
         alert("성명을 입력해 주세요.");

@@ -14,7 +14,7 @@ public class ServicePageController {
 		return "service/visit_request";
 	}
 
-	@GetMapping("/visit/request/updateView/{repairServiceCode}")
+	@GetMapping("/visit/request/update-view/{repairServiceCode}")
 	public String loadVisitRequestUpdateViewPage(@PathVariable String repairServiceCode) {
 		return "service/visit_request_update";
 	}

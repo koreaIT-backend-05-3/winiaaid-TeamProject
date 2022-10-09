@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ReadUserResponseDto {
-
-
     private int userCode;
     private String userName;
     private String userId;

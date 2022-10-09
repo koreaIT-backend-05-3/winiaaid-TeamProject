@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/signup_step5.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_header.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth/winia_footer.css">
+    <title>회원가입 정보입력</title>
+<body>
+    <div id="wrap">
+        <th:block th:replace="/auth/winia_header"></th:block>
+        <main id="main">
+            <div class="main-inner">
+                <div>
+                    <h2>회원가입</h2>
+                    <div class="complete">
+                        <p>
+                            <span class="user-id-span"></span>님  <strong>위니아 브랜드 사이트</strong>
+                            가입을 감사드립니다. <br>
+                            소중한 고객님들을 위해 언제나 최선을 다하는 위니아가 되겠습니다.
+                        </p>
+                         </div>
+                    <div class="button-center">
+                        <button type="button" class="button blue">메인으로 이동</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <th:block th:replace="/auth/winia_footer"></th:block>
+    </div>
+    <script src="/static/js/util/principal.js"></script>
+    <script src="/static/js/auth/signup_step5.js"></script>
+    <script src="/static/js/util/check_step_pass.js"></script>
+    <script src="/static/js/util/remove_non_member_service_authentication.js"></script>
+    <script src="/static/js/util/remove_non_member_board_authentication.js"></script>
+</head>
+</body>
+</html>

@@ -17,4 +17,9 @@ public class MyPageController {
     public String loadServiceHistoryDetailPage() {
         return "service/inquiry_detail";
     }
+
+    @GetMapping("/modify/info")
+    public String loadModifyMyInfoPage() {
+        return "auth/user_info_update";
+    }
 }

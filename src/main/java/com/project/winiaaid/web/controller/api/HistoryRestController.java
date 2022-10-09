@@ -7,6 +7,7 @@ import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.history.ReadServiceHistoryTitleResponseDto;
 import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
 import com.project.winiaaid.web.dto.history.ReadWritingServiceHistoryTitleResponseDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -58,5 +59,20 @@ public class HistoryRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Service history writing title load successful", serviceHistoryTitleList));
+    }
+
+    @Log
+    @GetMapping("/non-member/service-code-type")
+    public ResponseEntity<?> getNonMemberServiceCodeTypeByServiceCodeAndUserName(String serviceCode, String userName) {
+        int serviceCodeType = 0;
+
+        try {
+            serviceCodeType = historyService.getNonMemberServiceCodeTypeByServiceCodeAndUserName(serviceCode, userName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load detailed application history", serviceCodeType));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Detailed application history load successful", serviceCodeType));
     }
 }

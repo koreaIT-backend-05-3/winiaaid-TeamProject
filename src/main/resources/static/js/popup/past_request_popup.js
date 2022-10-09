@@ -1,6 +1,7 @@
 const cancelImage = document.querySelector(".cancel-image");
 const requestButton = document.querySelector(".request-button");
 const cancelButton = document.querySelector(".cancel-button");
+const requestInfoDiv = document.querySelector(".request-info-div");
 
 let pastHistoryInfoMap = new Map();
 
@@ -28,6 +29,9 @@ function getRepairServiceHistory(page) {
                 let totalPage = getTotalPage(response.data[0].reservationInfo.totalCount, 3);
                 setPage(totalPage);
                 setRepairDataList(response.data, totalPage);
+            }else {
+                setTotalAmount(0);
+                setNotData();
             }
         },
         error: errorMessage
@@ -35,11 +39,7 @@ function getRepairServiceHistory(page) {
 }
 
 function setRepairDataList(repairDataList, totalPage) {
-    const requestInfoDiv = document.querySelector(".request-info-div");
-
-    const amountSpan = document.querySelector(".amount-span");
-
-    amountSpan.textContent = repairDataList[0].reservationInfo.totalCount;
+    setTotalAmount(repairDataList[0].reservationInfo.totalCount);
 
     clearDomObject(requestInfoDiv);
 
@@ -110,6 +110,12 @@ function setRepairDataList(repairDataList, totalPage) {
     }
 }
 
+function setTotalAmount(totalAmount) {
+    const amountSpan = document.querySelector(".amount-span");
+    
+    amountSpan.textContent = totalAmount;
+}
+
 function getCheckedInputIdAndExecuteParentsMethod() {
     const radioInputItems = document.querySelectorAll(".check-radio");
 
@@ -120,6 +126,14 @@ function getCheckedInputIdAndExecuteParentsMethod() {
             cancelPopup();
         }
     }
+}
+
+function setNotData() {
+    requestInfoDiv.innerHTML = `
+    <div class="data-none">
+        <p>이전접수 내역이 없습니다.</p>
+    </div>
+    `;
 }
 
 function clearDomObject(domObject) {

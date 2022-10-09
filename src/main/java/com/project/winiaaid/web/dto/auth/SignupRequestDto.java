@@ -15,7 +15,7 @@ public class SignupRequestDto {
 	private String userName;
 
 	@NotBlank
-	@Pattern(regexp = "^[\\w\\d]{4,10}$", message = "한글만 입력 가능합니다.")
+	@Pattern(regexp = "^[\\w\\d]{4,10}$", message = "4자에서 10자 이하로 입력해주세요.")
 	private String userId;
 
 	@NotBlank
@@ -57,7 +57,7 @@ public class SignupRequestDto {
 	private boolean checkUserIdFlag;
 	
 
-	public User toEntity() {
+	public User toUserEntity() {
 		return User.builder()
 				.user_name(userName)
 				.user_id(userId)

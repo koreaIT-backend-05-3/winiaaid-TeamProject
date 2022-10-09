@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.winiaaid.handler.exception.CustomApiUriTypeException;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
-import com.project.winiaaid.web.dto.solution.ReadSolutionKeywordRequestDto;
+import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,9 +17,9 @@ import java.util.Map;
 public class CustomObjectMapper {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public ReadSolutionKeywordRequestDto createReadSolutionKeywordRequestDtoByObjectMapper(Map<String, Object> parameters) {
+    public ReadSolutionRequestDto createReadSolutionKeywordRequestDtoByObjectMapper(Map<String, Object> parameters) {
         try {
-            return objectMapper.convertValue(parameters, ReadSolutionKeywordRequestDto.class);
+            return objectMapper.convertValue(parameters, ReadSolutionRequestDto.class);
         }catch(Exception e) {
             e.printStackTrace();
             throw new CustomApiUriTypeException("URI type ERROR");
