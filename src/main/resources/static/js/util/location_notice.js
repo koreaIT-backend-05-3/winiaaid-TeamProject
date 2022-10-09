@@ -7,24 +7,28 @@ function setLocationNotice() {
 
     if(uri == "inquiry" || uri == "detail") {
         locationDiv.innerHTML = `
-        <i class="fa-solid fa-house"></i>
         <ul>
-            <li class="location-li">
-                <span>서비스 신청/변경</span>
+        	<li class="home">
+                    <a href="/main"><img src="/static/images/icon_home.png" alt="메인페이지"></a>
             </li>
             <li class="location-li">
-                <span>방문서비스 조회/변경/취소</span>
+                서비스 신청/변경
+            </li>
+            <li class="location-li">
+                방문서비스 조회/변경/취소
             </li>
         </ul>`;
     }else if(uri == "request" || "updateView") {
         locationDiv.innerHTML = `
-        <i class="fa-solid fa-house"></i>
         <ul>
+        	<li class="home">
+                    <a href="/main"><img src="/static/images/icon_home.png" alt="메인페이지"></a>
+            	</li>
             <li class="location-li">
-                <span>서비스 신청/변경</span>
+                서비스 신청/변경
             </li>
             <li class="location-li">
-                <span>방문서비스 신청</span>
+                방문서비스 신청
             </li>
         </ul>`;
         

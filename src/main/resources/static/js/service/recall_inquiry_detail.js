@@ -1,12 +1,10 @@
-let loginTest = true;
-
 const listButton = document.querySelector('.list-button')
 let serviceCode = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 
 loadRecallRequestComplete();
 
 
-if(loginTest){
+if(user != null){
 	listButton.onclick = () => {
 		location.href = `/service/recall/inquiry`
 	}
@@ -19,7 +17,7 @@ if(loginTest){
 function loadRecallRequestComplete(){
     $.ajax({
         type: "get",
-        url: `/api/v1/service/recall/${serviceCode}`,
+        url: `/api/v1/service/recall/${serviceCode}?userCode=${userCode}`,
         dataType: "json",
         async: false,
         success: (response) => {
@@ -57,7 +55,7 @@ function getRecallRequest(recallRequest){
         subPhoneNumber.innerText = recallRequest.userInfo.subPhoneNumber;
     }
 
-    address.innerText = recallRequest.userInfo.address;
+    address.innerText = `${recallRequest.userInfo.postalCode} ${recallRequest.userInfo.mainAddress} ${recallRequest.userInfo.detailAddress}`;
     progressStatus.innerText = recallRequest.reservationInfo.progressStatus;
 }
 

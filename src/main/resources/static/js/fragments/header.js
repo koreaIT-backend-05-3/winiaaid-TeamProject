@@ -1,6 +1,5 @@
 const topLogo = document.querySelector(".top-logo");
 const faqBoard = document.querySelector(".faq-board");
-const signinButton = document.querySelector(".signin");
 const selfCheckBoard = document.querySelector(".self-check-board");
 const visitRepairService = document.querySelector(".visit-repair-service");
 const visitRepairServiceDetail = document.querySelector(".visit-repair-service-detail");
@@ -11,6 +10,7 @@ const suggestionBoard = document.querySelector(".suggestion-board");
 const userRequestHistory = document.querySelector(".user-request-history");
 const userBoardHistory = document.querySelector(".user-board-history");
 const userInfoModify = document.querySelector(".user-info-modify");
+const authButtonLi = document.querySelector(".auth-button");
 
 const menuLines = document.querySelectorAll(".menu-line");
 const menuLineSubs = document.querySelectorAll(".menu-line-sub");
@@ -24,20 +24,25 @@ let preTarget = null;
 menuLineClear();
 
 if(user != null) {
-    const authButtonLi = document.querySelector(".auth-button");
-
-    authButtonLi.innerHTML = `<i class="fa-solid fa-user logout"></i>`;
+    authButtonLi.style.background = `url(/static/images/winnia-front/btn_signout.png) no-repeat center`
+    authButtonLi.classList.remove('signin')
+    authButtonLi.classList.add('logout')
 
     const logoutButton = document.querySelector(".logout");
-
     logoutButton.onclick = setLogoutButtonClickEvent;
+    
+}else{
+	const signinButton = document.querySelector(".signin");
+	signinButton.onclick = loadSigninPage;
+	
+	authButtonLi.style.background = `url(/static/images/winnia-front/btn_signin.png) no-repeat center`
+    authButtonLi.classList.remove('logout')
+    authButtonLi.classList.add('signin')
 }
 
 topLogo.onclick = loadMainPage;
 
 faqBoard.onclick = loadFaqPage;
-
-signinButton.onclick = loadSigninPage;
 
 selfCheckBoard.onclick = loadSelfCheckPage;
 

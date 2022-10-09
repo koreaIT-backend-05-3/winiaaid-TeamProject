@@ -26,10 +26,12 @@ footer{
 
 
 .footer-inner{
+	position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 1400px;
+    margin: 0 auto;
     /* background-color: blueviolet; */
 }
 
@@ -38,11 +40,13 @@ footer{
     justify-content: center;
     width: 100%;
     border-bottom: 1px solid #dbdbdb;
+    border-top: 1px solid #dbdbdb;
 }
 
 .info{
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     /* background-color: turquoise; */
     width: 1400px;
     height: 69.5px;
@@ -51,9 +55,16 @@ footer{
 }
 .info li{
     margin: 0 0 0 60px;
-    padding: 24px;
-    font-weight: 500;
+    font-size: 15px;
+    color: #222;
+    font-weight: 400;
+    cursor: pointer;
 }
+
+.info li:hover{
+	text-decoration: underline
+}
+
 .info li:first-child{
     margin: 0px;
 }
@@ -63,44 +74,112 @@ footer{
     padding-top:20px;
     display: flex;
     justify-content: space-between;
-    color: #252525;
+    color: #666;
 }
 
 .company-info1-detail {
     display: flex;
+    margin-bottom: 10px
 
 }
 .company-info1 li{
-    margin: 5px 18px 10px 0px;
+	margin-right: 18px;
 }
 
 .company-info2{
     width: 1400px;
     display: flex;
-    padding-bottom: 20px;
-    /* color: #666666; */
+    margin-bottom: 39px;
+    color: #666;
 }
 .company-info2 li{
-
-    margin: 5px 18px 0px 0px;
+	margin-right: 18px;
 }
+
+.company-info2 li:nth-child(2){
+	cursor: pointer;
+}
+
+.company-info2 li:nth-child(2):hover{
+	text-decoration: underline;
+}
+
+.company-info2 li:nth-child(2)::before{
+	display: inline-block;
+	content: '';
+	width: 20px;
+	height: 13px;
+	background: url(/static/images/winnia-front/icon_mail_footer.png) no-repeat center;
+	vertical-align: top;
+    margin-top: 3.5px;
+    margin-right: 5px;
+}
+
+.scrollbar-button{
+	position: absolute;
+	top: 20px;
+	right: 0;
+}
+
+.scrollbar-button button{
+	border: 0;
+	text-indent: -9999px;
+	width: 163px;
+	height: 35px;
+	background: url(/static/images/winnia-front/footer_fam_link.png) no-repeat 0px 0px;
+}
+
+.scrollbar-button button.on{
+	background: url(/static/images/winnia-front/footer_fam_link.png) no-repeat 0px -35px;
+}
+
+.scrollbar-button .open-familysite{
+	display: none;
+	position: absolute;
+	z-index: 99;
+	width: 163px;
+	top: 0px;
+	border: 2px solid #a5a5a5;
+	border-bottom: 0;
+	transform: translate(0px, -100%);
+	margin-top: 2px;
+	background: #fff
+}
+
+.open-familysite.on {
+	display: block;
+}
+
+.open-familysite li{
+	height: 38px;
+}
+
+.open-familysite li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	color: #898989;
+	padding: 10px;
+	font-size: 13px
+}
+
+.scrollbar-button li a:hover{
+	text-decoration: underline;
+}
+
 .pride{
     width: 1400px;
-    height: 53px;
     display: flex;
-    padding-top: 15px;
+    margin-bottom: 36px
     
     /* background-color: teal; */
     
 }
-.pride li{
-    display: flex;
-    margin-left: 25px;
+.pride li:not(:first-child){
+    margin-left: 50px;
 }
 .infomation{
     width: 1400px;
-    height: 18px;
-    padding-top: 50px;
     color: #999999;
     /* background-color: tomato; */
 }

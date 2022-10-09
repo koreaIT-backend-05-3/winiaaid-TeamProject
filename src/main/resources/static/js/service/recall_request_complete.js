@@ -44,7 +44,7 @@ function getRecallRequest(recallRequest){
         subPhoneNumber.innerText = recallRequest.userInfo.subPhoneNumber;
     }
 
-    address.innerText = recallRequest.userInfo.address;
+    address.innerText = `${recallRequest.userInfo.postalCode} ${recallRequest.userInfo.mainAddress} ${recallRequest.userInfo.detailAddress}`;
 }
 
 checkButton.onclick = () => {

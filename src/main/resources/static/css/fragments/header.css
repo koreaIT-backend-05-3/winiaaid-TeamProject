@@ -16,19 +16,69 @@ header {
 
     margin: 0 auto;
 
-    width: 1600px;
+    width: 1400px;
     height: 68px;
     font-size: 16PX;
 }
 
+.top-bar ul{
+	display: flex;
+}
+
 .top-bar li {
     display: flex;
-
-    margin-left: 12px;
-    padding: 19px;
-
-    float: right;
+    align-items: center;
+    margin-left: 15px;
+    font-size: 16px;
+    color: #999;
+    font-weight: 500;
+    cursor: pointer;
 }
+
+.top-bar ul li:first-child::after{
+	display:inline-block;
+	content:'';
+	width: 12px;
+	height: 12px;
+	background: url(/static/images/winnia-front/icon_link_arrow.png) no-repeat center;
+	margin-top: 2px;
+    margin-left: 8px;
+}
+
+.auth-button::before{
+	position: absolute;
+	display: block;
+	content: '';
+	width: 1px;
+	height: 20px;
+	background: #ccc;
+	top: 6px;
+	left: -30px
+}
+
+.auth-button{
+	position: relative;
+	margin-left: 60px !important;
+	text-indent: -9999px;
+	width: 30px;
+	height: 30px;
+	background: url(/static/images/winnia-front/btn_signin.png) no-repeat center;
+}
+
+.top-bar ul li:nth-child(3){
+	text-indent: -9999px;
+	width: 30px;
+	height: 30px;
+	background: url(/static/images/winnia-front/btn_search.png) no-repeat center;
+}
+
+.top-bar ul li:nth-child(4){
+	text-indent: -9999px;
+	width: 30px;
+	height: 30px;
+	background: url(/static/images/winnia-front/btn_menu.gif) no-repeat 0px 0px;
+}
+
 
 .bottom-div {
     border-bottom: 1px solid #dbdbdb;
@@ -40,50 +90,34 @@ header {
     display: flex;
     margin: 0 auto;
 
-    width: 1600px;
+    width: 1400px;
     height: 92px;
 }
 
-.bottom-bar ul {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.bottom-bar ul{
+	display: flex;
+	align-items: center;
+	justify-content: space-between
 }
 
 .top-logo {
+	width: 164px;
+	height: 24px;
     cursor: pointer;
 }
 
-.menu {
-    width: 1400px;
-
-    font-weight: bold;
-    font-size: 16px;
-
-    color: #222222;
+.menu{
+	width: 100%;
+	margin-left: 122px;
 }
 
-.menu-line {
-    display: flex;
-
-    width: 1600px;
-    height: 51px;
-
-    cursor: pointer;
+.menu li{
+	font-size: 16px;
+	font-weight: 700;
+	color: #222;
+	cursor: pointer;
 }
 
-.menu li {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.menu li:first-child {
-    display: flex;
-    justify-content: space-around;
-
-    margin-left: 122px;
-}
 
 .sub-menubar-out {
     display: flex;
