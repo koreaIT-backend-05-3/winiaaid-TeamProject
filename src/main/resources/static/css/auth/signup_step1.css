@@ -52,17 +52,16 @@
     border: 1px solid #dbdbdb;
     text-align: center;
 }
-label[for="family1"]{
-    margin: 0 90px 0 5px;
+
+label{
+	cursor: pointer;
+	font-weight: 300;
 }
-label[for="site04"]{
-    margin: 0 90px 0 5px;
-}
-label[for="site05"]{
-    margin: 0 90px 0 5px;
-}
-label[for="site06"]{
-    margin: 0 90px 0 5px;
+
+label[for="family1"], label[for="site04"], label[for="site05"], label[for="site06"]{
+    margin: 0 90px 0 0;
+    color: #444;
+    font-size: 13px;
 }
 
 #div-main .section2{
@@ -79,6 +78,7 @@ label[for="site06"]{
     width: 100%;
     height: 152px;
     padding: 10px;
+    font-weight: 300
 }
 
 #div-main .rule .rule-textbox strong{
@@ -86,7 +86,8 @@ label[for="site06"]{
 }
 #div-main .rule .rule-textbox h4{
     font-size: 12px;
-    color: rgb(119, 119, 119);
+    color: #777;
+    font-weight: 300
 }
 #div-main .rule .check-right{
     width: 100%;
@@ -109,9 +110,11 @@ label[for="site06"]{
     width: 13px;
     height: 13px;
     margin-right: 5px;
+    margin-top: 0;
 }
 label[for="agree04"]{
-    font-size: 12px;
+    font-size: 13px;
+    
 }
 
 #div-main .button-center{
@@ -129,6 +132,7 @@ label[for="agree04"]{
     font-weight: bold;
     cursor: pointer;
     font-weight: 400;
+    border: 0;
 }
 #div-main .button-center .button-agree{
     width: 66px;
@@ -137,4 +141,12 @@ label[for="agree04"]{
     color: #fff;
     font-weight: bold;
     cursor: pointer;
+    border: 0;
+}
+
+input[type=checkbox]{
+	cursor: pointer;
+	vertical-align: middle;
+	margin-top: -2px
+	
 }

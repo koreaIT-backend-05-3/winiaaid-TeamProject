@@ -1,3 +1,7 @@
+img{
+	vertical-align: top
+}
+
 #header{
     width: 100%;
     height: 110px;
@@ -26,8 +30,9 @@
 }
 #header .util{
     display: flex;
-    align-items: center;
-
+    align-self: flex-end;
+    align-items: flex-end;
+    justify-content: space-around;
     width: 113px;
     height: 52px;
 }
@@ -37,10 +42,10 @@
     align-items: center;
 }
 
-#header .util ul li {
+#header .util>ul>li {
     display: flex;
     align-items: center;
-
+	padding-bottom: 10px;
     float: left;
     position: relative;
 }
@@ -50,22 +55,37 @@
 }
 
 #header .util ul li:hover{
-    border-bottom: 1px solid #222;
+    text-decoration: underline;
 }
 
-#header .util .signup-li {
-    margin-left: 10px;
+#header .util .signup-li:before{
+	display: inline-block;
+	content:'';
+	width: 1px;
+	height: 12px;
+	background: #222;
+	margin: 0px 10px;
+}
+
+#header .util .util-layer:before{
+	content: '';
+    position: absolute;
+    left: 25px;
+    top: -6px;
+    width: 11px;
+    height: 6px;
+    background: url(https://member.winiadimchae.com/images/bg_gnb_over.png) no-repeat 0 0;
 }
 
 #header .util .util-layer{
     display: flex;
     flex-direction: column;
-
+	align-items: baseline;
     position: absolute;
     left: -9px;
-    top: 57px;
+    top: 30px;
     width: 130px;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #e5e5e5;
     z-index: 10;
     background-color: rgb(255, 255, 255);
@@ -76,7 +96,16 @@
 }
 #header .util .util-layer li{
     line-height: 25px;
-    list-style: inside;
+    list-style: none;
+}
+#header .util .util-layer li:before{
+	content: '';
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    margin: 12px 5px 0 0;
+    background: #585858;
+    vertical-align: top;
 }
 #gnb{
     width: 100%;
@@ -98,6 +127,12 @@
     float: left;
     padding: 16px 0;
     border-right: 1px solid #e5e5e5;
+    cursor: pointer;
+}
+
+#gnb .main-mn:hover{
+	background: #f0f0f0;
+	border-bottom:1px solid #d3d3d3;
 }
 
 #gnb .sub-ul {
@@ -130,17 +165,30 @@
     width: 266px;
     height: 26px;
     line-height: 25px;
-    list-style-type: disc;
+    list-style: none;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    color: #585858;
 }
 #gnb .sub-mn:hover{
     text-decoration-line: underline;
-}
-#gnb .sub-mn {
-    font-size: 14px;
-    font-weight: 500;
+    color: royalblue;
 }
 
+#gnb .sub-mn:hover:before{
+	background: royalblue;
+}
+
+#gnb .sub-mn:before{
+	content: '';
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    margin: 12px 5px 0 0;
+    background: #585858;
+    vertical-align: top;
+}
 
 #gnb .sub-wrap{
     position: absolute;

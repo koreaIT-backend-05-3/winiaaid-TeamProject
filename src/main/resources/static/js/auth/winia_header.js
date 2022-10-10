@@ -1,10 +1,11 @@
 const MainMn = document.querySelector(".mn-ul");
+const MainMnLi = MainMn.querySelectorAll(".main-mn")
 const SubWrap = document.querySelector(".sub-wrap");
 const SubUl = document.querySelectorAll("#gnb .sub-ul");
 
 const mainLogo = document.querySelector(".main-logo");
 
-const util = document.querySelector(".util");
+const util = document.querySelector(".util ul li:first-child");
 const utilLayer = document.querySelector(".util-layer");
 const signinLi = document.querySelector(".signin-li");
 const forgetUserIdLi = document.querySelector(".forget-user-id-li");
@@ -32,6 +33,25 @@ MainMn.addEventListener('mouseover',function(){
         }
     SubWrap.classList.remove('on')
 })
+
+MainMnLi[0].onmouseover = () => {
+	MainMnLi[0].childNodes[1].firstChild.src = "https://member.winiadimchae.com/images/gnb01_on.png"
+}
+MainMnLi[0].onmouseleave = () => {
+	MainMnLi[0].childNodes[1].firstChild.src = "https://member.winiadimchae.com/images/gnb01_off.png"
+}
+MainMnLi[1].onmouseover = () => {
+	MainMnLi[1].childNodes[1].firstChild.src = "https://member.winiadimchae.com/images/gnb02_on.png"
+}
+MainMnLi[1].onmouseleave = () => {
+	MainMnLi[1].childNodes[1].firstChild.src = "https://member.winiadimchae.com/images/gnb02_off.png"
+}
+MainMnLi[2].onmouseover = () => {
+	MainMnLi[2].childNodes[1].firstChild.src = "https://member.winiadimchae.com/images/gnb03_on.png"
+}
+MainMnLi[2].onmouseleave = () => {
+	MainMnLi[2].childNodes[1].firstChild.src = "https://member.winiadimchae.com/images/gnb03_off.png"
+}
 
 mainLogo.onclick = loadMainPage;
 signinLi.onclick = loadSigninPage;
