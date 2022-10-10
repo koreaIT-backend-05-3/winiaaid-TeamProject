@@ -41,7 +41,6 @@ public class RepairServiceRestController {
         }
 
         if(userService.isNonMemberRequest(repairServiceRequestDto.getUserInfoObject().getUserCode())) {
-            log.info("들어옴");
 //            userService.sendServiceCode(serviceRequestResponseDto.getServiceCode(), repairServiceRequestDto.getUserInfoObject().getMainPhoneNumber());
         }
 

@@ -25,6 +25,8 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = null;
         List<ReadProductCategoryResponseDto> productCategoryList = null;
 
+        log.info(">>>>>>>>>>>>>>>>>>>>> getProductMainCategoryList <<<<<<<<<<<<<<<<<<<<<<");
+
         productList = productRepository.findListToProductMainCategory(setCompanyCode(company));
 
         if(productList != null && productList.size() != 0) {
@@ -40,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
         List<ReadProductResponseDto> readProductResponseDtoList = null;
 
         Map<String, Object> infoMap = setInfoMap(company, type, productCode);
+        log.info(">>>>>>>>>>>>>>>>>>>>> getProductDetailInfoList <<<<<<<<<<<<<<<<<<<<<<");
 
         productList = productRepository.findListToProductDetailInfo(infoMap);
 
@@ -66,6 +69,7 @@ public class ProductServiceImpl implements ProductService {
         List<ReadModelNumberInfoResponseDto> readModelNumberInfoResponseDtoList = null;
 
         productNumberInfoList = productRepository.findListToProductNumberInfo();
+        log.info(">>>>>>>>>>>>>>>>>>>>> getProductNumberInfoList <<<<<<<<<<<<<<<<<<<<<<");
 
         if(productNumberInfoList != null && productNumberInfoList.size() != 0) {
 
@@ -84,6 +88,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductTrouble> productTroubleEntityList = null;
 
         productTroubleEntityList = productRepository.findTroubleSymptomByProductCode(categoryCode);
+        log.info(">>>>>>>>>>>>>>>>>>>>> getProductTroubleInfoList <<<<<<<<<<<<<<<<<<<<<<");
 
         if(productTroubleEntityList != null && productTroubleEntityList.size() != 0) {
             productTroubleDtoList = changeToReadProductTroubleResponseDto(productTroubleEntityList);
@@ -99,6 +104,7 @@ public class ProductServiceImpl implements ProductService {
         Map<String, Object> configMap = null;
 
         configMap = configMapper.setReadModelConfigMap(keyCode, requestType, modelNumber);
+        log.info(">>>>>>>>>>>>>>>>>>>>> getProductModelInfoList <<<<<<<<<<<<<<<<<<<<<<");
 
         modelEntityList = productRepository.findModelNumberListByModelNumber(configMap);
 

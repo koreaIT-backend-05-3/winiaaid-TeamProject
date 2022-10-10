@@ -4,7 +4,15 @@ const emailSpan = document.querySelector(".email-span");
 const telSpan = document.querySelector(".tel-span");
 const nameInput = document.querySelector(".name-input");
 const emailBox = document.querySelector(".email-box");
+
 const phoneBox = document.querySelector(".phone-box");
+const phoneSelect = document.querySelector(".phone-box select");
+const middlePhoneNumber = document.querySelector(".middle-number");
+const lastPhoneNumber = document.querySelector(".last-number");
+
+const authenticationButton = document.querySelector(".authentication-request-button");
+const authenticationCheckButton = document.querySelector(".authentication-check-button");
+
 const titleInput = document.querySelector(".title-input");
 const contentTextarea = document.querySelector(".content-textarea")
 const brandInputItems = document.querySelectorAll(".brand-td input");
@@ -21,7 +29,10 @@ let phoneNumber = null;
 let companyCode = 0;
 let responseCode = 0;
 let responseSelectedFlag = false;
-let smsAuthenticationFlag = true;
+
+let regPhone = /^01([0|1|6|7|9])-+?([0-9]{3,4})-+?([0-9]{4})$/;
+let randomAuthenticationNumber = null;
+let smsAuthenticationFlag = false;
 
 let modifyFlag = false;
 let boardType = null;
@@ -54,11 +65,16 @@ uploadButton.onclick = submit;
 
 cancelButton.onclcik = historyBack;
 
+authenticationButton.onclick = authenticationRequest;
+
+authenticationCheckButton.onclick = checkAuthenticationNumber;
+
 inputFileDivItems.forEach(input=>{
     input.onchange = (e) => {
         checkFileType(e.target);
     }
-})
+});
+
 
 function setBoardContentByBoardType() {
     const h2 = document.querySelector("h2");
@@ -170,6 +186,62 @@ function setEmail() {
         secondEmail.value = "";
         secondEmail.removeAttribute("readonly", false);
     }
+}
+
+function authenticationRequest() {
+    setMainPhoneNumber();
+
+    if(checkPhonNumberReg()) {
+        $.ajax({
+            type: "get",
+            url: `/api/v1/auth/phone/${phoneNumber}`,
+            dataType: "json",
+            success: (response) => {
+                randomAuthenticationNumber = response.data;
+                alert(randomAuthenticationNumber);
+            },
+            error: errorMessage
+        });
+    }
+
+    
+}
+
+function setMainPhoneNumber() {
+    let firstPhoneNumer = phoneSelect.options[phoneSelect.selectedIndex].value;
+    phoneNumber = firstPhoneNumer + "-" + middlePhoneNumber.value + "-" + lastPhoneNumber.value;
+
+}
+
+function checkPhonNumberReg() {
+    console.log(phoneNumber);
+    if(!regPhone.test(phoneNumber)) {
+        alert("휴대폰번호를 확인해주세요.");
+        middlePhoneNumber.focus();
+        return false;
+    }
+    return true;
+}
+
+function checkAuthenticationNumber() {
+    const authenticationInput = document.querySelector(".authentication-input");
+    if(authenticationInput.value == randomAuthenticationNumber) {
+        const authenticationDiv = document.querySelector(".authentication-div");
+
+        alert("인증 성공");
+        smsAuthenticationFlag = true;
+        setPhoneBoxDisabled();
+        addVisibleClass(authenticationDiv);
+    }else {
+        alert("인증 실패");
+        smsAuthenticationFlag = false;
+    }
+}
+
+function setPhoneBoxDisabled() {
+    phoneSelect.setAttribute("disabled", true);
+    middlePhoneNumber.setAttribute("readonly", true);
+    lastPhoneNumber.setAttribute("readonly", true);
 }
 
 function inputFileBlock(size) {
@@ -350,16 +422,10 @@ function checkRequireMenu() {
     if(userCode == 0 && authenticationInfo == null) {
         const firstEmail = document.querySelector(".email-1");
         const lastEmail = document.querySelector(".email-2");
-        const phoneSelect = document.querySelector(".phone-box select");
-        const middlePhoneNUmber = document.querySelector(".middle-number");
-        const lastPhoneNumber = document.querySelector(".last-number");
-
-        let firstPhoneNumer = phoneSelect.options[phoneSelect.selectedIndex].value;
         
+        setMainPhoneNumber();
         email = firstEmail.value + "@" + lastEmail.value;
-        phoneNumber = firstPhoneNumer + "-" + middlePhoneNUmber.value + "-" + lastPhoneNumber.value;
         
-        let regPhone = /^01([0|1|6|7|9])-?([0-9]{3,4})-?([0-9]{4})$/;
         let regEmail = /^[A-Za-z0-9]+@[A-Za-z0-9]+\.com$/;
         let regPersonalAuthentication = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^+=])[a-zA-Z0-9!@#$%^+=]{4,16}$/;
 
@@ -375,7 +441,7 @@ function checkRequireMenu() {
 
         }else if(!regPhone.test(phoneNumber)) {
             alert("휴대폰번호를 확인해주세요.");
-            middlePhoneNUmber.focus();
+            middlePhoneNumber.focus();
             return false;
         }else if(!smsAuthenticationFlag){
             alert("휴대폰 인증을 진행해 주세요.");
