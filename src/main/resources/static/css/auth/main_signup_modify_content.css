@@ -354,3 +354,7 @@ input[type=radio] + label {
 .selected-email {
     background-color: #e7e7e7;
 }
+
+input[type=checkbox],label[for$="receive"]{
+	cursor: pointer;
+}
