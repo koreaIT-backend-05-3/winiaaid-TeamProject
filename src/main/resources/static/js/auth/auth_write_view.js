@@ -422,6 +422,7 @@ function getSignupInfo() {
 function getUpdateInfo() {
 	console.log(userPasswordInput);
 	let updateInfo = {
+		"userCode": user.userCode,
 		"userPassword": userPasswordInput.value,
 		"postalCode" : postalCodeInput.value,
 		"mainAddress" : mainAddressInput.value,

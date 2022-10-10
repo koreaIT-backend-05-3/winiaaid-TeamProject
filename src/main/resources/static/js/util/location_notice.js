@@ -4,7 +4,6 @@ function setLocationNotice() {
     const locationDiv = document.querySelector(".location-div");
 
 
-
     if(isInclude("service/visit/inquiry") || isInclude("service/visit/detail")) {
         locationDiv.innerHTML = `
         <ul>
@@ -56,42 +55,6 @@ function setLocationNotice() {
             </li>
             <li class="location-li">
                 자가진단
-            </li>
-        </ul>`;
-    }else if(isInclude("service/recall/request")) {
-        locationDiv.innerHTML = `
-        <ul>
-        	<li class="home">
-                <a href="/main"><img src="/static/images/icon_home.png" alt="메인페이지"></a>
-            </li>
-            <li class="location-li">
-                서비스 신청/변경
-            </li>
-            <li class="location-li">
-                김치냉장고 리콜 신청
-            </li>
-        </ul>`;
-    }else if(isInclude("service/recall/inquiry") || isInclude("service/recall/inquiry/detail/")) {
-        locationDiv.innerHTML = `
-        <ul>
-        	<li class="home">
-                <a href="/main"><img src="/static/images/icon_home.png" alt="메인페이지"></a>
-            </li>
-            <li class="location-li">
-                서비스 신청/변경
-            </li>
-            <li class="location-li">
-                김치냉장고 리콜
-            </li>
-        </ul>`;
-    }else if(isInclude("recall/request/complete/")) {
-        locationDiv.innerHTML = `
-        <ul>
-        	<li class="home">
-                <a href="/main"><img src="/static/images/icon_home.png" alt="메인페이지"></a>
-            </li>
-            <li class="location-li">
-                서비스 신청/변경
             </li>
         </ul>`;
     }else if(isInclude("mypage/service/history/")) {
