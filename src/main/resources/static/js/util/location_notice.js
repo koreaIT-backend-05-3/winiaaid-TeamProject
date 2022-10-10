@@ -17,6 +17,7 @@ function setLocationNotice() {
                 방문서비스 조회/변경/취소
             </li>
         </ul>`;
+
     }else if(isInclude("service/visit/request") || isInclude("service/request/update-view")) {
         locationDiv.innerHTML = `
         <ul>
@@ -44,6 +45,7 @@ function setLocationNotice() {
                 자주하는 질문
             </li>
         </ul>`;
+
     }else if(isInclude("solution/self-check/list")) {
         locationDiv.innerHTML = `
         <ul>
@@ -57,6 +59,7 @@ function setLocationNotice() {
                 자가진단
             </li>
         </ul>`;
+
     }else if(isInclude("mypage/service/history/")) {
         locationDiv.innerHTML = `
         <ul>
@@ -70,6 +73,7 @@ function setLocationNotice() {
                 서비스 이력
             </li>
         </ul>`;
+
     }else if(isInclude("mypage/writing/")) {
         locationDiv.innerHTML = `
         <ul>
@@ -83,6 +87,7 @@ function setLocationNotice() {
                 나의 글보기
             </li>
         </ul>`;
+
     }else if(isInclude("signin")) {
         locationDiv.innerHTML = `
         <ul>
@@ -93,6 +98,7 @@ function setLocationNotice() {
                 로그인
             </li>
         </ul>`;
+
     }else if(isInclude("customer/praise")) {
         locationDiv.innerHTML = `
         <ul>
@@ -106,6 +112,7 @@ function setLocationNotice() {
                 칭찬합니다
             </li>
         </ul>`;
+
     }else if(isInclude("customer/complaint")) {
         locationDiv.innerHTML = `
         <ul>
@@ -119,6 +126,7 @@ function setLocationNotice() {
                 불편합니다
             </li>
         </ul>`;
+
     }else if(isInclude("customer/suggestion")) {
         locationDiv.innerHTML = `
         <ul>
