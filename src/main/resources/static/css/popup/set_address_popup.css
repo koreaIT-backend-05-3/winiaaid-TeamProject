@@ -86,10 +86,14 @@ table {
 
     color: #7e7e7e;
     text-align: center;
+
+    cursor: pointer;
 }
 
 .address-road, .address-jibun {
     color: #7e7e7e;
+
+    cursor: pointer;
 }
 
 .address-road:hover, .address-jibun:hover {
