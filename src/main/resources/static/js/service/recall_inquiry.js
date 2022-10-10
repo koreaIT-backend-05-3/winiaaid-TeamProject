@@ -59,14 +59,14 @@ function getRecallRequestList(list){
 	table.innerHTML = ""
 	
 	list.forEach(recall => {
-		let progressStatus = recall.reservationInfo.progressStatus
+		let progressStatus = recall.reservationInfo.progressStatus == 0 ? "접수취소" : recall.reservationInfo.progressStatus == 1 ? "접수완료" : "방문완료";
 		table.innerHTML += `
 			<tr>
 	            <td class="recall-code"><a href="#">${recall.productInfo.serviceCode}</a></td>
 	            <td class="service-type">${recall.reservationInfo.serviceTypeName}</td>
 	            <td class="model-name">${recall.productInfo.modelNumber}</td>
 	            <td class="request-date">${recall.reservationInfo.requestDate}</td>
-	            <td class="progress-status">${recall.reservationInfo.progressStatus}</td>
+	            <td class="progress-status">${progressStatus}</td>
 	            <td class="note">${progressStatus == "접수완료" ? "<button class='cancel'>신청취소</button>" : ""}</td>
 	        </tr>
 		`

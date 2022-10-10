@@ -68,8 +68,8 @@ function getRecallRequest(recallRequest){
         subPhoneNumber.innerText = recallRequest.userInfo.subPhoneNumber;
     }
 
-    address.innerText = recallRequest.userInfo.address;
-    progressStatus.innerText = recallRequest.reservationInfo.progressStatus == 0 ? "접수 취소" : recallRequest.reservationInfo.progressStatus == 1 ? "접수 완료" : "방문 완료";
+    address.innerText = `${recallRequest.userInfo.postalCode} ${recallRequest.userInfo.mainAddress} ${recallRequest.userInfo.detailAddress}`;
+    progressStatus.innerText = recallRequest.reservationInfo.progressStatus == 0 ? "접수취소" : recallRequest.reservationInfo.progressStatus == 1 ? "접수완료" : "방문완료";
 }
 
 function addCancelButton(data){
