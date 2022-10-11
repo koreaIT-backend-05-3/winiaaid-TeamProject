@@ -34,6 +34,7 @@ function getSolutionDetailData() {
         url: `/api/v1/solution/${boardType}/detail/${solutionBoardCode}`,
         dataType: "json",
         success: (response) => {
+
             setSolutionDetailData(response.data);
             setSolutionDataObject(response.data);
         },

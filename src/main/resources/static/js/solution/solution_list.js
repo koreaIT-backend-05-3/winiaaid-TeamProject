@@ -111,6 +111,7 @@ function getAllProductSolutionByCompany(page) {
     removeSolutionTypeOption();
 
     $.ajax({
+        async: false,
         type: "get",
         url: `/api/v1/solution/${company}/${boardType}/list`,
         data: {
@@ -130,6 +131,7 @@ function getSolutionListByKeyCode(codeType, keyCode, page) {
     solutionType = getSolutionTypeCode();
 
     $.ajax({
+        async: false,
         type: "get",
         url: `/api/v1/solution/${boardType}/list`,
         data: {
@@ -154,6 +156,7 @@ function searchAllProductSolutionByCompanyAndKeyWord(page) {
     let keyword = searchInput.value;
     
     $.ajax({
+        async: false,
         type: "get",
         url: `/api/v1/solution/${company}/${boardType}/list`,
         dataType: "json",
@@ -176,6 +179,7 @@ function searchSolutionByKeyWordAndKeyCode(codeType, keyCode, page) {
     let keyword = searchInput.value;
 
     $.ajax({
+        async: false,
         type: "get",
         url: `/api/v1/solution/${boardType}/list`,
         data: {
@@ -376,7 +380,6 @@ function checkPreviousInfoInLocalStorage() {
     if(pastSolutionListHistoryInfoObject != null) {
         pastSolutionListHistoryInfoObject = JSON.parse(pastSolutionListHistoryInfoObject);
 
-        console.log(pastSolutionListHistoryInfoObject.companyCode);
         pastSolutionListHistoryInfoObject.companyCode == 1 ? daewoo.click() : winia.click();
         pastRequestServiceCategoryLoad(pastSolutionListHistoryInfoObject);
         pastRequestServiceDetailProductLoad(pastSolutionListHistoryInfoObject);

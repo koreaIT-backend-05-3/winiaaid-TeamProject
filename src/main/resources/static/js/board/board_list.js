@@ -27,7 +27,7 @@ showMyWritingHistoryButton.onclick = loadWritingHistoryPage;
 
 searchButton.onclick = () => getBoardList(1);
 
-
+searchKeyword.onkeypress = (e) => checkEnterKeyPress(e);
 
 function getBoardType() {
     return location.pathname.indexOf("complaint") != -1 ? "complaint" : location.pathname.indexOf("praise") != -1 ? "praise" : "suggestion";
@@ -51,6 +51,12 @@ function checkHasNonMemberInquiryListData() {
         localStorage.removeItem("nonMemberInquiryList");
     }else {
         loadPage(nowPage);
+    }
+}
+
+function checkEnterKeyPress(e) {
+    if(e.keyCode == 13) {
+        getBoardList(1);
     }
 }
 

@@ -197,9 +197,6 @@ emailBoxSelect.onchange = setEmail;
 defaultAddressInput.onclick = isCheckedDefatulAddressRadioInput;
 pastAddressInput.onclick = isCheckedPastAddressRadioInput;
 
-// function isModifyPage() {
-//     return uri.contains("updateView");
-// }
 
 function isCheckedDefatulAddressRadioInput() {
     if(defaultAddressInput.checked) {
@@ -310,6 +307,7 @@ function reservationRequest() {
                 alert("서비스 신청 성공");
                 if(userCode == 0) {
                     localStorage.serviceAuthenticationInfo = JSON.stringify(response.data);
+                    alert(response.data.serviceCode);
                     
                 }
 

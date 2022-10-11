@@ -44,6 +44,7 @@ function getBoardDetailByBoardCode(){
         url:`/api/v1/board/${boardType}/view/${boardCode}?userCode=${userCode}`,
         dataType:"json",    
         success:(response)=>{
+            setButtonByUserCode(response.data);
             setBoardDetail(response.data);
         },
         error:(request, stauts, error)=>{
@@ -76,8 +77,23 @@ function deleteBoard(){
     });
 }
 
+function setButtonByUserCode(boardDetail) {
+    if(boardDetail.userCode == userCode || authenticationInfo != null) {
+
+        if(authenticationInfo != null) {
+            if(authenticationInfo.userName != boardDetail.userName) {
+                return;
+            }
+        }
+        removeVisibleClass(updateButton);
+        removeVisibleClass(deleteButton);
+    }
+}
+
 function setBoardDetail(boardDetail){
     const talbe = document.querySelector("table");
+    
+    
 
     talbe.innerHTML = `
         <tr class="first-table">
@@ -103,16 +119,6 @@ function setBoardDetail(boardDetail){
         setFile(boardDetail.fileList);
     }
 
-    if(boardDetail.userCode != userCode) {
-
-        if(authenticationInfo != null) {
-            if(authenticationInfo.userName == boardDetail.userName) {
-                return;
-            }
-        }
-        addVisibleClass(updateButton);
-        addVisibleClass(deleteButton);
-    }
 }
 
 function getBoardType(){
@@ -136,8 +142,8 @@ function setFile(fileList) {
         }
 }
 
-function addVisibleClass(domObject) {
-    domObject.classList.add("visible");
+function removeVisibleClass(domObject) {
+    domObject.classList.remove("visible");
 }
 
 function loadModifyBoardPageByBoardCode() {

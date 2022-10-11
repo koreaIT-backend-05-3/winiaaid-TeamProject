@@ -1,0 +1,42 @@
+4 ~ 13일 까지 DB 설계 및 신청 끝
+
+
+
+입력 -> input
+클릭 -> 메뉴 나와서 클릭
+첨부 -> 첨부파일
+
+
+새로운 메인 카테고리 생성
+	category_code -> 카테고리 테이블의 category_code를 따라감
+	group_flag -> 카테고리 테이블의 main_group_flag를 따라감
+	company_code -> 카테고리 테이블의 company_code를 따라감
+	카테고리 대표 이미지 ->카테고리 테이블의 이미지를 따라감
+	product_group -> 클릭 -> 기존에 있는 그룹인지 : 새로운 그룹인지(auto)
+
+
+
+새로운 카테고리 생성
+	category_code -> auto
+	category_name -> 입력
+	company_code -> 클릭
+	카테고리 대표 이미지 -> 첨부
+	카테고리그룹 추가? main_group_flag = 1 : 제품 추가? main_group_flag = 0 == 1이라면 메인 카테고리! -> (카테고리 테이블)group_flag = 1로, product_group은 새로(auto) 설정됨 -> 위쪽으로 이동
+									ㄴ == 0이라면 product_mst 에 생성
+	product_group -> 클릭 -> 기존에 있는 그룹인지 : 새로운 그룹인지(auto)
+
+
+새로운 디테일 제품 생성
+	product_code -> auto
+	product_detail_name -> 입력
+	product_category_code -> 클릭
+	product_detail_image -> 첨부
+
+
+제품 추가시 -> 어느 카테고리인지 선택후 insert 하면 끝
+
+카테고리 추가시 -> 기존 카테고리에 그룹으로 만들고 싶다면 기존 카테고리의 main_group_flag = 1, main_category 테이블의 group_flag = 1, product_group은 기존 그룹이면 기존 그룹 코드
+	아니라면 최대값 가져와서 새로 생성
+		새로 만들 카테고리의 product_group을 맞춰주고 새로 만든 카테고리의 코드를 가지고 하위 제품을 만들 수 있다.
+
+	존재하는 그룹에 제품을 추가 하고 싶다면 mst에 카테고리 추가시 존재하는 product_group코드를 가지고 만들면 끝
