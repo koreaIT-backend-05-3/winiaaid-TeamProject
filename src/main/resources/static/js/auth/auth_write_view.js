@@ -167,6 +167,14 @@ function setMainPhoneNumber() {
 	setFirstNumber(phoneSelectOption, mainPhoneNumber);
 	setMiddleNumber(mainMiddlePhoneNumber, mainPhoneNumber);
 	setLastNumber(mainLastPhoneNumber, mainPhoneNumber);
+
+	setDisabledAndReadOnly();
+}
+
+function setDisabledAndReadOnly() {
+	mainPhoneSelectBox.setAttribute("disabled", true);
+	mainMiddlePhoneNumber.setAttribute("readonly", true);
+	mainLastPhoneNumber.setAttribute("readonly", true);
 }
 
 function setFirstNumber(selectOptions, phoneNumber) {
