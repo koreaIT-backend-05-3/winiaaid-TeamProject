@@ -198,6 +198,18 @@ tbody .content-title span:hover {
     text-align: center;
 }
 
+.cancel {
+    color: red;
+}
+
+.ing {
+    color: #0A71CC
+}
+
+.end {
+    color: #777777;
+}
+
 .content-date{
     width: 157px;
     text-align: center;

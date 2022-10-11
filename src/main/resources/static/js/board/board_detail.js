@@ -46,6 +46,7 @@ function getBoardDetailByBoardCode(){
         success:(response)=>{
             setButtonByUserCode(response.data);
             setBoardDetail(response.data);
+            setBoardResponse(response.data);
         },
         error:(request, stauts, error)=>{
             if(request.status == 400) {
@@ -68,8 +69,6 @@ function deleteBoard(){
             if(response.data){
                 location.replace(`/customer/${boardType}/list`);
             }
-
-
         },
         error:(error)=>{
             console.log(error);
@@ -78,7 +77,7 @@ function deleteBoard(){
 }
 
 function setButtonByUserCode(boardDetail) {
-    if(boardDetail.userCode == userCode || authenticationInfo != null) {
+    if((boardDetail.userCode == userCode || authenticationInfo != null) && boardDetail.responseFlag != 1) {
 
         if(authenticationInfo != null) {
             if(authenticationInfo.userName != boardDetail.userName) {
@@ -119,6 +118,17 @@ function setBoardDetail(boardDetail){
         setFile(boardDetail.fileList);
     }
 
+}
+
+function setBoardResponse(boardDetail) {
+    if(boardDetail.response != null) {
+        const responseTable = document.querySelector(".response-table");
+        const responseTextArea = responseTable.querySelector(".content");
+
+        responseTextArea.value = boardDetail.response;
+
+        removeVisibleClass(responseTable);
+    }
 }
 
 function getBoardType(){

@@ -17,6 +17,7 @@
 		<result property="progress_status" column="progress_status"/>
 		<result property="create_date" column="create_date"/>
 		<result property="user_name" column="user_name"/>
+		<result property="response" column="response"/>
 		<collection property="file_list" ofType="com.project.winiaaid.domain.board.BoardFile">
 			<id property="file_code" column="file_code"/>
 			<result property="file_name" column="file_name"/>
@@ -268,13 +269,16 @@
 			bf.file_code,
 			bf.file_name,
 
-			pct.company_name
+			pct.company_name,
+
+			bd.response
 		FROM
 			board_mst bm
 			LEFT OUTER JOIN board_file bf ON(bf.board_code = bm.board_code)
 			LEFT OUTER JOIN product_company_table pct on(pct.company_code = bm.company_code)
 			LEFT OUTER JOIN user_mst um ON(um.user_code = bm.user_code)
 			LEFT OUTER JOIN non_member_board_table nmbt on(nmbt.board_code = bm.board_code)
+			LEFT OUTER JOIN board_dtl bd on(bd.board_code = bm.board_code)
 		WHERE
 			<if test="modify_flag == true">
 				<choose>

@@ -168,12 +168,13 @@ function setBoardList(boardList){
         for(board of boardList){
             let date = board.createDate.substring(0, 10);
             let time = board.createDate.substring(11, 16);
+            let progress = board.progressStatus;
     
             contentTableBody.innerHTML += `
                 <tr>
                     <td class="company-name">${board.companyName}</td>
                     <td class="content-title"><span>${board.boardTitle}</span></td>
-                    <td class="progress-status">${board.progressStatus}</td>
+                    <td class="progress-status ${progress == 0 ? "cancel" : progress == 1 ? "ing" : "end"}">${progress == 0 ? "취소" : progress == 1 ? "진행중" : "해결"}</td>
                     <td class="content-name">${board.userName}</td>
                     <td class="content-date">${date} ${time}</td>
                 </tr>

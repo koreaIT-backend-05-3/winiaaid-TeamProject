@@ -24,6 +24,7 @@ public class Board {
 
 	private String board_title;
 	private String board_content;
+	private String response;
 	private List<BoardFile> file_list;
 
 	private int user_code;
@@ -51,6 +52,7 @@ public class Board {
 				.authenticationNumber(authentication_number)
 				.boardTitle(board_title)
 				.boardContent(board_content)
+				.response(response)
 				.createDate(create_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
 				.progressStatus(progress_status)
 				.responseFlag(response_flag)

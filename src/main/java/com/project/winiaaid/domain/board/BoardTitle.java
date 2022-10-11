@@ -28,7 +28,7 @@ public class BoardTitle {
                 .boardTitle(board_title)
                 .userName(user_name)
                 .companyName(company_name)
-                .progressStatus(progress_status == 0 ? "취소" : progress_status == 1 ? "진행중" : "해결")
+                .progressStatus(progress_status)
                 .totalCount(total_count)
                 .createDate(create_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .build();

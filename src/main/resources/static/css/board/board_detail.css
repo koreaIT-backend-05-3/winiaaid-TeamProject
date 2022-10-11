@@ -169,6 +169,7 @@ center button:not(center button:last-child) {
     align-items: center;
 
     margin-top: 20px;
+    margin-bottom: 50px;
 
     font-size: 13px;
 

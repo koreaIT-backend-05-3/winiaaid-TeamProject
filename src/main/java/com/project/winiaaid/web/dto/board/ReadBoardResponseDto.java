@@ -17,6 +17,7 @@ public class ReadBoardResponseDto {
 	private String authenticationNumber;
 	private String boardTitle;
 	private String boardContent;
+	private String response;
 	private int totalCount;
 	private String createDate;
 	private int progressStatus;
