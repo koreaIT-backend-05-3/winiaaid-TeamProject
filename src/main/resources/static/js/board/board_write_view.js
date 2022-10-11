@@ -108,6 +108,7 @@ function loadBoardInfo(boardCode) {
     let mainPhoneNumber = getMainPhoneNumberByAuthenticationInfo();
 
     $.ajax({
+        async: false,
         type: "get",
         url: `/api/v1/board/${boardType}/${modifyFlag ? "modification" : "writing"}/${boardCode}`,
         data: {

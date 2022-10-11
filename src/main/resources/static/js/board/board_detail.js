@@ -40,6 +40,7 @@ function setBoardContentByBoardType() {
 
 function getBoardDetailByBoardCode(){
     $.ajax({
+        async: false,
         type:"get",
         url:`/api/v1/board/${boardType}/view/${boardCode}?userCode=${userCode}`,
         dataType:"json",    

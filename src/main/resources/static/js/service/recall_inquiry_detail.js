@@ -29,6 +29,7 @@ function loadRecallRequestComplete(){
     let userName = getUserNameByAuthenticationInfo();
 
     $.ajax({
+        async: false,
         type: "get",
         url: `/api/v1/service/recall/${serviceCode}?userCode=${userCode}&userName=${userName}`,
         dataType: "json",

@@ -30,6 +30,7 @@ function getSolutionDetailData() {
     setSolutionListTypeView(boardType);
 
     $.ajax({
+        async: false,
         type: "get",
         url: `/api/v1/solution/${boardType}/detail/${solutionBoardCode}`,
         dataType: "json",

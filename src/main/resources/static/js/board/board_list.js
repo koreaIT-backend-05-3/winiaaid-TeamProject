@@ -72,6 +72,7 @@ function getBoardList(page){
 
     if(!isNonMemberView()) {
         $.ajax({
+            async: false,
             type:"get",
             url:`/api/v1/board/${boardType}/list/member`,
             data: {
@@ -104,6 +105,7 @@ function getBoardList(page){
         if(boardAuthenticationInfo != null) {
             authenticationInfo = JSON.parse(boardAuthenticationInfo);
             $.ajax({
+                async: false,
                 type:"get",
                 url:`/api/v1/board/${boardType}/list/non-member`,
                 data: {
