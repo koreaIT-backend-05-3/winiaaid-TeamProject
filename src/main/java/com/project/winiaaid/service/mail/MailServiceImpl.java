@@ -21,7 +21,7 @@ public class MailServiceImpl implements MailService{
         message.setSubject("임시 비밀번호입니다.");
         message.setText("임시 비밀번호: " + randomPassword);
 
-        mailSender.send(message);
+//        mailSender.send(message);
 
         return randomPassword;
     }
