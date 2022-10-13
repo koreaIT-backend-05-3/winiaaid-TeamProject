@@ -49,7 +49,12 @@
 }
 
 .product-ul li {
-    padding-bottom: 10px;
+    border-bottom: 1px solid #c5c5c5;
+    padding: 10px 0px;
+}
+
+.add-li {
+    padding-top: 10px;
 }
 
 .product-detail-span, .product-detail-add-span {
@@ -90,7 +95,7 @@
     width: 300px;
 }
 
-.image-div label {
+.image-form label, .fa-plus {
     cursor: pointer;
 }
 

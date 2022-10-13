@@ -9,6 +9,7 @@
         <id property="product_category_code" column="product_category_code"/>
         <result property="product_category_name" column="product_category_name"/>
         <result property="product_main_image" column="product_main_image"/>
+        <result property="product_group_code" column="product_group_code"/>
         <collection property="product_detail_list" ofType="com.project.winiaaid.domain.product.ProductDetail">
             <id property="product_code" column="product_code"/>
             <result property="product_detail_name" column="product_detail_name"/>
@@ -31,6 +32,7 @@
             wpm.product_category_code,
             wpm.product_category_name,
             wpm.product_main_image,
+            wpm.product_group_code,
             wpd.product_code,
             wpd.product_detail_name,
             wpd.product_detail_image

@@ -1,14 +1,43 @@
+let companyDiv = null;
+let categorySpanItems = null;
+let groupSpanItems = null;
+
+const mainGroupDiv = document.querySelector(".main-group-div");
+const mainProductDiv = document.querySelector(".main-product-div");
+
+const productDetailNameInput = document.querySelector(".product-detail-name");
+const showImageDiv = document.querySelector(".show-image-div");
+
 let registrationFlag = true;
+let registrationType = null;
 let imageObject = null;
 
 let company = null;
+let companyCode = 0;
+
+let selectGroupCode = 0;
+let selectCategoryCode = 0;
+
+let historyInfo = {
+    "companyName": null,
+    "mainProductCategoryName": null,
+    "productGroupName": null
+}
+
+let pastHistoryInfo = null;
+
 
 if(registrationFlag) {
     getCompanyList();
 
     setFileInputChangeEvent();
     
-    setProductAddButtonClickEvent();
+    pastHistoryInfo = getHistoryInfoInLocalStorage();
+
+    if(pastHistoryInfo != null) {
+        loadHistoryInfo(pastHistoryInfo);
+
+    }
 
 }
 
@@ -42,14 +71,20 @@ function setCompanyList(companyList) {
 }
 
 function setCompanyClickEvent(companyList) {
-    const companyDiv = document.querySelectorAll(".company-div");
+    companyDiv = document.querySelectorAll(".company-div");
 
     companyDiv.forEach((company, index) => {
-        company.onclick = () => getProductMainCategoryList(companyList[index].companyCode);
+        company.onclick = () => getProductMainCategoryList(companyList[index]);
     });
 }
 
-function getProductMainCategoryList(companyCode) {
+function getProductMainCategoryList(companyObject) {
+    
+    clearDomObject(mainGroupDiv);
+    clearDomObject(mainProductDiv);
+
+    companyCode = companyObject.companyCode;
+    historyInfo.companyName = companyObject.companyName;
 
     setCompany(companyCode);
 
@@ -65,44 +100,36 @@ function getProductMainCategoryList(companyCode) {
     });
 }
 
-function setCompany(companyCode) {
-    company = companyCode == 1 ? "daewoo" : "winia";
-}
 
 function setProductMainCategoryList(productCategoryList) {
     const mainCategoryDiv = document.querySelector(".main-category-div");
 
     mainCategoryDiv.innerHTML = `<span class="sortation-span">메인 카테고리</span>`;
-    
-    if(productCategoryList != null) {
-
-        productCategoryList.forEach(product => {
-            mainCategoryDiv.innerHTML += `
-                <ul class="main-category-ul product-ul">
-                    <li class="main-category-li">
-                        <span class="product-detail-span fa-solid fa-cube"> ${product.productCategoryName}</span>
-                    </li>
-                </ul>
-            `;
-
-        });
-
+   
+    productCategoryList.forEach(product => {
         mainCategoryDiv.innerHTML += `
-            <li class="main-group-li">
-                <span class="product-detail-add-span fa-solid fa-plus"> 추가</span>
-            </li>
+            <ul class="main-category-ul product-ul">
+                <li class="main-category-li">
+                    <span class="product-detail-span fa-solid fa-cube"> ${product.productCategoryName}</span>
+                </li>
+            </ul>
         `;
 
-        setProductCategoryListClickEvent(productCategoryList);
+    });
 
-    }else {
-        setNotData(mainCategoryDiv);
+    mainCategoryDiv.innerHTML += `
+        <li class="main-category-li add-li">
+            <span class="main-category-add-span fa-solid fa-plus"> 추가</span>
+        </li>
+    `;
 
-    }
+    setProductCategoryListClickEvent(productCategoryList);
+    setMainCategoryAddSpanClickEvent();
+
 }
 
 function setProductCategoryListClickEvent(productCategoryList) {
-    const categorySpanItems = document.querySelectorAll(".main-category-ul .product-detail-span");
+    categorySpanItems = document.querySelectorAll(".main-category-ul .product-detail-span");
 
     categorySpanItems.forEach((category, index) => {
         category.onclick = () => checkGroupFlag(productCategoryList[index]);
@@ -110,12 +137,22 @@ function setProductCategoryListClickEvent(productCategoryList) {
 }
 
 function checkGroupFlag(category) {
+    historyInfo.mainProductCategoryName = category.productCategoryName;
+    
     if(category.groupFlag) {
+        selectCategoryCode = 0;
+        selectGroupCode = category.productGroupCode;
+        
         getProductGroupList(category.productGroupCode);
+        clearDomObject(mainProductDiv);
 
     }else {
-        getProductDetailList(category.productCategoryCode);
+        selectGroupCode = 0;
+        selectCategoryCode = category.productCategoryCode;
 
+        getProductDetailList(category.productCategoryCode);
+        showAddMainGroupDivView();
+        
     }
 }
 
@@ -132,6 +169,71 @@ function getProductGroupList(groupCode) {
     });
 }
 
+function setProductGroupList(productGroupList) {
+
+    mainGroupDiv.innerHTML = `<span class="sortation-span">카테고리</span>`;
+
+    productGroupList.forEach((product, index) => {
+        mainGroupDiv.innerHTML += `
+            <ul class="main-group-ul product-ul">
+                <li class="main-group-li">
+                    <span class="product-detail-span fa-solid fa-cube"> ${product.productCategoryName}</span>
+                </li>
+            </ul>
+        `;
+
+    });
+
+    mainGroupDiv.innerHTML += `
+        <li class="main-group-li add-li">
+            <span class="category-add-span fa-solid fa-plus"> 추가</span>
+        </li>
+    `;
+
+    setProductGroupListClickEvent(productGroupList);
+
+    setCategoryAddSpanClickEvent();
+
+}
+
+function setProductGroupListClickEvent(productGroupList) {
+    groupSpanItems = document.querySelectorAll(".main-group-ul .product-detail-span");
+
+    groupSpanItems.forEach((group, index) => {
+        group.onclick = () => setProductDetailListByGroupCode(productGroupList[index]);
+    })
+}
+
+function setProductDetailListByGroupCode(productGroup) {
+
+    selectCategoryCode = productGroup.productCategoryCode;
+    
+    historyInfo.productGroupName = productGroup.productCategoryName;
+    
+    mainProductDiv.innerHTML = `<span class="sortation-span">제품</span>`;
+
+    productGroup.productDetailList.forEach((product, index) => {
+        if(productGroup.productCategoryName == product.productDetailName) {
+            return;
+        }
+        mainProductDiv.innerHTML += `
+            <ul class="main-product-ul product-ul">
+                <li class="main-product-li">
+                    <span class="product-detail-span fa-solid fa-cube"> ${product.productDetailName}</span>
+                </li>
+            </ul>
+        `;
+    });
+
+    mainProductDiv.innerHTML += `
+        <li class="main-product-li add-li">
+            <span class="product-detail-add-span fa-solid fa-plus"> 추가</span>
+        </li>
+    `;
+
+    setProductDetailAddSpanClickEvent();
+}
+
 function getProductDetailList(categoryCode) {
     $.ajax({
         async: false,
@@ -145,60 +247,91 @@ function getProductDetailList(categoryCode) {
     });
 }
 
-function setProductGroupList(productGroupList) {
-    console.log(productGroupList);
-    const mainGroupDiv = document.querySelector(".main-group-div");
+function setProductDetailList(productDetailList) {
 
-    mainGroupDiv.innerHTML = `<span class="sortation-span">카테고리</span>`;
-
-    if(productGroupList != null) {
-        productGroupList.forEach((product, index) => {
-            mainGroupDiv.innerHTML += `
-                <ul class="main-group-ul product-ul">
-                    <li class="main-group-li">
-                        <span class="product-detail-span fa-solid fa-cube"> ${product.productCategoryName}</span>
-                    </li>
-                </ul>
-            `;
-        });
-
-        mainGroupDiv.innerHTML += `
-            <li class="main-group-li">
-                <span class="product-detail-add-span fa-solid fa-plus"> 추가</span>
-            </li>
+    mainProductDiv.innerHTML = `<span class="sortation-span">제품</span>`;
+    
+    productDetailList[0].productDetailList.forEach((product, index) => {
+        mainProductDiv.innerHTML += `
+            <ul class="main-product-ul product-ul">
+                <li class="main-product-li">
+                    <span class="product-detail-span fa-solid fa-cube"> ${product.productDetailName}</span>
+                </li>
+            </ul>
         `;
+    });
 
-    }else {
-        setNotData(mainGroupDiv);
-
-    }
-
-
-}
-
-function setProductDetailList() {
-
-}
-
-function setNotData(div) {
-    div.innerHTML = `
-
+    mainProductDiv.innerHTML += `
+        <li class="main-product-li add-li">
+            <span class="product-detail-add-span fa-solid fa-plus"> 추가</span>
+        </li>
     `;
+
+    setProductDetailAddSpanClickEvent();
+
 }
 
 function setMainCategoryAddSpanClickEvent() {
     const mainCategoryAddSpan = document.querySelector(".main-category-add-span");
 
+    mainCategoryAddSpan.onclick = () => showProductDetailAddView("category");
 }
 
 function setCategoryAddSpanClickEvent() {
     const categoryAddSpan = document.querySelector(".category-add-span");
-
+    categoryAddSpan.onclick = () => showProductDetailAddView("group");
 }
 
-function setDetailProductAddSpanClickEvent() {
+function setProductDetailAddSpanClickEvent() {
     const productDetailAddSpan = document.querySelector(".product-detail-add-span");
 
+    productDetailAddSpan.onclick = () => showProductDetailAddView("detail");
+}
+
+function showProductDetailAddView(paramsRegistrationType) {
+    const productDetailAddDiv = document.querySelector(".product-detail-add-div");
+
+    registrationType = getRegistrationType(paramsRegistrationType);
+
+    clearAllValue();
+    removeVisibleClass(productDetailAddDiv);
+    setProductAddButtonClickEvent();
+}
+
+
+function setProductAddButtonClickEvent() {
+    const productDetailAddButton = document.querySelector(".product-detail-add-button");
+    productDetailAddButton.onclick = addProductDetail;
+}
+
+function addProductDetail() {
+    let formData = null;
+
+    formData = setFormData(formData);
+
+    if(formData == null) {
+        return;
+    }
+
+    $.ajax({
+        async: false,
+        type: "post",
+        url : `/api/v1/manager/${registrationType}`,
+        enctype: "multipart/form-data",
+        contentType: false,
+        processData: false,
+        data: formData,
+        dataType: "json",
+        success: (response) => {
+            if(response.data) {
+                alert("추가 성공");
+                replace();
+            }else {
+                alert("추가 실패");
+            }
+        },
+        error: errorMessage
+    });
 }
 
 function setFileInputChangeEvent() {
@@ -228,7 +361,6 @@ function isChangeFileResult(formData) {
 }
 
 function setImage(file) {
-    const showImageDiv = document.querySelector(".show-image-div");
     const reader = new FileReader();
 
     imageObject = file;
@@ -243,46 +375,142 @@ function setImage(file) {
     
 }
 
-function setProductAddButtonClickEvent() {
-    const productDetailAddButton = document.querySelector(".product-detail-add-button");
-
-    productDetailAddButton.onclick = addProductDetail;
-}
-
-function addProductDetail() {
-    const productDetailName = document.querySelector(".product-detail-name").value;
-
-    if(isEmpty(productDetailName)) {
-        alert("제품 이름을 입력해주세요.");
-        return;
-    }
-
-    $.ajax({
-        async: false,
-        type: "post",
-        url : `/api/v1/manager/product-detail`,
-        data: JSON.stringify({
-            "productCategoryCode": productCategoryCode,
-            "productName": productDetailName,
-            "productImage": imageObject
-        }),
-        success: (response) => {
-            if(response.data) {
-                alert("추가 성공");
-            }else {
-                alert("추가 실패");
-            }
-        },
-        error: errorMessage
-    });
+function setCompany(companyCode) {
+    company = companyCode == 1 ? "daewoo" : "winia";
 }
 
 function clearDomObject(domObject) {
     domObject.innerHTML = "";
 }
 
+function getHistoryInfoInLocalStorage() {
+    let historyInfo = localStorage.managerProductHistoryInfo;
+
+    if(historyInfo != null) {
+        historyInfo = JSON.parse(historyInfo);
+    }
+
+    return historyInfo;
+}
+
+function loadHistoryInfo(historyInfo) {
+
+    companyDiv.forEach(company => {
+        if(company.textContent == historyInfo.companyName) {
+            company.click();
+            return false;
+        }
+    });
+
+    categorySpanItems.forEach(category => {
+        console.log(category.textContent.replaceAll(" ", ""));
+        console.log(historyInfo.mainProductCategoryName);
+        if(category.textContent.replaceAll(" ", "") == historyInfo.mainProductCategoryName) {
+            category.click();
+            return false;
+        }
+    });
+
+    if(historyInfo.productGroupName != null) {
+        groupSpanItems.forEach(group => {
+            if(group.textContent.replaceAll(" ", "") == historyInfo.productGroupName) {
+                group.click();
+                return false;
+            }
+        });
+    }
+
+    localStorage.removeItem("managerProductHistoryInfo");
+}
+
+function showAddMainGroupDivView() {
+    mainGroupDiv.innerHTML = `
+        <span class="sortation-span">카테고리</span>
+        <li class="main-group-li add-li">
+            <span class="category-add-span fa-solid fa-plus"> 추가</span>
+        </li>
+    `;
+
+    
+    setCategoryAddSpanClickEvent();
+}
+
+function setFormData() {
+    let formData = null;
+    const productDetailName = productDetailNameInput.value;
+
+    if(isEmpty(productDetailName)) {
+        alert("제품 이름을 입력해주세요.");
+        return null;
+    }
+
+    formData = new FormData();
+
+    if(registrationType == "product-detail") {
+        formData.append("productCategoryCode", selectCategoryCode);
+        formData.append("productDetailName", productDetailName);
+        formData.append("productImage", imageObject);
+
+    }else if(registrationType == "product-group") {
+
+        if(selectGroupCode != 0) {
+            formData.append("productCategoryName", productDetailName);
+            formData.append("companyCode", companyCode);
+            formData.append("productGroupCode", selectGroupCode);
+            formData.append("mainGroupFlag", false);
+            formData.append("productImage", imageObject);
+
+        }else {
+            if(confirm("기존의 디테일 상품이 새로 만든 그룹으로 이동됩니다.")) {
+                formData.append("productCategoryName", productDetailName);
+                formData.append("companyCode", companyCode);
+                formData.append("productGroupCode", selectGroupCode);
+                formData.append("mainGroupFlag", false);
+                formData.append("productImage", imageObject);
+                
+            }else {
+                return null;
+            }
+
+        }
+
+    }else {
+
+
+    }
+
+    return formData;
+}
+
+function getRegistrationType(registrationType) {
+    return registrationType == "detail" ? "product-detail" : registrationType == "group" ? "product-group" : "product-category";
+}
+
+function replace() {
+    saveHistoryInfoInLocalStorage();
+    location.replace("/manager/product/registration");
+}
+
+function saveHistoryInfoInLocalStorage() {
+    localStorage.managerProductHistoryInfo = JSON.stringify(historyInfo);
+}
+
 function isEmpty(data) {
     return data == null || data == undefined || data == "";
+}
+
+function removeVisibleClass(domObject) {
+    domObject.classList.remove("visible");
+}
+
+function addVisibleClass(domObject) {
+    domObject.classList.add("visible");
+}
+
+function clearAllValue() {
+    productDetailNameInput.value = "";
+    imageObject = null;
+    clearDomObject(showImageDiv);
 }
 
 function errorMessage(request, status, error) {

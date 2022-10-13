@@ -28,7 +28,7 @@ checkPreviousInfoInLocalStorage();
 solutionTypeSelect.onchange = () => {
     solutionType = getSolutionTypeCode();
     console.log("check solutionType: " + solutionType);
-    getSolutionList();
+    getSolutionList(1);
 }
 
 searchInput.onkeypress = (e) => {

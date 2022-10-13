@@ -137,13 +137,13 @@ public class ProductServiceImpl implements ProductService {
 
     private List<ReadProductTroubleResponseDto> changeToReadProductTroubleResponseDto(List<ProductTrouble> productList) {
        return productList.stream()
-               .map(product -> product.toReadProductTroubleResponseDto())
+               .map(ProductTrouble::toReadProductTroubleResponseDto)
                .collect(Collectors.toList());
     }
 
     private List<ReadProductCategoryResponseDto> changeToReadProductCategoryResponseDto(List<Product> productList) {
         return productList.stream()
-                .map(product -> product.toReadProductCategoryResponseDto())
+                .map(Product::toReadProductCategoryResponseDto)
                 .collect(Collectors.toList());
     }
 
@@ -151,7 +151,7 @@ public class ProductServiceImpl implements ProductService {
 
     private List<ReadProductModelResponseDto> changeToReadProductModelResponseDto(List<ProductModel> productModelList) {
         return productModelList.stream()
-                .map(productModel -> productModel.toReadProductModelResponseDto())
+                .map(ProductModel::toReadProductModelResponseDto)
                 .collect(Collectors.toList());
     }
 

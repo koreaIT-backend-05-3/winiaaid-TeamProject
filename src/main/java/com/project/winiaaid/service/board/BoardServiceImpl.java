@@ -2,6 +2,7 @@ package com.project.winiaaid.service.board;
 
 import com.project.winiaaid.domain.board.*;
 import com.project.winiaaid.util.ConfigMap;
+import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.board.*;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class BoardServiceImpl implements BoardService {
 	private final BoardRepository boardRepository;
 	private final UserService userService;
 	private final ConfigMap configMapper;
+	private final FileService fileService;
 
 	@Value("${file.path}")
 	private String filePath;
@@ -52,12 +54,12 @@ public class BoardServiceImpl implements BoardService {
 
 		status = boardRepository.insertBoard(boardEntity);
 
-		if(status != 0 && !checkUploadFileIsBlank(createBoardRequestDto.getFiles())) {
+		if(status != 0 && !fileService.checkUploadFileListIsBlank(createBoardRequestDto.getFiles())) {
 			fileList = new ArrayList<>();
 			for(MultipartFile file : createBoardRequestDto.getFiles()) {
 				
 				if(!file.getOriginalFilename().isBlank()) {
-					String tempFileName = createFileByFileAndPath(file, "board-files");
+					String tempFileName = fileService.createFileByFileAndPath(file, "board-files");
 					
 					fileList.add(
 							buildBoardFileList(boardEntity.getBoard_code(), tempFileName)
@@ -136,16 +138,16 @@ public class BoardServiceImpl implements BoardService {
 			boardRepository.deleteBoardFileByFileCode(updateBoardReqeustDto.getDeleteFileCode());
 
 			for(String fileName : updateBoardReqeustDto.getDeleteTempFileName()) {
-				deleteFileByFileNameAndPath(fileName, "board-files");
+				fileService.deleteFileByFileNameAndPath(fileName, "board-files");
 
 			}
 		}
 
-		if(status && !checkUploadFileIsBlank(updateBoardReqeustDto.getFiles())) {
+		if(status && !fileService.checkUploadFileListIsBlank(updateBoardReqeustDto.getFiles())) {
 			List<BoardFile> fileList = new ArrayList<BoardFile>();
 			for(MultipartFile file : updateBoardReqeustDto.getFiles()) {
 				if(!file.getOriginalFilename().isBlank()) {
-					String tempFileName = createFileByFileAndPath(file, "board-files");
+					String tempFileName = fileService.createFileByFileAndPath(file, "board-files");
 
 					fileList.add(
 							buildBoardFileList(boardEntity.getBoard_code(), tempFileName)
@@ -166,37 +168,11 @@ public class BoardServiceImpl implements BoardService {
 		
 		if(fileList.size() != 0) {
 			for(BoardFile fileName:fileList) {
-				deleteFileByFileNameAndPath(fileName.getFile_name(), "board-files");
+				fileService.deleteFileByFileNameAndPath(fileName.getFile_name(), "board-files");
 
 			}
 		}
 		return boardRepository.deleteBoardByBoardCode(boardCode) > 0;
-	}
-
-	private boolean checkUploadFileIsBlank(List<MultipartFile> fileList) {
-		for(MultipartFile file : fileList) {
-			if(!file.getOriginalFilename().isBlank()) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private String createFileByFileAndPath(MultipartFile file, String customPath) throws IOException {
-		String tempFileName = UUID.randomUUID().toString().replaceAll("-", "") + "_" + file.getOriginalFilename();
-
-		Path path = Paths.get(filePath + customPath + "/" + tempFileName);
-
-
-		File f = new File(filePath + customPath);
-
-		if(!f.exists()) {
-			f.mkdirs();
-		}
-
-		Files.write(path, file.getBytes());
-
-		return tempFileName;
 	}
 
 	private BoardFile buildBoardFileList(String boardCode, String tempFileName) {
@@ -212,13 +188,4 @@ public class BoardServiceImpl implements BoardService {
 				.collect(Collectors.toList());
 	}
 
-	private void deleteFileByFileNameAndPath(String fileName, String customPath) throws IOException {
-		Path path = Paths.get(filePath + customPath + "/" + fileName);
-
-		File f = new File(filePath + customPath);
-
-		if(f.exists()) {
-			Files.delete(path);
-		}
-	}
 }
