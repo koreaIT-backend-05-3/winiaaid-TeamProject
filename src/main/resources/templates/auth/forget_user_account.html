@@ -14,7 +14,7 @@
     <title>위니아</title>
 </head>
 <body>
-    <th:block th:replace="/auth/winia_header"></th:block>
+    <th:block th:replace="auth/winia_header"></th:block>
     <main>
         <div id="container">
             <div class="main-content">
@@ -37,7 +37,7 @@
                         </tbody>
                     </table>
                 </div>
-                <th:block th:replace="/auth/phone_authentication"></th:block>
+                <th:block th:replace="auth/phone_authentication"></th:block>
                 <div class="main-content-notice">
                     <div class="notice-div">
                         <p class="notice">인증 방법 안내</p>
@@ -58,7 +58,7 @@
             </div>
         </div>
     </main>
-    <th:block th:replace="/auth/winia_footer"></th:block>
+    <th:block th:replace="auth/winia_footer"></th:block>
     <script src="/static/js/auth/winia_header.js"></script>
     <script src="/static/js/auth/phone_authentication.js"></script>
     <script src="/static/js/auth/forget_user_account.js"></script>
