@@ -82,9 +82,21 @@
 }
 
 .product-detail-add-div input {
+    margin-bottom: 10px;
     padding: 10px;
 
     height: 30px;
+}
+
+.custom-setting-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.category-select {
+    height: 30px;
+
+    background-color: #c5c5c5;
 }
 
 .image-form {

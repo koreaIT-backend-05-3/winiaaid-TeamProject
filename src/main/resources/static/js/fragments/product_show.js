@@ -1,4 +1,5 @@
-const swiperWrapper = document.querySelector(".swiper-wrapper");
+const swiperCategory = document.querySelector(".swiper-category .swiper-wrapper");
+const swiperProduct = document.querySelector(".swiper-product .swiper-wrapper");
 
 let productNameLi = document.querySelector(".product-name-li");
 
@@ -14,17 +15,55 @@ let productInfoObject = {
 };
 
 function setProductImages(domObject, productInfoList, type, isGroup) {
+
     if(type == "mainCategory") {
-        productInfoList.forEach(categoryInfo => {
-            domObject.innerHTML += `
-            <li class="category-image-li">
-                <div>
-                    <img src="/image/winia-product/category-images/${categoryInfo.productMainCategoryImage}" alt="${categoryInfo.productCategoryName}">
-                </div>
-            </li>
-            `;
+
+        let totalPage = 0;
+        let size = 0;
+
+        totalPage = productInfoList.length % 6 == 0 ? productInfoList.length / 6 : Math.floor(productInfoList.length / 6) + 1;
+        size = productInfoList.length;
+
+        for(let i = 0; i < totalPage; i++) {
+            let innerHTML = "";
+            let startIndex = 6 * i;
+            let endIndex = i == totalPage - 1 ? size : startIndex + 6;
+
             
-        });
+            innerHTML += `<div class="swiper-slide">`;
+            innerHTML += `<ul class="category-image-ul">`;
+            
+            for(startIndex; startIndex < endIndex; startIndex++) {
+                innerHTML += `
+                            <li class="category-image-li">
+                                <div>
+                                    <img src="/image/winia-product/category-images/${productInfoList[startIndex].productMainCategoryImage}" alt="${productInfoList[startIndex].productCategoryName}">
+                                </div>
+                            </li>
+                            `;
+            }
+            
+            innerHTML += `</ul></div>`;
+            const swiperWrapper = document.querySelector(".swiper-category .swiper-wrapper");
+            swiperWrapper.innerHTML += innerHTML;
+        }
+        
+        makeCategorySwiper();
+        checkCategorySlideAmount();
+   
+
+        // productInfoList.forEach((categoryInfo, index) => {
+
+            
+            // domObject.innerHTML += `
+            // <li class="category-image-li">
+            //     <div>
+            //         <img src="/image/winia-product/category-images/${categoryInfo.productMainCategoryImage}" alt="${categoryInfo.productCategoryName}">
+            //     </div>
+            // </li>
+        //     `;
+            
+        // });
         setCategoryClickEvent(productInfoList);
 
     }else if(type == "detailProduct" && !isGroup) {
@@ -101,16 +140,16 @@ function getProductDetail(code, isGroup) {
 }
 
 function showProductList(productInfoList, isGroup) {
-    clearDomObject(swiperWrapper);
+    clearDomObject(swiperProduct);
 
-    setProductImages(swiperWrapper, productInfoList, "detailProduct", isGroup);
+    setProductImages(swiperProduct, productInfoList, "detailProduct", isGroup);
 }
 
 
 function showHaveNotProductMark() {
     let innerHTML = "";
     
-    clearDomObject(swiperWrapper);
+    clearDomObject(swiperProduct);
 
     innerHTML += `<div class="swiper-slide">`;
     innerHTML += `<ul class="detail-product-ul">`;
@@ -122,17 +161,17 @@ function showHaveNotProductMark() {
                 `;
         
     innerHTML += `</ul></div>`;
-    swiperWrapper.innerHTML += innerHTML;
+    swiperProduct.innerHTML += innerHTML;
 
-    makeSwiper();
-    checkSlideAmount();
+    makeProductSwiper();
+    checkProductSlideAmount();
 }
 
 function setProductDetail(domObject, productInfoList) {
     let totalPage = 0;
     let size = 0;
 
-    totalPage = productInfoList[0].productDetailList.length % 6 == 0 ? productInfoList[0].productDetailList.length : Math.floor(productInfoList[0].productDetailList.length / 6) + 1;
+    totalPage = productInfoList[0].productDetailList.length % 6 == 0 ? productInfoList[0].productDetailList.length / 6 : Math.floor(productInfoList[0].productDetailList.length / 6) + 1;
     size = productInfoList[0].productDetailList.length;
 
     for(let i = 0; i < totalPage; i++) {
@@ -155,8 +194,8 @@ function setProductDetail(domObject, productInfoList) {
         domObject.innerHTML += innerHTML;
     }
     
-    makeSwiper();
-    checkSlideAmount();
+    makeProductSwiper();
+    checkProductSlideAmount();
 
     setImageClickEvent(document.querySelectorAll(".detail-product-ul img"), productInfoList[0]);
    
@@ -166,8 +205,8 @@ function checkIntegratedProduct(productList) {
     return productList.productDetailList.length == 1 && productList.productDetailList[0].productDetailName == productList.productCategoryName;
 }
 
-function makeSwiper() {
-    const swiper = new Swiper(".swiper-container", {
+function makeCategorySwiper() {
+    const swiper = new Swiper(".swiper-category", {
         navigation: {
             nextEl: '.swiper-next',
             prevEl: '.swiper-prev'
@@ -175,9 +214,31 @@ function makeSwiper() {
     });
 }
 
-function checkSlideAmount() {
-    const swiperSlides = document.querySelectorAll(".swiper-slide");
-    const swiperMoveDivs = document.querySelectorAll(".slide-div");
+function makeProductSwiper() {
+    const swiper = new Swiper(".swiper-product", {
+        navigation: {
+            nextEl: '.swiper-next',
+            prevEl: '.swiper-prev'
+        }
+    });
+}
+
+function checkCategorySlideAmount() {
+    const swiperSlides = document.querySelectorAll(".swiper-category .swiper-slide");
+    const swiperMoveDivs = document.querySelectorAll(".swiper-category .slide-div");
+    if(swiperSlides.length > 1) {
+        removeVisibles(swiperMoveDivs);
+    }else {
+        addVisibles(swiperMoveDivs);
+    }
+}
+
+function checkProductSlideAmount() {
+    const swiperSlides = document.querySelectorAll(".swiper-product .swiper-slide");
+    const swiperMoveDivs = document.querySelectorAll(".swiper-product .slide-div");
+    console.log(swiperMoveDivs);
+    console.log(swiperMoveDivs.length);
+
     if(swiperSlides.length > 1) {
         removeVisibles(swiperMoveDivs);
     }else {
@@ -398,8 +459,8 @@ function setGroupProductDetail(domObject, productInfoList) {
 
     }
 
-    makeSwiper();
-    checkSlideAmount();
+    makeProductSwiper();
+    checkProductSlideAmount();
 }
 
 function setGroupImageClickEvent(domObject, productInfoList) {
@@ -463,6 +524,7 @@ function addVisibles(objects) {
 }
 
 function removeVisibles(objects) {
+    console.log(objects);
     objects.forEach(object => object.classList.remove("visible"));
 }
 

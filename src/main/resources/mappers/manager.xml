@@ -17,7 +17,8 @@
         );
     </insert>
 
-    <insert id="insertProductGroup" parameterType="com.project.winiaaid.domain.manager.ManagerProduct">
+    <insert id="insertProductGroup" parameterType="com.project.winiaaid.domain.manager.ManagerProduct"
+        useGeneratedKeys="true" keyProperty="new_product_category_code">
         insert into
             winia_product_mst
         values(
@@ -31,4 +32,40 @@
             now()
         );
     </insert>
+
+    <insert id="insertMainCategoryProduct" parameterType="com.project.winiaaid.domain.manager.ManagerProduct">
+        insert into
+            product_main_category
+        values(
+            #{new_product_category_code},
+            #{main_group_flag},
+            #{company_code},
+            #{product_group_code},
+            #{product_main_image}
+        );
+    </insert>
+
+    <select id="findMaxProductGroupCode" resultType="Integer">
+        SELECT
+            ifnull(max(product_group_code), 1) + 1 AS product_group_code
+        FROM
+            winia_product_mst;
+    </select>
+
+    <update id="updateDefaultProductToGroupProduct" parameterType="com.project.winiaaid.domain.manager.ManagerProduct">
+        UPDATE
+            winia_product_mst wpm
+            LEFT OUTER JOIN winia_product_dtl wpd on(wpd.product_category_code = wpm.product_category_code)
+            LEFT OUTER JOIN product_main_category pmc on(pmc.product_category_code = wpm.product_category_code)
+        SET
+            wpm.product_group_code = #{product_group_code},
+            wpm.main_group_flag = 1,
+            wpd.product_category_code = #{new_product_category_code},
+            pmc.group_flag = 1,
+            pmc.product_group_code = #{product_group_code}
+        WHERE
+            wpm.product_category_code = #{product_category_code}
+            or wpd.product_category_code = #{product_category_code}
+            or pmc.product_category_code = #{product_category_code};
+    </update>
 </mapper>

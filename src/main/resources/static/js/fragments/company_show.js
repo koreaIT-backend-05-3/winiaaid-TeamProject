@@ -121,11 +121,11 @@ function getMainCategoryList(company) {
 }
 
 function showMainCategory(categoryInfoList) {
-    const categoryImageUl = document.querySelector(".category-image-ul");
+    // const categoryImageUl = document.querySelector(".category-image-ul");
 
-    clearDomObject(categoryImageUl);
+    // clearDomObject(categoryImageUl);
 
-    setProductImages(categoryImageUl, categoryInfoList, "mainCategory", false);
+    setProductImages(null, categoryInfoList, "mainCategory", false);
 
 }
 

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ManagerProduct {
+    private int new_product_category_code;
+
     private String registrationType;
 
     private int product_category_code;
