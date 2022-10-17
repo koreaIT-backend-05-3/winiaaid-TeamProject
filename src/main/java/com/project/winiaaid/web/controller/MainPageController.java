@@ -13,7 +13,7 @@ public class MainPageController {
 	
 	@GetMapping("/signin")
 	public String loadSigninPage() {
-		return "/auth/signin";
+		return "auth/signin";
 	}
 	
 

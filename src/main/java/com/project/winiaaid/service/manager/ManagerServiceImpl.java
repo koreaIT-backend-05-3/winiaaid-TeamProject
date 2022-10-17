@@ -46,7 +46,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         }else {     // 카테고리 생성
 
-            status = addProductRequestDto.isMainGroupFlag() ? insertNewMainGroupCategory(productEntity) : insertNewMainCategory(productEntity, imageFile);
+            status = addProductRequestDto.isMainGroupFlag() ? insertNewMainGroupCategory(productEntity) : insertNewMainCategory(productEntity);
 
         }
 
@@ -61,7 +61,12 @@ public class ManagerServiceImpl implements ManagerService {
         return status;
     }
 
-    private boolean insertNewMainCategory(ManagerProduct productEntity, MultipartFile imageFile) throws Exception {
+    private boolean insertNewMainCategory(ManagerProduct productEntity) throws Exception {
+        if(!productEntity.isTop_category_flag()) {
+            int productGroupCode = managerRepository.findMaxProductGroupCode();
+            productEntity.setProduct_group_code(productGroupCode);
+
+        }
         return managerRepository.insertProductGroup(productEntity) > 0 ? managerRepository.insertMainCategoryProduct(productEntity) > 0 : false;
     }
 

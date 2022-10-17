@@ -22,5 +22,6 @@ public class ManagerProduct {
     private String product_category_name;
     private int company_code;
     private int main_group_flag;
+    private boolean top_category_flag;
     private String product_main_image;
 }

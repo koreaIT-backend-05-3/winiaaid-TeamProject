@@ -7,6 +7,7 @@ const mainProductDiv = document.querySelector(".main-product-div");
 
 const productDetailAddDiv = document.querySelector(".product-detail-add-div");
 const categorySelect = document.querySelector(".category-select");
+const mainCategoryCheckDiv = document.querySelector(".main-category-check-div");
 const productDetailNameInput = document.querySelector(".product-detail-name");
 const showImageDiv = document.querySelector(".show-image-div");
 
@@ -297,8 +298,6 @@ function setProductDetailList(productDetailList) {
         </li>
     `;
 
-    console.log("왜 안 돼");
-
     setProductDetailAddSpanClickEvent();
 
 }
@@ -329,6 +328,7 @@ function showProductDetailAddView(paramsRegistrationType) {
         removeVisibleClass(categorySelect);
     }else {
         addVisibleClass(categorySelect);
+        addVisibleClass(mainCategoryCheckDiv);
 
     }
     clearAllValue();
@@ -354,9 +354,26 @@ function setCategorySelectOptions(categorySelect) {
             `;
         });
     }
+
+    setCategorySelectChangeEvent();
     
 }
 
+function setCategorySelectChangeEvent() {
+    categorySelect.onchange = checkValueAndShowNewCategoryCheckBox;
+}
+
+function checkValueAndShowNewCategoryCheckBox() {
+    if(!selectValueIsNewCategory()) {
+        addVisibleClass(mainCategoryCheckDiv);
+    }else {
+        removeVisibleClass(mainCategoryCheckDiv);
+    }
+}
+
+function selectValueIsNewCategory() {
+    return categorySelect.value == 0;
+}
 
 function setProductAddButtonClickEvent() {
     const productDetailAddButton = document.querySelector(".product-detail-add-button");
@@ -527,10 +544,13 @@ function setFormData() {
         formData.append("productImage", imageObject);
 
     }else {
+        const mainCategoryCheckInput = document.querySelector(".main-category-check-input");
+
         formData.append("productCategoryName", productDetailName);
         formData.append("companyCode", companyCode);
         formData.append("productGroupCode", categorySelect.value);
-        formData.append("mainGroupFlag", categorySelect.value == 0);
+        formData.append("mainGroupFlag", categorySelect.value == 0 && mainCategoryCheckInput.checked);
+        formData.append("topCategoryFlag", mainCategoryCheckInput.checked);
         formData.append("productImage", imageObject);
 
     }

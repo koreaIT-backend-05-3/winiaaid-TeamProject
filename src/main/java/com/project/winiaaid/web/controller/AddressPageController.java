@@ -8,6 +8,6 @@ public class AddressPageController {
 
     @GetMapping("/address/main")
     public String loadSetAddressPage() {
-        return "/popup/set_address_popup";
+        return "popup/set_address_popup";
     }
 }

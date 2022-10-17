@@ -81,7 +81,7 @@
     background-color: #ededed;
 }
 
-.product-detail-add-div input {
+.product-detail-name {
     margin-bottom: 10px;
     padding: 10px;
 
@@ -99,6 +99,17 @@
     background-color: #c5c5c5;
 }
 
+.main-category-check-div {
+    display: flex;
+    align-items: center;
+
+    margin-top: 10px;
+}
+
+.main-category-check-input {
+    margin-right: 10px;
+}
+
 .image-form {
     display: flex;
     align-items: center;
@@ -107,7 +118,7 @@
     width: 300px;
 }
 
-.image-form label, .fa-plus {
+.image-form label, .fa-plus, .main-category-check-div label {
     cursor: pointer;
 }
 
