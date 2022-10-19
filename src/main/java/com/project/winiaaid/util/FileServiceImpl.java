@@ -1,5 +1,6 @@
 package com.project.winiaaid.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class FileServiceImpl implements FileService {
 
@@ -52,6 +54,8 @@ public class FileServiceImpl implements FileService {
         Path path = Paths.get(filePath + customPath + "/" + fileName);
 
         File f = new File(filePath + customPath);
+
+        log.info("들어왔습니다.");
 
         if(f.exists()) {
             Files.delete(path);

@@ -9,4 +9,5 @@ public interface ManagerRepository {
     public int insertMainCategoryProduct(ManagerProduct product) throws Exception;
     public int findMaxProductGroupCode()throws Exception;
     public int updateDefaultProductToGroupProduct(ManagerProduct product) throws Exception;
+    public int updateProductInfo(ManagerProduct product) throws Exception;
 }

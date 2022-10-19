@@ -125,7 +125,13 @@ function getProductDetail(code, isGroup) {
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
-                showProductList(response.data, isGroup);
+                if(response.data[0].productDetailList.length == 0) {
+                    showHaveNotProductMark();
+
+                }else {
+                    showProductList(response.data, isGroup);
+
+                }
             }else {
                 showHaveNotProductMark();
             }

@@ -68,4 +68,72 @@
             or wpd.product_category_code = #{product_category_code}
             or pmc.product_category_code = #{product_category_code};
     </update>
+
+    <update id="updateProductInfo" parameterType="com.project.winiaaid.domain.manager.ManagerProduct">
+        UPDATE
+            winia_product_mst wpm
+            LEFT OUTER JOIN winia_product_dtl wpd on(wpd.product_category_code = wpm.product_category_code)
+            LEFT OUTER JOIN product_main_category pmc on(pmc.product_category_code = wpm.product_category_code)
+        SET
+            <choose>
+                <when test="main_category_flag == true">
+                    wpm.product_category_name = #{product_detail_name}
+                    <if test="product_detail_image != null">
+                        ,
+                        pmc.product_main_category_image = #{product_detail_image}
+                    </if>
+                </when>
+                <when test="product_detail_update_flag == false">
+                    wpm.product_category_name = #{product_detail_name}
+                    <if test="product_group_modify_flag == true">
+                        ,
+                        wpm.product_group_code = #{product_key_code}
+                    </if>
+                    <if test="product_detail_image != null">
+                        ,
+                        wpm.product_main_image = #{product_detail_image}
+                    </if>
+                </when>
+                <when test="product_detail_update_flag == true">
+                    wpd.product_detail_name = #{product_detail_name}
+                    <if test="product_group_modify_flag == true">
+                        ,
+                        wpd.product_category_code = #{product_key_code}
+                    </if>
+                    <if test="product_detail_image != null">
+                        ,
+                        wpd.product_detail_image = #{product_detail_image}
+                    </if>
+                </when>
+            </choose>
+        WHERE
+            <if test="main_category_flag == true or product_detail_update_flag == false">
+                wpm.product_category_code = #{key_code};
+            </if>
+            <if test="product_detail_update_flag == true">
+                wpd.product_code = #{key_code};
+            </if>
+
+        UPDATE
+            winia_product_mst wpm
+            LEFT OUTER JOIN winia_product_dtl wpd on(wpd.product_category_code = wpm.product_category_code)
+        SET
+            <choose>
+                <when test="main_category_flag == true or product_detail_update_flag == false">
+                    wpd.product_detail_name = #{product_detail_name}
+                </when>
+                <when test="product_detail_update_flag == true">
+                    wpm.product_category_name = #{product_detail_name}
+                </when>
+            </choose>
+        WHERE
+            <if test="main_category_flag == true or product_detail_update_flag == false">
+                wpd.product_category_code = #{key_code}
+                and wpd.product_detail_name = #{original_product_name};
+            </if>
+            <if test="product_detail_update_flag == true">
+                wpm.product_category_code = #{key_code}
+                and wpm.product_category_name = #{original_product_name};
+            </if>
+    </update>
 </mapper>

@@ -4,12 +4,10 @@ import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.service.manager.ManagerService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.manager.AddProductRequestDto;
+import com.project.winiaaid.web.dto.manager.UpdateProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/manager")
@@ -31,5 +29,21 @@ public class ManagerRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "New Product Registration Successful", status));
+    }
+
+    @Log
+    @PutMapping("/product/{keyCode}")
+    public ResponseEntity<?> modifyProductInformation(@PathVariable int keyCode, UpdateProductRequestDto updateProductRequestDto) {
+        boolean status = false;
+
+        try {
+            status = managerService.updateProduct(keyCode, updateProductRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Product update failed", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Product update successful", status));
+
     }
 }

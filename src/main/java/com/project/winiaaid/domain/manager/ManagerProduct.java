@@ -24,4 +24,11 @@ public class ManagerProduct {
     private int main_group_flag;
     private boolean top_category_flag;
     private String product_main_image;
+
+    private int key_code;
+    private int product_key_code;
+    private String original_product_name;
+    private boolean product_group_modify_flag;
+    private boolean main_category_flag;
+    private boolean product_detail_update_flag;
 }
