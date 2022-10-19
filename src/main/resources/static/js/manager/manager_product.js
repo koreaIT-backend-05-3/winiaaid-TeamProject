@@ -5,7 +5,7 @@ let groupSpanItems = null;
 const mainGroupDiv = document.querySelector(".main-group-div");
 const mainProductDiv = document.querySelector(".main-product-div");
 
-const productDetailAddDiv = document.querySelector(".product-detail-add-div");
+let productDetailDiv = document.querySelector(".product-detail-div");
 const categorySelect = document.querySelector(".category-select");
 const mainCategoryCheckDiv = document.querySelector(".main-category-check-div");
 let productDetailNameInput = document.querySelector(".product-detail-name");
@@ -53,14 +53,6 @@ if(registrationFlag) {
 
     setFileInputChangeEvent();
 
-    
-    pastHistoryInfo = getHistoryInfoInLocalStorage();
-
-    if(pastHistoryInfo != null) {
-        loadHistoryInfo(pastHistoryInfo);
-
-    }
-
 }else if(modifyFlag) {
     setModifyView();
 
@@ -70,6 +62,7 @@ if(registrationFlag) {
     productGroupModifyDiv = document.querySelector(".product-group-modify-div");
     productGroupModifyCheckBox = document.querySelector(".product-group-modify-input");
     productModifyButton = document.querySelector(".product-detail-modify-button");
+    productDetailDiv = document.querySelector(".product-detail-div");
 
     productMap = new Map();
 
@@ -77,6 +70,13 @@ if(registrationFlag) {
     setProductGroupModifyCheckBoxChangeEvent();
     setFileInputChangeEvent();
     setModifyRequestClickEvent();
+
+}
+
+pastHistoryInfo = getHistoryInfoInLocalStorage();
+
+if(pastHistoryInfo != null) {
+    loadHistoryInfo(pastHistoryInfo);
 
 }
 
@@ -128,7 +128,7 @@ function getProductMainCategoryList(companyObject) {
     
     clearDomObject(mainGroupDiv);
     clearDomObject(mainProductDiv);
-    addVisibleClass(productDetailAddDiv);
+    addVisibleClass(productDetailDiv);
 
     companyCode = companyObject.companyCode;
     historyInfo.companyName = companyObject.companyName;
@@ -169,7 +169,8 @@ function setProductMainCategoryList(productCategoryList) {
         mainCategoryDiv.innerHTML += `
             <ul class="main-category-ul product-ul">
                 <li class="main-category-li">
-                    <span class="product-detail-span fa-solid fa-cube"> ${product.productCategoryName}</span>
+                    <span class="fa-solid fa-cube"></span>
+                    <span class="product-detail-span">${product.productCategoryName}</span>
                     ${modifyFlag ? "<span class='product-main-category-modify-span'> 수정</span>" : ""}
                 </li>
             </ul>
@@ -184,7 +185,8 @@ function setProductMainCategoryList(productCategoryList) {
     if(registrationFlag) {
         mainCategoryDiv.innerHTML += `
             <li class="main-category-li add-li">
-                <span class="main-category-add-span fa-solid fa-plus"> 추가</span>
+                <span class="fa-solid fa-plus"></span>
+                <span class="main-category-add-span">추가</span>
             </li>
         `;
 
@@ -208,6 +210,7 @@ function setProductCategoryListClickEvent(productCategoryList) {
 
 function checkGroupFlag(category) {
     historyInfo.mainProductCategoryName = category.productCategoryName;
+    addVisibleClass(productDetailDiv);
     
     if(category.groupFlag) {
         selectCategoryCode = 0;
@@ -258,7 +261,8 @@ function setProductGroupList(productGroupList) {
             mainGroupDiv.innerHTML += `
             <ul class="main-group-ul product-ul">
             <li class="main-group-li">
-            <span class="product-detail-span fa-solid fa-cube"> ${product.productCategoryName}</span>
+            <span class="fa-solid fa-cube"></span>
+            <span class="product-detail-span">${product.productCategoryName}</span>
             ${modifyFlag ? "<span class='product-category-modify-span'> 수정</span>" : ""}
             </li>
             </ul>
@@ -273,7 +277,8 @@ function setProductGroupList(productGroupList) {
     if(registrationFlag) {
         mainGroupDiv.innerHTML += `
             <li class="main-group-li add-li">
-                <span class="category-add-span fa-solid fa-plus"> 추가</span>
+                <span class="fa-solid fa-plus"></span>
+                <span class="category-add-span">추가</span>
             </li>
         `;
 
@@ -296,14 +301,13 @@ function setProductGroupListClickEvent(productGroupList) {
 }
 
 function setProductDetailListByGroupCode(productGroup) {
-    
-    addVisibleClass(productDetailAddDiv);
-
     selectCategoryCode = productGroup.productCategoryCode;
     
     historyInfo.productGroupName = productGroup.productCategoryName;
     
     mainProductDiv.innerHTML = `<span class="sortation-span">제품</span>`;
+
+    addVisibleClass(productDetailDiv);
 
 
     if(productGroup != null) {
@@ -314,7 +318,8 @@ function setProductDetailListByGroupCode(productGroup) {
             mainProductDiv.innerHTML += `
                 <ul class="main-product-ul product-ul">
                     <li class="main-product-li">
-                        <span class="product-detail-span fa-solid fa-cube"> ${product.productDetailName}</span>
+                        <span class="fa-solid fa-cube"></span>
+                        <span class="product-detail-span">${product.productDetailName}</span>
                         ${modifyFlag ? "<span class='product-detail-modify-span'> 수정</span>" : ""}
                     </li>
                 </ul>
@@ -335,7 +340,8 @@ function setProductDetailListByGroupCode(productGroup) {
     if(registrationFlag) {
         mainProductDiv.innerHTML += `
             <li class="main-product-li add-li">
-                <span class="product-detail-add-span fa-solid fa-plus"> 추가</span>
+                <span class="fa-solid fa-plus"></span>
+                <span class="product-detail-add-span">추가</span>
             </li>
         `;
 
@@ -366,7 +372,8 @@ function setProductDetailList(productDetailList) {
             mainProductDiv.innerHTML += `
                 <ul class="main-product-ul product-ul">
                     <li class="main-product-li">
-                        <span class="product-detail-span fa-solid fa-cube"> ${product.productDetailName}</span>
+                        <span class="fa-solid fa-cube"></span>
+                        <span class="product-detail-span">${product.productDetailName}</span>
                         ${modifyFlag ? "<span class='product-detail-modify-span'> 수정</span>" : ""}
                     </li>
                 </ul>
@@ -378,7 +385,8 @@ function setProductDetailList(productDetailList) {
     if(registrationFlag) {
         mainProductDiv.innerHTML += `
             <li class="main-product-li add-li">
-                <span class="product-detail-add-span fa-solid fa-plus"> 추가</span>
+                <span class="fa-solid fa-plus"></span>
+                <span class="product-detail-add-span">추가</span>
             </li>
         `;
     
@@ -410,12 +418,14 @@ function setMainCategoryModifySpanClickEvent(mainCategoryList) {
 function setProductMainCategoryModifyView(mainCategory) {
     console.log(mainCategory);
     addVisibleClass(productGroupModifyDiv);
+    removeVisibleClass(productDetailDiv);
     setProductName(mainCategory.productCategoryName);
     setProductImage(mainCategory.productCategoryName, mainCategory.productMainCategoryImage, "mainCategory");
     isMainCategory();
     setKeyCode(mainCategory.productCategoryCode);
     buttonRemoveDisabled();
     productDetailUpdateFlag = false;
+    historyInfo.productGroupName = null;
 }
 
 function setCategoryAddSpanClickEvent() {
@@ -426,6 +436,7 @@ function setCategoryAddSpanClickEvent() {
 function showProductDetailAddView(paramsRegistrationType) {
 
     registrationType = getRegistrationType(paramsRegistrationType);
+    historyInfo.productGroupName = null;
 
     if(registrationType == "product-category") {
         setCategorySelectOptions(categorySelect);
@@ -436,7 +447,7 @@ function showProductDetailAddView(paramsRegistrationType) {
 
     }
     clearAllValue();
-    removeVisibleClass(productDetailAddDiv);
+    removeVisibleClass(productDetailDiv);
     setProductAddButtonClickEvent();
 }
 
@@ -450,17 +461,21 @@ function setCategoryModifySpanClickEvent(productGroupList) {
 }
 
 function setProductCategoryModifyView(productGroup) {
+    console.log(productGroup);
 
     setProductName(productGroup.productCategoryName);
-    console.log(productGroup);
     setProductImage(productGroup.productCategoryName ,productGroup.productMainImage, "productDetail");
+    setKeyCode(productGroup.productCategoryCode);
+    
     removeVisibleClass(productGroupModifyDiv);
-    groupSelect.setAttribute("disabled", true);
+    removeVisibleClass(productDetailDiv);
     notMainCategory();
     productDetailUpdateFlag = false;
-    setKeyCode(productGroup.productCategoryCode);
+    
     clearDomObject(mainCategorySelect);
     clearDomObject(groupSelect);
+
+    groupSelect.setAttribute("disabled", true);
     buttonRemoveDisabled();
 
     productMap.get("productMainCategoryInfo").forEach(mainCategory => {
@@ -485,12 +500,17 @@ function setProductDetailModifySpanClickEvent(productDetailList) {
 function setProductDetailModifyView(productDetail) {
     let productMainCategoryList = productMap.get("productMainCategoryInfo");
     console.log(productDetail);
+
     setProductName(productDetail.productDetailName);
     setProductImage(productDetail.productDetailName ,productDetail.productDetailImage, "productDetail");
-    removeVisibleClass(productGroupModifyDiv);
-    productDetailUpdateFlag = true;
     setKeyCode(productDetail.productCode);
+
+    removeVisibleClass(productGroupModifyDiv);
+    removeVisibleClass(productDetailDiv);
+    
+    productDetailUpdateFlag = true;
     notMainCategory();
+    
     clearDomObject(groupSelect);
     clearDomObject(mainCategorySelect);
     buttonRemoveDisabled();
@@ -661,7 +681,7 @@ function loadHistoryInfo(historyInfo) {
     });
 
     categorySpanItems.forEach(category => {
-        if(category.textContent.replaceAll(" ", "") == historyInfo.mainProductCategoryName) {
+        if(category.textContent == historyInfo.mainProductCategoryName) {
             category.click();
             return false;
         }
@@ -669,7 +689,7 @@ function loadHistoryInfo(historyInfo) {
 
     if(historyInfo.productGroupName != null) {
         groupSpanItems.forEach(group => {
-            if(group.textContent.replaceAll(" ", "") == historyInfo.productGroupName) {
+            if(group.textContent == historyInfo.productGroupName) {
                 group.click();
                 return false;
             }
@@ -683,7 +703,8 @@ function showAddMainGroupDivView() {
     mainGroupDiv.innerHTML = `
         <span class="sortation-span">카테고리</span>
         <li class="main-group-li add-li">
-            <span class="category-add-span fa-solid fa-plus"> 추가</span>
+            <span class="fa-solid fa-plus"></span>
+            <span class="category-add-span">추가</span>
         </li>
     `;
 
@@ -777,12 +798,18 @@ function getRegistrationType(registrationType) {
 }
 
 function replace() {
+    let manageTypeUri = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
     saveHistoryInfoInLocalStorage();
-    location.replace("/manager/product/registration");
+    location.replace(`/manager/product/${manageTypeUri}`);
 }
 
 function saveHistoryInfoInLocalStorage() {
     localStorage.managerProductHistoryInfo = JSON.stringify(historyInfo);
+    historyInfo = {
+        "companyName": null,
+        "mainProductCategoryName": null,
+        "productGroupName": null
+    }
 }
 
 function isEmpty(data) {
@@ -825,7 +852,7 @@ function setModifyView() {
     const mainProductDetailDiv = document.querySelector(".main-product-detail-div");
 
     mainProductDetailDiv.innerHTML = `
-        <div class="product-detail-modify-div">
+        <div class="product-detail-div detail-modify visible">
             <div class="custom-setting-div">
                 <input class="product-detail-name" type="text" placeholder="제품 상세 이름">
                 <div class="product-group-modify-div">
@@ -973,7 +1000,7 @@ function productModifyRequest() {
         success: (response) => {
             if(response.data) {
                 alert("제품을 수정했습니다.");
-                location.replace("/manager/product/modification");
+                replace();
             }else {
                 alert("제품 수정 실패");
             }
