@@ -23,6 +23,7 @@ public class ManagerProduct {
     private int company_code;
     private int main_group_flag;
     private boolean top_category_flag;
+    private boolean new_group_flag;
     private String product_main_image;
 
     private int key_code;

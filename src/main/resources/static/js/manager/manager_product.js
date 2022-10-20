@@ -191,8 +191,10 @@ function setProductMainCategoryList(productCategoryList) {
     if(registrationFlag) {
         mainCategoryUl.innerHTML += `
             <li class="main-category-li add-li">
-                <span class="fa-solid fa-plus"></span>
-                <span class="main-category-add-span">추가</span>
+                <div>
+                    <span class="fa-solid fa-plus"></span>
+                    <span class="main-category-add-span">추가</span>
+                </div>
             </li>
         `;
 
@@ -290,8 +292,10 @@ function setProductGroupList(productGroupList) {
     if(registrationFlag) {
         mainGroupUl.innerHTML += `
             <li class="main-group-li add-li">
-                <span class="fa-solid fa-plus"></span>
-                <span class="category-add-span">추가</span>
+                <div>
+                    <span class="fa-solid fa-plus"></span>
+                    <span class="category-add-span">추가</span>
+                </div>
             </li>
         `;
 
@@ -362,8 +366,10 @@ function setProductDetailListByGroupCode(productGroup) {
     if(registrationFlag) {
         mainPorductUl.innerHTML += `
             <li class="main-product-li add-li">
-                <span class="fa-solid fa-plus"></span>
-                <span class="product-detail-add-span">추가</span>
+                <div>
+                    <span class="fa-solid fa-plus"></span>
+                    <span class="product-detail-add-span">추가</span>
+                </div>
             </li>
         `;
 
@@ -413,8 +419,10 @@ function setProductDetailList(productDetailList) {
     if(registrationFlag) {
         mainProductUl.innerHTML += `
             <li class="main-product-li add-li">
-                <span class="fa-solid fa-plus"></span>
-                <span class="product-detail-add-span">추가</span>
+                <div>
+                    <span class="fa-solid fa-plus"></span>
+                    <span class="product-detail-add-span">추가</span>
+                </div>
             </li>
         `;
     
@@ -731,8 +739,10 @@ function showAddMainGroupDivView() {
     mainGroupDiv.innerHTML = `
         <span class="sortation-span">카테고리</span>
         <li class="main-group-li add-li">
-            <span class="fa-solid fa-plus"></span>
-            <span class="category-add-span">추가</span>
+            <div>
+                <span class="fa-solid fa-plus"></span>
+                <span class="category-add-span">추가</span>
+            </div>
         </li>
     `;
 
@@ -777,6 +787,7 @@ function setFormData() {
             formData.append("productGroupCode", selectGroupCode);
             formData.append("mainGroupFlag", false);
             formData.append("productImage", imageObject);
+            formData.append("newGroupFlag", true);
     
         }else {
             const mainCategoryCheckInput = document.querySelector(".main-category-check-input");
@@ -1087,7 +1098,7 @@ function deleteProductInfo(product, deleteProductType) {
     }
 
     console.log(keyCode);
-    console.log(product);
+
     let message = null;
 
     message = deleteProductType != "detail" ? "하위 카테고리도 함께 삭제 됩니다.\n그대로 진행 하시겠습니까?"

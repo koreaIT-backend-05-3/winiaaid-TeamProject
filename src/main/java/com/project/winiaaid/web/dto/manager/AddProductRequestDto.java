@@ -16,6 +16,7 @@ public class AddProductRequestDto {
     private int productGroupCode;
     private boolean mainGroupFlag;
     private boolean topCategoryFlag;
+    private boolean newGroupFlag;
 
 
     public ManagerProduct toManagerProductEntity(String productImage, String registrationType) {
@@ -28,6 +29,7 @@ public class AddProductRequestDto {
                 .product_group_code(productGroupCode)
                 .main_group_flag(mainGroupFlag ? 1 : 0)
                 .top_category_flag(topCategoryFlag)
+                .new_group_flag(newGroupFlag)
                 .product_main_image(productImage)
                 .registrationType(registrationType)
                 .build();

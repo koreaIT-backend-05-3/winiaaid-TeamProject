@@ -29,7 +29,7 @@
             #{product_group_code},
             #{main_group_flag},
             <choose>
-                <when test="top_category_flag != true">
+                <when test="new_group_flag == true">
                     #{product_main_image},
                 </when>
                 <otherwise>

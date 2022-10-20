@@ -124,7 +124,7 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     private boolean insertNewMainCategory(ManagerProduct productEntity) throws Exception {
-        if(!productEntity.isTop_category_flag()) {
+        if(productEntity.isTop_category_flag()) {
             int productGroupCode = managerRepository.findMaxProductGroupCode();
             productEntity.setProduct_group_code(productGroupCode);
 
