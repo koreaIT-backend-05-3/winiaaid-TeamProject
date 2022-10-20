@@ -49,8 +49,16 @@
 }
 
 .product-ul li {
-    border-bottom: 1px solid #c5c5c5;
-    padding: 10px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 5px 0px;
+}
+
+.product-ul li div {    
+    padding: 0px 5px;
+    height: 20px;
 }
 
 .add-li {
@@ -59,6 +67,13 @@
 
 .fa-cube, .fa-plus {
     margin-right: 10px;
+}
+
+.fa-trash-can {
+    padding: 10px 0px;
+
+    color: red;
+    cursor: pointer;
 }
 
 .product-detail-span, .main-category-add-span, .category-add-span, .product-detail-add-span {
@@ -77,7 +92,6 @@
 
 .product-ul li:not(.product-ul li:last-child) {
     border-bottom: 1px solid #c5c5c5;
-    margin-bottom: 20px;
 }
 
 .detail-add {

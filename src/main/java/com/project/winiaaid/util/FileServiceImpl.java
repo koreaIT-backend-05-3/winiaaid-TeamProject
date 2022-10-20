@@ -53,9 +53,7 @@ public class FileServiceImpl implements FileService {
     public void deleteFileByFileNameAndPath(String fileName, String customPath) throws IOException {
         Path path = Paths.get(filePath + customPath + "/" + fileName);
 
-        File f = new File(filePath + customPath);
-
-        log.info("들어왔습니다.");
+        File f = new File(path.toString());
 
         if(f.exists()) {
             Files.delete(path);

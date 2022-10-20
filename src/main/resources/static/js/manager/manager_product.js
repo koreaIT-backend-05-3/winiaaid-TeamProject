@@ -163,17 +163,23 @@ function setProductMainCategoryList(productCategoryList) {
     saveMainCategoryListInfoInLocalStorage(productCategoryList);
 
 
-    mainCategoryDiv.innerHTML = `<span class="sortation-span">메인 카테고리</span>`;
+    mainCategoryDiv.innerHTML = `
+        <span class="sortation-span">메인 카테고리</span>
+        <ul class="main-category-ul product-ul"></ul>
+    `;
+
+    const mainCategoryUl = document.querySelector(".main-category-ul");
    
     productCategoryList.forEach(product => {
-        mainCategoryDiv.innerHTML += `
-            <ul class="main-category-ul product-ul">
-                <li class="main-category-li">
+        mainCategoryUl.innerHTML += `
+            <li class="main-category-li">
+                <div>
                     <span class="fa-solid fa-cube"></span>
                     <span class="product-detail-span">${product.productCategoryName}</span>
                     ${modifyFlag ? "<span class='product-main-category-modify-span'> 수정</span>" : ""}
-                </li>
-            </ul>
+                </div>
+                ${modifyFlag ? "<span class='fa-regular fa-trash-can product-main-category-delete-span'></span>" : ""}
+            </li>
         `;
 
         if(modifyFlag) {
@@ -183,7 +189,7 @@ function setProductMainCategoryList(productCategoryList) {
     });
 
     if(registrationFlag) {
-        mainCategoryDiv.innerHTML += `
+        mainCategoryUl.innerHTML += `
             <li class="main-category-li add-li">
                 <span class="fa-solid fa-plus"></span>
                 <span class="main-category-add-span">추가</span>
@@ -193,6 +199,7 @@ function setProductMainCategoryList(productCategoryList) {
         setMainCategoryAddSpanClickEvent();
     }else {
         setMainCategoryModifySpanClickEvent(productCategoryList);
+        setMainCategoryDeleteSpanClickEvent(productCategoryList);
 
     }
 
@@ -253,19 +260,25 @@ function getProductGroupList(groupCode) {
 
 function setProductGroupList(productGroupList) {
 
-    mainGroupDiv.innerHTML = `<span class="sortation-span">카테고리</span>`;
+    mainGroupDiv.innerHTML = `
+        <span class="sortation-span">카테고리</span>
+        <ul class="main-group-ul product-ul"></ul>
+    `;
+
+    const mainGroupUl = document.querySelector(".main-group-ul");
 
     
     if(productGroupList != null) {
         productGroupList.forEach((product, index) => {
-            mainGroupDiv.innerHTML += `
-            <ul class="main-group-ul product-ul">
-            <li class="main-group-li">
-            <span class="fa-solid fa-cube"></span>
-            <span class="product-detail-span">${product.productCategoryName}</span>
-            ${modifyFlag ? "<span class='product-category-modify-span'> 수정</span>" : ""}
-            </li>
-            </ul>
+            mainGroupUl.innerHTML += `
+                <li class="main-group-li">
+                    <div>
+                        <span class="fa-solid fa-cube"></span>
+                        <span class="product-detail-span">${product.productCategoryName}</span>
+                        ${modifyFlag ? "<span class='product-category-modify-span'> 수정</span>" : ""}
+                    </div>
+                    ${modifyFlag ? "<span class='fa-regular fa-trash-can product-category-delete-span'></span>" : ""}
+                </li>
             `;
         });
 
@@ -275,7 +288,7 @@ function setProductGroupList(productGroupList) {
     }
 
     if(registrationFlag) {
-        mainGroupDiv.innerHTML += `
+        mainGroupUl.innerHTML += `
             <li class="main-group-li add-li">
                 <span class="fa-solid fa-plus"></span>
                 <span class="category-add-span">추가</span>
@@ -285,6 +298,7 @@ function setProductGroupList(productGroupList) {
         setCategoryAddSpanClickEvent();
     }else {
         setCategoryModifySpanClickEvent(productGroupList);
+        setCategoryDeleteSpanClickEvent(productGroupList);
     }
 
     setProductGroupListClickEvent(productGroupList);
@@ -305,24 +319,31 @@ function setProductDetailListByGroupCode(productGroup) {
     
     historyInfo.productGroupName = productGroup.productCategoryName;
     
-    mainProductDiv.innerHTML = `<span class="sortation-span">제품</span>`;
+    mainProductDiv.innerHTML = `
+        <span class="sortation-span">제품</span>
+        <ul class="main-product-ul product-ul"></ul>
+    `;
+
+    const mainPorductUl = document.querySelector(".main-product-ul");
 
     addVisibleClass(productDetailDiv);
 
 
     if(productGroup != null) {
+
         productGroup.productDetailList.forEach((product, index) => {
             if(productGroup.productCategoryName == product.productDetailName) {
                 return;
             }
-            mainProductDiv.innerHTML += `
-                <ul class="main-product-ul product-ul">
-                    <li class="main-product-li">
+            mainPorductUl.innerHTML += `
+                <li class="main-product-li">
+                    <div>
                         <span class="fa-solid fa-cube"></span>
                         <span class="product-detail-span">${product.productDetailName}</span>
                         ${modifyFlag ? "<span class='product-detail-modify-span'> 수정</span>" : ""}
-                    </li>
-                </ul>
+                    </div>
+                    ${modifyFlag ? "<span class='fa-regular fa-trash-can product-detail-delete-span'></span>" : ""}
+                </li>
             `;
         });
 
@@ -334,11 +355,12 @@ function setProductDetailListByGroupCode(productGroup) {
             console.log(productDetailList);
 
             setProductDetailModifySpanClickEvent(productDetailList);
+            setProductDetailDeleteSpanClickEvent(productDetailList);
         }
     }
     
     if(registrationFlag) {
-        mainProductDiv.innerHTML += `
+        mainPorductUl.innerHTML += `
             <li class="main-product-li add-li">
                 <span class="fa-solid fa-plus"></span>
                 <span class="product-detail-add-span">추가</span>
@@ -365,25 +387,31 @@ function getProductDetailList(categoryCode) {
 
 function setProductDetailList(productDetailList) {
 
-    mainProductDiv.innerHTML = `<span class="sortation-span">제품</span>`;
+    mainProductDiv.innerHTML = `
+        <span class="sortation-span">제품</span>
+        <ul class="main-product-ul product-ul"></ul>
+    `;
+
+    const mainProductUl = document.querySelector(".main-product-ul");
     
     if(productDetailList != null) {
         productDetailList[0].productDetailList.forEach((product, index) => {
-            mainProductDiv.innerHTML += `
-                <ul class="main-product-ul product-ul">
-                    <li class="main-product-li">
+            mainProductUl.innerHTML += `
+                <li class="main-product-li">
+                    <div>
                         <span class="fa-solid fa-cube"></span>
                         <span class="product-detail-span">${product.productDetailName}</span>
                         ${modifyFlag ? "<span class='product-detail-modify-span'> 수정</span>" : ""}
-                    </li>
-                </ul>
+                    </div>
+                    ${modifyFlag ? "<span class='fa-regular fa-trash-can product-detail-delete-span'></span>" : ""}
+                </li>
             `;
         });
 
     }
 
     if(registrationFlag) {
-        mainProductDiv.innerHTML += `
+        mainProductUl.innerHTML += `
             <li class="main-product-li add-li">
                 <span class="fa-solid fa-plus"></span>
                 <span class="product-detail-add-span">추가</span>
@@ -395,7 +423,7 @@ function setProductDetailList(productDetailList) {
 
         if(productDetailList != null) {
             setProductDetailModifySpanClickEvent(productDetailList[0].productDetailList);
-
+            setProductDetailDeleteSpanClickEvent(productDetailList[0].productDetailList);
         }
     }
 
@@ -436,9 +464,9 @@ function setCategoryAddSpanClickEvent() {
 function showProductDetailAddView(paramsRegistrationType) {
 
     registrationType = getRegistrationType(paramsRegistrationType);
-    historyInfo.productGroupName = null;
-
+    
     if(registrationType == "product-category") {
+        historyInfo.productGroupName = null;
         setCategorySelectOptions(categorySelect);
         removeVisibleClass(categorySelect);
     }else {
@@ -649,7 +677,7 @@ function setImage(file) {
         `;
     }
 
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file);
     
 }
 
@@ -1019,6 +1047,76 @@ function notMainCategory() {
 
 function setKeyCode(selectKeyCode) {
     keyCode = selectKeyCode;
+}
+
+function setMainCategoryDeleteSpanClickEvent(productMainCategoryList) {
+    const productMainCategoryDeleteSpanItems = document.querySelectorAll(".product-main-category-delete-span");
+
+    console.log(productMainCategoryList);
+    productMainCategoryDeleteSpanItems.forEach((deleteSpan, index) => {
+        deleteSpan.onclick = () => deleteProductInfo(productMainCategoryList[index], "mainCategory");
+    })
+}
+
+function setCategoryDeleteSpanClickEvent(productCategoryList) {
+    const productCategoryDeleteSpanItems = document.querySelectorAll(".product-category-delete-span");
+
+    console.log(productCategoryList);
+    productCategoryDeleteSpanItems.forEach((deleteSpan, index) => {
+        deleteSpan.onclick = () => deleteProductInfo(productCategoryList[index], "group");
+    })
+}
+
+function setProductDetailDeleteSpanClickEvent(productDetailList) {
+    const productDetailDeleteSpanItems = document.querySelectorAll(".product-detail-delete-span");
+
+    console.log(productDetailList);
+    productDetailDeleteSpanItems.forEach((deleteSpan, index) => {
+        deleteSpan.onclick = () => deleteProductInfo(productDetailList[index], "detail");
+    })
+}
+
+function deleteProductInfo(product, deleteProductType) {
+    let keyCode = 0;
+
+    if(deleteProductType == "detail") {
+        keyCode = product.productCode;
+
+    }else {
+        keyCode = product.productCategoryCode;
+    }
+
+    console.log(keyCode);
+    console.log(product);
+    let message = null;
+
+    message = deleteProductType != "detail" ? "하위 카테고리도 함께 삭제 됩니다.\n그대로 진행 하시겠습니까?"
+    : "삭제 후 복구할 수 없습니다.\n그대로 진행 하시겠습니까?";
+    
+    if(!confirm(message)) {
+        return;
+    }
+    
+    $.ajax({
+        async: false,
+        type: "delete",
+        url: `/api/v1/manager/product/${deleteProductType}/${keyCode}`,
+        contentType: "application/json",
+        data: JSON.stringify({
+            "productGroupCode": product.productGroupCode,
+            "mainGroupFlag": product.groupFlag
+        }),
+        dataType: "json",
+        success: (response) => {
+            if(response.data) {
+                alert("삭제 성공");
+                replace();
+            }else {
+                alert("삭제 실패");
+            }
+        },
+        error: errorMessage
+    })
 }
 
 function errorMessage(request, status, error) {

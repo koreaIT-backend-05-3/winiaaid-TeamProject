@@ -1,14 +1,21 @@
 package com.project.winiaaid.service.manager;
 
+import com.project.winiaaid.domain.file.ProductImage;
 import com.project.winiaaid.domain.manager.ManagerProduct;
 import com.project.winiaaid.domain.manager.ManagerRepository;
+import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.web.dto.manager.AddProductRequestDto;
+import com.project.winiaaid.web.dto.manager.DeleteProductRequestDto;
 import com.project.winiaaid.web.dto.manager.UpdateProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -17,6 +24,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     private final ManagerRepository managerRepository;
     private final FileService fileService;
+    private final ConfigMap configMapper;
 
     @Override
     public boolean insertProduct(String registrationType, AddProductRequestDto addProductRequestDto) throws Exception {
@@ -74,6 +82,37 @@ public class ManagerServiceImpl implements ManagerService {
         status = managerRepository.updateProductInfo(managerProduct) > 0;
 
         return status;
+    }
+
+    @Override
+    public boolean deleteProduct(String productType, int keyCode, DeleteProductRequestDto deleteProductRequestDto) throws Exception {
+        Map<String, Object> configMap = null;
+        List<ProductImage> imageList = null;
+        List<String> productCategoryCodeList = null;
+
+        if(deleteProductRequestDto.isMainGroupFlag()) {
+            productCategoryCodeList = managerRepository.findAllCategoryCodeToDelete(deleteProductRequestDto.getProductGroupCode());
+        }
+
+        configMap = configMapper.setDeleteProductInfoConfigMap(productType, keyCode, deleteProductRequestDto, productCategoryCodeList);
+        imageList = managerRepository.findFileImageListToDelete(configMap);
+
+        log.info(">>>>>>>>>>> configMap: {}", configMap);
+
+        imageList.forEach(imageFile -> {
+            String customPath = imageFile.getImage_flag() == 1 ? "winia-product/category-images" : "winia-product/images";
+
+            if(imageFile.getProduct_image() != null) {
+                try {
+                    fileService.deleteFileByFileNameAndPath(imageFile.getProduct_image(), customPath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+        return  managerRepository.deleteProductInfo(configMap) > 0;
     }
 
     private boolean insertNewMainGroupCategory(ManagerProduct productEntity) throws Exception {
