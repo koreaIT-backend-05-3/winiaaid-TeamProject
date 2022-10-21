@@ -88,15 +88,40 @@
     </select>
 
     
-    <select id="findTroubleSymptomByProductCode" parameterType="Integer" resultType="com.project.winiaaid.domain.product.ProductTrouble">
+    <select id="findTroubleSymptomByProductCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.product.ProductTrouble">
         SELECT
-            tst.trouble_code,
-            tst.trouble_symptom
+        <choose>
+            <when test="load_type == 'all' or load_type == 'minus'">
+                trouble_code,
+                trouble_symptom
+            </when>
+            <otherwise>
+                tst.trouble_code,
+                tst.trouble_symptom,
+
+                tpc.id
+            </otherwise>
+        </choose>
         FROM
-            trouble_symptom_table tst
-            LEFT OUTER JOIN trouble_product_category tpc ON(tpc.trouble_code = tst.trouble_code)
-        WHERE
-            tpc.product_category_code = #{category_code};
+            trouble_symptom_table
+        <choose>
+            <when test="load_type == 'default'">
+                    tst
+                    LEFT OUTER JOIN trouble_product_category tpc ON(tpc.trouble_code = tst.trouble_code)
+                WHERE
+                    tpc.product_category_code = #{category_code}
+            </when>
+            <when test="load_type == 'minus'">
+                WHERE
+                    trouble_code NOT IN (select
+                                            trouble_code
+                                        from
+                                            trouble_product_category
+                                        where
+                                            product_category_code = #{category_code})
+            </when>
+        </choose>
+        ;
     </select>
 
     <select id="findModelNumberListByModelNumber" parameterType="HashMap" resultType="com.project.winiaaid.domain.product.ProductModel">

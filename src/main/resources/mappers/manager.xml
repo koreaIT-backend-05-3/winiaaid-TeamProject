@@ -279,4 +279,47 @@
             </choose>
         ;
     </delete>
+
+
+
+    <insert id="insertTroubleSymptomOfProduct" parameterType="com.project.winiaaid.domain.manager.ManagerTroubleSymptom">
+        insert into
+        trouble_product_category
+        values
+        <foreach collection="trouble_symptom_code_list" item="trouble_symptom_code" separator=",">
+            (
+            0,
+            #{product_category_code},
+            #{trouble_symptom_code}
+            )
+        </foreach>
+        ;
+    </insert>
+
+    <insert id="insertTroubleSymptom" parameterType="String">
+        insert into
+            trouble_symptom_table
+        values(
+            0,
+            #{trouble_symptom}
+            );
+    </insert>
+
+    <delete id="deleteTroubleSymptomOfProduct" parameterType="HashMap">
+        delete
+        from
+            trouble_product_category
+        where
+        <foreach collection="trouble_symptom_id_list" item="trouble_symptom_id" separator="or">
+            id = #{trouble_symptom_id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTroubleSymptomByTroubleSymptomCode" parameterType="Integer">
+        delete
+        from
+            trouble_symptom_table
+        where
+            trouble_code = #{trouble_symptom_code};
+    </delete>
 </mapper>

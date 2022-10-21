@@ -100,16 +100,6 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadHistoryListConfigMap(int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
-        Map<String, Object> configMap = new HashMap<>();
-        
-        configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
-        configMap.put("user_code", userCode);
-
-        return configMap;
-    }
-
-    @Override
     public Map<String, Object> setReadModelConfigMap(int keyCode, String requestType, String modelNumber) throws Exception {
         Map<String, Object> modelMap = new HashMap<>();
 
@@ -239,6 +229,16 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("main_group_flag", deleteProductRequestDto.isMainGroupFlag());
         configMap.put("product_group_code", deleteProductRequestDto.getProductGroupCode());
         configMap.put("product_category_code_list", productCategoryCodeList);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadProductTroubleSymptomConfigMap(int categoryCode, String loadType) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("load_type", loadType);
+        configMap.put("category_code",categoryCode);
 
         return configMap;
     }

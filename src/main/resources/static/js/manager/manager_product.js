@@ -19,6 +19,10 @@ let showImageDiv = document.querySelector(".show-image-div");
 
 let productModifyButton = document.querySelector(".product-detail-modify-button");
 
+let mainTroubleSymptomModifyDiv = document.querySelector(".main-trouble-symptom-modify-div");   
+let mainTroubleSymptomAddDiv = document.querySelector(".main-trouble-symptom-add-div");
+    
+
 let registrationFlag = false;
 let modifyFlag = false;
 let mainCategoryFlag = false;
@@ -63,7 +67,9 @@ if(registrationFlag) {
     productGroupModifyCheckBox = document.querySelector(".product-group-modify-input");
     productModifyButton = document.querySelector(".product-detail-modify-button");
     productDetailDiv = document.querySelector(".product-detail-div");
-
+    mainTroubleSymptomModifyDiv = document.querySelector(".main-trouble-symptom-modify-div");   
+    mainTroubleSymptomAddDiv = document.querySelector(".main-trouble-symptom-add-div");
+    
     productMap = new Map();
 
     getCompanyList();
@@ -220,6 +226,7 @@ function setProductCategoryListClickEvent(productCategoryList) {
 function checkGroupFlag(category) {
     historyInfo.mainProductCategoryName = category.productCategoryName;
     addVisibleClass(productDetailDiv);
+    visibleTroubleSymptomDiv();
     
     if(category.groupFlag) {
         selectCategoryCode = 0;
@@ -331,6 +338,7 @@ function setProductDetailListByGroupCode(productGroup) {
     const mainPorductUl = document.querySelector(".main-product-ul");
 
     addVisibleClass(productDetailDiv);
+    visibleTroubleSymptomDiv();
 
 
     if(productGroup != null) {
@@ -452,7 +460,11 @@ function setMainCategoryModifySpanClickEvent(mainCategoryList) {
 }
 
 function setProductMainCategoryModifyView(mainCategory) {
+    let troubleSymptomListOfProduct = null;
+    let allTroubleSymptomList = null;
+
     console.log(mainCategory);
+
     addVisibleClass(productGroupModifyDiv);
     removeVisibleClass(productDetailDiv);
     setProductName(mainCategory.productCategoryName);
@@ -460,6 +472,18 @@ function setProductMainCategoryModifyView(mainCategory) {
     isMainCategory();
     setKeyCode(mainCategory.productCategoryCode);
     buttonRemoveDisabled();
+
+    if(!mainCategory.groupFlag) {
+        troubleSymptomListOfProduct = getTroubleSymptomListByProductCategoryCode(mainCategory.productCategoryCode);
+        setTroubleSymptomListOfProduct(troubleSymptomListOfProduct);
+        allTroubleSymptomList = getAllTroubleSymptomList(mainCategory.productCategoryCode);
+        setAllTroubleSymptomList(allTroubleSymptomList, mainCategory.productCategoryCode);
+
+    }else {
+        visibleTroubleSymptomDiv();
+
+    }
+
     productDetailUpdateFlag = false;
     historyInfo.productGroupName = null;
 }
@@ -497,6 +521,9 @@ function setCategoryModifySpanClickEvent(productGroupList) {
 }
 
 function setProductCategoryModifyView(productGroup) {
+    let troubleSymptomListOfProduct = null;
+    let allTroubleSymptomList = null;
+
     console.log(productGroup);
 
     setProductName(productGroup.productCategoryName);
@@ -510,6 +537,11 @@ function setProductCategoryModifyView(productGroup) {
     
     clearDomObject(mainCategorySelect);
     clearDomObject(groupSelect);
+
+    troubleSymptomListOfProduct = getTroubleSymptomListByProductCategoryCode(productGroup.productCategoryCode);
+    setTroubleSymptomListOfProduct(troubleSymptomListOfProduct);
+    allTroubleSymptomList = getAllTroubleSymptomList(productGroup.productCategoryCode);
+    setAllTroubleSymptomList(allTroubleSymptomList, productGroup.productCategoryCode);
 
     groupSelect.setAttribute("disabled", true);
     buttonRemoveDisabled();
@@ -535,6 +567,7 @@ function setProductDetailModifySpanClickEvent(productDetailList) {
 
 function setProductDetailModifyView(productDetail) {
     let productMainCategoryList = productMap.get("productMainCategoryInfo");
+
     console.log(productDetail);
 
     setProductName(productDetail.productDetailName);
@@ -543,6 +576,8 @@ function setProductDetailModifyView(productDetail) {
 
     removeVisibleClass(productGroupModifyDiv);
     removeVisibleClass(productDetailDiv);
+    
+    visibleTroubleSymptomDiv();
     
     productDetailUpdateFlag = true;
     notMainCategory();
@@ -916,6 +951,16 @@ function setModifyView() {
             </form>
             <button class="product-detail-modify-button" type="button">제품 수정</button>
         </div>
+        <div class="main-trouble-symptom-modify-div visible">
+            <div class="trouble-symptom-modify-div">
+
+            </div>
+        </div>
+        <div class="main-trouble-symptom-add-div visible">
+            <div class="trouble-symptom-add-div">
+                <button class="trouble-symptom-add-request-button" type="button">추가</button>
+            </div>
+        </div>
     `;
 }
 
@@ -1009,16 +1054,16 @@ function setModifyRequestClickEvent() {
     productModifyButton.onclick = productModifyRequest;
 }
 
-function getProductCategoryCodeByCategorySelect() {
-    return productGroupModifyCheckBox.checked ? mainCategorySelect.value : 0;
+function getProductKeyCodeByCategorySelect() {
+    return getProductGroupCodeByGroupSelect() == 0 ? getProductCategoryCodeByCategorySelect() : getProductGroupCodeByGroupSelect();
 }
 
 function getProductGroupCodeByGroupSelect() {
     return isEmpty(groupSelect.value) ? 0 : groupSelect.value;
 }
 
-function getProductKeyCodeByCategorySelect() {
-    return getProductGroupCodeByGroupSelect() == 0 ? getProductCategoryCodeByCategorySelect() : getProductGroupCodeByGroupSelect();
+function getProductCategoryCodeByCategorySelect() {
+    return productGroupModifyCheckBox.checked ? mainCategorySelect.value : 0;
 }
 
 function productModifyRequest() {
@@ -1128,6 +1173,189 @@ function deleteProductInfo(product, deleteProductType) {
         },
         error: errorMessage
     })
+}
+
+function getTroubleSymptomListByProductCategoryCode(productCategoryCode) {
+    return getTroubleSymptomList(productCategoryCode, "default");
+}
+
+function getTroubleSymptomList(productCategoryCode, loadType) {
+    let troubleSymptomList = null;
+
+    $.ajax({
+        async: false,
+        type: "get",
+        url: `/api/v1/product/list/trouble/category/${productCategoryCode}?loadType=${loadType}`,
+        dataType: "json",
+        success: (response) => {
+            if(response.data != null) {
+                troubleSymptomList = response.data;
+            }
+        },
+        error: errorMessage
+    });
+
+    return troubleSymptomList;
+}
+
+function setTroubleSymptomListOfProduct(troubleSymptomList) {
+    const troubleSymptomModifyDiv = document.querySelector(".trouble-symptom-modify-div");
+    
+    removeVisibleClass(mainTroubleSymptomModifyDiv);
+
+    troubleSymptomModifyDiv.innerHTML = `
+        <span class="sortation-span">고장증상 삭제</span>
+        <ul class="main-trouble-symptom-ul"></ul>
+    `;
+
+    if(troubleSymptomList != null) {
+        const mainTroubleSymptomUl = document.querySelector(".main-trouble-symptom-ul");
+    
+        troubleSymptomList.forEach((trouble, index) => {
+            mainTroubleSymptomUl.innerHTML += `
+            <li class="main-trouble-symptom-li">
+                <div>
+                    <span class="fa-solid fa-hammer"></span>
+                    <label class="trouble-symptom-label" for="trouble-sypmtom-${index}">${trouble.troubleSymptom}</label>
+                </div>
+                <input id="trouble-sypmtom-${index}" type="checkbox" class="trouble-symptom-delete-input"></span>
+            </li>
+        `;
+        });
+    
+        troubleSymptomModifyDiv.innerHTML += `
+            <button class="trouble-symptom-modify-request-button" type="button">수정</button>
+        `;
+    
+        setTroubleSymptomModifyRequestButtonClickEvent(troubleSymptomList);
+
+    }
+}
+
+function setTroubleSymptomModifyRequestButtonClickEvent(troubleSymptomList) {
+    const troubleSymptomModifyRequestButton = document.querySelector(".trouble-symptom-modify-request-button");
+
+    troubleSymptomModifyRequestButton.onclick = () => removeTroubleSymptomOfProduct(troubleSymptomList);
+}
+
+function removeTroubleSymptomOfProduct(troubleSymptomList) {
+    const troubleSymptomDeleteInputItems = document.querySelectorAll(".trouble-symptom-delete-input");
+    let troubleSymptomIdList = new Array();
+
+    troubleSymptomDeleteInputItems.forEach((input, index) => {
+        if(input.checked) {
+            troubleSymptomIdList.push(troubleSymptomList[index].id);
+        }
+    });
+
+    ajaxRemoveTroubleSymptomOfProduct(troubleSymptomIdList);
+}
+
+function ajaxRemoveTroubleSymptomOfProduct(troubleSymptomIdList) {
+    $.ajax({
+        async: false,
+        type: "delete",
+        url: `/api/v1/manager/product-category/trouble-symptom`,
+        contentType: "application/json",
+        data: JSON.stringify({
+            "troubleSymptomIdList": troubleSymptomIdList
+        }),
+        dataType: "json",
+        success: (response) => {
+            if(response.data) {
+                alert("고장 증상을 수정했습니다.");
+                replace();
+            }else {
+                alert("고장 증상 수정 오류");
+            }
+        },
+        error: errorMessage
+    });
+}
+
+function getAllTroubleSymptomList(productCategoryCode) {
+    return getTroubleSymptomList(productCategoryCode, "minus");
+}
+
+function setAllTroubleSymptomList(troubleSymptomList, productCategoryCode) {
+    const troubleSymptomAddDiv = document.querySelector(".trouble-symptom-add-div");
+    
+    removeVisibleClass(mainTroubleSymptomAddDiv);
+
+    troubleSymptomAddDiv.innerHTML = `
+        <span class="sortation-span">고장증상 추가</span>
+        <ul class="main-trouble-symptom-add-ul main-trouble-symptom-ul"></ul>
+    `;
+
+    if(troubleSymptomList != null) {
+        const mainTroubleSymptomAddUl = document.querySelector(".main-trouble-symptom-add-ul");
+        
+        troubleSymptomList.forEach((trouble, index) => {
+            mainTroubleSymptomAddUl.innerHTML += `
+            <li class="main-trouble-symptom-li">
+                <div>
+                    <span class="fa-solid fa-hammer"></span>
+                    <label class="trouble-symptom-label" for="delete-trouble-sypmtom-${index}">${trouble.troubleSymptom}</label>
+                </div>
+                <input id="delete-trouble-sypmtom-${index}" type="checkbox" class="trouble-symptom-add-input"></span>
+            </li>
+        `;
+        });
+    
+        troubleSymptomAddDiv.innerHTML += `
+            <button class="trouble-symptom-add-request-button" type="button">추가</button>
+        `;
+    
+        setTroubleSymptomAddRequestButtonClickEvent(troubleSymptomList, productCategoryCode);
+
+    }
+}
+
+function setTroubleSymptomAddRequestButtonClickEvent(troubleSymptomList, productCategoryCode) {
+    const troubleSymptomAddRequestButton = document.querySelector(".trouble-symptom-add-request-button");
+
+    troubleSymptomAddRequestButton.onclick = () => addTroubleSymptomOfProduct(troubleSymptomList, productCategoryCode);
+}
+
+function addTroubleSymptomOfProduct(troubleSymptomList, productCategoryCode) {
+    const troubleSymptomAddInputItems = document.querySelectorAll(".trouble-symptom-add-input");
+    let troubleSymptomCodeList = new Array();
+
+    troubleSymptomAddInputItems.forEach((input, index) => {
+        if(input.checked) {
+            troubleSymptomCodeList.push(troubleSymptomList[index].troubleCode);
+        }
+    });
+
+    ajaxAddTroubleSymptomOfProduct(troubleSymptomCodeList, productCategoryCode);
+}
+
+function ajaxAddTroubleSymptomOfProduct(troubleSymptomCodeList, productCategoryCode) {
+    $.ajax({
+        async: false,
+        type: "post",
+        url: `/api/v1/manager/product-category/trouble-symptom`,
+        contentType: "application/json",
+        data: JSON.stringify({
+            "productCategoryCode": productCategoryCode,
+            "troubleSymptomCodeList": troubleSymptomCodeList
+        }),
+        dataType: "json",
+        success: (response) => {
+            if(response.data) {
+                alert("고장 증상을 추가했습니다.");
+                replace();
+            }else {
+                alert("고장 증상 추가 오류");
+            }
+        },
+        error: errorMessage
+    });
+}
+
+function visibleTroubleSymptomDiv() {
+    addVisibleClass(mainTroubleSymptomModifyDiv);
+    addVisibleClass(mainTroubleSymptomAddDiv);
 }
 
 function errorMessage(request, status, error) {

@@ -18,4 +18,8 @@ public class ManagerPageController {
         return "manager/manager_product";
     }
 
+    @GetMapping("/trouble-symptom")
+    public String loadTroubleSymptomManagePage() {
+        return "manager/manager_trouble_symptom";
+    }
 }

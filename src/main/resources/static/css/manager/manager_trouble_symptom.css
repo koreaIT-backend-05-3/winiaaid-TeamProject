@@ -1,0 +1,77 @@
+.main-trouble-symptom-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 50px;
+
+    width: 900px;
+}
+
+.trouble-symptom-div, .add-trouble-symptom-div {
+    padding: 15px 15px 30px 15px;
+
+    height: 400px;
+
+
+    background-color: #ededed;
+}
+
+.trouble-symptom-div {
+    width: 450px;
+
+    overflow: auto;
+}
+
+.trouble-symptom-li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    padding: 5px;
+}
+
+.trouble-symptom-li:not(.trouble-symptom-li:last-child) {
+    border-bottom: 1px solid #c5c5c5;
+}
+
+.fa-trash-can {
+    padding: 10px 0px;
+
+    color: red;
+    cursor: pointer;
+}
+
+.fa-plus, .fa-hammer {
+    margin-right: 10px;
+}
+
+.trouble-symptom-add-span {
+    cursor: pointer;
+}
+
+.add-trouble-symptom-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 350px;
+}
+
+.add-trouble-symptom-input {
+    margin-bottom: 10px;
+    padding: 10px;
+
+    height: 30px;
+}
+
+.add-trouble-symptom-button {
+    border: none;
+
+    width: 50px;
+    height: 30px;
+
+    background-color: #635e5e;
+    color: #ededed;
+}

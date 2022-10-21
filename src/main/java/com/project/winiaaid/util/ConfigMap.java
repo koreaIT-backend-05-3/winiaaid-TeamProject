@@ -19,8 +19,6 @@ public interface ConfigMap {
     public Map<String, Object> setMemberReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception;
     public Map<String, Object> setNonMemberReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception;
 
-    public Map<String, Object> setReadHistoryListConfigMap(int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception;
-
     public Map<String, Object> setCreateModelConfigMap(ServiceInfo serviceInfo) throws Exception;
     public Map<String, Object> setReadModelConfigMap(int keyCode, String requestType, String modelNumber) throws Exception;
 
@@ -37,4 +35,6 @@ public interface ConfigMap {
     public Map<String, Object> setReadUserInfoConfigMap(String requesttype, AuthenticationUserRequestDto authenticationUserRequestDto) throws Exception;
 
     public Map<String, Object> setDeleteProductInfoConfigMap(String productType, int keyCode, DeleteProductRequestDto deleteProductRequestDto, List<String> productCategoryCodeList) throws Exception;
+
+    public Map<String, Object> setReadProductTroubleSymptomConfigMap(int categoryCode, String loadType) throws Exception;
 }

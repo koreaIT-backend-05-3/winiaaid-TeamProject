@@ -17,4 +17,10 @@ public interface ManagerRepository {
     public int updateDefaultProductToGroupProduct(ManagerProduct product) throws Exception;
     public int updateProductInfo(ManagerProduct product) throws Exception;
     public int deleteProductInfo(Map<String, Object> config_map) throws Exception;
+
+    public int insertTroubleSymptomOfProduct(ManagerTroubleSymptom managerTroubleSymptom) throws Exception;
+    public int insertTroubleSymptom(String trouble_sypmtom) throws Exception;
+    public int deleteTroubleSymptomOfProduct(List<Integer> trouble_symptom_id_list) throws Exception;
+    public int deleteTroubleSymptomByTroubleSymptomCode(int trouble_symptom_code) throws Exception;
+
 }

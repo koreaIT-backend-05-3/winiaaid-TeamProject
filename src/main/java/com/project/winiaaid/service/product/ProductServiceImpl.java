@@ -83,11 +83,14 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<ReadProductTroubleResponseDto> getProductTroubleInfoList(int categoryCode) throws Exception {
+    public List<ReadProductTroubleResponseDto> getProductTroubleInfoList(int categoryCode, String loadType) throws Exception {
         List<ReadProductTroubleResponseDto> productTroubleDtoList = null;
         List<ProductTrouble> productTroubleEntityList = null;
+        Map<String, Object> configMap = null;
 
-        productTroubleEntityList = productRepository.findTroubleSymptomByProductCode(categoryCode);
+        configMap = configMapper.setReadProductTroubleSymptomConfigMap(categoryCode, loadType);
+
+        productTroubleEntityList = productRepository.findTroubleSymptomByProductCode(configMap);
         log.info(">>>>>>>>>>>>>>>>>>>>> getProductTroubleInfoList <<<<<<<<<<<<<<<<<<<<<<");
 
         if(productTroubleEntityList != null && productTroubleEntityList.size() != 0) {

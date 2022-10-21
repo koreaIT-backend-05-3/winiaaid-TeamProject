@@ -5,60 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/manager/manager_main_style.css">
-    <link rel="stylesheet" href="/static/css/manager/manager_header.css">
+    <link rel="stylesheet" href="/static/css/manager/fragments/manager_main_style.css">
+    <link rel="stylesheet" href="/static/css/manager/fragments/manager_header.css">
     <link rel="stylesheet" href="/static/css/manager/manager_product.css">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
-    <title>[관리자 페이지] 메인</title>
+    <title>[관리자 페이지] 상품 관리</title>
 </head>
 <body>
-    <header>
-        <div class="title-div">
-            <h1>관리자 페이지</h1>
-        </div>
-        <nav>
-            <ul class="main-nav-ul">
-                <li class="sub-menu-title">
-                    <span class="sub-menu-title-span">간편해결</span>
-                    <ul class="sub-nav-ul visible">
-                        <li>질문유형 관리</li>
-                        <li>문제해결 관리</li>
-                    </ul>
-                </li>
-                <li class="sub-menu-title">
-                    <span class="sub-menu-title-span">서비스 신청</span>
-                    <ul class="sub-nav-ul visible">
-                        <li>서비스 신청 관리</li>
-                    </ul>
-                </li>
-                <li class="sub-menu-title">
-                    <span class="sub-menu-title-span">제품관리</span>
-                    <ul class="sub-nav-ul visible">
-                        <li>제품등록</li>
-                        <li>제품조회</li>
-                        <li>제품수정</li>
-                        <li>제품삭제</li>
-                    </ul>
-                </li>
-                <li class="sub-menu-title">
-                    <span class="sub-menu-title-span">고객의 소리</span>
-                    <ul class="sub-nav-ul visible">
-                        <li>게시글 관리</li>
-                    </ul>
-                </li>
-                <li class="sub-menu-title">
-                    <span class="sub-menu-title-span">회원</span>
-                    <ul class="sub-nav-ul visible">
-                        <li>회원 관리</li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-        <div class="menu-place visible">
-
-        </div>
-    </header>
+	<th:block th:replace="manager/fragments/manager_header"></th:block>
     <main>
         <div id="container">
             <div class="main-content">
@@ -101,10 +56,7 @@
             </div>
         </div>
     </main>
-    <footer>
-
-    </footer>
-    <script src="/static/js/manager/manager_header.js"></script>
+    <script src="/static/js/manager/fragments/manager_header.js"></script>
     <script src="/static/js/manager/manager_product.js"></script>
 </body>
 </html>

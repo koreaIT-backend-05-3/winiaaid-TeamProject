@@ -7,6 +7,7 @@ import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.web.dto.manager.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.DeleteProductRequestDto;
+import com.project.winiaaid.web.dto.manager.InsertTroubleSymptomOfProductRequestDto;
 import com.project.winiaaid.web.dto.manager.UpdateProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -113,6 +114,26 @@ public class ManagerServiceImpl implements ManagerService {
         });
 
         return  managerRepository.deleteProductInfo(configMap) > 0;
+    }
+
+    @Override
+    public boolean insertTroubleSymptomOfProduct(InsertTroubleSymptomOfProductRequestDto insertTroubleSymptomOfProductRequestDto) throws Exception {
+        return managerRepository.insertTroubleSymptomOfProduct(insertTroubleSymptomOfProductRequestDto.toManagerProductEntity()) > 0;
+    }
+
+    @Override
+    public boolean insertTroubleSymptom(String troubleSymptom) throws Exception {
+        return managerRepository.insertTroubleSymptom(troubleSymptom) > 0;
+    }
+
+    @Override
+    public boolean deleteTroubleSymptomOfProduct(List<Integer> troubleSymptomIdList) throws Exception {
+        return managerRepository.deleteTroubleSymptomOfProduct(troubleSymptomIdList) > 0;
+    }
+
+    @Override
+    public boolean deleteTroubleSymptomByTroubleSymptomCode(int troubleSymptomCode) throws Exception {
+        return managerRepository.deleteTroubleSymptomByTroubleSymptomCode(troubleSymptomCode) > 0;
     }
 
     private boolean insertNewMainGroupCategory(ManagerProduct productEntity) throws Exception {

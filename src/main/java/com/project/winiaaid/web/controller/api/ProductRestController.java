@@ -72,13 +72,14 @@ public class ProductRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "load modelNumberInfoList success", productNumberInfoObjectList));
     }
 
-    @Cacheable(value = "trouble", key = "#categoryCode")
+    @Log
+    @Cacheable(value = "trouble")
     @GetMapping("/list/trouble/category/{categoryCode}")
-    public ResponseEntity<?> getProductTroubleSymptomInfoList(@PathVariable int categoryCode) {
+    public ResponseEntity<?> getProductTroubleSymptomInfoList(@PathVariable int categoryCode, String loadType) {
         List<ReadProductTroubleResponseDto> productTroubleResponseDtoList = null;
 
         try {
-            productTroubleResponseDtoList = productService.getProductTroubleInfoList(categoryCode);
+            productTroubleResponseDtoList = productService.getProductTroubleInfoList(categoryCode, loadType);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "load productTroubleSymptomInfoList fail", productTroubleResponseDtoList));
