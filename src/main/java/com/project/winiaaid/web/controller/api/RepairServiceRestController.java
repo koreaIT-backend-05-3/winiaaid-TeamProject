@@ -40,9 +40,9 @@ public class RepairServiceRestController {
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Service application failed", serviceRequestResponseDto));
         }
 
-        if(userService.isNonMemberRequest(repairServiceRequestDto.getUserInfoObject().getUserCode())) {
+//        if(userService.isNonMemberRequest(repairServiceRequestDto.getUserInfoObject().getUserCode())) {
 //            userService.sendServiceCode(serviceRequestResponseDto.getServiceCode(), repairServiceRequestDto.getUserInfoObject().getMainPhoneNumber());
-        }
+//        }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful application for service", serviceRequestResponseDto));
     }

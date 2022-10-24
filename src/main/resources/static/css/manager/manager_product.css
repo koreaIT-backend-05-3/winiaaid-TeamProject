@@ -80,7 +80,7 @@
 
 .main-product-detail-div {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 
     margin: 100px 0px;
@@ -162,7 +162,7 @@
     align-items: center;
     justify-content: space-around;
 
-    width: 500px;
+    width: 300px;
 }
 
 .image-form label, .main-category-check-div label, .product-group-modify-div label {

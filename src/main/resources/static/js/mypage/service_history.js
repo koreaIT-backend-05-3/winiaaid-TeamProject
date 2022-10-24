@@ -78,7 +78,7 @@ function getServiceHistory(page) {
             url: `/api/v1/service/${serviceType}/history/list/user/${userCode}?progressStatus=${historyMenuType}&page=${page}`,
             dataType: "json",
             success: (response) => {
-                if(response.data != null) {
+                if(response.data.length > 1) {
                     let totalPage = getTotalPage(response.data[0].totalCount, 10);
                     setPage(totalPage);
                     setFirstAndSecondMenuCount(response.data[0].incompletedTotalCount, response.data[0].completedTotalCount);
@@ -232,7 +232,6 @@ function setServiceCodeItemsClickEvent(serviceHistoryDataList) {
                     location.href = `/service/visit/inquiry/detail/${serviceHistoryDataList[i + 1].serviceCode}`;
 
                 }else if(serviceHistoryDataList[i + 1].serviceTypeCode == 3) {
-                    ///////////////////////// 리콜 신청 조회
                     location.href = `/service/recall/inquiry/detail/${serviceHistoryDataList[i + 1].serviceCode}`;
                     
                 }

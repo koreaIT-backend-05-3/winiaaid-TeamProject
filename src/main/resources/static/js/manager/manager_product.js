@@ -226,7 +226,11 @@ function setProductCategoryListClickEvent(productCategoryList) {
 function checkGroupFlag(category) {
     historyInfo.mainProductCategoryName = category.productCategoryName;
     addVisibleClass(productDetailDiv);
-    visibleTroubleSymptomDiv();
+
+    if(modifyFlag) {
+        visibleTroubleSymptomDiv();
+
+    }
     
     if(category.groupFlag) {
         selectCategoryCode = 0;
@@ -338,7 +342,6 @@ function setProductDetailListByGroupCode(productGroup) {
     const mainPorductUl = document.querySelector(".main-product-ul");
 
     addVisibleClass(productDetailDiv);
-    visibleTroubleSymptomDiv();
 
 
     if(productGroup != null) {
@@ -366,6 +369,7 @@ function setProductDetailListByGroupCode(productGroup) {
 
             console.log(productDetailList);
 
+            visibleTroubleSymptomDiv();
             setProductDetailModifySpanClickEvent(productDetailList);
             setProductDetailDeleteSpanClickEvent(productDetailList);
         }
@@ -924,6 +928,8 @@ function clearAllValue() {
 
 function setModifyView() {
     const mainProductDetailDiv = document.querySelector(".main-product-detail-div");
+
+    mainProductDetailDiv.style.justifyContent = "space-between";
 
     mainProductDetailDiv.innerHTML = `
         <div class="product-detail-div detail-modify visible">
