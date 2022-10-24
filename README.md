@@ -30,6 +30,7 @@
   
 + 관리자 페이지
   + 제품 등록 / 제품 수정 / 제품 삭제
+<br>
   
 # **기술 스택**
 <p>
@@ -46,6 +47,7 @@
   <img src="https://img.shields.io/badge/MariaDB-003545?style=flat-square&logo=MariaDB&logoColor=white"/>
   <img src="https://img.shields.io/badge/MyBatis-003545?style=flat-square&logo=MyBatis&logoColor=white"/>
 </P>
+<br>
 
 # **개발 환경**
 <p>
@@ -53,6 +55,7 @@
   <img src="https://img.shields.io/badge/Eclipse IDE-2C2255?style=flat-square&logo=Eclipse IDE&logoColor=white"/>
   <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/>
 </p>
+<br>
 
 # **주요 구현 기능**
 ### 방문서비스 신청
@@ -73,23 +76,24 @@
 
 ![변경 후 디테일](https://user-images.githubusercontent.com/101931879/197474857-bca29d55-4cdf-4ee4-8d15-c51b55371c61.png)
 > 변경 전후 디테일 뷰입니다.
+<br>
 
 ### 자주하는 질문 / 자가진단
 ![자주하는 질문](https://user-images.githubusercontent.com/101931879/197528588-7007ad58-b25e-404e-8d7f-7e23ec95452c.png)
 <img src="https://user-images.githubusercontent.com/101931879/197489508-7b8fdaa5-a5f3-4435-b4ca-7c048fba52cb.png"  width="500px" height="370">
-
-
 > 카테고리와 증상별로 검색 기능을 구현하였고 등록일순, 조회 수별로 불러오는 기능을 구현했습니다.
+<br>
 
 ### 비회원 게시글 작성
 ![게시글 작성](https://user-images.githubusercontent.com/101931879/197527727-2ff88dc9-6815-475a-ae93-aa86c4946159.png)
 > 비회원은 게시글 작성 시 휴대폰 인증이 필요로 하고 추가로 상세 페이지 인증을 위하여 개인 인증번호를 필요로 하게 됩니다.
-
+<br>
 
 ### 비회원 게시글 조회
 ![비회원 게시글 조회](https://user-images.githubusercontent.com/101931879/197489117-f91f214c-fe55-4ca7-949c-de5030df6b94.png)
 > 게시글 작성 시 입력했던 정보를 바탕으로 내역을 확인할 수 있습니다.  
 > 일치한 정보로 여러 개의 게시글이 있다면 리스트로 조회 가능하게끔 구현을 했습니다.
+<br>
 
 ### 서비스 이용 현황
 ![서비스 이용 현황](https://user-images.githubusercontent.com/101931879/197528136-0aaa538b-4a6a-479d-bcef-1ee59d369db7.png)
@@ -97,21 +101,25 @@
 > 또한 게시글 작성 내역도 확인할 수 있습니다.  
 > 두 기능 모두 검색 기능을 구현했습니다.  
 > 접수번호를 클릭 시 상세 페이지로 넘어갑니다.
+<br>
 
 ### 아이디 찾기, 비밀번호 재설정
 ![아이디 찾기](https://user-images.githubusercontent.com/101931879/197527045-edcc186d-08e4-4c5a-8584-62b0dfee7538.png)
 ![비밀번호 재설정](https://user-images.githubusercontent.com/101931879/197527057-53159f0d-9ebf-4fba-a04a-df22d61ccae7.png)
 > 휴대폰 인증을 통해 아이디를 찾을 수 있습니다.
 > 마찬가지로 휴대폰 인증을 통해 가입되어 있는 이메일을 찾고 원하는 이메일로 임시 비밀번호를 전송해 줍니다.
+<br>
 
 ### 관리자 - 제품 등록
 ![관리자 제품 등록](https://user-images.githubusercontent.com/101931879/197514883-ca86f85c-453a-40ce-9248-317484e34765.png)
 > 관리자 기능 중 가장 중요하다고 생각하는 제품 등록/조회/수정/삭제 기능을 먼저 구현했습니다.
+<br>
 
 ### 관리자 - 제품 수정 및 삭제
 ![관리자 제품 수정](https://user-images.githubusercontent.com/101931879/197515587-cf73504b-42a7-4dcc-8516-efcfd1a2b169.png)
 > 제품의 카테고리를 이동시킬 수 있고 제품을 삭제 기능과 고장 증상 추가 및 삭제 기능까지 구현했습니다.  
 > 해당 카테고리에 이미 등록되어 있는 고장 증상은 DB에서 제외한 데이터를 응답해 주었습니다.
+<br>
 
 
 # 프로젝트 전체 소감
