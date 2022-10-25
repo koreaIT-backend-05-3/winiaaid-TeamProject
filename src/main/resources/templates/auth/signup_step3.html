@@ -12,7 +12,7 @@
     <title>회원가입 정보입력</title>
 <body>
     <div id="wrap">
-        <th:block th:replace="/auth/winia_header"></th:block>
+        <th:block th:replace="auth/winia_header"></th:block>
         <main id="main">
             <div class="main-content">
                 <div class="main-inner">
@@ -21,11 +21,11 @@
                         <img src="https://member.winiadimchae.com/images/img_join_step3.gif">
                     </p>
                     <p class="title">회원정보입력</p>
-                    <th:block th:replace="/auth/auth_write_view"></th:block>
+                    <th:block th:replace="auth/auth_write_view"></th:block>
                 </div>
             </div>
         </main>
-        <th:block th:replace="/auth/winia_footer"></th:block>
+        <th:block th:replace="auth/winia_footer"></th:block>
     </div>
     <script src="/static/js/util/principal.js"></script>
     <script src="/static/js/util/check_step_pass.js"></script>

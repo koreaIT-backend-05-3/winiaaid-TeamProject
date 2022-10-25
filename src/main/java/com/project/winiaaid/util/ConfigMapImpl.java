@@ -6,12 +6,14 @@ import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.web.dto.auth.AuthenticationUserRequestDto;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
+import com.project.winiaaid.web.dto.manager.DeleteProductRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -93,16 +95,6 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("search_type", readBoardRequestDto.getSearchType());
         configMap.put("keyword", readBoardRequestDto.getKeyword());
         configMap.put("page", (readBoardRequestDto.getPage() - 1) * 5);
-
-        return configMap;
-    }
-
-    @Override
-    public Map<String, Object> setReadHistoryListConfigMap(int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
-        Map<String, Object> configMap = new HashMap<>();
-        
-        configMap.put("page", (readServiceRequestDto.getPage() - 1) * 10);
-        configMap.put("user_code", userCode);
 
         return configMap;
     }
@@ -224,6 +216,29 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("request_type", requestType);
         configMap.put("user_id",authenticationUserRequestDto.getUserId());
         configMap.put("main_phone_number", authenticationUserRequestDto.getMainPhoneNumber());
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setDeleteProductInfoConfigMap(String productType, int keyCode, DeleteProductRequestDto deleteProductRequestDto, List<String> productCategoryCodeList) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("product_type", productType);
+        configMap.put("key_code", keyCode);
+        configMap.put("main_group_flag", deleteProductRequestDto.isMainGroupFlag());
+        configMap.put("product_group_code", deleteProductRequestDto.getProductGroupCode());
+        configMap.put("product_category_code_list", productCategoryCodeList);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadProductTroubleSymptomConfigMap(int categoryCode, String loadType) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("load_type", loadType);
+        configMap.put("category_code",categoryCode);
 
         return configMap;
     }

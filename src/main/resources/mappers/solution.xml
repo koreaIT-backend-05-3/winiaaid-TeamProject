@@ -308,39 +308,39 @@
 
     <select id="findSolutionDetailBySolutionBoardCode" parameterType="HashMap" resultMap="solutionDetailMap">
         SELECT
-        st.solution_title,
-        st.solution_content,
-        st.create_date,
+            st.solution_title,
+            st.solution_content,
+            st.create_date,
 
-        stt.solution_name,
+            stt.solution_name,
 
-        wpd.product_detail_name,
+            wpd.product_detail_name,
 
-        wpm.product_category_name,
-        wpm.company_code,
+            wpm.product_category_name,
+            wpm.company_code,
 
-        pmg.product_category_name as product_group_name,
+            pmg.product_category_name as product_group_name,
 
-        sf.file_name
+            sf.file_name
         FROM
-        solution_table st
-        LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
-        LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
-        LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
-        LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
-        LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group_code = wpm.product_group_code)
-        LEFT OUTER JOIN solution_file sf ON(sf.solution_code = st.solution_code)
+            solution_table st
+            LEFT OUTER JOIN solution_product_table spt ON(spt.solution_code = st.solution_code)
+            LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
+            LEFT OUTER JOIN winia_product_dtl wpd ON(wpd.product_code = spt.product_code)
+            LEFT OUTER JOIN winia_product_mst wpm ON(wpm.product_category_code = wpd.product_category_code)
+            LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group_code = wpm.product_group_code)
+            LEFT OUTER JOIN solution_file sf ON(sf.solution_code = st.solution_code)
         WHERE
-        solution_board_code = #{solution_board_code}
-        AND solution_board_type = #{solution_board_type};
+            solution_board_code = #{solution_board_code}
+            AND solution_board_type = #{solution_board_type};
     </select>
 
     <update id="updateViewCountBySolutionBoardCode" parameterType="Integer">
         update
-        solution_product_table
+            solution_product_table
         set
-        views = views + 1
+            views = views + 1
         where
-        solution_board_code = #{solution_board_code};
+            solution_board_code = #{solution_board_code};
     </update>
 </mapper>

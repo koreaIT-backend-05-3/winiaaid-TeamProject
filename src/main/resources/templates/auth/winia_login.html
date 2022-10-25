@@ -12,7 +12,7 @@
     <title>회원가입 정보입력</title>
 <body>
     <div id="wrap">
-        <th:block th:replace="/auth/winia_header"></th:block>
+        <th:block th:replace="auth/winia_header"></th:block>
         <main id="main">
             <div class="main-inner">
                 <form action ="/auth/signin" method="post">
@@ -48,7 +48,7 @@
                 </form>
             </div>
         </main>
-        <th:block th:replace="/auth/winia_footer"></th:block>
+        <th:block th:replace="auth/winia_footer"></th:block>
     </div>
     <script src="/static/js/auth/winia_header.js"></script>
     <script src="/static/js/util/remove_non_member_service_authentication.js"></script>

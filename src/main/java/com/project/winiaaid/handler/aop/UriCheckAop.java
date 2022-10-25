@@ -68,8 +68,8 @@ public class UriCheckAop {
         }else {
             for(Object arg : args) {
                 if(codeSignature.getParameterNames()[index].equals("parametersMap")) {
-                    checkBoardTypeAndThrowException(((Map) arg).get("board-type"));
-                    checkBoardTypeAndThrowException(((Map) arg).get("sort-type"));
+                    checkBoardTypeAndThrowException(((Map) arg).get("boardType"));
+                    checkBoardTypeAndThrowException(((Map) arg).get("sortType"));
 
                 }else if(codeSignature.getParameterNames()[index].equals("type")) {
                     checkBoardTypeAndThrowException(arg);

@@ -10,6 +10,6 @@ public interface ProductRepository {
     public List<Product> findListToProductMainCategory(int company_code) throws Exception;
     public List<Product> findListToProductDetailInfo(Map<String, Object> infoMap) throws Exception;
     public List<ModelNumberInfo> findListToProductNumberInfo() throws Exception;
-    public List<ProductTrouble> findTroubleSymptomByProductCode(int category_code) throws Exception;
+    public List<ProductTrouble> findTroubleSymptomByProductCode(Map<String, Object> modelMap) throws Exception;
     public List<ProductModel> findModelNumberListByModelNumber(Map<String, Object> modelMap) throws Exception;
 }

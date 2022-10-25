@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ReadProductTroubleResponseDto {
+    private int id;
     private int troubleCode;
     private String troubleSymptom;
 }

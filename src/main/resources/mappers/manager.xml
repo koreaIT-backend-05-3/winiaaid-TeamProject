@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.winiaaid.domain.manager.ManagerRepository">
+
+    <insert id="insertProductDetail" parameterType="com.project.winiaaid.domain.manager.ManagerProduct">
+        insert into
+            winia_product_dtl
+        values(
+            0,
+            #{product_detail_name},
+            #{product_category_code},
+            #{product_detail_image},
+            now(),
+            now()
+        );
+    </insert>
+
+    <insert id="insertProductGroup" parameterType="com.project.winiaaid.domain.manager.ManagerProduct"
+        useGeneratedKeys="true" keyProperty="new_product_category_code">
+        insert into
+            winia_product_mst
+        values(
+            0,
+            #{product_category_name},
+            #{company_code},
+            #{product_group_code},
+            #{main_group_flag},
+            <choose>
+                <when test="new_group_flag == true">
+                    #{product_main_image},
+                </when>
+                <otherwise>
+                    null,
+                </otherwise>
+            </choose>
+            now(),
+            now()
+        );
+    </insert>
+
+    <insert id="insertMainCategoryProduct" parameterType="com.project.winiaaid.domain.manager.ManagerProduct">
+        insert into
+            product_main_category
+        values(
+            #{new_product_category_code},
+            #{main_group_flag},
+            #{company_code},
+            #{product_group_code},
+            #{product_main_image}
+        );
+    </insert>
+
+    <select id="findMaxProductGroupCode" resultType="Integer">
+        SELECT
+            ifnull(max(product_group_code), 1) + 1 AS product_group_code
+        FROM
+            winia_product_mst;
+    </select>
+
+    <select id="findAllCategoryCodeToDelete" parameterType="Integer" resultType="String">
+        SELECT
+            product_category_code
+        FROM
+            winia_product_mst
+        WHERE
+            product_group_code = #{product_group_code};
+    </select>
+
+    <select id="findFileImageListToDelete" parameterType="HashMap" resultType="com.project.winiaaid.domain.file.ProductImage">
+        SELECT
+            product_main_category_image as product_image,
+            1 as image_flag
+        FROM
+            product_main_category
+        WHERE
+            <choose>
+                <when test="main_group_flag == true">
+                    <foreach collection="product_category_code_list" item="product_category_code" separator="or">
+                        product_category_code = #{product_category_code}
+                    </foreach>
+                </when>
+                <otherwise>
+                    product_category_code = #{key_code}
+                </otherwise>
+            </choose>
+
+        UNION
+
+        SELECT
+            product_main_image as product_image,
+            2 as image_flag
+        FROM
+            winia_product_mst
+        WHERE
+        <choose>
+            <when test="main_group_flag == true">
+                <foreach collection="product_category_code_list" item="product_category_code" separator="or">
+                    product_category_code = #{product_category_code}
+                </foreach>
+            </when>
+            <otherwise>
+                product_category_code = #{key_code}
+            </otherwise>
+        </choose>
+
+        UNION
+
+        SELECT
+            product_detail_image as product_image,
+            2 as image_flag
+        FROM
+            winia_product_dtl
+        WHERE
+        <choose>
+            <when test="main_group_flag == true">
+                <foreach collection="product_category_code_list" item="product_category_code" separator="or">
+                    product_category_code = #{product_category_code}
+                </foreach>
+            </when>
+            <otherwise>
+                <choose>
+                    <when test="product_type == 'detail'">
+                        product_code = #{key_code}
+                    </when>
+                    <otherwise>
+                        product_category_code = #{key_code}
+                    </otherwise>
+                </choose>
+            </otherwise>
+        </choose>
+        ;
+    </select>
+
+    <update id="updateDefaultProductToGroupProduct" parameterType="com.project.winiaaid.domain.manager.ManagerProduct">
+        UPDATE
+            winia_product_mst wpm
+            LEFT OUTER JOIN winia_product_dtl wpd on(wpd.product_category_code = wpm.product_category_code)
+            LEFT OUTER JOIN product_main_category pmc on(pmc.product_category_code = wpm.product_category_code)
+        SET
+            wpm.product_group_code = #{product_group_code},
+            wpm.main_group_flag = 1,
+            wpd.product_category_code = #{new_product_category_code},
+            pmc.group_flag = 1,
+            pmc.product_group_code = #{product_group_code}
+        WHERE
+            wpm.product_category_code = #{product_category_code}
+            or wpd.product_category_code = #{product_category_code}
+            or pmc.product_category_code = #{product_category_code};
+    </update>
+
+    <update id="updateProductInfo" parameterType="com.project.winiaaid.domain.manager.ManagerProduct">
+        UPDATE
+            winia_product_mst wpm
+            LEFT OUTER JOIN winia_product_dtl wpd on(wpd.product_category_code = wpm.product_category_code)
+            LEFT OUTER JOIN product_main_category pmc on(pmc.product_category_code = wpm.product_category_code)
+        SET
+            <choose>
+                <when test="main_category_flag == true">
+                    wpm.product_category_name = #{product_detail_name}
+                    <if test="product_detail_image != null">
+                        ,
+                        pmc.product_main_category_image = #{product_detail_image}
+                    </if>
+                </when>
+                <when test="product_detail_update_flag == false">
+                    wpm.product_category_name = #{product_detail_name}
+                    <if test="product_group_modify_flag == true">
+                        ,
+                        wpm.product_group_code = #{product_key_code}
+                    </if>
+                    <if test="product_detail_image != null">
+                        ,
+                        wpm.product_main_image = #{product_detail_image}
+                    </if>
+                </when>
+                <when test="product_detail_update_flag == true">
+                    wpd.product_detail_name = #{product_detail_name}
+                    <if test="product_group_modify_flag == true">
+                        ,
+                        wpd.product_category_code = #{product_key_code}
+                    </if>
+                    <if test="product_detail_image != null">
+                        ,
+                        wpd.product_detail_image = #{product_detail_image}
+                    </if>
+                </when>
+            </choose>
+        WHERE
+            <if test="main_category_flag == true or product_detail_update_flag == false">
+                wpm.product_category_code = #{key_code};
+            </if>
+            <if test="product_detail_update_flag == true">
+                wpd.product_code = #{key_code};
+            </if>
+
+        UPDATE
+            winia_product_mst wpm
+            LEFT OUTER JOIN winia_product_dtl wpd on(wpd.product_category_code = wpm.product_category_code)
+        SET
+            <choose>
+                <when test="main_category_flag == true or product_detail_update_flag == false">
+                    wpd.product_detail_name = #{product_detail_name}
+                </when>
+                <when test="product_detail_update_flag == true">
+                    wpm.product_category_name = #{product_detail_name}
+                </when>
+            </choose>
+        WHERE
+            <if test="main_category_flag == true or product_detail_update_flag == false">
+                wpd.product_category_code = #{key_code}
+                and wpd.product_detail_name = #{original_product_name};
+            </if>
+            <if test="product_detail_update_flag == true">
+                wpm.product_category_code = #{key_code}
+                and wpm.product_category_name = #{original_product_name};
+            </if>
+    </update>
+
+    <delete id="deleteProductInfo" parameterType="HashMap">
+        delete
+        <choose>
+            <when test="product_type == 'detail'">
+                wpd
+            </when>
+            <when test="product_type == 'group'">
+                wpm,
+                wpd
+            </when>
+            <otherwise>
+                wpm,
+                wpd,
+                pmc
+            </otherwise>
+        </choose>
+        from
+            winia_product_mst
+            <choose>
+                <when test="product_type == 'group' or product_type == 'detail'">
+                    wpm
+                    LEFT OUTER JOIN winia_product_dtl wpd on(wpd.product_category_code = wpm.product_category_code)
+                </when>
+                <otherwise>
+                    wpm
+                    LEFT OUTER JOIN winia_product_dtl wpd on(wpd.product_category_code = wpm.product_category_code)
+                    LEFT OUTER JOIN product_main_category pmc on(pmc.product_category_code = wpm.product_category_code)
+                </otherwise>
+            </choose>
+        where
+            <choose>
+                <when test="product_type == 'detail'">
+                    wpd.product_code = #{key_code}
+                </when>
+                <when test="product_type == 'group'">
+                    wpm.product_category_code = #{key_code}
+                        or
+                    wpd.product_category_code = #{key_code}
+                </when>
+                <otherwise>
+                    pmc.product_category_code = #{key_code}
+                        or
+                    <choose>
+                        <when test="main_group_flag == true">
+                            <foreach collection="product_category_code_list" item="product_category_code" separator="or">
+                                wpm.product_category_code = #{product_category_code}
+                                    or
+                                wpd.product_category_code = #{product_category_code}
+                            </foreach>
+                        </when>
+                        <otherwise>
+                            wpm.product_category_code = #{key_code}
+                                or
+                            wpd.product_category_code = #{key_code}
+                        </otherwise>
+                    </choose>
+                </otherwise>
+            </choose>
+        ;
+    </delete>
+
+
+
+    <insert id="insertTroubleSymptomOfProduct" parameterType="com.project.winiaaid.domain.manager.ManagerTroubleSymptom">
+        insert into
+        trouble_product_category
+        values
+        <foreach collection="trouble_symptom_code_list" item="trouble_symptom_code" separator=",">
+            (
+            0,
+            #{product_category_code},
+            #{trouble_symptom_code}
+            )
+        </foreach>
+        ;
+    </insert>
+
+    <insert id="insertTroubleSymptom" parameterType="String">
+        insert into
+            trouble_symptom_table
+        values(
+            0,
+            #{trouble_symptom}
+            );
+    </insert>
+
+    <delete id="deleteTroubleSymptomOfProduct" parameterType="HashMap">
+        delete
+        from
+            trouble_product_category
+        where
+        <foreach collection="trouble_symptom_id_list" item="trouble_symptom_id" separator="or">
+            id = #{trouble_symptom_id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTroubleSymptomByTroubleSymptomCode" parameterType="Integer">
+        delete
+        from
+            trouble_symptom_table
+        where
+            trouble_code = #{trouble_symptom_code};
+    </delete>
+</mapper>

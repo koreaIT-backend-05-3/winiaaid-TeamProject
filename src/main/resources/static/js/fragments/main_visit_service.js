@@ -329,7 +329,7 @@ function getProductTroubleSymptom(productCategoryCode) {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/product/list/trouble/category/${productCategoryCode}`,
+        url: `/api/v1/product/list/trouble/category/${productCategoryCode}?loadType=default`,
         dataType: "json",
         success: (response) => {
             if(response.data != null) {
@@ -957,7 +957,7 @@ function pastRequestServiceDetailProductLoad(pastHistoryInfoObject) {
 function pastRequestServiceModelNumberLoad(pastHistoryInfoObject) {
     clearDomObject(modelDetailSpan);
     removeVisibleClass(modelDetailSpan);
-    modelDetailSpan.innerHTML = "모델명 " + pastHistoryInfoObject.productModelNumber;
+    modelDetailSpan.innerHTML = pastHistoryInfoObject.productModelNumber;
 }
 
 function pastRequestServiceTroubleSymptomLoad(pastHistoryInfoObject) {

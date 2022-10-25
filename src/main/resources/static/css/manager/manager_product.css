@@ -1,0 +1,255 @@
+.main-company-div {
+    display: flex;
+
+    margin-bottom: 50px;
+}
+
+.main-company-div div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    height: 50px;
+
+    background-color: #ededed;
+
+    cursor: pointer;
+}
+
+.main-company-div div:not(last-child) {
+    margin-right: 30px;
+}
+
+.product-box {
+    display: flex;
+    justify-content: space-between;
+
+    width: 980px;
+
+}
+
+.product-box div {
+    padding: 15px;
+    
+    width: 300px;
+    height: 270px;
+
+    overflow: auto;
+    
+    background-color: #ededed;
+}
+
+.sortation-span {
+    display: inline-block;
+    margin-bottom: 30px;
+
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.product-ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 5px 0px;
+
+    height: 45px;
+}
+
+.product-ul li div {    
+    padding: 0px 5px;
+    height: 20px;
+}
+
+.add-li {
+    padding-top: 10px;
+}
+
+.fa-cube, .fa-plus {
+    margin-right: 10px;
+}
+
+.fa-trash-can {
+    padding: 10px 0px;
+
+    color: red;
+    cursor: pointer;
+}
+
+.main-product-detail-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 100px 0px;
+
+    width: 1500px;
+}
+
+.product-detail-span, .main-category-add-span, .category-add-span, .product-detail-add-span {
+    color: #555555;
+    cursor: pointer;
+}
+
+.product-main-category-modify-span, .product-category-modify-span, .product-detail-modify-span {
+    margin-left: 10px;
+
+    color: cadetblue;
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+.product-ul li:not(.product-ul li:last-child), .main-trouble-symptom-ul li:not(.main-trouble-symptom-ul li:last-child) {
+    border-bottom: 1px solid #c5c5c5;
+}
+
+.main-trouble-symptom-li {
+    padding: 5px;
+}
+
+.trouble-symptom-label {
+    cursor: pointer;
+}
+
+.detail-add {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    margin-top: 100px;
+
+    width: 300px;
+    height: 300px;
+
+    background-color: #ededed;
+}
+
+.custom-setting-div > input {
+    margin-bottom: 10px;
+    padding: 10px;
+
+    height: 30px;
+}
+
+.custom-setting-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.category-select {
+    height: 30px;
+
+    background-color: #c5c5c5;
+}
+
+.main-category-check-div {
+    display: flex;
+    align-items: center;
+
+    margin-top: 10px;
+}
+
+.main-category-check-input {
+    margin-right: 10px;
+}
+
+.image-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    width: 300px;
+}
+
+.image-form label, .main-category-check-div label, .product-group-modify-div label {
+    cursor: pointer;
+}
+
+.image-form div {
+    width: 100px;
+    height: 100px;
+}
+
+.image-form img {
+    width: 100px;
+    height: 100px;
+}
+
+.trouble-select {
+    width: 135px;
+    height: 30px;
+
+    background-color: #c5c5c5;
+}
+
+.main-trouble-symptom-modify-div, .main-trouble-symptom-add-div {
+    height: 350px;
+
+    background-color: #ededed;
+
+    position: relative;
+}
+
+.trouble-symptom-modify-div, .trouble-symptom-add-div {
+    padding: 15px 15px 30px 15px;
+
+    width: 450px;
+    height: 300px;
+
+    overflow: auto;
+
+    background-color: #ededed;
+}
+
+.main-trouble-symptom-li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trouble-symptom-modify-request-button, .trouble-symptom-add-request-button {
+    position: absolute;
+    left: 200px;
+    bottom: 5px;
+
+    z-index: 5;
+}
+
+.detail-modify {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 500px;
+    height: 300px;
+
+    background-color: #ededed;
+}
+
+.product-group-modify-div {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
+.product-group-modify-div input {
+    margin-right: 10px;
+}
+
+.modify-select-div select {
+    width: 130px;
+    height: 30px;
+
+    
+    background-color: #c5c5c5;
+}
+
+.visible {
+    display: none;
+}

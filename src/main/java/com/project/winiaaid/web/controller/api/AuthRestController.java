@@ -132,4 +132,5 @@ public class AuthRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful withdrawal of membership", status));
     }
+
 }

@@ -83,11 +83,14 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<ReadProductTroubleResponseDto> getProductTroubleInfoList(int categoryCode) throws Exception {
+    public List<ReadProductTroubleResponseDto> getProductTroubleInfoList(int categoryCode, String loadType) throws Exception {
         List<ReadProductTroubleResponseDto> productTroubleDtoList = null;
         List<ProductTrouble> productTroubleEntityList = null;
+        Map<String, Object> configMap = null;
 
-        productTroubleEntityList = productRepository.findTroubleSymptomByProductCode(categoryCode);
+        configMap = configMapper.setReadProductTroubleSymptomConfigMap(categoryCode, loadType);
+
+        productTroubleEntityList = productRepository.findTroubleSymptomByProductCode(configMap);
         log.info(">>>>>>>>>>>>>>>>>>>>> getProductTroubleInfoList <<<<<<<<<<<<<<<<<<<<<<");
 
         if(productTroubleEntityList != null && productTroubleEntityList.size() != 0) {
@@ -137,13 +140,13 @@ public class ProductServiceImpl implements ProductService {
 
     private List<ReadProductTroubleResponseDto> changeToReadProductTroubleResponseDto(List<ProductTrouble> productList) {
        return productList.stream()
-               .map(product -> product.toReadProductTroubleResponseDto())
+               .map(ProductTrouble::toReadProductTroubleResponseDto)
                .collect(Collectors.toList());
     }
 
     private List<ReadProductCategoryResponseDto> changeToReadProductCategoryResponseDto(List<Product> productList) {
         return productList.stream()
-                .map(product -> product.toReadProductCategoryResponseDto())
+                .map(Product::toReadProductCategoryResponseDto)
                 .collect(Collectors.toList());
     }
 
@@ -151,7 +154,7 @@ public class ProductServiceImpl implements ProductService {
 
     private List<ReadProductModelResponseDto> changeToReadProductModelResponseDto(List<ProductModel> productModelList) {
         return productModelList.stream()
-                .map(productModel -> productModel.toReadProductModelResponseDto())
+                .map(ProductModel::toReadProductModelResponseDto)
                 .collect(Collectors.toList());
     }
 

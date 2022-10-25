@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/manager/fragments/manager_main_style.css">
+    <link rel="stylesheet" href="/static/css/manager/fragments/manager_header.css">
+    <link rel="stylesheet" href="/static/css/manager/manager_trouble_symptom.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
+    <title>[관리자 페이지] 고장 증상 관리</title>
+</head>
+<body>
+	<th:block th:replace="manager/fragments/manager_header"></th:block>
+    <main>
+        <div id="container">
+            <div class="main-content">
+                <div class="title-div">
+                    <h1>고장 증상 관리</h1>
+                </div>
+                <div class="main-trouble-symptom-div">
+                    <div class="trouble-symptom-div">
+                        <ul>
+    
+                        </ul>
+                    </div>
+                    <div class="add-trouble-symptom-div">
+                        <input class="add-trouble-symptom-input" type="text" placeholder="고장 증상 내용 입력">
+                        <button class="add-trouble-symptom-button" type="button">추가</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/manager/fragments/manager_header.js"></script>
+    <script src="/static/js/manager/manager_trouble_symptom.js"></script>
+</body>
+</html>

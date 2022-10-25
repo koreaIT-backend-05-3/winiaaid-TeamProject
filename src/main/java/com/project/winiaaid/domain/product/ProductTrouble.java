@@ -11,11 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductTrouble {
+    private int id;
     private int trouble_code;
     private String trouble_symptom;
 
     public ReadProductTroubleResponseDto toReadProductTroubleResponseDto() {
         return ReadProductTroubleResponseDto.builder()
+                .id(id)
                 .troubleCode(trouble_code)
                 .troubleSymptom(trouble_symptom)
                 .build();

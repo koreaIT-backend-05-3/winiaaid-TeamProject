@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <th:block th:replace="/fragments/head"></th:block>
+    <th:block th:replace="fragments/head"></th:block>
     <link rel="stylesheet" href="/static/css/util/location_notice.css">
     <link rel="stylesheet" href="/static/css/fragments/company_show.css">
     <link rel="stylesheet" href="/static/css/fragments/product_show.css">
@@ -16,7 +16,7 @@
     <title>[위니아에이드] 자주하는질문</title>
 </head>
 <body>
-    <th:block th:replace="/fragments/header"></th:block>
+    <th:block th:replace="fragments/header"></th:block>
     <main>
         <div id="container">
             <div class="main-content">
@@ -26,10 +26,10 @@
                 <div class="title-div">
                     <h1>자주하는 질문</h1>
                 </div>
-                <th:block th:replace="/fragments/company_show"></th:block>
+                <th:block th:replace="fragments/company_show"></th:block>
                 <div>
                     <h3>제품을 선택해주세요.</h3>
-                    <th:block th:replace="/fragments/product_show"></th:block>
+                    <th:block th:replace="fragments/product_show"></th:block>
                     <div class="view-style">
                         <table>
                             <tbody>
@@ -70,7 +70,7 @@
                     </ul>
                 </div>
                 <div class="send-message-modal-div visible">
-                    <th:block th:replace="/fragments/send_message_modal"></th:block>
+                    <th:block th:replace="fragments/send_message_modal"></th:block>
                 </div>
                 <div class="search-keyword-result-notice visible">
                     <p><span class="keyword"></span> 에 대한 <span class="search-count-span"></span> 건의 자료가 있습니다.</p>
@@ -92,7 +92,7 @@
             </div>
         </div>
     </main>
-    <th:block th:replace="/fragments/footer"></th:block>
+    <th:block th:replace="fragments/footer"></th:block>
     <script src="/static/js/util/principal.js"></script>
     <script src="/static/js/util/remove_non_member_service_authentication.js"></script>
     <script src="/static/js/util/remove_non_member_board_authentication.js"></script>
