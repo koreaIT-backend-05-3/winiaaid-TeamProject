@@ -38,7 +38,7 @@
 <p>
   <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/>
   <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/>
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/>
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=black"/>
 </p>
 <p>
   <img src="https://img.shields.io/badge/Java-FF9E0F?style=flat-square&logo=Java&logoColor=white"/>
@@ -49,6 +49,8 @@
   <img src="https://img.shields.io/badge/MariaDB-003545?style=flat-square&logo=MariaDB&logoColor=white"/>
   <img src="https://img.shields.io/badge/MyBatis-003545?style=flat-square&logo=MyBatis&logoColor=white"/>
 </P>
+<br>
+
 <br>
 
 # **주요 구현 기능**
@@ -100,7 +102,7 @@
 ### 아이디 찾기, 비밀번호 재설정
 ![아이디 찾기](https://user-images.githubusercontent.com/101931879/197527045-edcc186d-08e4-4c5a-8584-62b0dfee7538.png)
 ![비밀번호 재설정](https://user-images.githubusercontent.com/101931879/197527057-53159f0d-9ebf-4fba-a04a-df22d61ccae7.png)
-> 휴대폰 인증을 통해 아이디를 찾을 수 있습니다.
+> 휴대폰 인증을 통해 아이디를 찾을 수 있습니다.  
 > 마찬가지로 휴대폰 인증을 통해 가입되어 있는 이메일을 찾고 원하는 이메일로 임시 비밀번호를 전송해 줍니다.
 <br>
 
@@ -118,10 +120,30 @@
 # **부가 구현 기능**
 ### CoolSMS를 이용한 휴대폰 인증
 ### Starter-Mail을 이용한 이메일 전송
+### AOP - 회원가입시 Validation 체크같은 로직은 부가적인 기능이기에 따로 나누어 주었습니다.
 ### 카카오 주소 API를 통한 주소창 구현
 ![주소 모달창](https://user-images.githubusercontent.com/101931879/197574367-528cf99f-20ee-49df-818f-ba9c91013eeb.png)
+<br>  
+
+# 데이터베이스 
+> 프로젝트 시작하고 DB 설계를 진행할 때 제품 카테고리 안에 카테고리가 있고 그 안에 다시 상세 제품이 있는 경우가 있어서 이것을 구현함에 있어서  
+> 추후에 관리자 페이지를 통해서도 데이터가 들어가야 하고 유동적으로 데이터를 응답하게 만들려고 했습니다.  
+> 시간은 많이 걸렸지만 관리자 페이지에서 부족하지만 아무 문제 없이 의도한 대로 작동이 되는 것을 보고 뿌듯함을 느꼈습니다.  
+
+[Table Diagram](https://www.erdcloud.com/d/J2q7n4wyrEbtkaFRo)  
 <br>
 
+![ERD](https://user-images.githubusercontent.com/101931879/197667103-15686913-ece9-46f1-bf08-b614b742c3ff.png)
+<br>  
+
+# 아쉬운 점
+
+> 5주간의 프로젝트 기간 동안 충분히 관리자 페이지도 만들고 더 많은 기능을 구현할 수 있을 거라고 생각을 했지만  
+> DB 설계와 REST API 설계 규칙 위반에 따른 API 주소 수정 그리고 JavaScript를 통한 동적인 부분을 처리하는 과정에서  
+> 시간이 많이 소요되었습니다.  
+> AOP를 통해 API URL 체크도 초반에 구현을 하고 테스트도 완료했었지만 다른 부분에 신경을 쓰다 보니 몇 개의 API 요청에만 적용이 되었습니다.  
+> 마무리 못 한 기능이 많이 아쉬웠습니다.  
+<br>  
 
 # 프로젝트 전체 소감
   
@@ -132,7 +154,7 @@
 > API 주소 수정, 코드 중복 보완으로 인해 프로젝트 기간 중 상당 시간을 소비한 것이 아쉽지만  
 > 다시 한번 부족함을 느끼고 설계의 중요성을 느낀 계기가 되었습니다.  
 > 그로 인해서 조금 더 성장을 했다고 생각을 하고 다음 프로젝트에는 좀 더 나은 결과물이 나오게끔 노력하겠습니다.  
-> 추가로 관리자 페이지는 기존 웹사이트에 없었지만 백엔드를 공부하고 목표로 하고 있는 만큼  
+> 관리자 페이지는 기존 웹사이트에 없었지만 백엔드를 공부하고 목표로 하고 있는 만큼  
 > 관리자 페이지를 통해서 데이터를 유동적으로 바꿀 수 있게 하고 싶은 마음에 처음 DB 테이블을 만들 때부터 고민을 많이 해보고  
 > 시행착오도 많이 겪고 수정도 많이 한 만큼 시간이 오래 걸려 관리자 페이지는 시간안에 완성시키지 못한다는 판단을 세워  
 > 관리자 페이지는 추후 개인적으로 구현할 생각으로 다른 부분을 좀 더 신경을 써서 구현을 했습니다.  
