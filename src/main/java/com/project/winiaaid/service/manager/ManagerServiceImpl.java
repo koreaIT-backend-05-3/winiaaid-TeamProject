@@ -3,6 +3,7 @@ package com.project.winiaaid.service.manager;
 import com.project.winiaaid.domain.file.ProductImage;
 import com.project.winiaaid.domain.manager.ManagerProduct;
 import com.project.winiaaid.domain.manager.ManagerRepository;
+import com.project.winiaaid.domain.product.ProductDetail;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.web.dto.manager.AddProductRequestDto;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -71,6 +73,7 @@ public class ManagerServiceImpl implements ManagerService {
         managerProduct = updateProductRequestDto.toManagerProductEntity();
         managerProduct.setKey_code(keyCode);
 
+//        checkIfTheImageHasChangedAndChangeIt(updateProductRequestDto, managerProduct);
 
         MultipartFile image = updateProductRequestDto.getProductImage();
         if(image != null) {
@@ -97,8 +100,6 @@ public class ManagerServiceImpl implements ManagerService {
 
         configMap = configMapper.setDeleteProductInfoConfigMap(productType, keyCode, deleteProductRequestDto, productCategoryCodeList);
         imageList = managerRepository.findFileImageListToDelete(configMap);
-
-        log.info(">>>>>>>>>>> configMap: {}", configMap);
 
         imageList.forEach(imageFile -> {
             String customPath = imageFile.getImage_flag() == 1 ? "winia-product/category-images" : "winia-product/images";
@@ -156,4 +157,16 @@ public class ManagerServiceImpl implements ManagerService {
     private ManagerProduct changeToManagerProductEntity(AddProductRequestDto productDto, String tempFileName, String registrationType) throws Exception {
         return productDto.toManagerProductEntity(tempFileName, registrationType);
     }
+
+//    private void checkIfTheImageHasChangedAndChangeIt(UpdateProductRequestDto updateProductRequestDto, ManagerProduct managerProduct) throws IOException {
+//        String tempFileName = null;
+//
+//        MultipartFile image = updateProductRequestDto.getProductImage();
+//        if(image != null) {
+//            boolean mainCategoryFlag = updateProductRequestDto.isMainCategoryFlag();
+//            tempFileName = fileService.createFileByFileAndPath(image, mainCategoryFlag ? "winia-product/category-images" : "winia-product/images");
+//            fileService.deleteFileByFileNameAndPath(updateProductRequestDto.getDeleteTempImageName(), mainCategoryFlag ? "winia-product/category-images" : "winia-product/images");
+//            managerProduct.setProduct_detail_image(tempFileName);
+//        }
+//    }
 }

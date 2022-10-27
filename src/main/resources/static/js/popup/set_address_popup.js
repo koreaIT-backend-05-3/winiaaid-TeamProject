@@ -61,9 +61,12 @@ function searchAddress(nowPage) {
             setPage(totalPage);
 
             setAddressData(addressData.juso);
+
+            console.log(addressData);
         },
-        error: (error) => {
-            alert("에러");
+        error: (request, status, error) => {
+            console.log(request.status);
+            console.log(request.responseText);
             console.log(error);
         }
     });

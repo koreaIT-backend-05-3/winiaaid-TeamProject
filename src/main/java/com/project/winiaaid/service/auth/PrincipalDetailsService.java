@@ -20,8 +20,6 @@ public class PrincipalDetailsService implements UserDetailsService{
 	@Log
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-		log.info("userName: {}", username);
 		
 		User userEntity = null;
 		
@@ -37,7 +35,6 @@ public class PrincipalDetailsService implements UserDetailsService{
 		}
 		
 		return new PrincipalDetails(userEntity);
-		
 	}
 
 }

@@ -39,7 +39,7 @@ public class AjaxFilter implements Filter {
     private String getMessage() {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("<html><body><script>");
-            stringBuilder.append("alert(\'잘 못 된 접근입니다.\');");
+            stringBuilder.append("alert(\'잘못된 접근입니다.\');");
             stringBuilder.append("location.replace(\'/main\');");
 
             stringBuilder.append("</script></body></html>");

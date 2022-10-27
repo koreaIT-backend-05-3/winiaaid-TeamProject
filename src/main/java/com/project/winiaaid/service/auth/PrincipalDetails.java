@@ -15,9 +15,16 @@ public class PrincipalDetails implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private User user;
+	private String userName;
+	private String password;
 	
 	public PrincipalDetails(User user) {
 		this.user = user;
+	}
+
+	public PrincipalDetails(String userName, String password) {
+		this.userName = userName;
+		this.password = password;
 	}
  
 	

@@ -85,7 +85,7 @@ public class UriCheckAop {
 
     private void checkBoardTypeAndThrowException(Object type) {
         if(type == null) {
-            throw new CustomApiUriTypeException("URI thpe ERROR");
+            throw new CustomApiUriTypeException("URI type ERROR");
         }
         log.info("Checking board type: {}", type);
         if(!(type.equals("faq") || type.equals("selfCheck") || type.equals("viewed") || type.equals("latest") || type.equals("group") || type.equals("default"))) {

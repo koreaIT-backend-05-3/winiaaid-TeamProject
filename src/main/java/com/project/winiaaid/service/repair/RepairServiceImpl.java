@@ -150,7 +150,7 @@ public class RepairServiceImpl implements RepairService {
 
     private List<AddressResponseDto> changeToAddressResponseDtoList(List<Address> addressList) {
         return addressList.stream()
-                .map(address -> address.toAddressResponseDto())
+                .map(Address::toAddressResponseDto)
                 .collect(Collectors.toList());
     }
 

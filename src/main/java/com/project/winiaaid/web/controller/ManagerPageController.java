@@ -22,4 +22,9 @@ public class ManagerPageController {
     public String loadTroubleSymptomManagePage() {
         return "manager/manager_trouble_symptom";
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
 }

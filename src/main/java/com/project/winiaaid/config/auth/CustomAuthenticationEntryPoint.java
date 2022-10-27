@@ -1,7 +1,11 @@
 package com.project.winiaaid.config.auth;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.servlet.ServletException;
@@ -16,6 +20,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> dlsw들어옴");
+        log.info(authException.getClass().getSimpleName());
         List<String> signinInquiryViewList = new ArrayList<String>();
         StringBuilder stringBuilder = new StringBuilder();
 
