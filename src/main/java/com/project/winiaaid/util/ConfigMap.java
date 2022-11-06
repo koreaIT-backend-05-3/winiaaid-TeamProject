@@ -5,7 +5,7 @@ import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.web.dto.auth.AuthenticationUserRequestDto;
 import com.project.winiaaid.web.dto.board.ReadBoardRequestDto;
 import com.project.winiaaid.web.dto.history.ReadServiceRequestDto;
-import com.project.winiaaid.web.dto.manager.DeleteProductRequestDto;
+import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
 
 import java.util.List;

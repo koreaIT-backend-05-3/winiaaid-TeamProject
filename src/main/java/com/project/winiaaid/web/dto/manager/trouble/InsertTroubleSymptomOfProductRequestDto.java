@@ -1,4 +1,4 @@
-package com.project.winiaaid.web.dto.manager;
+package com.project.winiaaid.web.dto.manager.trouble;
 
 import com.project.winiaaid.domain.manager.ManagerTroubleSymptom;
 import lombok.Data;

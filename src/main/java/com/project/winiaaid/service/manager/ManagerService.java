@@ -1,9 +1,10 @@
 package com.project.winiaaid.service.manager;
 
-import com.project.winiaaid.web.dto.manager.AddProductRequestDto;
-import com.project.winiaaid.web.dto.manager.DeleteProductRequestDto;
-import com.project.winiaaid.web.dto.manager.InsertTroubleSymptomOfProductRequestDto;
-import com.project.winiaaid.web.dto.manager.UpdateProductRequestDto;
+import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
+import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
+import com.project.winiaaid.web.dto.manager.solution.InsertSolutionRequestDto;
+import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
+import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface ManagerService {
     public boolean deleteTroubleSymptomOfProduct(List<Integer> troubleSymptomIdList) throws Exception;
     public boolean deleteTroubleSymptomByTroubleSymptomCode(int troubleSymptomCode) throws Exception;
 
+    public boolean insertSolution(InsertSolutionRequestDto insertSolutionRequestDto) throws Exception;
 }

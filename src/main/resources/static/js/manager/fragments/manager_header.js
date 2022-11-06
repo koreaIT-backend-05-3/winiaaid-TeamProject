@@ -3,6 +3,7 @@ const subNavUlItems = document.querySelectorAll(".sub-nav-ul");
 let preMenuTarget = null;
 
 setSubMenuTitleSpanClickEvent();
+setHeaderMenuClickEvent();
 
 
 function setSubMenuTitleSpanClickEvent() {
@@ -49,4 +50,18 @@ function addVisibleClass(domObject) {
 
 function removeVisibleClass(domObject) {
     domObject.classList.remove("visible");
+}
+
+function setHeaderMenuClickEvent() {
+    const solutionManageLiItems = document.querySelectorAll(".solution-manage-list li");
+    const requestManageLiItems = document.querySelectorAll(".request-manage-list li");
+    const productManageLiItems = document.querySelectorAll(".product-manage-list li");
+    const boardManageLiItems = document.querySelectorAll(".board-manage-list li");
+    const accountManageLiItems = document.querySelectorAll(".account-manage-list li");
+
+    solutionManageLiItems[0].onclick = () => location.href = "/manager/solution/registration";
+
+    productManageLiItems[0].onclick = () => location.href = "/manager/product/registration";
+    productManageLiItems[1].onclick = () => location.href = "/manager/product/modification";
+    productManageLiItems[3].onclick = () => location.href = "/manager/trouble-symptom";
 }

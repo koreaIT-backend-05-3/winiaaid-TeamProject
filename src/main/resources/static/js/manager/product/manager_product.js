@@ -153,7 +153,6 @@ function getProductMainCategoryList(companyObject) {
     });
 }
 
-
 function setProductMainCategoryList(productCategoryList) {
     const mainCategoryDiv = document.querySelector(".main-category-div");
 

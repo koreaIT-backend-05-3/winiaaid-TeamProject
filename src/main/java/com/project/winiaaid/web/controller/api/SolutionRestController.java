@@ -8,8 +8,10 @@ import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
+import com.project.winiaaid.web.dto.solution.ReadSolutionTypeResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,6 +73,21 @@ public class SolutionRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Load solution detail successful", solutionDetail));
+    }
+
+    @Cacheable(value = "solutionTypeList")
+    @GetMapping("/type/list")
+    public ResponseEntity<?> getAllSolutionTypeList() {
+        List<ReadSolutionTypeResponseDto> readSolutionTypeResponseDto = null;
+
+        try {
+            readSolutionTypeResponseDto = solutionService.getAllSolutionTypeList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load solution type list", readSolutionTypeResponseDto));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Load solution type list successful", readSolutionTypeResponseDto));
     }
 
     @PutMapping("/increase/view-count/{solutionBoardCode}")

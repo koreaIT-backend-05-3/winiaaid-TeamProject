@@ -89,3 +89,7 @@ nav {
     }
     
 }
+
+.visible {
+    display: none;
+}

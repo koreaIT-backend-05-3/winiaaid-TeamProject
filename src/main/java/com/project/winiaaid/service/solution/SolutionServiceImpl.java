@@ -2,11 +2,13 @@ package com.project.winiaaid.service.solution;
 
 import com.project.winiaaid.domain.solution.Solution;
 import com.project.winiaaid.domain.solution.SolutionRepository;
+import com.project.winiaaid.domain.solution.SolutionType;
 import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
+import com.project.winiaaid.web.dto.solution.ReadSolutionTypeResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -80,6 +82,20 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
+    public List<ReadSolutionTypeResponseDto> getAllSolutionTypeList() throws Exception {
+        List<SolutionType> solutionTypeList = null;
+        List<ReadSolutionTypeResponseDto> readSolutionTypeResponseDtos = null;
+
+        solutionTypeList = solutionRepository.findAllSolutionTypeList();
+
+        if(solutionTypeList != null && solutionTypeList.size() > 0){
+            readSolutionTypeResponseDtos = changeToReadSolutionTypeResponseDto(solutionTypeList);
+        }
+
+        return readSolutionTypeResponseDtos;
+    }
+
+    @Override
     public boolean updateViewCountBySolutionBoardCode(int solutionBoardCode) throws Exception {
         return solutionRepository.updateViewCountBySolutionBoardCode(solutionBoardCode) > 0;
     }
@@ -92,5 +108,11 @@ public class SolutionServiceImpl implements SolutionService{
 
     private ReadSolutionDetailResponseDto changeToReadSolutionDetailResponseDto(Solution solutionEntity) {
         return solutionEntity.toReadSolutionDetailResponseDto();
+    }
+
+    private List<ReadSolutionTypeResponseDto> changeToReadSolutionTypeResponseDto(List<SolutionType> solutionTypeList) {
+        return solutionTypeList.stream()
+                .map(SolutionType::toReadSolutionTypeResponseDto)
+                .collect(Collectors.toList());
     }
 }

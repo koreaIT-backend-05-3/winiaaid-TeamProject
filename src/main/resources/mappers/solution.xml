@@ -335,6 +335,14 @@
             AND solution_board_type = #{solution_board_type};
     </select>
 
+    <select id="findAllSolutionTypeList" resultType="com.project.winiaaid.domain.solution.SolutionType">
+        SELECT
+            solution_type_code,
+            solution_name
+        FROM
+            solution_type_table;
+    </select>
+
     <update id="updateViewCountBySolutionBoardCode" parameterType="Integer">
         update
             solution_product_table

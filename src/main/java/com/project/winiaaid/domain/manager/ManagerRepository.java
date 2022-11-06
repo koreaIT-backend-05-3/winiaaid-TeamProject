@@ -23,4 +23,6 @@ public interface ManagerRepository {
     public int deleteTroubleSymptomOfProduct(List<Integer> trouble_symptom_id_list) throws Exception;
     public int deleteTroubleSymptomByTroubleSymptomCode(int trouble_symptom_code) throws Exception;
 
+    public int insertSolution(ManagerSolution managerSolution) throws Exception;
+    public int insertSolutionFile(ManagerSolution managerSolution) throws Exception;
 }

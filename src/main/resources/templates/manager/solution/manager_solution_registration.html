@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/manager/fragments/manager_main_style.css">
+    <link rel="stylesheet" href="/static/css/manager/fragments/manager_header.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> 
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+    
+    <link rel="stylesheet" href="/static/css/summer_note/summernote-lite.css">
+    <link rel="stylesheet" href="/static/css/manager/solution/manager_solution_registration.css">
+    <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
+    <title>[관리자 페이지] 간편해결 등록</title>
+</head>
+<body>
+    <th:block th:replace="manager/fragments/manager_header"></th:block>
+    <main>
+        <div id="container">
+            <div class="main-content">
+                <div class="title-div">
+                    <h1>간편해결 등록 페이지</h1>
+                </div>
+                <div class="solution-select-div">
+                    <div>자주하는 질문</div>
+                    <div>자가진단</div>
+                </div>
+                <div>
+                    <select class="solution-type-select">
+                        
+                    </select>
+                </div>
+                <form method="post" class="summer-note-content">
+                    <input class="title" type="text" placeholder="제목">
+                    <textarea id="summernote" name="content"></textarea>
+                    <div class="button-div">
+                        <button class="write-request-button" type="button">작성</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/manager/fragments/manager_header.js"></script>
+    <script src="/static/js/summer_note/summernote-ko-KR.js"></script>
+    <script src="/static/js/summer_note/summernote-lite.js"></script>
+    <script src="/static/js/manager/solution/manager_solution_registration.js"></script>
+</body>
+</html>

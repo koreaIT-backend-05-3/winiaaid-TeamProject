@@ -15,16 +15,21 @@ public class ManagerPageController {
 
     @GetMapping("/product/{type}")
     public String loadProductRegistrationPage() {
-        return "manager/manager_product";
+        return "manager/product/manager_product";
     }
 
     @GetMapping("/trouble-symptom")
     public String loadTroubleSymptomManagePage() {
-        return "manager/manager_trouble_symptom";
+        return "manager/trouble/manager_trouble_symptom";
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
+    @GetMapping("/solution/registration")
+    public String loadSolutionRegistrationPage() {
+        return "manager/solution/manager_solution_registration";
+    }
+
+    @GetMapping("/solution/type")
+    public String loadSolutionTypeManagePage() {
+        return "manager/solution/manager_solution_type";
     }
 }

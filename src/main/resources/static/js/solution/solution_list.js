@@ -276,23 +276,39 @@ function noticeNoResult() {
 }
 
 function setSolutionTypeOption() {
-    optionItems = document.querySelectorAll(".solution-type option");
+    let solutionTypeList = getAllSolutionTypeList();
 
-    if(optionItems.length == 1) {
-        solutionTypeSelect.innerHTML = `
-            <option value="1">전체</option>
-            <option value="2">기능</option>
-            <option value="3">관리방법</option>
-            <option value="4">내용물</option>
-            <option value="5">사용법</option>
-            <option value="6">성능</option>
-            <option value="7">소음</option>
-            <option value="8">외관/구조</option>
-            <option value="9">증상</option>
-            <option value="10">오류코드</option>
-            <option value="11">기타</option>
-        `;
+    if(solutionTypeList != null) {
+        optionItems = document.querySelectorAll(".solution-type option");
+
+        if(optionItems.length == 1) {
+            clearDomObject(solutionTypeSelect);
+
+            solutionTypeList.forEach(solutionType => {
+                solutionTypeSelect.innerHTML += `
+                    <option value="${solutionType.solutionTypeCode}">${solutionType.solutionName}</option>
+                `;
+            })
+            
+        }
     }
+    
+}
+
+function getAllSolutionTypeList() {
+    let solutionTypeList = null;
+    $.ajax({
+        async: false,
+        type: "get",
+        url: `/api/v1/solution/type/list`,
+        dataType: "json",
+        success: (response) => {
+            solutionTypeList = response.data;
+        },
+        error: errorMessage
+    });
+
+    return solutionTypeList;
 }
 
 function initializationSolutionTypeOption() {

@@ -5,6 +5,8 @@
 
 <mapper namespace="com.project.winiaaid.domain.manager.ManagerRepository">
 
+    <!--  Product  -->
+
     <insert id="insertProductDetail" parameterType="com.project.winiaaid.domain.manager.ManagerProduct">
         insert into
             winia_product_dtl
@@ -281,6 +283,7 @@
     </delete>
 
 
+    <!--  Trouble Symptom  -->
 
     <insert id="insertTroubleSymptomOfProduct" parameterType="com.project.winiaaid.domain.manager.ManagerTroubleSymptom">
         insert into
@@ -322,4 +325,35 @@
         where
             trouble_code = #{trouble_symptom_code};
     </delete>
+
+<!--  Solution  -->
+
+    <insert id="insertSolution" parameterType="com.project.winiaaid.domain.manager.ManagerSolution"
+    useGeneratedKeys="true" keyProperty="solution_code">
+        INSERT INTO
+            solution_table
+        VALUES(
+            0,
+            #{solution_title},
+            #{solution_content},
+            #{solution_type_code},
+            #{solution_type_board_code},
+            now(),
+            now()
+        );
+    </insert>
+
+    <insert id="insertSolutionFile" parameterType="com.project.winiaaid.domain.manager.ManagerSolution">
+        INSERT INTO
+            solution_file
+        VALUES
+        <foreach collection="file_name_list" item="file_name" separator=",">
+            (
+                0,
+                #{file_name},
+                #{solution_code}
+            )
+        </foreach>
+        ;
+    </insert>
 </mapper>

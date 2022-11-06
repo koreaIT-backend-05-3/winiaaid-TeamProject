@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,20 +34,38 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String createFileByFileAndPath(MultipartFile file, String customPath) throws IOException {
-        String tempFileName = UUID.randomUUID().toString().replaceAll("-", "") + "_" + file.getOriginalFilename();
+        String tempFileName = getTempFileName(file);
 
-        Path path = Paths.get(filePath + customPath + "/" + tempFileName);
+        Path path = getPath(customPath, tempFileName);
 
-
-        File f = new File(filePath + customPath);
-
-        if(!f.exists()) {
-            f.mkdirs();
-        }
+        makeDirectory(customPath);
 
         Files.write(path, file.getBytes());
 
         return tempFileName;
+    }
+
+    @Override
+    public List<String> createFileByFileAndPath(List<MultipartFile> fileList, String customPath) throws IOException {
+        List<String> fileNameList = new ArrayList<>();
+        fileList.forEach(file -> {
+            String tempFileName = getTempFileName(file);
+
+            try {
+                Path path = getPath(customPath, tempFileName);
+
+                makeDirectory(customPath);
+
+                Files.write(path, file.getBytes());
+
+                fileNameList.add(tempFileName);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        return fileNameList;
     }
 
     @Override
@@ -57,6 +76,38 @@ public class FileServiceImpl implements FileService {
 
         if(f.exists()) {
             Files.delete(path);
+        }
+    }
+
+    @Override
+    public void deleteTempFolderByPath(String customPath) throws IOException {
+        Path path = Paths.get(filePath + customPath);
+        File f = new File(filePath + customPath);
+
+        if(f.exists()) {
+            for(File deleteFile : f.listFiles()) {
+                deleteFile.delete();
+            }
+
+            if(f.listFiles().length == 0 && f.isDirectory()) {
+                Files.deleteIfExists(path);
+            }
+        }
+    }
+
+    private String getTempFileName(MultipartFile file) {
+        return UUID.randomUUID().toString().replaceAll("-", "") + "_" + file.getOriginalFilename();
+    }
+
+    private Path getPath(String customPath, String tempFileName) throws IOException {
+        return Paths.get(filePath + customPath + "/" + tempFileName);
+    }
+
+    private void makeDirectory(String customPath) throws IOException {
+        File f = new File(filePath + customPath);
+
+        if(!f.exists()) {
+            f.mkdirs();
         }
     }
 }

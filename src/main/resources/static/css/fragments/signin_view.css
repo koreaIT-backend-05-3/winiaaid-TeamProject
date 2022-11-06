@@ -43,6 +43,28 @@
     margin-bottom: 5px;
 }
 
+.save-auth-info-div {
+    display: flex;
+    align-items: center;
+
+    width: 440px;
+}
+
+.save-user-p {
+    margin-top: 14px;
+    margin-left: 10px;
+
+    color: #5b5a5a;
+}
+
+.save-user-p input {
+    margin-top: 3px;
+}
+
+.save-user-p label {
+    cursor: pointer;
+}
+
 .save-id {
     font-size: 13px;
     margin-top: 14px;

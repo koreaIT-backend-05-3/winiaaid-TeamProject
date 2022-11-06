@@ -1,4 +1,4 @@
-package com.project.winiaaid.web.dto.manager;
+package com.project.winiaaid.web.dto.manager.product;
 
 import com.project.winiaaid.domain.manager.ManagerProduct;
 import lombok.Data;

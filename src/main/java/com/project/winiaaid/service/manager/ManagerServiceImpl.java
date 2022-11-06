@@ -3,22 +3,24 @@ package com.project.winiaaid.service.manager;
 import com.project.winiaaid.domain.file.ProductImage;
 import com.project.winiaaid.domain.manager.ManagerProduct;
 import com.project.winiaaid.domain.manager.ManagerRepository;
-import com.project.winiaaid.domain.product.ProductDetail;
+import com.project.winiaaid.domain.manager.ManagerSolution;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.util.FileService;
-import com.project.winiaaid.web.dto.manager.AddProductRequestDto;
-import com.project.winiaaid.web.dto.manager.DeleteProductRequestDto;
-import com.project.winiaaid.web.dto.manager.InsertTroubleSymptomOfProductRequestDto;
-import com.project.winiaaid.web.dto.manager.UpdateProductRequestDto;
+import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
+import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
+import com.project.winiaaid.web.dto.manager.solution.InsertSolutionRequestDto;
+import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
+import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.management.RuntimeErrorException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -137,6 +139,22 @@ public class ManagerServiceImpl implements ManagerService {
         return managerRepository.deleteTroubleSymptomByTroubleSymptomCode(troubleSymptomCode) > 0;
     }
 
+    @Transactional
+    @Override
+    public boolean insertSolution(InsertSolutionRequestDto insertSolutionRequestDto) throws Exception {
+        boolean status = false;
+        ManagerSolution managerSolution = null;
+        managerSolution = insertSolutionRequestDto.toManagerSolution();
+
+        status = managerRepository.insertSolution(managerSolution) > 0;
+
+        if(insertSolutionRequestDto.getFileList().size() > 0) {
+            status = insertSolutionFile(insertSolutionRequestDto, managerSolution);
+        }
+
+        return status;
+    }
+
     private boolean insertNewMainGroupCategory(ManagerProduct productEntity) throws Exception {
         boolean status = false;
         int productGroupCode = managerRepository.findMaxProductGroupCode();
@@ -156,6 +174,28 @@ public class ManagerServiceImpl implements ManagerService {
 
     private ManagerProduct changeToManagerProductEntity(AddProductRequestDto productDto, String tempFileName, String registrationType) throws Exception {
         return productDto.toManagerProductEntity(tempFileName, registrationType);
+    }
+
+    private boolean insertSolutionFile(InsertSolutionRequestDto insertSolutionRequestDto, ManagerSolution managerSolution) throws Exception {
+        List<String> fileNameList = null;
+
+        try {
+            fileNameList = fileService.createFileByFileAndPath(insertSolutionRequestDto.getFileList(), "solution_files");
+            managerSolution.setFile_name_list(fileNameList);
+            fileService.deleteTempFolderByPath("temp_solution_files");
+
+            return managerRepository.insertSolutionFile(managerSolution) > 0;
+        }catch (Exception e) {
+            e.printStackTrace();
+            deleteFileDueToInsertSolutionError(fileNameList);
+            throw new Exception("Insert solution file failed");
+        }
+    }
+
+    private void deleteFileDueToInsertSolutionError(List<String> fileNameList) throws IOException {
+        for(String fileName : fileNameList) {
+            fileService.deleteFileByFileNameAndPath(fileName, "solution_files");
+        }
     }
 
 //    private void checkIfTheImageHasChangedAndChangeIt(UpdateProductRequestDto updateProductRequestDto, ManagerProduct managerProduct) throws IOException {
