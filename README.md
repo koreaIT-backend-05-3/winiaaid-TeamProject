@@ -121,6 +121,8 @@
 ### CoolSMS를 이용한 휴대폰 인증
 ### Starter-Mail을 이용한 이메일 전송
 ### AOP - 회원가입시 Validation 체크같은 로직은 부가적인 기능이기에 따로 나누어 주었습니다.
+### Remember Me를 이용한 로그인 유지
+### 썸머노트를 이용한 게시글 작성(이미지 삽입 및 업로드 구현)
 ### 카카오 주소 API를 통한 주소창 구현
 ![주소 모달창](https://user-images.githubusercontent.com/101931879/197574367-528cf99f-20ee-49df-818f-ba9c91013eeb.png)
 <br>  
