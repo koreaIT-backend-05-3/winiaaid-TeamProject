@@ -170,7 +170,12 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public boolean deleteSolutionType(int solutionTypeCode) throws Exception {
-        return managerRepository.deleteSolutionType(solutionTypeCode) > 0;
+        boolean status = false;
+        List<Integer> solutionBoardCodeList = null;
+        if(managerRepository.deleteSolutionType(solutionTypeCode) > 0) {
+            status = deleteSolutionBoard(solutionBoardCodeList, solutionTypeCode);
+        }
+        return status;
     }
 
     private boolean insertNewMainGroupCategory(ManagerProduct productEntity) throws Exception {
@@ -214,6 +219,13 @@ public class ManagerServiceImpl implements ManagerService {
         for(String fileName : fileNameList) {
             fileService.deleteFileByFileNameAndPath(fileName, "solution_files");
         }
+    }
+
+    private boolean deleteSolutionBoard(List<Integer> solutionBoardCodeList, int solutionTypeCode) throws Exception {
+        solutionBoardCodeList = managerRepository.findAllSolutionBoardCodeInDeletedSolutionTypeCode(solutionTypeCode);
+        managerRepository.disabledAllSolutionInDeletedSolutionTypeCode(solutionTypeCode);
+
+        return solutionBoardCodeList.isEmpty() ? true : managerRepository.deleteSolutionBoardList(solutionBoardCodeList) > 0;
     }
 
 //    private void checkIfTheImageHasChangedAndChangeIt(UpdateProductRequestDto updateProductRequestDto, ManagerProduct managerProduct) throws IOException {

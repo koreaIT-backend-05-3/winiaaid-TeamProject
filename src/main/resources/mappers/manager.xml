@@ -326,7 +326,7 @@
             trouble_code = #{trouble_symptom_code};
     </delete>
 
-<!--  Solution  -->
+<!--  Solution Board  -->
 
     <insert id="insertSolution" parameterType="com.project.winiaaid.domain.manager.ManagerSolution"
     useGeneratedKeys="true" keyProperty="solution_code">
@@ -357,6 +357,40 @@
         ;
     </insert>
 
+    <select id="findAllSolutionBoardCodeInDeletedSolutionTypeCode" parameterType="Integer" resultType="Integer">
+        SELECT
+            solution_board_code
+        FROM
+            solution_product_table
+        WHERE
+            solution_code IN (SELECT
+                                solution_code
+                            FROM
+                                solution_table
+                            WHERE
+                                solution_type_code = #{solution_type_code});
+    </select>
+
+    <update id="disabledAllSolutionInDeletedSolutionTypeCode" parameterType="Integer">
+        UPDATE
+            solution_table
+        SET
+            solution_type_code = -1
+        WHERE
+            solution_type_code = #{solution_type_code};
+    </update>
+
+    <delete id="deleteSolutionBoardList" parameterType="java.util.List">
+        DELETE
+        FROM
+            solution_product_table
+        where
+            <foreach collection="delete_board_code_list" item="delete_board_code" separator="or">
+                solution_board_code = #{delete_board_code}
+            </foreach>
+        ;
+    </delete>
+
 
     <!-- Solution Type -->
 
@@ -385,4 +419,5 @@
         WHERE
             solution_type_code = #{solution_type_code};
     </delete>
+
 </mapper>

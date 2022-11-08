@@ -29,4 +29,8 @@ public interface ManagerRepository {
     public int insertSolutionType(String solution_type_name) throws Exception;
     public int updateSolutionType(ManagerSolution manager_solution) throws Exception;
     public int deleteSolutionType(int solution_type_code) throws Exception;
+
+    public List<Integer> findAllSolutionBoardCodeInDeletedSolutionTypeCode(int solution_type_code) throws Exception;
+    public int disabledAllSolutionInDeletedSolutionTypeCode(int solution_type_code) throws Exception;
+    public int deleteSolutionBoardList(List<Integer> delete_board_code_list) throws Exception;
 }
