@@ -28,8 +28,8 @@ public class ManagerPageController {
         return "manager/solution/manager_solution_registration";
     }
 
-    @GetMapping("/solution/type")
+    @GetMapping("/solution/modification")
     public String loadSolutionTypeManagePage() {
-        return "manager/solution/manager_solution_type";
+        return "manager/solution/manager_solution_type_modify";
     }
 }

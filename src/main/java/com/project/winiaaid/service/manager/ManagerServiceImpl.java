@@ -9,6 +9,7 @@ import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
 import com.project.winiaaid.web.dto.manager.solution.InsertSolutionRequestDto;
+import com.project.winiaaid.web.dto.manager.solution.UpdateSolutionTypeRequestDto;
 import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -148,11 +149,28 @@ public class ManagerServiceImpl implements ManagerService {
 
         status = managerRepository.insertSolution(managerSolution) > 0;
 
-        if(insertSolutionRequestDto.getFileList().size() > 0) {
-            status = insertSolutionFile(insertSolutionRequestDto, managerSolution);
+        if(insertSolutionRequestDto.getFileList() != null) {
+            if(!insertSolutionRequestDto.getFileList().isEmpty()) {
+                status = insertSolutionFile(insertSolutionRequestDto, managerSolution);
+            }
         }
 
         return status;
+    }
+
+    @Override
+    public boolean insertSolutionType(String solutionTypeName) throws Exception {
+        return managerRepository.insertSolutionType(solutionTypeName) > 0;
+    }
+
+    @Override
+    public boolean updateSolutionType(UpdateSolutionTypeRequestDto updateSolutionTypeRequestDto) throws Exception {
+        return managerRepository.updateSolutionType(updateSolutionTypeRequestDto.toManagerSolution()) > 0;
+    }
+
+    @Override
+    public boolean deleteSolutionType(int solutionTypeCode) throws Exception {
+        return managerRepository.deleteSolutionType(solutionTypeCode) > 0;
     }
 
     private boolean insertNewMainGroupCategory(ManagerProduct productEntity) throws Exception {

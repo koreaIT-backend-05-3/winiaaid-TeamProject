@@ -7,6 +7,7 @@ import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
 import com.project.winiaaid.web.dto.manager.solution.InsertSolutionRequestDto;
+import com.project.winiaaid.web.dto.manager.solution.UpdateSolutionTypeRequestDto;
 import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -171,6 +172,54 @@ public class ManagerRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Solution creation successful", status));
+    }
+
+    @Log
+    @CacheEvict(value = "solutionTypeList", allEntries = true)
+    @PostMapping("/solution-type")
+    public ResponseEntity<?> insertSolutionType(@RequestBody Map<String, String> insertSolutionTypeRequestMap) {
+        boolean status = false;
+
+        try {
+            status = managerService.insertSolutionType(insertSolutionTypeRequestMap.get("solutionTypeName"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Solution type creation failed", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Solution type creation succeeded", status));
+    }
+
+    @Log
+    @CacheEvict(value = "solutionTypeList", allEntries = true)
+    @PutMapping("/solution-type")
+    public ResponseEntity<?> updateSolutionType(@RequestBody UpdateSolutionTypeRequestDto updateSolutionTypeRequestDto) {
+        boolean status = false;
+
+        try {
+            status = managerService.updateSolutionType(updateSolutionTypeRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Solution type modification failed", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Solution type modification succeeded", status));
+    }
+
+    @Log
+    @CacheEvict(value = "solutionTypeList", allEntries = true)
+    @DeleteMapping("/solution-type")
+    public ResponseEntity<?> deleteSolutionType(@RequestBody Map<String, Integer> deleteSolutionTypeRequestMap) {
+        boolean status = false;
+
+        try {
+            status = managerService.deleteSolutionType(deleteSolutionTypeRequestMap.get("solutionTypeCode"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Solution type deletion failed", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Delete solution type succeeded", status));
     }
 
     private String uploadSolutionFileAndReturnFileUrl(MultipartFile file) throws IOException {

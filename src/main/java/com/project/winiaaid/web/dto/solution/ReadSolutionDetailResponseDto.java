@@ -14,7 +14,7 @@ public class ReadSolutionDetailResponseDto {
     private String solutionContent;
     private String productCategoryName;
     private String productDetailName;
-    private String solutionName;
+    private String solutionTypeName;
     private String productGroupName;
     private List<SolutionFileDto> solutionFileList;
     private LocalDateTime createDate;

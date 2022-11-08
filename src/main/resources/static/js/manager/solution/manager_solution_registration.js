@@ -2,7 +2,6 @@ const solutionTypeSelect = document.querySelector(".solution-type-select");
 
 const summerNoteContent = document.querySelector(".summer-note-content");
 
-let productCode = 0;
 let solutiontypeBoardCode = 0;
 
 let fileList = new Array();
@@ -62,7 +61,7 @@ function setSolutionTypeCodeOption() {
                 return;
             }
             solutionTypeSelect.innerHTML += `
-                <option value="${solutionType.solutionTypeCode}">${solutionType.solutionName}</option>
+                <option value="${solutionType.solutionTypeCode}">${solutionType.solutionTypeName}</option>
             `;
         });
     }
@@ -127,8 +126,11 @@ function setFormData(file) {
 }
 
 function writeRequest() {
-    let title = document.querySelector(".title").value;
-    let content = document.querySelector("#summernote").value;
+    if(isIncompleteRequest()) {
+        return;
+    }
+    let title = getTitle();
+    let content = getContent();
     let fileList = setFileList(content);
     let solutionTypeCode = solutionTypeSelect.value;
 
@@ -178,6 +180,31 @@ function setFileList(content) {
     return fileResultList;
 }
 
+function getTitle() {
+    return document.querySelector(".title").value;
+}
+
+function getContent() {
+    return document.querySelector("#summernote").value;
+}
+
+function isIncompleteRequest() {
+    let status = false;
+
+    if(solutiontypeBoardCode == 0) {
+        alert("게시글 타입을 정해주세요.");
+        status = true;
+    }else if(isEmpty(getTitle())) {
+        alert("제목을 입력해주세요.");
+        status = true;
+    }else if(isEmpty(getContent())) {
+        alert("내용을 입력해주세요.");
+        status = true;
+    }
+
+    return status;
+}
+
 function setCompany(companyCode) {
     company = companyCode == 1 ? "daewoo" : "winia";
 }
@@ -192,6 +219,10 @@ function addVisibleClass(domObject) {
 
 function removeVisibleClass(domObject) {
     domObject.classList.remove("visible");
+}
+
+function isEmpty(data) {
+    return data == "" || data == null || data == undefined;
 }
 
 function errorMessage(request, status, error) {

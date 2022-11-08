@@ -14,6 +14,7 @@ import java.util.List;
 public class ManagerSolution {
     private int solution_code;
     private int solution_type_code;
+    private String solution_type_name;
     private int solution_type_board_code;
     private String solution_title;
     private String solution_content;

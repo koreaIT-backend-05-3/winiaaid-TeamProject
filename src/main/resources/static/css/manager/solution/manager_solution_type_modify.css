@@ -1,0 +1,148 @@
+.solution-type-div {
+    margin-top: 20px;
+    padding: 15px;
+    
+    width: 300px;
+    height: 270px;
+
+    overflow: auto;
+
+    background-color: #ededed;
+}
+
+.main-company-div {
+    display: flex;
+
+    margin-bottom: 50px;
+}
+
+.choice-modify-type-div button {
+    border: 1px solid #ededed;
+    padding: 5px;
+
+    width: 100px;
+    height: 50px;
+
+    background-color: #ededed;
+
+    cursor: pointer;
+}
+
+.choice-modify-type-div button:not(.choice-modify-type-div button:first-child) {
+    margin-left: 10px;
+}
+
+.choice-modify-type-div button:last-child {
+    width: 120px;
+}
+
+.main-company-div div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    height: 50px;
+
+    background-color: #ededed;
+
+    cursor: pointer;
+}
+
+.main-company-div div:not(last-child) {
+    margin-right: 30px;
+}
+
+.product-box {
+    display: flex;
+    justify-content: space-between;
+
+    width: 980px;
+
+}
+
+.product-box div {
+    padding: 15px;
+    
+    width: 300px;
+    height: 270px;
+
+    overflow: auto;
+    
+    background-color: #ededed;
+}
+
+.sortation-span {
+    display: inline-block;
+    margin-bottom: 30px;
+
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.solution-ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 5px 0px;
+
+    height: 45px;
+}
+
+.solution-ul li div {    
+    padding: 0px 5px;
+    height: 20px;
+}
+
+.solution-detail-span {
+    margin-right: 20px;
+    
+    cursor: pointer;
+}
+
+.solution-detail-add-span {
+    cursor: pointer;
+}
+
+.add-li {
+    padding-top: 10px;
+}
+
+.fa-cube, .fa-plus {
+    margin-right: 10px;
+}
+
+.fa-trash-can {
+    padding: 10px 0px;
+
+    color: red;
+    cursor: pointer;
+}
+
+.solution-ul li:not(.solution-ul li:last-child) {
+    border-bottom: 1px solid #c5c5c5;
+}
+
+.solution-type-input-div {
+    margin-top: 20px;
+}
+
+.solution-type-input {
+    padding: 5px;
+
+    width: 250px;
+}
+
+.solution-type-request-button {
+    border: none;
+    padding: 6px;
+
+    width: 50px;
+
+    background-color: #ededed;
+}
+
+.visible {
+    display: none;
+}

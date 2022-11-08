@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class ReadSolutionTypeResponseDto {
     private int solutionTypeCode;
-    private String solutionName;
+    private String solutionTypeName;
 }

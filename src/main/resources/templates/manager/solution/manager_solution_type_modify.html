@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/manager/fragments/manager_main_style.css">
     <link rel="stylesheet" href="/static/css/manager/fragments/manager_header.css">
-    <link rel="stylesheet" href="/static/css/manager/solution/manager_solution_type.css">
+    <link rel="stylesheet" href="/static/css/manager/solution/manager_solution_type_modify.css">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
     <title>[관리자 페이지] 문제해결 관리</title>
@@ -17,10 +17,24 @@
                 <div class="title-div">
                     <h1>문제해결 관리 페이지</h1>
                 </div>
+                <div class="choice-modify-type-div">
+                    <button type="button">문제해결 타입 관리</button>
+                    <button type="button">문제해결 게시글 관리</button>
+                    <button type="button">등록된 문제해결 게시글 관리</button>
+                </div>
+                <div class="solution-type-manage-div">
+                    <div class="solution-type-div">
+    
+                    </div>
+                    <div class="solution-type-input-div visible">
+                        <input class="solution-type-input" type="text">
+                        <button class="solution-type-request-button" type="button">작성</button>
+                    </div>
+                </div>
                 <div class="main-company-div">
                     
                 </div>
-                <div class="product-box">
+                <div class="product-box visible">
                     <div class="main-category-div">
 
                     </div>
@@ -35,6 +49,6 @@
         </div>
     </main>
     <script src="/static/js/manager/fragments/manager_header.js"></script>
-    <script src="/static/js/manager/solution/manager_solution_type.js"></script>
+    <script src="/static/js/manager/solution/manager_solution_type_modify.js"></script>
 </body>
 </html>

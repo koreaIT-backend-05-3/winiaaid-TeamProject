@@ -14,7 +14,7 @@
             st.solution_content,
             st.create_date,
 
-            stt.solution_name,
+            stt.solution_type_name,
 
             wpd.product_detail_name,
 
@@ -64,7 +64,7 @@
                     st.solution_content,
                     st.create_date,
 
-                    stt.solution_name,
+                    stt.solution_type_name,
 
                     wpd.product_detail_name,
 
@@ -121,7 +121,7 @@
             st.solution_content,
             st.create_date,
 
-            stt.solution_name,
+            stt.solution_type_name,
 
             wpd.product_detail_name,
 
@@ -208,7 +208,7 @@
                     st.solution_content,
                     st.create_date,
 
-                    stt.solution_name,
+                    stt.solution_type_name,
 
                     wpd.product_detail_name,
 
@@ -296,7 +296,7 @@
         <result property="solution_title" column="solution_title"/>
         <result property="solution_content" column="solution_content"/>
         <result property="create_date" column="create_date"/>
-        <result property="solution_name" column="solution_name"/>
+        <result property="solution_type_name" column="solution_type_name"/>
         <result property="product_detail_name" column="product_detail_name"/>
         <result property="product_category_name" column="product_category_name"/>
         <result property="company_code" column="company_code"/>
@@ -312,7 +312,7 @@
             st.solution_content,
             st.create_date,
 
-            stt.solution_name,
+            stt.solution_type_name,
 
             wpd.product_detail_name,
 
@@ -338,7 +338,7 @@
     <select id="findAllSolutionTypeList" resultType="com.project.winiaaid.domain.solution.SolutionType">
         SELECT
             solution_type_code,
-            solution_name
+            solution_type_name
         FROM
             solution_type_table;
     </select>

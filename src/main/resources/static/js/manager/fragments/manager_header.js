@@ -3,7 +3,7 @@ const subNavUlItems = document.querySelectorAll(".sub-nav-ul");
 let preMenuTarget = null;
 
 setSubMenuTitleSpanClickEvent();
-setHeaderMenuClickEvent();
+// setHeaderMenuClickEvent();
 
 
 function setSubMenuTitleSpanClickEvent() {

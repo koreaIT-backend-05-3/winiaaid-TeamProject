@@ -356,4 +356,33 @@
         </foreach>
         ;
     </insert>
+
+
+    <!-- Solution Type -->
+
+    <insert id="insertSolutionType" parameterType="String">
+        INSERT INTO
+            solution_type_table
+        values(
+            0,
+            #{solution_type_name}
+        );
+    </insert>
+
+    <update id="updateSolutionType" parameterType="com.project.winiaaid.domain.manager.ManagerSolution">
+        UPDATE
+            solution_type_table
+        SET
+            solution_type_name = #{solution_type_name}
+        WHERE
+            solution_type_code = #{solution_type_code};
+    </update>
+
+    <delete id="deleteSolutionType" parameterType="Integer">
+        DELETE
+        FROM
+            solution_type_table
+        WHERE
+            solution_type_code = #{solution_type_code};
+    </delete>
 </mapper>
