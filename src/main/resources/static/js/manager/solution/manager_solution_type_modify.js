@@ -1,5 +1,7 @@
 const modifyTypeButtonItems = document.querySelectorAll(".choice-modify-type-div button");
 
+const solutionSelectDiv = document.querySelectorAll(".solution-select-div div");
+
 const mainGroupDiv = document.querySelector(".main-group-div");
 const mainProductDiv = document.querySelector(".main-product-div");
 
@@ -23,6 +25,9 @@ function setModifyTypeButtonClickEvent() {
 
 function solutionTypeManage() {
     let solutionTypeList = getAllSolutionTypeList();
+    const solutionTypeManageDiv = document.querySelector(".solution-type-manage-div");
+
+    removeVisibleClass(solutionTypeManageDiv);
     setSolutionList(solutionTypeList);
 }
 
@@ -227,6 +232,18 @@ function setLastRequestView(lastRequest) {
     
         }else if(lastRequest == "solutionBoardManage") {
             modifyTypeButtonItems[1].click();
+            let solutionBoardType = localStorage.solutionBoardType;
+
+            console.log(solutionBoardType);
+
+            solutionSelectDiv.forEach(div => {
+                if(div.textContent == solutionBoardType) {
+                    div.click();
+                    return false;
+                }
+            });
+
+            localStorage.removeItem("solutionBoardType");
     
         }else if(lastRequest == "registrationSolutionBoardManage") {
             modifyTypeButtonItems[2].click();
@@ -237,8 +254,95 @@ function setLastRequestView(lastRequest) {
     }
 }
 
+function setSolutionSelectDivClickEvent() {
+    solutionSelectDiv.forEach(solution => solution.onclick = (e) => selectSolutionBoardType(solutionSelectDiv, e.target));
+}
+
+function selectSolutionBoardType(solutionBoardTypeDivItems, div) {
+    const solutionBoardTable = document.querySelector(".solution-board-table");
+
+    initializationSelectOption(solutionBoardTypeDivItems);
+    removeVisibleClass(solutionBoardTable);
+
+    div.classList.add("select-div");
+
+    let solutionBoardType = div.textContent == "자주하는 질문" ? "faq" : "self-check";
+
+    let solutionTitleList = getAllSolutionTitleList(solutionBoardType);
+    setSolutionTitle(solutionTitleList, solutionBoardType);
+}
+
+function initializationSelectOption(solutionBoardTypeDivItems) {
+    solutionBoardTypeDivItems.forEach(div => div.classList.remove("select-div"));
+}
+
 function solutionBoardManage() {
-    
+    const solutionSelectDiv = document.querySelector(".solution-select-div");
+
+    removeVisibleClass(solutionSelectDiv);
+    setSolutionSelectDivClickEvent();
+}
+
+function getAllSolutionTitleList(solutionBoardType) {
+    let solutionTitleList = null;
+
+    $.ajax({
+        async: false,
+        type: "get",
+        url: `/api/v1/solution/${solutionBoardType}/title/list`,
+        dataType: "json",
+        success: (response) => {
+            solutionTitleList = response.data;
+        }
+    });
+
+    return solutionTitleList;
+}
+
+function setSolutionTitle(solutionTitleList, solutionBoardType) {
+    const solutionTable = document.querySelector(".solution-board-table table");
+    const solutionBoardTypeTitle = document.querySelector(".solution-board-type-title");
+
+    solutionBoardTypeTitle.textContent = solutionBoardType == "faq" ? "자주하는 질문" : "자가진단";
+
+    if(solutionTitleList != null) {
+
+        clearDomObject(solutionTable);
+
+        solutionTitleList.forEach(solutionTitle => {
+            solutionTable.innerHTML += `
+                <tr>
+                    <td class="solution-code-td">${solutionTitle.solutionCode}</td>
+                    <td class="solution-title-td">
+                        <span>${solutionTitle.solutionTitle}</span>
+                    </td>
+                </tr>
+            `;
+        });
+
+        setSolutionTitleClickEvent(solutionTitleList);
+    }else {
+        solutionTable.innerHTML = `
+            <tr>
+                <td class="solution-code-td">0</td>
+                <td class="solution-title-td">
+                    <span>게시글이 존재하지 않습니다.</span>
+                </td>
+            </tr>
+        `;
+    }
+}
+
+function setSolutionTitleClickEvent(solutionTitleList) {
+    const solutionTitleTdItems = document.querySelectorAll(".solution-title-td");
+
+    solutionTitleTdItems.forEach((td, index) => {
+        td.onclick = () => loadSolutionBoardModifyView(solutionTitleList[index].solutionCode);
+    })
+}
+
+function loadSolutionBoardModifyView(solutionCode) {
+    location.href = `/manager/solution/modification/${solutionCode}`;
 }
 
 function registrationSolutionBoardManage() {

@@ -9,6 +9,8 @@ import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
 import com.project.winiaaid.web.dto.manager.solution.InsertSolutionRequestDto;
+import com.project.winiaaid.web.dto.manager.solution.ReadSolutionDetailResponseDto;
+import com.project.winiaaid.web.dto.manager.solution.UpdateSolutionRequestDto;
 import com.project.winiaaid.web.dto.manager.solution.UpdateSolutionTypeRequestDto;
 import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.management.RuntimeErrorException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -151,7 +152,44 @@ public class ManagerServiceImpl implements ManagerService {
 
         if(insertSolutionRequestDto.getFileList() != null) {
             if(!insertSolutionRequestDto.getFileList().isEmpty()) {
-                status = insertSolutionFile(insertSolutionRequestDto, managerSolution);
+                status = insertSolutionFile(insertSolutionRequestDto.getTempFileNameList(), insertSolutionRequestDto.getFileList(), managerSolution);
+            }
+        }
+
+        return status;
+    }
+
+    @Override
+    public ReadSolutionDetailResponseDto getSolutionDetailBySolutionCode(int solutionCode) throws Exception {
+        ManagerSolution solutionEntity = managerRepository.findSolutionDetailBySolutionCode(solutionCode);
+
+        return solutionEntity == null ? null : solutionEntity.toReadSolutionDetailResponseDto();
+    }
+
+    @Transactional
+    @Override
+    public boolean modifySolutionDetailBySolutionCode(UpdateSolutionRequestDto updateSolutionRequestDto) throws Exception {
+        boolean status = false;
+        ManagerSolution managerSolution = null;
+        managerSolution = updateSolutionRequestDto.toManagerSolution();
+
+        status = managerRepository.updateSolution(managerSolution) > 0;
+
+        if(updateSolutionRequestDto.getFileList() != null) {
+            if(!updateSolutionRequestDto.getFileList().isEmpty()) {
+                status = insertSolutionFile(updateSolutionRequestDto.getTempFileNameList(), updateSolutionRequestDto.getFileList(), managerSolution);
+            }
+        }
+
+        if(updateSolutionRequestDto.getDeleteFileNameList() != null) {
+            List<String> deletedFileNameList = updateSolutionRequestDto.getDeleteFileNameList();
+
+            if(!deletedFileNameList.isEmpty()) {
+                for (String fileName : deletedFileNameList) {
+                    fileService.deleteFileByFileNameAndPath(fileName, "solution_files");
+                }
+
+                status = managerRepository.deleteSolutionFile(updateSolutionRequestDto.getDeleteFileCodeList()) > 0;
             }
         }
 
@@ -199,18 +237,16 @@ public class ManagerServiceImpl implements ManagerService {
         return productDto.toManagerProductEntity(tempFileName, registrationType);
     }
 
-    private boolean insertSolutionFile(InsertSolutionRequestDto insertSolutionRequestDto, ManagerSolution managerSolution) throws Exception {
-        List<String> fileNameList = null;
-
+    private boolean insertSolutionFile(List<String> tempFileNameList, List<MultipartFile> fileList, ManagerSolution managerSolution) throws Exception {
         try {
-            fileNameList = fileService.createFileByFileAndPath(insertSolutionRequestDto.getFileList(), "solution_files");
-            managerSolution.setFile_name_list(fileNameList);
+            fileService.createSolutionFileByFileAndPath(fileList, tempFileNameList, "solution_files");
+            managerSolution.setFile_name_list(tempFileNameList);
             fileService.deleteTempFolderByPath("temp_solution_files");
 
             return managerRepository.insertSolutionFile(managerSolution) > 0;
         }catch (Exception e) {
             e.printStackTrace();
-            deleteFileDueToInsertSolutionError(fileNameList);
+            deleteFileDueToInsertSolutionError(tempFileNameList);
             throw new Exception("Insert solution file failed");
         }
     }

@@ -2,13 +2,11 @@ package com.project.winiaaid.service.solution;
 
 import com.project.winiaaid.domain.solution.Solution;
 import com.project.winiaaid.domain.solution.SolutionRepository;
+import com.project.winiaaid.domain.solution.SolutionTitle;
 import com.project.winiaaid.domain.solution.SolutionType;
 import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.util.ConfigMap;
-import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
-import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
-import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
-import com.project.winiaaid.web.dto.solution.ReadSolutionTypeResponseDto;
+import com.project.winiaaid.web.dto.solution.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -63,16 +61,11 @@ public class SolutionServiceImpl implements SolutionService{
 
     @Log
     @Override
-    public ReadSolutionDetailResponseDto getSolutionDetailBySolutionBoardCode(String solutionBoardType, int solutionBoardCode) throws Exception {
+    public ReadSolutionDetailResponseDto getSolutionDetailBySolutionBoardCode(int solutionBoardCode) throws Exception {
         Solution solutionEntity = null;
         ReadSolutionDetailResponseDto solutionDto = null;
-        Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadSolutionDetailConfigMap(solutionBoardType, solutionBoardCode);
-
-        log.info("configMap: {}", configMap);
-
-        solutionEntity = solutionRepository.findSolutionDetailBySolutionBoardCode(configMap);
+        solutionEntity = solutionRepository.findSolutionDetailBySolutionBoardCode(solutionBoardCode);
 
         if(solutionEntity != null){
             solutionDto = changeToReadSolutionDetailResponseDto(solutionEntity);
@@ -96,6 +89,15 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
+    public List<ReadSolutionTitleResponseDto> getSolutionTitleListBySolutionBoard(String boardType) throws Exception {
+        List<SolutionTitle> solutionTitleEntityList = null;
+
+        solutionTitleEntityList = solutionRepository.findAllSolutionTitleListBySolutionBoardType(boardType.equals("faq") ? 1 : 2);
+
+        return changeToReadSolutionTitleResponseDto(solutionTitleEntityList);
+    }
+
+    @Override
     public boolean updateViewCountBySolutionBoardCode(int solutionBoardCode) throws Exception {
         return solutionRepository.updateViewCountBySolutionBoardCode(solutionBoardCode) > 0;
     }
@@ -113,6 +115,12 @@ public class SolutionServiceImpl implements SolutionService{
     private List<ReadSolutionTypeResponseDto> changeToReadSolutionTypeResponseDto(List<SolutionType> solutionTypeList) {
         return solutionTypeList.stream()
                 .map(SolutionType::toReadSolutionTypeResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    private List<ReadSolutionTitleResponseDto> changeToReadSolutionTitleResponseDto(List<SolutionTitle> solutionTitleList) {
+        return solutionTitleList.isEmpty() ? null : solutionTitleList.stream()
+                .map(SolutionTitle::toReadSolutionTitleResponseDto)
                 .collect(Collectors.toList());
     }
 }

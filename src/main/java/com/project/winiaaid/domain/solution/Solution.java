@@ -2,6 +2,7 @@ package com.project.winiaaid.domain.solution;
 
 import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
+import com.project.winiaaid.web.dto.solution.ReadSolutionTitleResponseDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;

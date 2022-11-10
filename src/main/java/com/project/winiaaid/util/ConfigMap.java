@@ -14,7 +14,6 @@ import java.util.Map;
 public interface ConfigMap {
     public Map<String, Object> setReadSolutionListByCompanyConfigMap(String company, String boardType, ReadSolutionRequestDto readSolutionRequestDto) throws Exception;
     public Map<String, Object> setReadSolutionListByKeyCodeConfigMap(String boardType, ReadSolutionRequestDto readSolutionRequestDto) throws Exception;
-    public Map<String, Object> setReadSolutionDetailConfigMap(String solutionBoardType, int solutionBoardCode) throws Exception;
 
     public Map<String, Object> setMemberReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception;
     public Map<String, Object> setNonMemberReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception;

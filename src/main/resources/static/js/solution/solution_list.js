@@ -245,6 +245,7 @@ function setSolutionList(solutionList) {
     }else {
         noticeNoResult();
         setSearchTotalCount(0);
+        setPage(1);
     }
 }
 
@@ -350,9 +351,9 @@ function sortChange() {
     }
 
     if(isEmpty(searchInput.value)) {
-        getSolutionList();
+        getSolutionList(1);
     }else {
-        getSolutionListByKeyword();
+        getSolutionListByKeyword(1);
     }
     changeSortButton();
 }

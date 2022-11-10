@@ -306,7 +306,7 @@
         </collection>
     </resultMap>
 
-    <select id="findSolutionDetailBySolutionBoardCode" parameterType="HashMap" resultMap="solutionDetailMap">
+    <select id="findSolutionDetailBySolutionBoardCode" parameterType="Integer" resultMap="solutionDetailMap">
         SELECT
             st.solution_title,
             st.solution_content,
@@ -331,8 +331,7 @@
             LEFT OUTER JOIN product_main_group pmg ON(pmg.product_group_code = wpm.product_group_code)
             LEFT OUTER JOIN solution_file sf ON(sf.solution_code = st.solution_code)
         WHERE
-            solution_board_code = #{solution_board_code}
-            AND solution_board_type = #{solution_board_type};
+            solution_board_code = #{solution_board_code};
     </select>
 
     <select id="findAllSolutionTypeList" resultType="com.project.winiaaid.domain.solution.SolutionType">
@@ -341,6 +340,17 @@
             solution_type_name
         FROM
             solution_type_table;
+    </select>
+
+    <select id="findAllSolutionTitleListBySolutionBoardType" parameterType="Integer" resultType="com.project.winiaaid.domain.solution.SolutionTitle">
+        SELECT
+            solution_code,
+            solution_title,
+            solution_board_type
+        FROM
+            solution_table
+        WHERE
+            solution_board_type = #{solution_board_type};
     </select>
 
     <update id="updateViewCountBySolutionBoardCode" parameterType="Integer">

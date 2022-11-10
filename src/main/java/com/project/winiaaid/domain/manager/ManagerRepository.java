@@ -1,6 +1,7 @@
 package com.project.winiaaid.domain.manager;
 
 import com.project.winiaaid.domain.file.ProductImage;
+import org.apache.catalina.Manager;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -25,6 +26,9 @@ public interface ManagerRepository {
 
     public int insertSolution(ManagerSolution manager_solution) throws Exception;
     public int insertSolutionFile(ManagerSolution manager_solution) throws Exception;
+    public ManagerSolution findSolutionDetailBySolutionCode(int solution_code) throws Exception;
+    public int updateSolution(ManagerSolution manager_solution) throws Exception;
+    public int deleteSolutionFile(List<Integer> delete_file_code_list) throws Exception;
 
     public int insertSolutionType(String solution_type_name) throws Exception;
     public int updateSolutionType(ManagerSolution manager_solution) throws Exception;

@@ -32,7 +32,7 @@ function getSolutionDetailData() {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/solution/${boardType}/detail/${solutionBoardCode}`,
+        url: `/api/v1/solution/detail/${solutionBoardCode}`,
         dataType: "json",
         success: (response) => {
 
