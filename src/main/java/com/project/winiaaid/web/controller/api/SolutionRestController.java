@@ -5,10 +5,7 @@ import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.handler.aop.annotation.UriCheck;
 import com.project.winiaaid.service.solution.SolutionService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
-import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
-import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
-import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
-import com.project.winiaaid.web.dto.solution.ReadSolutionTypeResponseDto;
+import com.project.winiaaid.web.dto.solution.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -60,13 +57,12 @@ public class SolutionRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Load Solution Successful", solutionList));
     }
 
-    @UriCheck
-    @GetMapping("/{boardType}/detail/{solutionBoardCode}")
-    public ResponseEntity<?> getSolutionDetailBySolutionBoardCode(@PathVariable String boardType, @PathVariable int solutionBoardCode) {
+    @GetMapping("/detail/{solutionBoardCode}")
+    public ResponseEntity<?> getSolutionDetailBySolutionBoardCode(@PathVariable int solutionBoardCode) {
         ReadSolutionDetailResponseDto solutionDetail = null;
 
         try {
-            solutionDetail = solutionService.getSolutionDetailBySolutionBoardCode(boardType, solutionBoardCode);
+            solutionDetail = solutionService.getSolutionDetailBySolutionBoardCode(solutionBoardCode);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load solution detail", solutionDetail));
@@ -89,6 +85,24 @@ public class SolutionRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Load solution type list successful", readSolutionTypeResponseDto));
     }
+
+    @Log
+    @Cacheable(value = "solutionTitle")
+    @GetMapping("/{boardType}/title/list")
+    public ResponseEntity<?> getSolutionTitleListBySoltuionBoard(@PathVariable String boardType) {
+        List<ReadSolutionTitleResponseDto> readSolutionTitleResponseDtoList = null;
+
+        try {
+            readSolutionTitleResponseDtoList = solutionService.getSolutionTitleListBySolutionBoard(boardType);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load solution title", readSolutionTitleResponseDtoList));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Load solution title successful", readSolutionTitleResponseDtoList));
+    }
+
 
     @PutMapping("/increase/view-count/{solutionBoardCode}")
     public ResponseEntity<?> increaseInViewsBySolutionBoardCode(@PathVariable int solutionBoardCode) {

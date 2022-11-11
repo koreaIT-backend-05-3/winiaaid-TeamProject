@@ -5,9 +5,13 @@ import lombok.Data;
 
 @Data
 public class SolutionFile {
+    private int file_code;
     private String file_name;
 
     public SolutionFileDto toSolutionFileDto() {
-        return new SolutionFileDto(file_name);
+        return SolutionFileDto.builder()
+                .fileCode(file_code)
+                .fileName(file_name)
+                .build();
     }
 }

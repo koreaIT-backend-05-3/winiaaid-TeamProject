@@ -63,16 +63,6 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadSolutionDetailConfigMap(String solutionBoardType, int solutionBoardCode) throws Exception {
-        Map<String, Object> configMap = new HashMap<>();
-
-        configMap.put("solution_board_type", solutionBoardType.equals("faq") ? 1 : 2);
-        configMap.put("solution_board_code", solutionBoardCode);
-
-        return configMap;
-    }
-
-    @Override
     public Map<String, Object> setMemberReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 

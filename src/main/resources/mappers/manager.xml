@@ -326,7 +326,7 @@
             trouble_code = #{trouble_symptom_code};
     </delete>
 
-<!--  Solution  -->
+<!--  Solution Board  -->
 
     <insert id="insertSolution" parameterType="com.project.winiaaid.domain.manager.ManagerSolution"
     useGeneratedKeys="true" keyProperty="solution_code">
@@ -337,7 +337,7 @@
             #{solution_title},
             #{solution_content},
             #{solution_type_code},
-            #{solution_type_board_code},
+            #{solution_board_type_code},
             now(),
             now()
         );
@@ -356,4 +356,119 @@
         </foreach>
         ;
     </insert>
+
+    <resultMap id="findSolutionDetailResultMap" type="com.project.winiaaid.domain.manager.ManagerSolution">
+        <result column="solution_title" property="solution_title"/>
+        <result column="solution_content" property="solution_content"/>
+        <result column="solution_type_code" property="solution_type_code"/>
+        <result column="solution_board_type" property="solution_board_type_code"/>
+        <collection property="file_list" ofType="com.project.winiaaid.domain.solution.SolutionFile">
+            <result column="file_code" property="file_code"/>
+            <result column="file_name" property="file_name"/>
+        </collection>
+    </resultMap>
+
+    <select id="findSolutionDetailBySolutionCode" parameterType="Integer" resultMap="findSolutionDetailResultMap">
+        SELECT
+            st.solution_title,
+            st.solution_content,
+            st.solution_type_code,
+            st.solution_board_type,
+
+            sf.file_code,
+            sf.file_name
+        FROM
+            solution_table st
+            LEFT OUTER JOIN solution_file sf on(sf.solution_code = st.solution_code)
+        WHERE
+            st.solution_code = #{solution_code};
+    </select>
+
+    <select id="findAllSolutionBoardCodeInDeletedSolutionTypeCode" parameterType="Integer" resultType="Integer">
+        SELECT
+            solution_board_code
+        FROM
+            solution_product_table
+        WHERE
+            solution_code IN (SELECT
+                                solution_code
+                            FROM
+                                solution_table
+                            WHERE
+                                solution_type_code = #{solution_type_code});
+    </select>
+
+    <update id="disabledAllSolutionInDeletedSolutionTypeCode" parameterType="Integer">
+        UPDATE
+            solution_table
+        SET
+            solution_type_code = -1
+        WHERE
+            solution_type_code = #{solution_type_code};
+    </update>
+
+    <update id="updateSolution" parameterType="com.project.winiaaid.domain.manager.ManagerSolution">
+        UPDATE
+            solution_table
+        SET
+            solution_title = #{solution_title},
+            solution_content = #{solution_content},
+            solution_type_code = #{solution_type_code},
+            solution_board_type = #{solution_board_type_code},
+            update_date = now()
+        WHERE
+            solution_code = #{solution_code};
+    </update>
+
+    <delete id="deleteSolutionFile" parameterType="java.util.List">
+        DELETE
+        FROM
+            solution_file
+        where
+            <foreach collection="delete_file_code_list" item="delete_file_code" separator="or">
+                file_code = #{delete_file_code}
+            </foreach>
+        ;
+    </delete>
+
+    <delete id="deleteSolutionBoardList" parameterType="java.util.List">
+        DELETE
+        FROM
+            solution_product_table
+        where
+            <foreach collection="delete_board_code_list" item="delete_board_code" separator="or">
+                solution_board_code = #{delete_board_code}
+            </foreach>
+        ;
+    </delete>
+
+
+    <!-- Solution Type -->
+
+    <insert id="insertSolutionType" parameterType="String">
+        INSERT INTO
+            solution_type_table
+        values(
+            0,
+            #{solution_type_name}
+        );
+    </insert>
+
+    <update id="updateSolutionType" parameterType="com.project.winiaaid.domain.manager.ManagerSolution">
+        UPDATE
+            solution_type_table
+        SET
+            solution_type_name = #{solution_type_name}
+        WHERE
+            solution_type_code = #{solution_type_code};
+    </update>
+
+    <delete id="deleteSolutionType" parameterType="Integer">
+        DELETE
+        FROM
+            solution_type_table
+        WHERE
+            solution_type_code = #{solution_type_code};
+    </delete>
+
 </mapper>

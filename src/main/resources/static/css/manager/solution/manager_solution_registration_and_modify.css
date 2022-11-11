@@ -1,0 +1,59 @@
+.solution-select-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 30px;
+
+    width: 300px;
+}
+
+.solution-select-div div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    height: 50px;
+
+    background-color: #ededed;
+
+    cursor: pointer;
+}
+
+.solution-type-select-div {
+    margin-top: 20px;
+}
+
+.select-div {
+    background-color: #6e6e6e !important;
+}
+
+.summer-note-content {
+    margin: 50px 0px;
+}
+
+.title {
+    margin-bottom: 10px;
+    
+    width: 770px;
+    height: 40px;
+}
+
+.button-div {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 20px;
+    
+    width: 768px;
+}
+
+.write-request-button {
+    border: none;
+    
+    width: 50px;
+    height: 30px;
+
+    background-color: #6e6e6e;
+}

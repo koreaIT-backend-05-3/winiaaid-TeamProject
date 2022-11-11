@@ -2,6 +2,7 @@ package com.project.winiaaid.domain.solution;
 
 import com.project.winiaaid.web.dto.solution.ReadSolutionDetailResponseDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionResponseDto;
+import com.project.winiaaid.web.dto.solution.ReadSolutionTitleResponseDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ public class Solution {
     private String product_detail_name;
     private String solution_title;
     private String solution_content;
-    private String solution_name;
+    private String solution_type_name;
     private int total_count;
     private int views;
     private String product_group_name;
@@ -32,7 +33,7 @@ public class Solution {
                 .productDetailName(product_detail_name)
                 .solutionTitle(solution_title)
                 .solutionContent(solution_content)
-                .solutionName(solution_name)
+                .solutionTypeName(solution_type_name)
                 .totalCount(total_count)
                 .createDate(create_date)
                 .updateDate(update_date)
@@ -46,7 +47,7 @@ public class Solution {
                 .solutionContent(solution_content)
                 .productCategoryName(product_category_name)
                 .productDetailName(product_detail_name)
-                .solutionName(solution_name)
+                .solutionTypeName(solution_type_name)
                 .productGroupName(product_group_name)
                 .solutionFileList(solution_file_list != null ?
                         solution_file_list.stream()

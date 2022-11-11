@@ -23,13 +23,13 @@ public class ManagerPageController {
         return "manager/trouble/manager_trouble_symptom";
     }
 
-    @GetMapping("/solution/registration")
+    @GetMapping({"/solution/registration", "/solution/modification/{solutionCode}"})
     public String loadSolutionRegistrationPage() {
-        return "manager/solution/manager_solution_registration";
+        return "manager/solution/manager_solution_registration_and_modify";
     }
 
-    @GetMapping("/solution/type")
+    @GetMapping("/solution/modification")
     public String loadSolutionTypeManagePage() {
-        return "manager/solution/manager_solution_type";
+        return "manager/solution/manager_solution_type_modify";
     }
 }

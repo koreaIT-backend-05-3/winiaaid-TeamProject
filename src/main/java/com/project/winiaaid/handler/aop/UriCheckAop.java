@@ -2,6 +2,7 @@ package com.project.winiaaid.handler.aop;
 
 import com.project.winiaaid.handler.exception.CustomApiUriTypeException;
 import com.project.winiaaid.handler.exception.CustomCompanyApiException;
+import com.project.winiaaid.web.dto.solution.ReadSolutionRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -57,25 +58,33 @@ public class UriCheckAop {
 
         int index = 0;
 
-        if(methodName.equals(("getSolutionDetailBySolutionBoardCode"))) {
-            for(Object arg : args) {
-                if(codeSignature.getParameterNames()[index].equals("boardType")) {
-                    checkBoardTypeAndThrowException(arg);
-                    break;
-                }
-                index++;
-            }
-        }else {
-            for(Object arg : args) {
-                if(codeSignature.getParameterNames()[index].equals("parametersMap")) {
-                    checkBoardTypeAndThrowException(((Map) arg).get("boardType"));
-                    checkBoardTypeAndThrowException(((Map) arg).get("sortType"));
+//        if(methodName.equals(("getSolutionDetailBySolutionBoardCode"))) {
+//            for(Object arg : args) {
+//                if(codeSignature.getParameterNames()[index].equals("boardType")) {
+//                    checkBoardTypeAndThrowException(arg);
+//                    break;
+//                }
+//                index++;
+//            }
+//        }else {
+//            for(Object arg : args) {
+//                if(codeSignature.getParameterNames()[index].equals("parametersMap")) {
+//                    checkBoardTypeAndThrowException(((Map) arg).get("boardType"));
+//                    checkBoardTypeAndThrowException(((Map) arg).get("sortType"));
+//
+//                }else if(codeSignature.getParameterNames()[index].equals("type")) {
+//                    checkBoardTypeAndThrowException(arg);
+//                }
+//                index++;
+//            }
+//        }
 
-                }else if(codeSignature.getParameterNames()[index].equals("type")) {
-                    checkBoardTypeAndThrowException(arg);
-                }
-                index++;
+        for(Object arg : args) {
+            if(codeSignature.getParameterNames()[index].equals("readSolutionRequestDto")) {
+                checkBoardTypeAndThrowException(((ReadSolutionRequestDto) arg).getSortType());
+
             }
+            index++;
         }
 
         result = joinPoint.proceed();
@@ -83,13 +92,13 @@ public class UriCheckAop {
         return result;
     }
 
-    private void checkBoardTypeAndThrowException(Object type) {
-        if(type == null) {
-            throw new CustomApiUriTypeException("URI type ERROR");
+    private void checkBoardTypeAndThrowException(String sortType) {
+        if(sortType == null) {
+            throw new CustomApiUriTypeException("SortType type ERROR");
         }
-        log.info("Checking board type: {}", type);
-        if(!(type.equals("faq") || type.equals("selfCheck") || type.equals("viewed") || type.equals("latest") || type.equals("group") || type.equals("default"))) {
-            throw new CustomApiUriTypeException("URI type ERROR");
+        log.info("Checking board type: {}", sortType);
+        if(!(sortType.equals("viewed") || sortType.equals("latest"))) {
+            throw new CustomApiUriTypeException("SortType type ERROR");
         }
     }
 

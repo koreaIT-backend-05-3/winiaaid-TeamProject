@@ -1,6 +1,7 @@
 package com.project.winiaaid.domain.manager;
 
 import com.project.winiaaid.domain.file.ProductImage;
+import org.apache.catalina.Manager;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,6 +24,17 @@ public interface ManagerRepository {
     public int deleteTroubleSymptomOfProduct(List<Integer> trouble_symptom_id_list) throws Exception;
     public int deleteTroubleSymptomByTroubleSymptomCode(int trouble_symptom_code) throws Exception;
 
-    public int insertSolution(ManagerSolution managerSolution) throws Exception;
-    public int insertSolutionFile(ManagerSolution managerSolution) throws Exception;
+    public int insertSolution(ManagerSolution manager_solution) throws Exception;
+    public int insertSolutionFile(ManagerSolution manager_solution) throws Exception;
+    public ManagerSolution findSolutionDetailBySolutionCode(int solution_code) throws Exception;
+    public int updateSolution(ManagerSolution manager_solution) throws Exception;
+    public int deleteSolutionFile(List<Integer> delete_file_code_list) throws Exception;
+
+    public int insertSolutionType(String solution_type_name) throws Exception;
+    public int updateSolutionType(ManagerSolution manager_solution) throws Exception;
+    public int deleteSolutionType(int solution_type_code) throws Exception;
+
+    public List<Integer> findAllSolutionBoardCodeInDeletedSolutionTypeCode(int solution_type_code) throws Exception;
+    public int disabledAllSolutionInDeletedSolutionTypeCode(int solution_type_code) throws Exception;
+    public int deleteSolutionBoardList(List<Integer> delete_board_code_list) throws Exception;
 }

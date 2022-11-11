@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/manager/fragments/manager_main_style.css">
+    <link rel="stylesheet" href="/static/css/manager/fragments/manager_header.css">
+    <link rel="stylesheet" href="/static/css/manager/solution/manager_solution_type_modify.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
+    <title>[관리자 페이지] 문제해결 관리</title>
+</head>
+<body>
+    <th:block th:replace="manager/fragments/manager_header"></th:block>
+    <main>
+        <div id="container">
+            <div class="main-content">
+                <div class="title-div">
+                    <h1>문제해결 관리 페이지</h1>
+                </div>
+                <div class="choice-modify-type-div">
+                    <button type="button">문제해결 타입 관리</button>
+                    <button type="button">문제해결 게시글 관리</button>
+                    <button type="button">등록된 문제해결 게시글 관리</button>
+                </div>
+                <div class="solution-type-manage-div visible">
+                    <div class="solution-type-div">
+    
+                    </div>
+                    <div class="solution-type-input-div visible">
+                        <input class="solution-type-input" type="text">
+                        <button class="solution-type-request-button" type="button">작성</button>
+                    </div>
+                </div>
+                <div class="solution-board-manage-div">
+                    <div class="solution-select-div visible">
+                        <div>자주하는 질문</div>
+                        <div>자가진단</div>
+                    </div>
+                    <div class="solution-board-table visible">
+                        <h1 class="solution-board-type-title">자주하는 질문</h1>
+                        <table>
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="main-company-div">
+                    
+                </div>
+                <div class="product-box visible">
+                    <div class="main-category-div">
+
+                    </div>
+                    <div class="main-group-div">
+                        
+                    </div>
+                    <div class="main-product-div">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/manager/fragments/manager_header.js"></script>
+    <script src="/static/js/manager/solution/manager_solution_type_modify.js"></script>
+</body>
+</html>

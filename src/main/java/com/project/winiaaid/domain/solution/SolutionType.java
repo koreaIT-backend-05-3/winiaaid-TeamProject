@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SolutionType {
     private int solution_type_code;
-    private String solution_name;
+    private String solution_type_name;
 
     public ReadSolutionTypeResponseDto toReadSolutionTypeResponseDto() {
         return ReadSolutionTypeResponseDto.builder()
                 .solutionTypeCode(solution_type_code)
-                .solutionName(solution_name)
+                .solutionTypeName(solution_type_name)
                 .build();
     }
 }

@@ -229,7 +229,7 @@ function setSolutionList(solutionList) {
                         </dl>
                         <dl class="faq-type">
                             <dt>유형</dt>
-                            <dd>${solution.solutionName}</dd>
+                            <dd>${solution.solutionTypeName}</dd>
                         </dl>
                     </div>
                     <div class="detail-service">
@@ -245,6 +245,7 @@ function setSolutionList(solutionList) {
     }else {
         noticeNoResult();
         setSearchTotalCount(0);
+        setPage(1);
     }
 }
 
@@ -286,7 +287,7 @@ function setSolutionTypeOption() {
 
             solutionTypeList.forEach(solutionType => {
                 solutionTypeSelect.innerHTML += `
-                    <option value="${solutionType.solutionTypeCode}">${solutionType.solutionName}</option>
+                    <option value="${solutionType.solutionTypeCode}">${solutionType.solutionTypeName}</option>
                 `;
             })
             
@@ -350,9 +351,9 @@ function sortChange() {
     }
 
     if(isEmpty(searchInput.value)) {
-        getSolutionList();
+        getSolutionList(1);
     }else {
-        getSolutionListByKeyword();
+        getSolutionListByKeyword(1);
     }
     changeSortButton();
 }

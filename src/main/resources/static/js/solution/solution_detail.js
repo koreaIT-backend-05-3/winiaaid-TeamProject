@@ -32,7 +32,7 @@ function getSolutionDetailData() {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/solution/${boardType}/detail/${solutionBoardCode}`,
+        url: `/api/v1/solution/detail/${solutionBoardCode}`,
         dataType: "json",
         success: (response) => {
 
@@ -91,7 +91,7 @@ function setSolutionDetailData(solutionDetailData) {
                 <th>제품</th>
                 <td>${solutionDetailData.productCategoryName}${solutionDetailData.productCategoryName == solutionDetailData.productDetailName ? "" : " > " + solutionDetailData.productDetailName}</td>
                 <th>유형</th>
-                <td>${solutionDetailData.solutionName}</td>
+                <td>${solutionDetailData.solutionTypeName}</td>
                 <th>등록일</th>
                 <td>${solutionDetailData.createDate.substring(0, 10).replaceAll("-", ".")}</td>
             </tr>

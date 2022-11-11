@@ -46,26 +46,20 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<String> createFileByFileAndPath(List<MultipartFile> fileList, String customPath) throws IOException {
-        List<String> fileNameList = new ArrayList<>();
-        fileList.forEach(file -> {
-            String tempFileName = getTempFileName(file);
-
+    public void createSolutionFileByFileAndPath(List<MultipartFile> fileList, List<String> tempFileNameList, String customPath) throws IOException {
+        for(int i = 0; i < fileList.size(); i++) {
             try {
-                Path path = getPath(customPath, tempFileName);
+                Path path = getPath(customPath, tempFileNameList.get(i));
 
                 makeDirectory(customPath);
 
-                Files.write(path, file.getBytes());
+                Files.write(path, fileList.get(i).getBytes());
 
-                fileNameList.add(tempFileName);
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
-        });
-
-        return fileNameList;
+        }
     }
 
     @Override

@@ -13,7 +13,7 @@ public class ReadSolutionResponseDto {
     private String productDetailName;
     private String solutionTitle;
     private String solutionContent;
-    private String solutionName;
+    private String solutionTypeName;
     private int totalCount;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
