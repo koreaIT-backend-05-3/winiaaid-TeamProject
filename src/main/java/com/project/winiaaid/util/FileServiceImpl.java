@@ -47,7 +47,6 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void createSolutionFileByFileAndPath(List<MultipartFile> fileList, List<String> tempFileNameList, String customPath) throws IOException {
-//        List<String> fileNameList = new ArrayList<>();
         for(int i = 0; i < fileList.size(); i++) {
             try {
                 Path path = getPath(customPath, tempFileNameList.get(i));
@@ -56,13 +55,11 @@ public class FileServiceImpl implements FileService {
 
                 Files.write(path, fileList.get(i).getBytes());
 
-//                fileNameList.add(tempFileName);
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
-//        return fileNameList;
     }
 
     @Override
