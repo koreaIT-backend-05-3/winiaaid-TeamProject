@@ -87,13 +87,13 @@ public class SolutionRestController {
     }
 
     @Log
-    @Cacheable(value = "solutionTitle")
+    @Cacheable(value = "solutionTitleList")
     @GetMapping("/{boardType}/title/list")
-    public ResponseEntity<?> getSolutionTitleListBySoltuionBoard(@PathVariable String boardType) {
+    public ResponseEntity<?> getSolutionTitleListBySolutionBoard(@PathVariable String boardType, @RequestParam String productCode, @RequestParam boolean notInclude) {
         List<ReadSolutionTitleResponseDto> readSolutionTitleResponseDtoList = null;
 
         try {
-            readSolutionTitleResponseDtoList = solutionService.getSolutionTitleListBySolutionBoard(boardType);
+            readSolutionTitleResponseDtoList = solutionService.getSolutionTitleListBySolutionBoard(boardType, productCode, notInclude);
 
         } catch (Exception e) {
             e.printStackTrace();

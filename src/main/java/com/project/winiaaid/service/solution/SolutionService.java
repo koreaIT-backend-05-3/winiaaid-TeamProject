@@ -9,6 +9,6 @@ public interface SolutionService {
     public List<ReadSolutionResponseDto> getSolutionListByKeyCodeAndKeyword(String boardType, ReadSolutionRequestDto readSolutionRequestDto) throws Exception;
     public ReadSolutionDetailResponseDto getSolutionDetailBySolutionBoardCode(int solutionBoardCode) throws Exception;
     public List<ReadSolutionTypeResponseDto> getAllSolutionTypeList() throws Exception;
-    public List<ReadSolutionTitleResponseDto> getSolutionTitleListBySolutionBoard(String boardType) throws Exception;
+    public List<ReadSolutionTitleResponseDto> getSolutionTitleListBySolutionBoard(String boardType, String productCode, boolean notInclude) throws Exception;
     public boolean updateViewCountBySolutionBoardCode(int solutionBoardCode) throws Exception;
 }

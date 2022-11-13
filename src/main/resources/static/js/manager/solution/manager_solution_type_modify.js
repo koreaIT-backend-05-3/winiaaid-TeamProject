@@ -1,6 +1,7 @@
 const modifyTypeButtonItems = document.querySelectorAll(".choice-modify-type-div button");
 
 const solutionSelectDiv = document.querySelectorAll(".solution-select-div div");
+const addSolutionSelectDivItems = document.querySelectorAll(".add-solution-select-div div");
 
 const mainGroupDiv = document.querySelector(".main-group-div");
 const mainProductDiv = document.querySelector(".main-product-div");
@@ -9,13 +10,15 @@ const solutionTypeInputDiv = document.querySelector(".solution-type-input-div");
 const solutionTypeInput = document.querySelector(".solution-type-input");
 const solutionTypeRequestButton = document.querySelector(".solution-type-request-button");
 
+const productSolutionListDiv = document.querySelector(".product-solution-list-div");
+
+const addProductSolutionButton = document.querySelector(".add-product-solution-button");
+
 setModifyTypeButtonClickEvent();
 setSolutionTypeInputEnterEvent();
-// getCompanyList();
 setLastRequestView(loadLastRequestInLocalStorage());
 
 function setModifyTypeButtonClickEvent() {
-    
     modifyTypeButtonItems[0].onclick = solutionTypeManage;
     modifyTypeButtonItems[1].onclick = solutionBoardManage;
     modifyTypeButtonItems[2].onclick = registrationSolutionBoardManage;
@@ -289,7 +292,7 @@ function getAllSolutionTitleList(solutionBoardType) {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/solution/${solutionBoardType}/title/list`,
+        url: `/api/v1/solution/${solutionBoardType}/title/list?productCode=all&notInclude=false`,
         dataType: "json",
         success: (response) => {
             solutionTitleList = response.data;
@@ -346,6 +349,7 @@ function loadSolutionBoardModifyView(solutionCode) {
 }
 
 function registrationSolutionBoardManage() {
+    getCompanyList();
     
 }
 
@@ -390,7 +394,7 @@ function getProductMainCategoryList(companyObject) {
     
     clearDomObject(mainGroupDiv);
     clearDomObject(mainProductDiv);
-    addVisibleClass(summerNoteContent);
+    addVisibleClass(productSolutionListDiv);
 
     let companyCode = companyObject.companyCode;
 
@@ -410,7 +414,9 @@ function getProductMainCategoryList(companyObject) {
 
 function setProductMainCategoryList(productCategoryList) {
     const mainCategoryDiv = document.querySelector(".main-category-div");
+    const productBox = document.querySelector(".product-box");
 
+    removeVisibleClass(productBox);
 
     mainCategoryDiv.innerHTML = `
         <span class="sortation-span">메인 카테고리</span>
@@ -443,7 +449,7 @@ function setProductCategoryListClickEvent(productCategoryList) {
 }
 
 function checkGroupFlag(category) {
-    addVisibleClass(summerNoteContent);
+    addVisibleClass(productSolutionListDiv);
 
     if(category.groupFlag) {
         let productGroupList = getProductGroupList(category.productGroupCode);
@@ -518,27 +524,35 @@ function setProductDetailListByGroupCode(productGroup) {
 
     const mainPorductUl = document.querySelector(".main-product-ul");
 
-    removeVisibleClass(summerNoteContent);
+    removeVisibleClass(productSolutionListDiv);
+
+    console.log(productGroup);
 
     if(productGroup != null) {
 
-        productGroup.productDetailList.forEach((product, index) => {
-            if(productGroup.productCategoryName == product.productDetailName) {
-                return;
-            }else {
-                addVisibleClass(summerNoteContent);
-            }
-            mainPorductUl.innerHTML += `
-                <li class="main-product-li">
-                    <div>
-                        <span class="fa-solid fa-cube"></span>
-                        <span class="product-detail-span">${product.productDetailName}</span>
-                    </div>
-                </li>
-            `;
-        });
+        if(productGroup.productDetailList[0].productDetailName != productGroup.productCategoryName) {
+            productGroup.productDetailList.forEach((product, index) => {
+                if(productGroup.productCategoryName == product.productDetailName) {
+                    return;
+                }else {
+                    addVisibleClass(productSolutionListDiv);
+                }
+                mainPorductUl.innerHTML += `
+                    <li class="main-product-li">
+                        <div>
+                            <span class="fa-solid fa-cube"></span>
+                            <span class="product-detail-span">${product.productDetailName}</span>
+                        </div>
+                    </li>
+                `;
+            });
+            
+            setProductDetailSpanClickEvent(productGroup.productDetailList);
+
+        }else {
+            getProducSolutionList(productGroup);
+        }
         
-        setProductDetailAddSpanClickEvent(productGroup.productDetailList);
     }
 }
 
@@ -575,22 +589,233 @@ function setProductDetailList(productDetailList) {
             `;
         });
 
-        setProductDetailAddSpanClickEvent(productDetailList[0].productDetailList);
+        setProductDetailSpanClickEvent(productDetailList[0].productDetailList);
     }
 }
 
-function setProductDetailAddSpanClickEvent(productDetailList) {
+function setProductDetailSpanClickEvent(productDetailList) {
     const productDetailSpanItems = document.querySelectorAll(".main-product-ul .product-detail-span");
 
     productDetailSpanItems.forEach((span, index) => {
-        span.onclick = () => selectProduct(productDetailList[index]);
+        span.onclick = () => getProducSolutionList(productDetailList[index]);
     });
 }
 
-function selectProduct(productDetail) {
+function getProducSolutionList(productDetail) {
     productCode = productDetail.productCode;
 
-    removeVisibleClass(summerNoteContent);
+    removeVisibleClass(productSolutionListDiv);
+
+    $.ajax({
+        async: false,
+        type: "get",
+        url: `/api/v1/solution/all/title/list?productCode=${productCode}&notInclude=false`,
+        dataType: "json",
+        success: (response) => {
+            setProductSolutionList(response.data, productCode);
+        },
+        error: errorMessage
+    });
+    
+}
+
+function setProductSolutionList(solutionList, productCode) {
+    const solutionTbody = document.querySelector(".has-solution-tbody");
+
+    if(solutionList != null) {
+        clearDomObject(solutionTbody);
+
+        solutionList.forEach(solution => {
+            solutionTbody.innerHTML += `
+            <tr>
+                <td>${solution.solutionBoardCode}</td>
+                <td>
+                    <span class="product-solution-title-span">${solution.solutionTitle}</span>
+                </td>
+                <td>${solution.solutionType}</td>
+                <td>${solution.solutionBoardType}</td>
+                <td>
+                    <span class='fa-regular fa-trash-can product-solution-delete-span'></span>
+                </td>
+            </tr>
+            `;
+        });
+
+
+    }else {
+        solutionTbody.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <span>데이터가 없습니다.</span>
+                </td>
+            </tr>
+        `;
+    }
+
+    solutionTbody.innerHTML += `
+        <tr>
+            <td colspan="5">
+                <span class="fa-solid fa-plus"></span>
+                <span class="product-solution-add-span">추가</span>
+            </td>
+        </tr>
+    `;
+
+    if(solutionList != null) {        
+        setDeleteSpanClickEvent(solutionList);
+    }
+    setProductSolutionAddSpanClickEvent(productCode);
+}
+
+function setDeleteSpanClickEvent(solutionList) {
+    const productSolutionDeleteSpanItems = document.querySelectorAll(".product-solution-delete-span");
+
+    productSolutionDeleteSpanItems.forEach((deleteSpan, index) => {
+        deleteSpan.onclick = () => deleteProductSolution(solutionList[index].solutionBoardCode);
+    })
+}
+
+function deleteProductSolution(solutionBoardCode) {
+    if(confirm("정말 삭제하시겠습니까?")) {
+        $.ajax({
+            async: false,
+            type: "delete",
+            url: `/api/v1/manager/solution-board/${solutionBoardCode}`,
+            dataType: "json",
+            success: (response) => {
+                if(response.data) {
+                    alert("삭제 완료");
+                }else {
+                    alert("삭제 실패");
+                }
+            },
+            error: errorMessage
+        });
+    }
+}
+
+function setProductSolutionAddSpanClickEvent(productCode) {
+    const productSolutionAddSpan = document.querySelector(".product-solution-add-span");
+
+    productSolutionAddSpan.onclick = () => showSolutionListDiv(productCode);
+}
+
+function showSolutionListDiv() {
+    const solutionListDiv = document.querySelector(".solution-list-div");
+
+    removeVisibleClass(solutionListDiv);
+    
+    setAddSolutionSelectDivClickEvent(productCode);
+}
+
+function setAddSolutionSelectDivClickEvent(productCode) {
+    addSolutionSelectDivItems.forEach(div => {
+        div.onclick = (e) => getSolutionList(e.target, productCode);
+    })
+}
+
+function getSolutionList(div, productCode) {
+    showAddSolutionBoardTable(div);
+    let solutionBoardType = div.textContent == "자주하는 질문" ? "faq" : "self-check";
+
+    $.ajax({
+        async: false,
+        type: "get",
+        url:`/api/v1/solution/${solutionBoardType}/title/list?productCode=${productCode}&notInclude=true`,
+        dataType: "json",
+        success: (response) => {
+            setNewSolutionList(response.data, productCode);
+        },
+        error: errorMessage
+    });
+}
+
+function showAddSolutionBoardTable(titleDiv) {
+    const addSolutionBoardTable = document.querySelector(".add-solution-board-table");
+
+    removeVisibleClass(addProductSolutionButton);
+    removeVisibleClass(addSolutionBoardTable);
+    
+    initializationSelectOption(addSolutionSelectDivItems);
+
+    titleDiv.classList.add("select-div");
+}
+
+function setNewSolutionList(solutionList, productCode) {
+    const solutionTbody = document.querySelector(".not-include-solution-tbody");
+
+    if(solutionList != null) {
+        clearDomObject(solutionTbody);
+
+        solutionList.forEach(solution => {
+            solutionTbody.innerHTML += `
+            <tr>
+                <td>${solution.solutionCode}</td>
+                <td>
+                    <span class="product-solution-title-span">${solution.solutionTitle}</span>
+                </td>
+                <td>${solution.solutionType}</td>
+                <td>${solution.solutionBoardType}</td>
+                <td>
+                    <input class="add-solution-check-box" type="checkbox">
+                </td>
+            </tr>
+            `;
+        });
+
+    }else {
+        solutionTbody.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <span>데이터가 없습니다.</span>
+                </td>
+            </tr>
+        `;
+    }
+
+    setAddProductSolutionButtonClickEvnet(solutionList, productCode);
+}
+
+function setAddProductSolutionButtonClickEvnet(solutionList, productCode) {
+    addProductSolutionButton.onclick = () => addProductSolutionRequest(solutionList, productCode);
+}
+
+function addProductSolutionRequest(solutionList, productCode) {
+    let solutionCodeList = getSelectedSoltuionCodeList(solutionList);
+
+    console.log(solutionCodeList);
+    $.ajax({
+        async: false,
+        type: "post",
+        url: `/api/v1/manager/solution/product/${productCode}`,
+        contentType: "application/json",
+        data: JSON.stringify({
+            "solutionCodeList": solutionCodeList,
+            "productCode": productCode
+        }),
+        dataType: "json",
+        success: (response) => {
+            if(response.data) {
+                alert("추가 성공");
+            }else {
+                alert("추가 실패");
+            }
+        },
+        error: errorMessage
+    });
+}
+
+function getSelectedSoltuionCodeList(solutionList) {
+    const addSolutionCheckBoxList = document.querySelectorAll(".add-solution-check-box");
+    let solutionCodeList = new Array();
+
+    addSolutionCheckBoxList.forEach((checkBox, index) => {
+        if(checkBox.checked) {
+            solutionCodeList.push(solutionList[index].solutionCode);
+        }
+    });
+
+    return solutionCodeList;
 }
 
 function clearDomObject(domObject) {
@@ -615,6 +840,10 @@ function setSolutionTypeInputEnterEvent() {
 
 function isEmpty(data) {
     return data == null || data == undefined || data == "";
+}
+
+function setCompany(companyCode) {
+    company = companyCode == 1 ? "daewoo" : "winia";
 }
 
 function errorMessage(request, status, error) {

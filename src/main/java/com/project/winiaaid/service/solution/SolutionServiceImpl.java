@@ -89,10 +89,13 @@ public class SolutionServiceImpl implements SolutionService{
     }
 
     @Override
-    public List<ReadSolutionTitleResponseDto> getSolutionTitleListBySolutionBoard(String boardType) throws Exception {
+    public List<ReadSolutionTitleResponseDto> getSolutionTitleListBySolutionBoard(String boardType, String productCode, boolean notInclude) throws Exception {
         List<SolutionTitle> solutionTitleEntityList = null;
+        Map<String, Object> configMap = null;
 
-        solutionTitleEntityList = solutionRepository.findAllSolutionTitleListBySolutionBoardType(boardType.equals("faq") ? 1 : 2);
+        configMap = configMapper.setReadSolutionTitleListConfigMap(boardType, productCode, notInclude);
+
+        solutionTitleEntityList = solutionRepository.findAllSolutionTitleListBySolutionBoardTypeAndProductCode(configMap);
 
         return changeToReadSolutionTitleResponseDto(solutionTitleEntityList);
     }

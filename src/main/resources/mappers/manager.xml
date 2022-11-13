@@ -357,6 +357,21 @@
         ;
     </insert>
 
+    <insert id="insertProductSolution" parameterType="com.project.winiaaid.domain.manager.ManagerSolution">
+        INSERT INTO
+            solution_product_table
+        VALUES
+        <foreach collection="solution_code_list" item="solution_code" separator=",">
+            (
+                0,
+                #{product_code},
+                #{solution_code},
+                0
+            )
+        </foreach>
+        ;
+    </insert>
+
     <resultMap id="findSolutionDetailResultMap" type="com.project.winiaaid.domain.manager.ManagerSolution">
         <result column="solution_title" property="solution_title"/>
         <result column="solution_content" property="solution_content"/>
@@ -440,6 +455,14 @@
                 solution_board_code = #{delete_board_code}
             </foreach>
         ;
+    </delete>
+
+    <delete id="deleteSolutionBoardByCode" parameterType="Integer">
+        DELETE
+        FROM
+            solution_product_table
+        WHERE
+            solution_board_code = #{solution_board_code};
     </delete>
 
 
