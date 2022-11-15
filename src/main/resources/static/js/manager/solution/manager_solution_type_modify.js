@@ -27,9 +27,9 @@ const solutionTbody = document.querySelector(".not-include-solution-tbody");
 const addProductSolutionButton = document.querySelector(".add-product-solution-button");
 
 let selectProductObject = {
-    "productCategoryName": productCategoryName,
-    "productGroupName": productGroupName,
-    "productDetailName": productDetailName
+    "productCategoryName": null,
+    "productGroupName": null,
+    "productDetailName": null
 }
 
 setModifyTypeButtonClickEvent();
