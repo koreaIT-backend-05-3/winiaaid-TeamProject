@@ -190,7 +190,7 @@ function setProductDetail(domObject, productInfoList) {
 
         for(startIndex; startIndex < endIndex; startIndex++) {
             innerHTML += `<li>
-                            <img class="product-detail-image" src="/image/winia-product/images/${productInfoList[0].productDetailList[startIndex].productDetailImage}" alt="${productInfoList[0].productDetailList[startIndex].productDetailName}">
+                            <img class="product-detail-image" src="/static/winiaaid-images/winia-product/images/${productInfoList[0].productDetailList[startIndex].productDetailImage}" alt="${productInfoList[0].productDetailList[startIndex].productDetailName}">
                             <span>${productInfoList[0].productDetailList[startIndex].productDetailName}</span>
                         </li>
                         `;
@@ -412,7 +412,7 @@ function setGroupProductDetail(domObject, productInfoList) {
             let productImage = document.createElement("img");
             productImage.setAttribute("class", integratedFlag ? "integrated product-detail-image" : "");
 
-            productImage.setAttribute("src", `/image/winia-product/images/${productInfoList[startIndex].productMainImage}`);
+            productImage.setAttribute("src", `/static/winiaaid-images/winia-product/images/${productInfoList[startIndex].productMainImage}`);
             productImage.setAttribute("alt", productInfoList[startIndex].productCategoryName);
 
             let productCategoryNameP = document.createElement("p");

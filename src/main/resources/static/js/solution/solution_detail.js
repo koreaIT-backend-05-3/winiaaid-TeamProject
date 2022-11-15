@@ -99,17 +99,20 @@ function setSolutionDetailData(solutionDetailData) {
         <tbody>
             <tr>
                 <td colspan="6">
-                    <textarea class="content" readonly>${solutionDetailData.solutionContent}</textarea>
+                    <div class="content">${solutionDetailData.solutionContent}</textarea>
                 </td>
             </tr>
         </tbody>
-            `;
+        `;
 
-        const tbodyTd = document.querySelector("tbody td");
+        const content = document.querySelector(".content");
+        // content.innerHTML = solutionDetailData.solutionContent;
 
-        for(imageFile of solutionDetailData.solutionFileList) {
-            tbodyTd.innerHTML += `<img src="/static/winiaaid-images/solution_files/${imageFile.fileName}" alt="${imageFile.fileName}">`;
-        }
+        // const tbodyTd = document.querySelector("tbody td");
+
+        // for(imageFile of solutionDetailData.solutionFileList) {
+        //     tbodyTd.innerHTML += `<img src="/static/winiaaid-images/solution_files/${imageFile.fileName}" alt="${imageFile.fileName}">`;
+        // }
 
         setSendMessageButtonClickEvent(solutionDetailData);
     }
@@ -133,7 +136,7 @@ function isEmpty(value) {
 function setImageByUri() {
     
     if(!checkFaqUri()) {
-        imageItems[0].setAttribute("src", "/image/images/frequently_asked_question_service.jpg");
+        imageItems[0].setAttribute("src", "/static/winiaaid-images/images/frequently_asked_question_service.jpg");
         imageItems[0].setAttribute("alt", "자주하는 질문");
     }
 }
