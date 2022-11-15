@@ -48,7 +48,7 @@ function searchAddress(nowPage) {
         data: {
             currentPage: nowPage,
             countPerPage: 10,
-            confmKey: "	devU01TX0FVVEgyMDIyMTAxNDIwNDMzNjExMzA1NjM=",
+            confmKey: "devU01TX0FVVEgyMDIyMDkxNTAyMDYyODExMjk3MzQ=",
             keyword: searchKeyword.value,
             resultType: "json",
             hstryYn: "Y"
