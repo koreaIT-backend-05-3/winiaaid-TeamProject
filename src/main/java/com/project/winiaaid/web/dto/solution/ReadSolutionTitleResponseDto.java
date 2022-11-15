@@ -7,6 +7,8 @@ import lombok.Data;
 @Builder
 public class ReadSolutionTitleResponseDto {
     private int solutionCode;
+    private int solutionBoardCode;
     private String solutionTitle;
     private String solutionBoardType;
+    private String solutionType;
 }

@@ -3,7 +3,9 @@ const solutionTypeSelect = document.querySelector(".solution-type-select");
 const solutionBoardTypeDivItems = document.querySelectorAll(".solution-select-div div");
 
 const summerNoteContent = document.querySelector(".summer-note-content");
+
 const writeRequestButton = document.querySelector(".write-request-button");
+const deleteRequestButton = document.querySelector(".delete-request-button");
 
 let solutionBoardTypeCode = 0;
 
@@ -77,6 +79,9 @@ function setSolutionBoardDetailData(solutionBoardDetailData) {
     content.value = solutionBoardDetailData.solutionContent;
 
     writeRequestButton.textContent = "수정";
+    removeVisibleClass(deleteRequestButton);
+
+    setDeleteButtonClickEvent();
 }
 
 function getSolutionCodeByUri() {
@@ -86,6 +91,7 @@ function getSolutionCodeByUri() {
 function setSummerNote() {
     $(document).ready(function() {
         $('#summernote').summernote({
+              width: 800,
               height: 600,                
               minHeight: null,             
               maxHeight: null,             
@@ -240,6 +246,7 @@ function modifySolution(formData) {
     let solutionCode = getSolutionCodeByUri();
     formData.append("deleteFileCodeList", deleteFileCodeList);
     formData.append("deleteFileNameList", deleteFileNameList);
+
     $.ajax({
         async: false,
         type: "put",
@@ -306,6 +313,35 @@ function isIncompleteRequest() {
     }
 
     return status;
+}
+
+function setDeleteButtonClickEvent() {
+    deleteRequestButton.onclick = solutionDeleteRequest;
+}
+
+function solutionDeleteRequest() {
+    if(confirm("정말 삭제하시겠습니까?")) {
+        let solutionCode = getSolutionCodeByUri();
+
+        $.ajax({
+            async: false,
+            type: "delete",
+            url: `/api/v1/manager/solution/${solutionCode}`,
+            dataType: "json",
+            success: (response) => {
+                if(response.data) {
+                    alert("삭제 성공");
+                
+                    localStorage.lastRequest = "solutionBoardManage";
+                    location.replace("/manager/solution/modification");
+                }else {
+                    alert("삭제 실패");
+                }
+            },
+            error: errorMessage
+        });
+    }
+    
 }
 
 function setCompany(companyCode) {

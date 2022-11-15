@@ -6,12 +6,10 @@ import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
-import com.project.winiaaid.web.dto.manager.solution.InsertSolutionRequestDto;
-import com.project.winiaaid.web.dto.manager.solution.ReadSolutionDetailResponseDto;
-import com.project.winiaaid.web.dto.manager.solution.UpdateSolutionRequestDto;
-import com.project.winiaaid.web.dto.manager.solution.UpdateSolutionTypeRequestDto;
+import com.project.winiaaid.web.dto.manager.solution.*;
 import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
+import com.project.winiaaid.web.dto.solution.ReadSolutionTitleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +17,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -166,7 +165,23 @@ public class ManagerRestController {
     }
 
     @Log
-    @CacheEvict(value = "solutionTitle", allEntries = true)
+    @CacheEvict(value = "solutionTitleList", allEntries = true)
+    @PostMapping("/solution/product/{productCode}")
+    public ResponseEntity<?> insertProductSolution(@RequestBody InsertProductSolutionRequestDto insertProductSolutionRequestDto) {
+        boolean status = false;
+
+        try {
+            status = managerService.insertProductSolution(insertProductSolutionRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CustomResponseDto<>(-1, "Failed to create product solution", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Product solution creation successful", status));
+    }
+
+    @Log
+    @CacheEvict(value = "solutionTitleList", allEntries = true)
     @PostMapping("/solution")
     public ResponseEntity<?> insertSolutionBoard(InsertSolutionRequestDto insertSolutionRequestDto) {
         boolean status = false;
@@ -179,6 +194,17 @@ public class ManagerRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Solution creation successful", status));
+    }
+
+    @Log
+    @Cacheable(value = "solutionTitleList", key = "#productCode")
+    @GetMapping("/solution/list/{productCode}")
+    public ResponseEntity<?> getAllProductSolutionListByProductCode(@PathVariable int productCode) {
+        List<ReadSolutionTitleResponseDto> readSolutionTitleResponseDtoList = null;
+
+
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Load solution list successful", readSolutionTitleResponseDtoList));
     }
 
     @Log
@@ -211,6 +237,38 @@ public class ManagerRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Solution detail modification successful", status));
+    }
+
+    @Log
+    @CacheEvict(value = "solutionTitleList", allEntries = true)
+    @DeleteMapping("/solution/{solutionCode}")
+    public ResponseEntity<?> deleteSolutionBySolutionCode(@PathVariable int solutionCode) {
+        boolean status = false;
+
+        try {
+            status = managerService.deleteSolutionBySolutionCode(solutionCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CustomResponseDto<>(1, "Failed to delete solution", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Delete solution successful", status));
+    }
+
+    @Log
+    @CacheEvict(value = "solutionTitleList", allEntries = true)
+    @DeleteMapping("/solution-board/{solutionBoardCode}")
+    public ResponseEntity<?> deleteSolutionBoardByCode(@PathVariable int solutionBoardCode) {
+        boolean status = false;
+
+        try {
+            status = managerService.deleteSolutionBoardByCode(solutionBoardCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CustomResponseDto<>(1, "Failed to delete solution board", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Delete solution board successful", status));
     }
 
     @Log

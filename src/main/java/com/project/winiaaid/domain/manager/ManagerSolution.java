@@ -25,6 +25,9 @@ public class ManagerSolution {
     private List<String> file_name_list;
     private List<SolutionFile> file_list;
 
+    private int product_code;
+    private List<Integer> solution_code_list;
+
     public ReadSolutionDetailResponseDto toReadSolutionDetailResponseDto() {
         return ReadSolutionDetailResponseDto.builder()
                 .solutionTitle(solution_title)

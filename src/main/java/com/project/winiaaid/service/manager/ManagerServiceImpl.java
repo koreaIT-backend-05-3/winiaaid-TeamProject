@@ -8,10 +8,7 @@ import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
-import com.project.winiaaid.web.dto.manager.solution.InsertSolutionRequestDto;
-import com.project.winiaaid.web.dto.manager.solution.ReadSolutionDetailResponseDto;
-import com.project.winiaaid.web.dto.manager.solution.UpdateSolutionRequestDto;
-import com.project.winiaaid.web.dto.manager.solution.UpdateSolutionTypeRequestDto;
+import com.project.winiaaid.web.dto.manager.solution.*;
 import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -160,6 +157,11 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
+    public boolean insertProductSolution(InsertProductSolutionRequestDto insertProductSolutionRequestDto) throws Exception {
+        return managerRepository.insertProductSolution(insertProductSolutionRequestDto.toManagerSolution()) > 0;
+    }
+
+    @Override
     public ReadSolutionDetailResponseDto getSolutionDetailBySolutionCode(int solutionCode) throws Exception {
         ManagerSolution solutionEntity = managerRepository.findSolutionDetailBySolutionCode(solutionCode);
 
@@ -194,6 +196,22 @@ public class ManagerServiceImpl implements ManagerService {
         }
 
         return status;
+    }
+
+    @Override
+    public boolean deleteSolutionBySolutionCode(int solutionCode) throws Exception {
+        List<String> fileNameList = null;
+
+        fileNameList = managerRepository.findFileNameBySolutionCode(solutionCode);
+
+        deleteFile(fileNameList);
+
+        return managerRepository.deleteSolutionBySolutionCode(solutionCode) > 0;
+    }
+
+    @Override
+    public boolean deleteSolutionBoardByCode(int solutionBoardCode) throws Exception {
+        return managerRepository.deleteSolutionBoardByCode(solutionBoardCode) > 0;
     }
 
     @Override
@@ -262,6 +280,14 @@ public class ManagerServiceImpl implements ManagerService {
         managerRepository.disabledAllSolutionInDeletedSolutionTypeCode(solutionTypeCode);
 
         return solutionBoardCodeList.isEmpty() ? true : managerRepository.deleteSolutionBoardList(solutionBoardCodeList) > 0;
+    }
+
+    private void deleteFile(List<String> fileNameList) throws Exception {
+        if(!fileNameList.isEmpty()) {
+            for(String fileName : fileNameList) {
+                fileService.deleteFileByFileNameAndPath(fileName, "solution_files");
+            }
+        }
     }
 
 //    private void checkIfTheImageHasChangedAndChangeIt(UpdateProductRequestDto updateProductRequestDto, ManagerProduct managerProduct) throws IOException {

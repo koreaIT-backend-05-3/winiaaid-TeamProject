@@ -342,15 +342,61 @@
             solution_type_table;
     </select>
 
-    <select id="findAllSolutionTitleListBySolutionBoardType" parameterType="Integer" resultType="com.project.winiaaid.domain.solution.SolutionTitle">
+    <select id="findAllSolutionTitleListBySolutionBoardTypeAndProductCode" parameterType="HashMap" resultType="com.project.winiaaid.domain.solution.SolutionTitle">
         SELECT
-            solution_code,
-            solution_title,
-            solution_board_type
+            <choose>
+                <when test="product_code == 'all'">
+                    solution_code,
+                </when>
+                <when test="not_include == true">
+                    st.solution_code,
+                    stt.solution_type_name,
+                </when>
+                <otherwise>
+                    spt.solution_board_code,
+                    stt.solution_type_name,
+                </otherwise>
+            </choose>
+            st.solution_title,
+            st.solution_board_type
         FROM
-            solution_table
+            <choose>
+                <when test="product_code == 'all'">
+                    solution_table st
+                </when>
+                <when test="not_include == true">
+                    solution_table st
+                    LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
+                </when>
+                <otherwise>
+                    solution_product_table spt
+                    LEFT OUTER JOIN solution_table st ON(st.solution_code = spt.solution_code)
+                    LEFT OUTER JOIN solution_type_table stt ON(stt.solution_type_code = st.solution_type_code)
+                </otherwise>
+            </choose>
         WHERE
-            solution_board_type = #{solution_board_type};
+        <if test="solution_board_type != 'all'">
+            solution_board_type = #{solution_board_type}
+        </if>
+        <if test="product_code != 'all'">
+            <if test="solution_board_type != 'all'">
+                and
+            </if>
+            <choose>
+                <when test="not_include == true">
+                    st.solution_code NOT IN(select
+                                                solution_code
+                                            from
+                                                solution_product_table
+                                            where
+                                                product_code = #{product_code})
+                </when>
+                <otherwise>
+                    spt.product_code = #{product_code}
+                </otherwise>
+            </choose>
+        </if>
+        ;
     </select>
 
     <update id="updateViewCountBySolutionBoardCode" parameterType="Integer">

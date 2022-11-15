@@ -63,6 +63,17 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
+    public Map<String, Object> setReadSolutionTitleListConfigMap(String boardType, String productCode, boolean notInclude) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("solution_board_type", boardType.equals("all") ? "all" : boardType.equals("faq") ? "1" : "2");
+        configMap.put("product_code", productCode);
+        configMap.put("not_include", notInclude);
+
+        return configMap;
+    }
+
+    @Override
     public Map<String, Object> setMemberReadBoardConfigMap(ReadBoardRequestDto readBoardRequestDto) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
