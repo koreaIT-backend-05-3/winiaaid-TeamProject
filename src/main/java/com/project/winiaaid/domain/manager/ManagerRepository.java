@@ -28,7 +28,9 @@ public interface ManagerRepository {
     public int insertSolutionFile(ManagerSolution manager_solution) throws Exception;
     public int insertProductSolution(ManagerSolution manager_solution) throws Exception;
     public ManagerSolution findSolutionDetailBySolutionCode(int solution_code) throws Exception;
+    public List<String> findFileNameBySolutionCode(int solution_code) throws Exception;
     public int updateSolution(ManagerSolution manager_solution) throws Exception;
+    public int deleteSolutionBySolutionCode(int solution_code) throws Exception;
     public int deleteSolutionFile(List<Integer> delete_file_code_list) throws Exception;
     public int deleteSolutionBoardByCode(int solution_board_code) throws Exception;
 

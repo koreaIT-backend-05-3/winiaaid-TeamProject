@@ -413,14 +413,14 @@
                                 solution_type_code = #{solution_type_code});
     </select>
 
-    <update id="disabledAllSolutionInDeletedSolutionTypeCode" parameterType="Integer">
-        UPDATE
-            solution_table
-        SET
-            solution_type_code = -1
+    <select id="findFileNameBySolutionCode" parameterType="Integer" resultType="String">
+        SELECT
+            file_name
+        FROM
+            solution_file
         WHERE
-            solution_type_code = #{solution_type_code};
-    </update>
+            solution_code = #{solution_code};
+    </select>
 
     <update id="updateSolution" parameterType="com.project.winiaaid.domain.manager.ManagerSolution">
         UPDATE
@@ -434,6 +434,14 @@
         WHERE
             solution_code = #{solution_code};
     </update>
+
+    <delete id="deleteSolutionBySolutionCode" parameterType="Integer">
+        DELETE
+        FROM
+            solution_table
+        WHERE
+            solution_code = #{solution_code};
+    </delete>
 
     <delete id="deleteSolutionFile" parameterType="java.util.List">
         DELETE
@@ -476,6 +484,15 @@
             #{solution_type_name}
         );
     </insert>
+
+    <update id="disabledAllSolutionInDeletedSolutionTypeCode" parameterType="Integer">
+        UPDATE
+        solution_table
+        SET
+        solution_type_code = -1
+        WHERE
+        solution_type_code = #{solution_type_code};
+    </update>
 
     <update id="updateSolutionType" parameterType="com.project.winiaaid.domain.manager.ManagerSolution">
         UPDATE

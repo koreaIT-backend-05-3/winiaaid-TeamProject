@@ -199,6 +199,17 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
+    public boolean deleteSolutionBySolutionCode(int solutionCode) throws Exception {
+        List<String> fileNameList = null;
+
+        fileNameList = managerRepository.findFileNameBySolutionCode(solutionCode);
+
+        deleteFile(fileNameList);
+
+        return managerRepository.deleteSolutionBySolutionCode(solutionCode) > 0;
+    }
+
+    @Override
     public boolean deleteSolutionBoardByCode(int solutionBoardCode) throws Exception {
         return managerRepository.deleteSolutionBoardByCode(solutionBoardCode) > 0;
     }
@@ -269,6 +280,14 @@ public class ManagerServiceImpl implements ManagerService {
         managerRepository.disabledAllSolutionInDeletedSolutionTypeCode(solutionTypeCode);
 
         return solutionBoardCodeList.isEmpty() ? true : managerRepository.deleteSolutionBoardList(solutionBoardCodeList) > 0;
+    }
+
+    private void deleteFile(List<String> fileNameList) throws Exception {
+        if(!fileNameList.isEmpty()) {
+            for(String fileName : fileNameList) {
+                fileService.deleteFileByFileNameAndPath(fileName, "solution_files");
+            }
+        }
     }
 
 //    private void checkIfTheImageHasChangedAndChangeIt(UpdateProductRequestDto updateProductRequestDto, ManagerProduct managerProduct) throws IOException {

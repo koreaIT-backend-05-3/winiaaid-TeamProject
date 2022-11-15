@@ -1,4 +1,12 @@
+const solutionTypeManageDiv = document.querySelector(".solution-type-manage-div");
+const solutionBoardManageDiv = document.querySelector(".solution-board-manage-div");
+const registrationSolutionBoardManageDiv = document.querySelector(".registration-solution-board-manage-div");
+
+const productBox = document.querySelector(".product-box");
+
 const modifyTypeButtonItems = document.querySelectorAll(".choice-modify-type-div button");
+
+const solutionBoardTable = document.querySelector(".solution-board-table");
 
 const solutionSelectDiv = document.querySelectorAll(".solution-select-div div");
 const addSolutionSelectDivItems = document.querySelectorAll(".add-solution-select-div div");
@@ -10,9 +18,19 @@ const solutionTypeInputDiv = document.querySelector(".solution-type-input-div");
 const solutionTypeInput = document.querySelector(".solution-type-input");
 const solutionTypeRequestButton = document.querySelector(".solution-type-request-button");
 
-const productSolutionListDiv = document.querySelector(".product-solution-list-div");
+const addSolutionBoardTable = document.querySelector(".add-solution-board-table");
 
+const productSolutionListDiv = document.querySelector(".product-solution-list-div");
+const solutionListDiv = document.querySelector(".solution-list-div");
+
+const solutionTbody = document.querySelector(".not-include-solution-tbody");
 const addProductSolutionButton = document.querySelector(".add-product-solution-button");
+
+let selectProductObject = {
+    "productCategoryName": productCategoryName,
+    "productGroupName": productGroupName,
+    "productDetailName": productDetailName
+}
 
 setModifyTypeButtonClickEvent();
 setSolutionTypeInputEnterEvent();
@@ -28,8 +46,8 @@ function setModifyTypeButtonClickEvent() {
 
 function solutionTypeManage() {
     let solutionTypeList = getAllSolutionTypeList();
-    const solutionTypeManageDiv = document.querySelector(".solution-type-manage-div");
 
+    hideElseManageView("solutionTypeManage");
     removeVisibleClass(solutionTypeManageDiv);
     setSolutionList(solutionTypeList);
 }
@@ -152,7 +170,7 @@ function solutionTypeModifyRequest(solutionTypeCode) {
 
 function setSolutionTypeAddView() {
     removeVisibleClass(solutionTypeInputDiv);
-    clearDomObject(solutionTypeInput);
+    solutionTypeInput.value = "";
 
     solutionTypeRequestButton.onclick = solutionTypeAddRequest;
 }
@@ -237,8 +255,6 @@ function setLastRequestView(lastRequest) {
             modifyTypeButtonItems[1].click();
             let solutionBoardType = localStorage.solutionBoardType;
 
-            console.log(solutionBoardType);
-
             solutionSelectDiv.forEach(div => {
                 if(div.textContent == solutionBoardType) {
                     div.click();
@@ -250,6 +266,13 @@ function setLastRequestView(lastRequest) {
     
         }else if(lastRequest == "registrationSolutionBoardManage") {
             modifyTypeButtonItems[2].click();
+            let selectProductObject = localStorage.selectProductObject;
+
+            if(selectProductObject != null) {
+                selectProductObject = JSON.parse(selectProductObject);
+
+                setLastSelectProductView(selectProductObject);
+            }
     
         }
 
@@ -257,13 +280,15 @@ function setLastRequestView(lastRequest) {
     }
 }
 
+function setLastSelectProductView(selectProductObject) {
+    
+}
+
 function setSolutionSelectDivClickEvent() {
     solutionSelectDiv.forEach(solution => solution.onclick = (e) => selectSolutionBoardType(solutionSelectDiv, e.target));
 }
 
 function selectSolutionBoardType(solutionBoardTypeDivItems, div) {
-    const solutionBoardTable = document.querySelector(".solution-board-table");
-
     initializationSelectOption(solutionBoardTypeDivItems);
     removeVisibleClass(solutionBoardTable);
 
@@ -282,6 +307,8 @@ function initializationSelectOption(solutionBoardTypeDivItems) {
 function solutionBoardManage() {
     const solutionSelectDiv = document.querySelector(".solution-select-div");
 
+    hideElseManageView("solutionBoardManage");
+    removeVisibleClass(solutionBoardManageDiv);
     removeVisibleClass(solutionSelectDiv);
     setSolutionSelectDivClickEvent();
 }
@@ -349,6 +376,8 @@ function loadSolutionBoardModifyView(solutionCode) {
 }
 
 function registrationSolutionBoardManage() {
+    removeVisibleClass(registrationSolutionBoardManageDiv);
+    hideElseManageView("registrationSolutionBoardManage");
     getCompanyList();
     
 }
@@ -395,8 +424,10 @@ function getProductMainCategoryList(companyObject) {
     clearDomObject(mainGroupDiv);
     clearDomObject(mainProductDiv);
     addVisibleClass(productSolutionListDiv);
+    addVisibleClass(solutionListDiv);
 
     let companyCode = companyObject.companyCode;
+    selectProductObject.companyName = companyObject.companyName;
 
     setCompany(companyCode);
 
@@ -414,9 +445,9 @@ function getProductMainCategoryList(companyObject) {
 
 function setProductMainCategoryList(productCategoryList) {
     const mainCategoryDiv = document.querySelector(".main-category-div");
-    const productBox = document.querySelector(".product-box");
 
     removeVisibleClass(productBox);
+    hideSolutionListDiv();
 
     mainCategoryDiv.innerHTML = `
         <span class="sortation-span">메인 카테고리</span>
@@ -450,6 +481,9 @@ function setProductCategoryListClickEvent(productCategoryList) {
 
 function checkGroupFlag(category) {
     addVisibleClass(productSolutionListDiv);
+    addVisibleClass(solutionListDiv);
+
+    selectProductObject.productObjectroductCategoryName = category.productCategoryName;
 
     if(category.groupFlag) {
         let productGroupList = getProductGroupList(category.productGroupCode);
@@ -459,6 +493,7 @@ function checkGroupFlag(category) {
     }else {
         getProductDetailList(category.productCategoryCode);
         clearDomObject(mainGroupDiv);
+        selectProductObject.productGroupName = null;
         
     }
 }
@@ -481,6 +516,8 @@ function getProductGroupList(groupCode) {
 }
 
 function setProductGroupList(productGroupList) {
+    hideSolutionListDiv();
+
     mainGroupDiv.innerHTML = `
         <span class="sortation-span">카테고리</span>
         <ul class="main-group-ul product-ul"></ul>
@@ -524,9 +561,9 @@ function setProductDetailListByGroupCode(productGroup) {
 
     const mainPorductUl = document.querySelector(".main-product-ul");
 
+    selectProductObject.productGroupName = productGroup.productCategoryName;
     removeVisibleClass(productSolutionListDiv);
-
-    console.log(productGroup);
+    hideSolutionListDiv();
 
     if(productGroup != null) {
 
@@ -536,6 +573,7 @@ function setProductDetailListByGroupCode(productGroup) {
                     return;
                 }else {
                     addVisibleClass(productSolutionListDiv);
+                    addVisibleClass(solutionListDiv);
                 }
                 mainPorductUl.innerHTML += `
                     <li class="main-product-li">
@@ -576,6 +614,7 @@ function setProductDetailList(productDetailList) {
     `;
 
     const mainProductUl = document.querySelector(".main-product-ul");
+    hideSolutionListDiv();
     
     if(productDetailList != null) {
         productDetailList[0].productDetailList.forEach((product, index) => {
@@ -603,6 +642,7 @@ function setProductDetailSpanClickEvent(productDetailList) {
 
 function getProducSolutionList(productDetail) {
     productCode = productDetail.productCode;
+    selectProductObject.productDetailName = productDetail.productDetailName;
 
     removeVisibleClass(productSolutionListDiv);
 
@@ -621,6 +661,7 @@ function getProducSolutionList(productDetail) {
 
 function setProductSolutionList(solutionList, productCode) {
     const solutionTbody = document.querySelector(".has-solution-tbody");
+    hideSolutionListDiv();
 
     if(solutionList != null) {
         clearDomObject(solutionTbody);
@@ -685,6 +726,9 @@ function deleteProductSolution(solutionBoardCode) {
             success: (response) => {
                 if(response.data) {
                     alert("삭제 완료");
+                    location.replace("/manager/solution/modification");
+                    saveLastRequestInLocalStorage("registrationSolutionBoardManage");
+
                 }else {
                     alert("삭제 실패");
                 }
@@ -701,8 +745,6 @@ function setProductSolutionAddSpanClickEvent(productCode) {
 }
 
 function showSolutionListDiv() {
-    const solutionListDiv = document.querySelector(".solution-list-div");
-
     removeVisibleClass(solutionListDiv);
     
     setAddSolutionSelectDivClickEvent(productCode);
@@ -731,8 +773,6 @@ function getSolutionList(div, productCode) {
 }
 
 function showAddSolutionBoardTable(titleDiv) {
-    const addSolutionBoardTable = document.querySelector(".add-solution-board-table");
-
     removeVisibleClass(addProductSolutionButton);
     removeVisibleClass(addSolutionBoardTable);
     
@@ -742,8 +782,6 @@ function showAddSolutionBoardTable(titleDiv) {
 }
 
 function setNewSolutionList(solutionList, productCode) {
-    const solutionTbody = document.querySelector(".not-include-solution-tbody");
-
     if(solutionList != null) {
         clearDomObject(solutionTbody);
 
@@ -797,6 +835,8 @@ function addProductSolutionRequest(solutionList, productCode) {
         success: (response) => {
             if(response.data) {
                 alert("추가 성공");
+                location.replace("/manager/solution/modification");
+                saveLastRequestInLocalStorage("registrationSolutionBoardManage");
             }else {
                 alert("추가 실패");
             }
@@ -816,6 +856,43 @@ function getSelectedSoltuionCodeList(solutionList) {
     });
 
     return solutionCodeList;
+}
+
+function hideSolutionListDiv() {
+    addVisibleClass(solutionListDiv);
+    addVisibleClass(addSolutionBoardTable);
+    addVisibleClass(addProductSolutionButton);
+    initializationSelectOption(addSolutionSelectDivItems);
+}
+
+function hideElseManageView(type) {
+    if(type == "solutionTypeManage") {
+        addVisibleClass(solutionBoardManageDiv);
+        addVisibleClass(registrationSolutionBoardManageDiv);
+        addVisibleClass(productBox);
+        addVisibleClass(solutionBoardTable);
+        addVisibleClass(productSolutionListDiv);
+        initializationSelectOption(addSolutionSelectDivItems);
+        initializationSelectOption(solutionSelectDiv);
+        hideSolutionListDiv();
+
+    }else if(type == "solutionBoardManage") {
+        addVisibleClass(solutionTypeManageDiv);
+        addVisibleClass(registrationSolutionBoardManageDiv);
+        addVisibleClass(productBox);
+        addVisibleClass(solutionTypeInputDiv);
+        addVisibleClass(productSolutionListDiv);
+        initializationSelectOption(addSolutionSelectDivItems);
+        hideSolutionListDiv();
+
+    }else {
+        addVisibleClass(solutionTypeManageDiv);
+        addVisibleClass(solutionBoardManageDiv);
+        addVisibleClass(solutionBoardTable);
+        addVisibleClass(solutionTypeInputDiv);
+        initializationSelectOption(solutionSelectDiv);
+
+    }
 }
 
 function clearDomObject(domObject) {

@@ -22,6 +22,7 @@ public interface ManagerService {
     public boolean insertProductSolution(InsertProductSolutionRequestDto insertProductSolutionRequestDto) throws Exception;
     public ReadSolutionDetailResponseDto getSolutionDetailBySolutionCode(int solutionCode) throws Exception;
     public boolean modifySolutionDetailBySolutionCode(UpdateSolutionRequestDto updateSolutionRequestDto) throws Exception;
+    public boolean deleteSolutionBySolutionCode(int solutionCode) throws Exception;
     public boolean deleteSolutionBoardByCode(int solutionBoardCode) throws Exception;
 
     public boolean insertSolutionType(String solutionTypeName) throws Exception;

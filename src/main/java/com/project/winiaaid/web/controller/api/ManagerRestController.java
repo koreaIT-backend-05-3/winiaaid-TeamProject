@@ -241,6 +241,22 @@ public class ManagerRestController {
 
     @Log
     @CacheEvict(value = "solutionTitleList", allEntries = true)
+    @DeleteMapping("/solution/{solutionCode}")
+    public ResponseEntity<?> deleteSolutionBySolutionCode(@PathVariable int solutionCode) {
+        boolean status = false;
+
+        try {
+            status = managerService.deleteSolutionBySolutionCode(solutionCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(new CustomResponseDto<>(1, "Failed to delete solution", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Delete solution successful", status));
+    }
+
+    @Log
+    @CacheEvict(value = "solutionTitleList", allEntries = true)
     @DeleteMapping("/solution-board/{solutionBoardCode}")
     public ResponseEntity<?> deleteSolutionBoardByCode(@PathVariable int solutionBoardCode) {
         boolean status = false;
