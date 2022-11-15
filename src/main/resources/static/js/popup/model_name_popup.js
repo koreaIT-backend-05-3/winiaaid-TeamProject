@@ -84,7 +84,7 @@ function setCategoryClickEvent() {
             modelInfo.modelImageList.forEach(image => {
                 productCategoryImage.innerHTML += `
                 <div>
-                    <img src="/image/model-number-images/${image}" alt="${modelInfo.modelName}">
+                    <img src="/static/winiaaid-images/model-number-images/${image}" alt="${modelInfo.modelName}">
                 </div>`;
             });
             

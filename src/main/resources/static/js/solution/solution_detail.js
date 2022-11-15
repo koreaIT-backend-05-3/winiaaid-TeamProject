@@ -108,7 +108,7 @@ function setSolutionDetailData(solutionDetailData) {
         const tbodyTd = document.querySelector("tbody td");
 
         for(imageFile of solutionDetailData.solutionFileList) {
-            tbodyTd.innerHTML += `<img src="/image/solution_files/${imageFile.fileName}" alt="${imageFile.fileName}">`;
+            tbodyTd.innerHTML += `<img src="/static/winiaaid-images/solution_files/${imageFile.fileName}" alt="${imageFile.fileName}">`;
         }
 
         setSendMessageButtonClickEvent(solutionDetailData);

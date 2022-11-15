@@ -37,7 +37,7 @@ function setProductImages(domObject, productInfoList, type, isGroup) {
                 innerHTML += `
                             <li class="category-image-li">
                                 <div>
-                                    <img src="/image/winia-product/category-images/${productInfoList[startIndex].productMainCategoryImage}" alt="${productInfoList[startIndex].productCategoryName}">
+                                    <img src="/static/winiaaid-images/winia-product/category-images/${productInfoList[startIndex].productMainCategoryImage}" alt="${productInfoList[startIndex].productCategoryName}">
                                 </div>
                             </li>
                             `;
