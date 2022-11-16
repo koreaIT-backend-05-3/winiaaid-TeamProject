@@ -55,6 +55,7 @@ public class FileServiceImpl implements FileService {
         Path srcPath = Paths.get(getChangeTargetPathToSrcPath(targetPath));
 
         File tempFile = new File(targetPath.toString());
+        tempFile.delete();
 
         makeDirectory(customPath);
 
@@ -62,9 +63,9 @@ public class FileServiceImpl implements FileService {
         Files.write(targetPath, file.getBytes());
         Files.write(srcPath, file.getBytes());
 
-//        String uploadImageUrl = putS3(tempFile, targetPath.toString());
-        return tempFileName;
-//        return uploadImageUrl;
+        String uploadImageUrl = putS3(tempFile, targetPath.toString());
+//        return tempFileName;
+        return uploadImageUrl;
     }
 
     private String putS3(File uploadFile, String fileName) {
