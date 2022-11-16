@@ -55,7 +55,7 @@ public class FileServiceImpl implements FileService {
         Path srcPath = Paths.get(getChangeTargetPathToSrcPath(targetPath));
 
         File tempFile = new File(targetPath.toString());
-        tempFile.delete();
+//        tempFile.delete();
 
         makeDirectory(customPath);
 
