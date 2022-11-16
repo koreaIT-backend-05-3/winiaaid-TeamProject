@@ -1,5 +1,9 @@
 package com.project.winiaaid.util;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.project.winiaaid.config.S3Config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +25,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
 
+    private final S3Config s3Config;
     private final ResourceLoader resourceLoader;
+    private final AmazonS3Client amazonS3Client;
 
     @Value("${file.path}")
     private String filePath;
@@ -48,13 +54,23 @@ public class FileServiceImpl implements FileService {
         Path targetPath = getPath(customPath, tempFileName);
         Path srcPath = Paths.get(getChangeTargetPathToSrcPath(targetPath));
 
+        File tempFile = new File(targetPath.toString());
+
         makeDirectory(customPath);
 
-        log.info(">>>>>>><MLKJsdfdsafdsaf {}", srcPath);
+//        log.info(">>>>>>><MLKJsdfdsafdsaf {}", srcPath);
         Files.write(targetPath, file.getBytes());
         Files.write(srcPath, file.getBytes());
 
-        return tempFileName;
+        String uploadImageUrl = putS3(tempFile, targetPath.toString());
+//        return tempFileName;
+        return uploadImageUrl;
+    }
+
+    private String putS3(File uploadFile, String fileName) {
+        amazonS3Client.putObject(new PutObjectRequest(s3Config.getBucket(), fileName, uploadFile)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+        return amazonS3Client.getUrl(s3Config.getBucket(), fileName).toString();
     }
 
     @Override

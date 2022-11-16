@@ -42,6 +42,13 @@ file:
   path: C:/project/workspace/git/winiaaid-TeamProject/target/classes/static/winiaaid-images/
 #  path: /Users/gim-yujeong/workspace/git/winiaaid-TeamProject/upload/
 
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
 # log4jdbc, Mybatis Console Log
 logging:
   level:
