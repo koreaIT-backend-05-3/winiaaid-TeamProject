@@ -57,11 +57,11 @@ public class FileServiceImpl implements FileService {
         File tempFile = new File(targetPath.toString());
 //        tempFile.delete();
 
-        makeDirectory(customPath);
+//        makeDirectory(customPath);
 
 //        log.info(">>>>>>><MLKJsdfdsafdsaf {}", srcPath);
-        Files.write(targetPath, file.getBytes());
-        Files.write(srcPath, file.getBytes());
+//        Files.write(targetPath, file.getBytes());
+//        Files.write(srcPath, file.getBytes());
 
         String uploadImageUrl = putS3(tempFile, targetPath.toString());
 //        return tempFileName;
