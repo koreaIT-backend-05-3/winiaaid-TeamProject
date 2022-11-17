@@ -114,7 +114,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String getFilePathByAWS(String customPath, String fileName) throws Exception {
-        return amazonS3Client.getUrl(s3Config.getBucket(), preFix + fileName).toString();
+        return amazonS3Client.getUrl(s3Config.getBucket(), preFix + customPath + fileName).toString();
     }
 
     private String getTempFileName(MultipartFile file) {

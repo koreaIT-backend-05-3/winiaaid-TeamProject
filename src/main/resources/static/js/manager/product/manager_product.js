@@ -993,8 +993,10 @@ function setProductName(productName) {
 function setProductImage(productName, productImage, type) {
     if(productImage != null) {
         showImageDiv.innerHTML = `
-            <img src="/static/winiaaid-images/winia-product/${type == "productDetail" ? "images/" : "category-images/"}${productImage}" alt="${productName}">
+            <img src="${productImage}" alt="${productName}">
         `;
+
+        // <img src="/static/winiaaid-images/winia-product/${type == "productDetail" ? "images/" : "category-images/"}${productImage}" alt="${productName}">
     }else {
         clearDomObject(showImageDiv);
     }

@@ -1,7 +1,9 @@
 package com.project.winiaaid.web.dto.product;
 
+import com.project.winiaaid.util.FileService;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Data
 @Builder
