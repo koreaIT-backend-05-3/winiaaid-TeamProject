@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### Config ###
-!/S3Config.java
+src/main/java/com/project/winiaaid/config/S3Config.java
