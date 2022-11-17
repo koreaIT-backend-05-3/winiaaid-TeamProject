@@ -1,8 +1,7 @@
 package com.project.winiaaid.util;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
 import com.project.winiaaid.config.S3Config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,47 +45,65 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String createFileByFileAndPath(MultipartFile file, String customPath) throws IOException {
-        String tempFileName = getTempFileName(file);
+//        deleteS3File("e83a364d4b6e46eaaaee8097ea78c734_Jordy.png");
+//        Resource resource = resourceLoader.getResource("classpath:static/" + customPath);
 
-        Resource resource = resourceLoader.getResource("classpath:static/" + customPath);
+//        log.info(">>>>>>>>>>>>. check: {}", resource);
 
-        log.info(">>>>>>>>>>>>. check: {}", resource);
-
-        Path targetPath = getPath(customPath, tempFileName);
-        Path srcPath = Paths.get(getChangeTargetPathToSrcPath(targetPath));
-
-        File tempFile = new File(targetPath.toString());
+//        Path targetPath = getPath(customPath, tempFileName);
+//        Path srcPath = Paths.get(getChangeTargetPathToSrcPath(targetPath));
+//
+//        File tempFile = new File(targetPath.toString());
 //        tempFile.delete();
 
-        makeDirectory(customPath);
+//        makeDirectory(customPath);
 
-        log.info(">>>>>>><MLKJsdfdsafdsaf {}", srcPath);
-        Files.write(targetPath, file.getBytes());
-        Files.write(srcPath, file.getBytes());
+//        log.info(">>>>>>><MLKJsdfdsafdsaf {}", srcPath);
+//        Files.write(targetPath, file.getBytes());
+//        Files.write(srcPath, file.getBytes());
 
-        String uploadImageUrl = putS3(tempFile, targetPath.toString());
+
+        String tempFileName = customPath + getTempFileName(file);
+        log.info("tempFileName: {}", tempFileName);
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+        objectMetadata.setContentType(file.getContentType());
+
+        InputStream inputStream = file.getInputStream();
+
+        String uploadImageUrl = putS3(inputStream, objectMetadata, tempFileName);
+//        deleteS3File(tempFileName);
 //        return tempFileName;
         return uploadImageUrl;
     }
 
-    private String putS3(File uploadFile, String fileName) {
-        amazonS3Client.putObject(new PutObjectRequest(s3Config.getBucket(), fileName, uploadFile)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(s3Config.getBucket(), fileName).toString();
+    private String putS3(InputStream inputStream, ObjectMetadata objectMetadata, String tempFileName) {
+        log.info("check: {}", new PutObjectRequest(s3Config.getBucket(), tempFileName, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead).getAccessControlList());
+        amazonS3Client.putObject(new PutObjectRequest(s3Config.getBucket(), tempFileName, inputStream, objectMetadata));
+//                .withCannedAcl(CannedAccessControlList.PublicReadWrite));
+
+        return amazonS3Client.getUrl(s3Config.getBucket(), tempFileName).toString();
     }
 
     @Override
     public void createSolutionFileByFileAndPath(List<MultipartFile> fileList, List<String> tempFileNameList, String customPath) throws IOException {
         for(int i = 0; i < fileList.size(); i++) {
             try {
-                Path targetPath = getPath(customPath, tempFileNameList.get(i));
-                Path srcPath = Paths.get(getChangeTargetPathToSrcPath(targetPath));
+//                Path targetPath = getPath(customPath, tempFileNameList.get(i));
+//                Path srcPath = Paths.get(getChangeTargetPathToSrcPath(targetPath));
+//
+//                makeDirectory(customPath);
+//
+//                Files.write(targetPath, fileList.get(i).getBytes());
+//                Files.write(srcPath, fileList.get(i).getBytes());
+                ObjectMetadata objectMetadata = new ObjectMetadata();
+                objectMetadata.setContentLength(fileList.get(i).getSize());
+                objectMetadata.setContentType(fileList.get(i).getContentType());
 
-                makeDirectory(customPath);
+                InputStream inputStream = fileList.get(i).getInputStream();
 
-                Files.write(targetPath, fileList.get(i).getBytes());
-                Files.write(srcPath, fileList.get(i).getBytes());
-
+                putS3(inputStream, objectMetadata, tempFileNameList.get(i));
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -95,98 +113,113 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void deleteFileByFileNameAndPath(String fileName, String customPath) throws IOException {
-        String path = getClassPathUri();
-        Path targetPath = Paths.get(path.substring(path.indexOf("/") + 1) + customPath + "/" + fileName);
-        Path srcPath = Paths.get(getChangeTargetPathToSrcPath(targetPath));
+//        String path = getClassPathUri();
+//        Path targetPath = Paths.get(path.substring(path.indexOf("/") + 1) + customPath + "/" + fileName);
+//        Path srcPath = Paths.get(getChangeTargetPathToSrcPath(targetPath));
+//
+//        File f = new File(targetPath.toString());
+//
+//        if(f.exists()) {
+//            Files.delete(targetPath);
+//        }
+//
+//        f = new File(srcPath.toString());
+//
+//        if(f.exists()) {
+//            Files.delete(srcPath);
+//        }
+        log.info("Delete CustomPath: {}", customPath);
+        deleteS3File(customPath + fileName);
 
-        File f = new File(targetPath.toString());
+    }
 
-        if(f.exists()) {
-            Files.delete(targetPath);
-        }
-
-        f = new File(srcPath.toString());
-
-        if(f.exists()) {
-            Files.delete(srcPath);
-        }
+    private void deleteS3File(String fileName) {
+        log.info("deleteS3File: {}", fileName);
+        amazonS3Client.deleteObject(new DeleteObjectRequest(s3Config.getBucket(), fileName));
     }
 
     @Override
     public void deleteTempFolderByPath(String customPath) throws IOException {
-        String tempPath = getClassPathUri();
-        Path path = Paths.get(tempPath.substring(tempPath.indexOf("/") + 1) + customPath);
-        File f = new File(path.toString());
+        log.info("Delete TempFolderByPath: {}", customPath);
 
-        if(f.exists()) {
-            for(File deleteFile : f.listFiles()) {
-                deleteFile.delete();
-            }
+        S3Object object = amazonS3Client.getObject(s3Config.getBucket(), customPath);
 
-            if(f.listFiles().length == 0 && f.isDirectory()) {
-                Files.deleteIfExists(path);
-            }
-        }
+        log.info("object: {}", object);
 
-        path = Paths.get(getChangeTargetPathToSrcPath(path));
-        f = new File(path.toString());
-
-        if(f.exists()) {
-            for(File deleteFile : f.listFiles()) {
-                deleteFile.delete();
-            }
-
-            if(f.listFiles().length == 0 && f.isDirectory()) {
-                Files.deleteIfExists(path);
-            }
-        }
+        deleteS3File(customPath);
+//        String tempPath = getClassPathUri();
+//        Path path = Paths.get(tempPath.substring(tempPath.indexOf("/") + 1) + customPath);
+//        File f = new File(path.toString());
+//
+//        if(f.exists()) {
+//            for(File deleteFile : f.listFiles()) {
+//                deleteFile.delete();
+//            }
+//
+//            if(f.listFiles().length == 0 && f.isDirectory()) {
+//                Files.deleteIfExists(path);
+//            }
+//        }
+//
+//        path = Paths.get(getChangeTargetPathToSrcPath(path));
+//        f = new File(path.toString());
+//
+//        if(f.exists()) {
+//            for(File deleteFile : f.listFiles()) {
+//                deleteFile.delete();
+//            }
+//
+//            if(f.listFiles().length == 0 && f.isDirectory()) {
+//                Files.deleteIfExists(path);
+//            }
+//        }
     }
 
     private String getTempFileName(MultipartFile file) {
         return UUID.randomUUID().toString().replaceAll("-", "") + "_" + file.getOriginalFilename();
     }
 
-    private Path getPath(String customPath, String tempFileName) throws IOException {
-        String targetUri = getClassPathUri();
-        String filePath = resourceLoader.getResource(targetUri + customPath + "/" + tempFileName).getURI().toString();
-        return Paths.get(filePath.substring(filePath.indexOf("/") + 1));
-    }
+//    private Path getPath(String customPath, String tempFileName) throws IOException {
+//        String targetUri = getClassPathUri();
+//        String filePath = resourceLoader.getResource(targetUri + customPath + "/" + tempFileName).getURI().toString();
+//        return Paths.get(filePath.substring(filePath.indexOf("/") + 1));
+//    }
 
-    private void makeDirectory(String customPath) throws IOException {
-        Resource targetResource = resourceLoader.getResource(getClassPathUri() + "/" + customPath);
+//    private void makeDirectory(String customPath) throws IOException {
+//        Resource targetResource = resourceLoader.getResource(getClassPathUri() + "/" + customPath);
+//
+//        if(!targetResource.exists()) {
+//            String tempPath = targetResource.getURI().toString().substring(targetResource.getURI().toString().indexOf("/") + 1);
+//
+//            log.info(">>>>>>>>> {}", tempPath);
+//            File f = new File(tempPath);
+//            f.mkdirs();
+//        }
+//
+//        Resource srcResource = resourceLoader.getResource(getChangeTargetResourceToSrcResource(targetResource));
+//
+//        log.info(">>>>>>>tsdfasddsadsdsaf>> {}", srcResource);
+//
+//        if(!srcResource.exists()) {
+//            String tempPath = srcResource.getURI().toString().substring(srcResource.getURI().toString().indexOf("/") + 1);
+//
+//            log.info(">>>>>>>tsdfasddsadsdsaf>> {}", tempPath);
+//            File f = new File(tempPath);
+//            f.mkdirs();
+//        }
+//    }
 
-        if(!targetResource.exists()) {
-            String tempPath = targetResource.getURI().toString().substring(targetResource.getURI().toString().indexOf("/") + 1);
-
-            log.info(">>>>>>>>> {}", tempPath);
-            File f = new File(tempPath);
-            f.mkdirs();
-        }
-
-        Resource srcResource = resourceLoader.getResource(getChangeTargetResourceToSrcResource(targetResource));
-
-        log.info(">>>>>>>tsdfasddsadsdsaf>> {}", srcResource);
-
-        if(!srcResource.exists()) {
-            String tempPath = srcResource.getURI().toString().substring(srcResource.getURI().toString().indexOf("/") + 1);
-
-            log.info(">>>>>>>tsdfasddsadsdsaf>> {}", tempPath);
-            File f = new File(tempPath);
-            f.mkdirs();
-        }
-    }
-
-    private String getClassPathUri() throws IOException {
-        return resourceLoader.getResource("classpath:static").getURI().toString() + "/winiaaid-images/";
-    }
-
-    private String getChangeTargetPathToSrcPath(Path targetPath) throws IOException {
-        String tempPath = targetPath.toString().replaceAll("\\\\", "/");
-        return tempPath.replaceAll("target/classes/static", "src/main/resources/static");
-    }
-
-    private String getChangeTargetResourceToSrcResource(Resource resource) throws IOException {
-        String tempPath = resource.getURI().toString().replaceAll("\\\\", "/");
-        return tempPath.replaceAll("target/classes/static", "src/main/resources/static");
-    }
+//    private String getClassPathUri() throws IOException {
+//        return resourceLoader.getResource("classpath:static").getURI().toString() + "/winiaaid-images/";
+//    }
+//
+//    private String getChangeTargetPathToSrcPath(Path targetPath) throws IOException {
+//        String tempPath = targetPath.toString().replaceAll("\\\\", "/");
+//        return tempPath.replaceAll("target/classes/static", "src/main/resources/static");
+//    }
+//
+//    private String getChangeTargetResourceToSrcResource(Resource resource) throws IOException {
+//        String tempPath = resource.getURI().toString().replaceAll("\\\\", "/");
+//        return tempPath.replaceAll("target/classes/static", "src/main/resources/static");
+//    }
 }

@@ -179,8 +179,10 @@ function uploadImage(file, editor) {
             let fileName = response.data.substring(response.data.lastIndexOf("_") + 1);
             let tempFileName = response.data.substring(response.data.lastIndexOf("/") + 1);
             let fileUrl = response.data;
-            console.log(fileUrl);
-            console.log(fileName);
+            console.log("fileName: " + fileName);
+            console.log("tempFileName: " + tempFileName);
+            console.log("fileUrl: " + fileUrl);
+            
             $('#summernote').summernote('insertImage',  fileUrl, fileName);
             let fileMap = new Map().set(fileUrl, file);
             fileList.push(fileMap);
