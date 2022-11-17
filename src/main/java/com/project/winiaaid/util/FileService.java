@@ -11,4 +11,6 @@ public interface FileService {
     public void createSolutionFileByFileAndPath(List<MultipartFile> file, List<String> tempFileNameList, String customPath) throws IOException;
     public void deleteFileByFileNameAndPath(String fileName, String customPath) throws IOException;
     public void deleteTempFolderByPath(String customPath) throws IOException;
+
+    public String getFilePathByAWS(String customPath, String fileName) throws Exception;
 }

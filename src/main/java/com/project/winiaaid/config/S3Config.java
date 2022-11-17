@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Data
 public class S3Config {
-    private String accessKey = "AKIAQB6NXU3Z4FQHAEGZ";
-    private String secretKey = "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";
+    private String accessKey = "AKIAQB6NXU3ZVOGAIYMC";
+    private String secretKey = "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";
     private String region = "ap-northeast-2";
     private String bucket = "imagebucket47";
 
