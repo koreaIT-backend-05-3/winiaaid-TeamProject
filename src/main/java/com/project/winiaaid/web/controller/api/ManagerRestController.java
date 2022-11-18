@@ -320,9 +320,8 @@ public class ManagerRestController {
     }
 
     private String uploadSolutionFileAndReturnFileUrl(MultipartFile file) throws IOException {
-        String customPath = "temp_solution_files/";
+        String customPath = "winiaaid-images/temp_solution_files/";
 
-//        return "/static/winiaaid-images/" + customPath + "/" + fileService.createFileByFileAndPath(file, customPath);
-        return fileService.createFileByFileAndPath(file, customPath);
+        return "/image/" + fileService.createFileByFileAndPath(file, customPath);
     }
 }

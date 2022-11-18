@@ -37,7 +37,7 @@ function setProductImages(domObject, productInfoList, type, isGroup) {
                 innerHTML += `
                             <li class="category-image-li">
                                 <div>
-                                    <img src="${productInfoList[startIndex].productMainCategoryImage}" alt="${productInfoList[startIndex].productCategoryName}">
+                                    <img src="/image/winiaaid-images/winia-product/category-images/${productInfoList[startIndex].productMainCategoryImage}" alt="${productInfoList[startIndex].productCategoryName}">
                                 </div>
                             </li>
                             `;
@@ -180,7 +180,7 @@ function setProductDetail(domObject, productInfoList) {
 
         for(startIndex; startIndex < endIndex; startIndex++) {
             innerHTML += `<li>
-                            <img class="product-detail-image" src="${productInfoList[0].productDetailList[startIndex].productDetailImage}" alt="${productInfoList[0].productDetailList[startIndex].productDetailName}">
+                            <img class="product-detail-image" src="/image/winiaaid-images/winia-product/images/${productInfoList[0].productDetailList[startIndex].productDetailImage}" alt="${productInfoList[0].productDetailList[startIndex].productDetailName}">
                             <span>${productInfoList[0].productDetailList[startIndex].productDetailName}</span>
                         </li>
                         `;
@@ -404,7 +404,7 @@ function setGroupProductDetail(domObject, productInfoList) {
             let productImage = document.createElement("img");
             productImage.setAttribute("class", integratedFlag ? "integrated product-detail-image" : "");
 
-            productImage.setAttribute("src", `${productInfoList[startIndex].productMainImage}`);
+            productImage.setAttribute("src", `/image/winiaaid-images/winia-product/images/${productInfoList[startIndex].productMainImage}`);
             // productImage.setAttribute("src", `/static/winiaaid-images/winia-product/images/${productInfoList[startIndex].productMainImage}`);
             productImage.setAttribute("alt", productInfoList[startIndex].productCategoryName);
 

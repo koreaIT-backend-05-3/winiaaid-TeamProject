@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -22,6 +23,12 @@ public class AuthServiceImpl implements AuthService {
 
 	private final UserRepository userRepository;
     private final ConfigMap configMapper;
+
+    @Value("${coolsms.apiKey}")
+    private String apiKey;
+
+    @Value("${coolsms.apiSecret}")
+    private String apiSecret;
 
 	@Override
 	public boolean signup(SignupRequestDto signupRequestDto) throws Exception {
@@ -42,9 +49,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String getRandomAuthenticationNumber(String phoneNumber) throws Exception {
-        String api_key = "NCSYBCCGHSKJIZQ0";
-        String api_secret = "KLB6FXIOFLTVGJKZQ1AMTALHO6BOLGCD";
-        Message coolsms = new Message(api_key, api_secret);
+        Message coolsms = new Message(apiKey, apiSecret);
 
         String randomAuthenticationNumber = createRandomAuthenticationNumber();
 

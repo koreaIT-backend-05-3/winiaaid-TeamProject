@@ -38,10 +38,10 @@ public class ManagerServiceImpl implements ManagerService {
         MultipartFile imageFile = addProductRequestDto.getProductImage();
 
         if(imageFile != null) {
-            tempFileName = fileService.createFileByFileAndPath(imageFile, registrationType.equals("product-category") ? "winia-product/category-images/" : "winia-product/images/");
+            tempFileName = fileService.createFileByFileAndPath(imageFile, registrationType.equals("product-category") ? "winiaaid-images/winia-product/category-images/" : "winiaaid-images/winia-product/images/");
         }
 
-        productEntity = changeToManagerProductEntity(addProductRequestDto, tempFileName, registrationType);
+        productEntity = changeToManagerProductEntity(addProductRequestDto, tempFileName.substring(tempFileName.lastIndexOf("/") + 1), registrationType);
 
         if(registrationType.equals("product-detail")) {
             status = managerRepository.insertProductDetail(productEntity) > 0;
@@ -79,9 +79,9 @@ public class ManagerServiceImpl implements ManagerService {
         MultipartFile image = updateProductRequestDto.getProductImage();
         if(image != null) {
             boolean mainCategoryFlag = updateProductRequestDto.isMainCategoryFlag();
-            tempFileName = fileService.createFileByFileAndPath(image, mainCategoryFlag ? "winia-product/category-images/" : "winia-product/images/");
-            fileService.deleteFileByFileNameAndPath(updateProductRequestDto.getDeleteTempImageName(), mainCategoryFlag ? "winia-product/category-images/" : "winia-product/images/");
-            managerProduct.setProduct_detail_image(tempFileName);
+            tempFileName = fileService.createFileByFileAndPath(image, mainCategoryFlag ? "winiaaid-images/winia-product/category-images/" : "winiaaid-images/winia-product/images/");
+            fileService.deleteFileByFileNameAndPath(updateProductRequestDto.getDeleteTempImageName(), mainCategoryFlag ? "winiaaid-images/winia-product/category-images/" : "winiaaid-images/winia-product/images/");
+            managerProduct.setProduct_detail_image(tempFileName.substring(tempFileName.lastIndexOf("/") + 1));
         }
 
         status = managerRepository.updateProductInfo(managerProduct) > 0;
@@ -103,7 +103,7 @@ public class ManagerServiceImpl implements ManagerService {
         imageList = managerRepository.findFileImageListToDelete(configMap);
 
         imageList.forEach(imageFile -> {
-            String customPath = imageFile.getImage_flag() == 1 ? "winia-product/category-images/" : "winia-product/images/";
+            String customPath = imageFile.getImage_flag() == 1 ? "winiaaid-images/winia-product/category-images/" : "winiaaid-images/winia-product/images/";
 
             if(imageFile.getProduct_image() != null) {
                 try {
@@ -188,7 +188,7 @@ public class ManagerServiceImpl implements ManagerService {
 
             if(!deletedFileNameList.isEmpty()) {
                 for (String fileName : deletedFileNameList) {
-                    fileService.deleteFileByFileNameAndPath(fileName, "solution_files/");
+                    fileService.deleteFileByFileNameAndPath(fileName, "winiaaid-images/solution_files/");
                 }
 
                 status = managerRepository.deleteSolutionFile(updateSolutionRequestDto.getDeleteFileCodeList()) > 0;
@@ -257,9 +257,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     private boolean insertSolutionFile(List<String> tempFileNameList, List<MultipartFile> fileList, ManagerSolution managerSolution) throws Exception {
         try {
-            fileService.createSolutionFileByFileAndPath(fileList, tempFileNameList, "solution_files/");
+            fileService.createSolutionFileByFileAndPath(fileList, tempFileNameList, "winiaaid-images/solution_files/");
             managerSolution.setFile_name_list(tempFileNameList);
-            fileService.deleteTempFolderByPath("temp_solution_files/");
+            fileService.deleteTempFolderByPath("winiaaid-images/temp_solution_files/");
 
             return managerRepository.insertSolutionFile(managerSolution) > 0;
         }catch (Exception e) {
@@ -271,7 +271,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     private void deleteFileDueToInsertSolutionError(List<String> fileNameList) throws IOException {
         for(String fileName : fileNameList) {
-            fileService.deleteFileByFileNameAndPath(fileName, "solution_files/");
+            fileService.deleteFileByFileNameAndPath(fileName, "winiaaid-images/solution_files/");
         }
     }
 
@@ -285,7 +285,7 @@ public class ManagerServiceImpl implements ManagerService {
     private void deleteFile(List<String> fileNameList) throws Exception {
         if(!fileNameList.isEmpty()) {
             for(String fileName : fileNameList) {
-                fileService.deleteFileByFileNameAndPath(fileName, "solution_files/");
+                fileService.deleteFileByFileNameAndPath(fileName, "winiaaid-images/solution_files/");
             }
         }
     }

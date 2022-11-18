@@ -59,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
 			for(MultipartFile file : createBoardRequestDto.getFiles()) {
 				
 				if(!file.getOriginalFilename().isBlank()) {
-					String tempFileName = fileService.createFileByFileAndPath(file, "board-files/");
+					String tempFileName = fileService.createFileByFileAndPath(file, "winiaaid-images/board-files/");
 					
 					fileList.add(
 							buildBoardFileList(boardEntity.getBoard_code(), tempFileName)
@@ -138,7 +138,7 @@ public class BoardServiceImpl implements BoardService {
 			boardRepository.deleteBoardFileByFileCode(updateBoardReqeustDto.getDeleteFileCode());
 
 			for(String fileName : updateBoardReqeustDto.getDeleteTempFileName()) {
-				fileService.deleteFileByFileNameAndPath(fileName, "board-files/");
+				fileService.deleteFileByFileNameAndPath(fileName, "winiaaid-images/board-files/");
 
 			}
 		}
@@ -147,7 +147,7 @@ public class BoardServiceImpl implements BoardService {
 			List<BoardFile> fileList = new ArrayList<BoardFile>();
 			for(MultipartFile file : updateBoardReqeustDto.getFiles()) {
 				if(!file.getOriginalFilename().isBlank()) {
-					String tempFileName = fileService.createFileByFileAndPath(file, "board-files/");
+					String tempFileName = fileService.createFileByFileAndPath(file, "winiaaid-images/board-files/");
 
 					fileList.add(
 							buildBoardFileList(boardEntity.getBoard_code(), tempFileName)
@@ -168,7 +168,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		if(fileList.size() != 0) {
 			for(BoardFile fileName:fileList) {
-				fileService.deleteFileByFileNameAndPath(fileName.getFile_name(), "board-files/");
+				fileService.deleteFileByFileNameAndPath(fileName.getFile_name(), "winiaaid-images/board-files/");
 
 			}
 		}

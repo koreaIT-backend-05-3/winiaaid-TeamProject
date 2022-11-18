@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,12 @@ import java.util.HashMap;
 public class UserServiceImpl implements UserService {
 
     private final ServiceRepository serviceRepository;
+
+    @Value("${coolsms.apiKey}")
+    private String apiKey;
+
+    @Value("${coolsms.apiSecret}")
+    private String apiSecret;
 
     @Override
     public void setServiceTypeNonMemberUserCode(UserInfoEntity userInfo) throws Exception {
@@ -59,9 +66,7 @@ public class UserServiceImpl implements UserService {
     @Log
     @Override
     public void sendServiceCode(String serviceCode, String mainPhoneNumber) {
-        String api_key = "NCSYBCCGHSKJIZQ0";
-        String api_secret = "KLB6FXIOFLTVGJKZQ1AMTALHO6BOLGCD";
-        Message coolsms = new Message(api_key, api_secret);
+        Message coolsms = new Message(apiKey, apiSecret);
 
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -71,14 +76,13 @@ public class UserServiceImpl implements UserService {
         params.put("text", "접수번호 [" + serviceCode + "] 입니다.");
         params.put("app_version", "test app 1.2"); // application name and version
 
-        log.info("check: {}", params);
-        try {
-            JSONObject obj = (JSONObject) coolsms.send(params);
-            log.info(obj.toString());
-        } catch (CoolsmsException e) {
-            log.info(e.getMessage());
-            log.info("error Code: ", e.getCode());
-        }
+//        try {
+//            JSONObject obj = (JSONObject) coolsms.send(params);
+//            log.info(obj.toString());
+//        } catch (CoolsmsException e) {
+//            log.info(e.getMessage());
+//            log.info("error Code: ", e.getCode());
+//        }
     }
 
     private int getNonMemberUserCode(String type) throws Exception {

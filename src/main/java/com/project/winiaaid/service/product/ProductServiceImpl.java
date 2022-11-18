@@ -34,43 +34,12 @@ public class ProductServiceImpl implements ProductService {
 
         if(productList != null && productList.size() != 0) {
             productCategoryList = changeToReadProductCategoryResponseDto(productList);
-            setAWSS3Url(productCategoryList);
 
         }
 
         return productCategoryList;
     }
 
-    private void setAWSS3Url(List<? extends Object> productList) throws Exception {
-            if(productList.get(0).getClass() == ReadProductCategoryResponseDto.class) {
-                for(Object productCategoryDto : productList) {
-                    String awsS3FileUrl = fileService.getFilePathByAWS("winia-product/category-images/", ((ReadProductCategoryResponseDto) productCategoryDto).getProductMainCategoryImage());
-                    ((ReadProductCategoryResponseDto) productCategoryDto).setProductMainCategoryImage(awsS3FileUrl);
-                }
-
-            }else if(productList.get(0).getClass() == ReadProductResponseDto.class) {
-                    for(Object productEntity : productList) {
-                        ReadProductResponseDto productDto = (ReadProductResponseDto) productEntity;
-
-                        productDto.setProductMainImage(fileService.getFilePathByAWS("winia-product/images/", productDto.getProductMainImage()));
-
-                        List<ProductDetailDto> productDetailDtoList = productDto.getProductDetailList();
-
-                        for(ProductDetailDto productDetailDto : productDetailDtoList) {
-                            productDetailDto.setProductDetailImage(fileService.getFilePathByAWS("winia-product/images/", productDetailDto.getProductDetailImage()));
-                        }
-                    }
-            }else if(productList.get(0).getClass() == ReadModelNumberInfoResponseDto.class) {
-                for(Object productEntity : productList) {
-
-                    List<ModelNumberImageDto> modelNumberImageDtoList = ((ReadModelNumberInfoResponseDto) productEntity).getModelNumberImageDtoList();
-
-                    for(ModelNumberImageDto modelNumberImageDto : modelNumberImageDtoList) {
-                        modelNumberImageDto.setModelCategoryImageName(fileService.getFilePathByAWS("model-number-images/", modelNumberImageDto.getModelCategoryImageName()));
-                    }
-                }
-            }
-    }
     @Override
     public List<? extends Object> getProductDetailInfoList(String company, String type, int productCode) throws Exception {
         List<Product> productList = null;
@@ -92,8 +61,6 @@ public class ProductServiceImpl implements ProductService {
                             product.getProductDetailList().removeIf(productDetail -> productDetail.getProductDetailName().equals(product.getProductCategoryName()));
                         };
                     });
-
-            setAWSS3Url(readProductResponseDtoList);
         }
 
         return readProductResponseDtoList;
@@ -112,8 +79,6 @@ public class ProductServiceImpl implements ProductService {
             readModelNumberInfoResponseDtoList = productNumberInfoList.stream()
                     .map(ModelNumberInfo::toReadModelNumberInfoResponseDto)
                     .collect(Collectors.toList());
-
-            setAWSS3Url(readModelNumberInfoResponseDtoList);
         }
 
         return readModelNumberInfoResponseDtoList;

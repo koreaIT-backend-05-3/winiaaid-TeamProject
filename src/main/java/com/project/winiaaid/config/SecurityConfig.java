@@ -4,25 +4,16 @@ package com.project.winiaaid.config;
 import com.project.winiaaid.config.auth.CustomAccessDeniedHandler;
 import com.project.winiaaid.config.auth.CustomAuthenticationEntryPoint;
 import com.project.winiaaid.config.auth.CustomFailureHandler;
-import com.project.winiaaid.service.auth.PrincipalDetails;
 import com.project.winiaaid.service.auth.PrincipalDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-
-import javax.servlet.http.HttpServletRequest;
 
 @EnableWebSecurity
 @Configuration

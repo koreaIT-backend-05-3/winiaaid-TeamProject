@@ -13,37 +13,21 @@ server:
 spring:
   mvc:
     static-path-pattern: /static/**
-  datasource:
-#    driver-class-name: org.mariadb.jdbc.Driver
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-#    url: jdbc:mariadb://web-study.ctumsyopmesy.ap-northeast-2.rds.amazonaws.com:3306/project_winiaaid?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-    url: jdbc:log4jdbc:mariadb://web-study.ctumsyopmesy.ap-northeast-2.rds.amazonaws.com:3306/project_winiaaid?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-    username: admin
-    password: 1q2w3e4r
   servlet:
     multipart:
       max-file-size: 50MB        
       max-request-size: 50MB
-  mail:
-    host: smtp.naver.com
-    port: 465
-    username: 111111
-    password: 111111
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.ssl.enable: true
-      mail.smtp.ssl.trust: smtp.naver.com
-
 
   profiles:
-    include: aws
+    include: private
 
 mybatis:
   mapper-locations:
   - /mappers/*.xml
   
 file:
-  path: C:/project/workspace/git/winiaaid-TeamProject/target/classes/static/winiaaid-images/
+  path: /home/ubuntu/upload/
+#  path: C:/project/workspace/git/winiaaid-TeamProject/src/main/resources/static/
 #  path: /Users/gim-yujeong/workspace/git/winiaaid-TeamProject/upload/
 
 
