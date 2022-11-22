@@ -1,5 +1,8 @@
 package com.project.winiaaid.service.manager;
 
+import com.project.winiaaid.web.dto.manager.board.CreateBoardResponseRequestDto;
+import com.project.winiaaid.web.dto.manager.board.UpdateBoardResponseRequestDto;
+import com.project.winiaaid.web.dto.manager.board.UpdateBoardTypeRequestDto;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
 import com.project.winiaaid.web.dto.manager.solution.*;
@@ -28,4 +31,8 @@ public interface ManagerService {
     public boolean insertSolutionType(String solutionTypeName) throws Exception;
     public boolean updateSolutionType(UpdateSolutionTypeRequestDto updateSolutionTypeRequestDto) throws Exception;
     public boolean deleteSolutionType(int solutionTypeCode) throws Exception;
+
+    public boolean insertBoardResponse(CreateBoardResponseRequestDto createBoardResponseRequestDto) throws Exception;
+    public boolean updateBoardResponse(UpdateBoardResponseRequestDto updateBoardResponseRequestDto) throws Exception;
+    public String updateBoardType(UpdateBoardTypeRequestDto updateBoardType) throws Exception;
 }

@@ -1,6 +1,7 @@
 package com.project.winiaaid.domain.manager;
 
 import com.project.winiaaid.domain.file.ProductImage;
+import com.project.winiaaid.web.dto.manager.board.CreateBoardResponseRequestDto;
 import org.apache.catalina.Manager;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -41,4 +42,8 @@ public interface ManagerRepository {
     public List<Integer> findAllSolutionBoardCodeInDeletedSolutionTypeCode(int solution_type_code) throws Exception;
     public int disabledAllSolutionInDeletedSolutionTypeCode(int solution_type_code) throws Exception;
     public int deleteSolutionBoardList(List<Integer> delete_board_code_list) throws Exception;
+
+    public int insertBoardResponse(ManagerBoard manager_board) throws Exception;
+    public int updateBoardResponse(ManagerBoard manager_board) throws Exception;
+    public int updateBoardType(ManagerBoard manager_board) throws Exception;
 }

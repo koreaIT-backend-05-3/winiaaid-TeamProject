@@ -10,10 +10,10 @@ let authenticationInfo = null;
 let boardType = null;
 let authenticationNumber = null;
 
+console.log(user);
 
 
 boardType = getBoardType();
-
 
 loadPageHistoryByLocalStorage();
 
@@ -67,10 +67,17 @@ function loadPage(page) {
 function getBoardList(page){
     let searchType = getSelectedOptionValue();
     let keyword = getSearchKeyword();
+
+    if(!keyword == "") {
+        nowPage = 1;
+    }
     
     let boardAuthenticationInfo = localStorage.boardAuthenticationInfo;
 
+
     if(!isNonMemberView()) {
+        let adminFlag = isAdmin();
+
         $.ajax({
             async: false,
             type:"get",
@@ -79,11 +86,13 @@ function getBoardList(page){
                 "userCode": userCode,
                 "searchType": searchType,
                 "keyword": keyword,
-                "page": page
+                "page": page,
+                "adminFlag": adminFlag
             },
             dataType:"json",
             success:(response)=>{
                 if(response.data != null){
+                    console.log(response.data);
                     let totalPage = getTotalPage(response.data[0].totalCount, 5);
                     setPage(totalPage);
     
@@ -329,4 +338,15 @@ function loadPageHistoryByLocalStorage() {
 
 function checkNonMemberViewPage() {
     return location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == "non-member";
+}
+
+function isAdmin() {
+    return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
+}
+
+function errorMessage(request, status, error) {
+    alert("에러");
+    console.log(request.status);
+    console.log(request.responseText);
+    console.log(error);
 }

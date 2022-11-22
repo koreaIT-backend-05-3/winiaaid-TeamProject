@@ -12,4 +12,5 @@ public class ReadBoardRequestDto {
     private String searchType;
     private String keyword;
     private int page;
+    private boolean adminFlag;
 }

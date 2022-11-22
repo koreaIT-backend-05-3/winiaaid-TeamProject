@@ -18,24 +18,39 @@
     
             </div>
             <div class="content-body-inner">
-                <ul>
-                    <h2>불편합니다</h2>
-                </ul>
+                <div>
+                    <ul>
+                        <h2>불편합니다</h2>
+                    </ul>
+                    <div class="move-board-type-div visible">
+                        <select>
+                            <option value="1">불편합니다</option>
+                            <option value="2">칭찬합니다</option>
+                            <option value="3">제안합니다</option>
+                        </select>
+                        <button class="move-board-type-button" type="button">게시글 이동</button>
+                    </div>
+                </div>
                 <table>
                     
                 </table>
                 <div class="file-div">
 
                 </div>
-                <table class="response-table visible">
-                    <tr>
-                        <td>
-                            <div class="board-post">
-                                <textarea class="content" readonly>dsafdsafdsafsd</textarea>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                <div class="resonse-div">
+                    <table class="response-table visible">
+                        <tr>
+                            <td>
+                                <div class="board-post">
+                                    <textarea class="content" readonly></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="response-request-div visible">
+                        <button class="response-write-button" type="button">작성</button>
+                    </div>
+                </div>
                 <center>
                     <button class="update-button visible">수정</button>
                     <button class="delete-button visible">삭제</button>

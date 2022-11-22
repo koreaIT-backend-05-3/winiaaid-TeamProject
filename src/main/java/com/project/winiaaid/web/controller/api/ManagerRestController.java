@@ -4,20 +4,21 @@ import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.service.manager.ManagerService;
 import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
+import com.project.winiaaid.web.dto.manager.board.CreateBoardResponseRequestDto;
+import com.project.winiaaid.web.dto.manager.board.UpdateBoardResponseRequestDto;
+import com.project.winiaaid.web.dto.manager.board.UpdateBoardTypeRequestDto;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
+import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
 import com.project.winiaaid.web.dto.manager.solution.*;
 import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
-import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionTitleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -84,6 +85,11 @@ public class ManagerRestController {
 
     }
 
+
+
+
+
+
     @Log
     @CacheEvict(value = "trouble", allEntries = true)
     @PostMapping("/trouble-symptom")
@@ -148,6 +154,12 @@ public class ManagerRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Trouble Symptom Deletion Successful", status));
     }
+
+
+
+
+
+
 
     @Log
     @PostMapping("/temp/solution/file")
@@ -271,6 +283,13 @@ public class ManagerRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Delete solution board successful", status));
     }
 
+
+
+
+
+
+
+
     @Log
     @CacheEvict(value = "solutionTypeList", allEntries = true)
     @PostMapping("/solution-type")
@@ -318,6 +337,56 @@ public class ManagerRestController {
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Delete solution type succeeded", status));
     }
+
+
+
+    @Log
+    @PostMapping("/board-response/{boardCode}")
+    public ResponseEntity<?> insertBoardResponse(@RequestBody CreateBoardResponseRequestDto createBoardResponseRequestDto) {
+        boolean status = false;
+
+        try {
+            status = managerService.insertBoardResponse(createBoardResponseRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to write board response", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Board response creation successful", status));
+    }
+
+    @Log
+    @PutMapping("/board-response/{boardCode}")
+    public ResponseEntity<?> updateBoardResponse(@RequestBody UpdateBoardResponseRequestDto updateBoardResponseRequestDto) {
+        boolean status = false;
+
+        try {
+            status = managerService.updateBoardResponse(updateBoardResponseRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Board response modification failed", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Board response modification successful", status));
+    }
+
+    @Log
+    @PutMapping("/board-type/{boardCode}")
+    public ResponseEntity<?> updateBoardType(@RequestBody UpdateBoardTypeRequestDto updateBoardType) {
+        String boardCode = null;
+
+        try {
+            boardCode = managerService.updateBoardType(updateBoardType);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to modify board type", boardCode));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Board type modification successful", boardCode));
+    }
+
+
+
 
     private String uploadSolutionFileAndReturnFileUrl(MultipartFile file) throws IOException {
         String customPath = "winiaaid-images/temp_solution_files/";

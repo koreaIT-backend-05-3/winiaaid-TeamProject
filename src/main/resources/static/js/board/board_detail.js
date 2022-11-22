@@ -2,6 +2,9 @@ const updateButton = document.querySelector(".update-button");
 const deleteButton = document.querySelector(".delete-button");
 const listButton = document.querySelector(".list-button");
 
+const responseTable = document.querySelector(".response-table");
+const responseTextArea = responseTable.querySelector(".content");
+
 let authenticationInfo = null;
 let boardCode = getBoardCodeByUri();
 let boardType = getBoardType();
@@ -19,6 +22,10 @@ updateButton.onclick = loadModifyBoardPageByBoardCode;
 deleteButton.onclick = deleteBoard;
 
 listButton.onclick = loadListPage;
+
+function isAdmin() {
+    return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
+}
 
 function getBoardCodeByUri(){
     return location.pathname.substring(location.pathname.lastIndexOf("/") +1);
@@ -41,15 +48,15 @@ function setBoardContentByBoardType() {
 function getBoardDetailByBoardCode(){
     $.ajax({
         async: false,
-        type:"get",
-        url:`/api/v1/board/${boardType}/view/${boardCode}?userCode=${userCode}`,
-        dataType:"json",    
-        success:(response)=>{
+        type: "get",
+        url: `/api/v1/board/${boardType}/view/${boardCode}?userCode=${userCode}&adminFlag=${isAdmin()}`,
+        dataType: "json",    
+        success: (response)=>{
             setButtonByUserCode(response.data);
             setBoardDetail(response.data);
             setBoardResponse(response.data);
         },
-        error:(request, stauts, error)=>{
+        error: (request, stauts, error)=>{
             if(request.status == 400) {
                 alert("잘못된 접근입니다.");
                 location.replace("/main");
@@ -78,7 +85,10 @@ function deleteBoard(){
 }
 
 function setButtonByUserCode(boardDetail) {
-    if((boardDetail.userCode == userCode || authenticationInfo != null) && boardDetail.responseFlag != 1) {
+    if(isAdmin()) {
+        showAdminDetailView();
+
+    }else if((boardDetail.userCode == userCode || authenticationInfo != null) && boardDetail.responseFlag != 1) {
 
         if(authenticationInfo != null) {
             if(authenticationInfo.userName != boardDetail.userName) {
@@ -90,10 +100,94 @@ function setButtonByUserCode(boardDetail) {
     }
 }
 
+function showAdminDetailView() {
+    if(boardType != "praise") {
+        const responseRequestDiv = document.querySelector(".response-request-div");
+        removeVisibleClass(responseRequestDiv);
+        removeVisibleClass(responseTable);
+        responseTextArea.removeAttribute("readOnly");
+
+        setResponseWriteButtonClickEvent();
+    }
+
+    const moveBoardTypeDiv = document.querySelector(".move-board-type-div");
+
+    removeVisibleClass(moveBoardTypeDiv);
+    removeVisibleClass(deleteButton);
+
+    setMoveBoardTypeButtonClickEvent();
+}
+
+function setMoveBoardTypeButtonClickEvent() {
+    const moveBoardTypeButton = document.querySelector(".move-board-type-button");
+
+    moveBoardTypeButton.onclick = moveBoardTypeRequest;
+}
+
+function moveBoardTypeRequest() {
+    const boardTypeCode = document.querySelector(".move-board-type-div select").value;
+
+    console.log(boardCode);
+    $.ajax({
+        async: false,
+        type: "put",
+        url: `/api/v1/manager/board-type/${boardCode}`,
+        contentType: "application/json",
+        data: JSON.stringify({
+            "boardCode": boardCode,
+            "boardTypeCode": boardTypeCode
+        }),
+        dataType: "json",
+        success: (response) => {
+            if(response.data != null) {
+                alert("게시글 이동 완료");
+                reload(boardTypeCode, response.data);
+            }else {
+                alert("게시글 이동 실패")
+            }
+        },
+        error: errorMessage
+    });
+    
+}
+
+function reload(boardTypeCode, boardCode) {
+    let boardType = boardTypeCode == 1 ? "complaint" : boardTypeCode == 2 ? "praise" : "suggestion"
+
+    location.replace(`/customer/${boardType}/detail/${boardCode}`);
+}
+
+function setResponseWriteButtonClickEvent() {
+    const responseWriteButton = document.querySelector(".response-write-button");
+
+    responseWriteButton.onclick = responseWriteRequest;
+}
+
+function responseWriteRequest() {
+    $.ajax({
+        async: false,
+        type: "post",
+        url: `/api/v1/manager/board-response/${boardCode}`,
+        contentType: "application/json",
+        data: JSON.stringify({
+            "boardCode": boardCode,
+            "responseContent": responseTextArea.value
+        }),
+        dataType: "json",
+        success: (response) => {
+            if(response.data) {
+                alert("답변 작성 완료");
+                location.reload();
+            }else {
+                alert("답변 작성 실패")
+            }
+        },
+        error: errorMessage
+    });
+}
+
 function setBoardDetail(boardDetail){
     const talbe = document.querySelector("table");
-    
-    
 
     talbe.innerHTML = `
         <tr class="first-table">
@@ -123,9 +217,6 @@ function setBoardDetail(boardDetail){
 
 function setBoardResponse(boardDetail) {
     if(boardDetail.response != null) {
-        const responseTable = document.querySelector(".response-table");
-        const responseTextArea = responseTable.querySelector(".content");
-
         responseTextArea.value = boardDetail.response;
 
         removeVisibleClass(responseTable);
@@ -202,4 +293,11 @@ function loadNonMemberRequestDataByLocalStorage() {
         location.replace("/main");
     }
 
+}
+
+function errorMessage(request, status, error) {
+    alert("에러");
+    console.log(request.status);
+    console.log(request.responseText);
+    console.log(error);
 }

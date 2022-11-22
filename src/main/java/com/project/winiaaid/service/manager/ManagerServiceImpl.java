@@ -1,11 +1,18 @@
 package com.project.winiaaid.service.manager;
 
+import com.project.winiaaid.domain.board.Board;
+import com.project.winiaaid.domain.board.BoardCode;
+import com.project.winiaaid.domain.board.BoardRepository;
 import com.project.winiaaid.domain.file.ProductImage;
+import com.project.winiaaid.domain.manager.ManagerBoard;
 import com.project.winiaaid.domain.manager.ManagerProduct;
 import com.project.winiaaid.domain.manager.ManagerRepository;
 import com.project.winiaaid.domain.manager.ManagerSolution;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.util.FileService;
+import com.project.winiaaid.web.dto.manager.board.CreateBoardResponseRequestDto;
+import com.project.winiaaid.web.dto.manager.board.UpdateBoardResponseRequestDto;
+import com.project.winiaaid.web.dto.manager.board.UpdateBoardTypeRequestDto;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
 import com.project.winiaaid.web.dto.manager.solution.*;
@@ -27,6 +34,7 @@ import java.util.Map;
 public class ManagerServiceImpl implements ManagerService {
 
     private final ManagerRepository managerRepository;
+    private final BoardRepository boardRepository;
     private final FileService fileService;
     private final ConfigMap configMapper;
 
@@ -118,6 +126,14 @@ public class ManagerServiceImpl implements ManagerService {
         return  managerRepository.deleteProductInfo(configMap) > 0;
     }
 
+
+
+
+
+
+
+
+
     @Override
     public boolean insertTroubleSymptomOfProduct(InsertTroubleSymptomOfProductRequestDto insertTroubleSymptomOfProductRequestDto) throws Exception {
         return managerRepository.insertTroubleSymptomOfProduct(insertTroubleSymptomOfProductRequestDto.toManagerProductEntity()) > 0;
@@ -137,6 +153,16 @@ public class ManagerServiceImpl implements ManagerService {
     public boolean deleteTroubleSymptomByTroubleSymptomCode(int troubleSymptomCode) throws Exception {
         return managerRepository.deleteTroubleSymptomByTroubleSymptomCode(troubleSymptomCode) > 0;
     }
+
+
+
+
+
+
+
+
+
+
 
     @Transactional
     @Override
@@ -214,6 +240,14 @@ public class ManagerServiceImpl implements ManagerService {
         return managerRepository.deleteSolutionBoardByCode(solutionBoardCode) > 0;
     }
 
+
+
+
+
+
+
+
+
     @Override
     public boolean insertSolutionType(String solutionTypeName) throws Exception {
         return managerRepository.insertSolutionType(solutionTypeName) > 0;
@@ -233,6 +267,40 @@ public class ManagerServiceImpl implements ManagerService {
         }
         return status;
     }
+
+
+
+
+
+
+
+
+
+    @Override
+    public boolean insertBoardResponse(CreateBoardResponseRequestDto createBoardResponseRequestDto) throws Exception {
+        return managerRepository.insertBoardResponse(createBoardResponseRequestDto.toManagerBoardEntity()) > 0;
+    }
+
+    @Override
+    public boolean updateBoardResponse(UpdateBoardResponseRequestDto updateBoardResponseRequestDto) throws Exception {
+        return managerRepository.updateBoardResponse(updateBoardResponseRequestDto.toManagerBoardEntity()) > 0;
+    }
+
+    @Override
+    public String updateBoardType(UpdateBoardTypeRequestDto updateBoardType) throws Exception {
+        ManagerBoard managerBoard = updateBoardType.toManagerBoardEntity();
+        BoardCode boardCodeEntity = boardRepository.findBoardCode(buildBoardEntity(managerBoard));
+        setManagerBoardEntity(managerBoard, boardCodeEntity);
+
+        return managerRepository.updateBoardType(managerBoard) > 0 ? managerBoard.getNew_board_code() : null;
+    }
+
+
+
+
+
+
+
 
     private boolean insertNewMainGroupCategory(ManagerProduct productEntity) throws Exception {
         boolean status = false;
@@ -288,6 +356,18 @@ public class ManagerServiceImpl implements ManagerService {
                 fileService.deleteFileByFileNameAndPath(fileName, "winiaaid-images/solution_files/");
             }
         }
+    }
+
+    private Board buildBoardEntity(ManagerBoard managerBoard) throws Exception {
+        return Board.builder()
+                .temp_board_code(managerBoard.getTemp_board_code())
+                .board_type_code(managerBoard.getBoard_type_code())
+                .build();
+    }
+
+    private void setManagerBoardEntity(ManagerBoard managerBoardEntity, BoardCode boardCodeEntity) throws Exception {
+        managerBoardEntity.setNew_board_code(boardCodeEntity.getBoard_code());
+        managerBoardEntity.setId2(boardCodeEntity.getId2());
     }
 
 //    private void checkIfTheImageHasChangedAndChangeIt(UpdateProductRequestDto updateProductRequestDto, ManagerProduct managerProduct) throws IOException {

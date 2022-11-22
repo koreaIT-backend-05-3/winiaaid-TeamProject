@@ -21,7 +21,20 @@ h2{
     margin: 0px auto;
 
     width: 980px;
-}    
+}
+
+.move-board-type-div {
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 10px;
+}
+
+.move-board-type-button {
+    margin-left: 5px;
+    
+    background-color: #0A71CC;
+}
 
 table{
     border-top: 1px solid #7d7d7d;
@@ -89,7 +102,7 @@ table td{
     text-align: start;
 }
 
-.updatedate{
+.update-date{
     padding: 15px 0px;
 
     height: 49px;
@@ -114,7 +127,7 @@ center {
     margin-top: 50px;
 }
 
-center button {
+button {
     border: none;
     padding: 0px;
 
@@ -134,17 +147,24 @@ center button:not(center button:last-child) {
 
 }
 
-.list-button{
+.list-button {
     background-color: #5b5a5a;
     
     cursor: pointer;
 }
 
-.update-button{
+.response-request-div {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 10px;
+}
+
+.update-button, .response-write-button {
     background-color: #0A71CC;
 }
 
-.delete-button{
+.delete-button {
     background-color: #5b5a5a;
 }
 

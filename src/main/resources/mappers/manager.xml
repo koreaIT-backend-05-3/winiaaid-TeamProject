@@ -511,4 +511,51 @@
             solution_type_code = #{solution_type_code};
     </delete>
 
+
+
+<!-- Board   -->
+    <insert id="insertBoardResponse" parameterType="com.project.winiaaid.domain.manager.ManagerBoard">
+        INSERT INTO
+            board_dtl
+        VALUES(
+            0,
+            #{board_code},
+            #{response_content},
+            NOW(),
+            NOW()
+        );
+    </insert>
+
+    <update id="updateBoardResponse" parameterType="com.project.winiaaid.domain.manager.ManagerBoard">
+        UPDATE
+            board_dtl
+        SET
+            response = #{response_content},
+            update_date = now()
+        WHERE
+            board_code = #{board_code};
+    </update>
+
+    <update id="updateBoardType" parameterType="com.project.winiaaid.domain.manager.ManagerBoard">
+        UPDATE
+            board_mst bm
+            LEFT OUTER JOIN board_dtl bd on(bd.board_code = bm.board_code)
+            LEFT OUTER JOIN board_file bf on(bf.board_code = bm.board_code)
+            LEFT OUTER JOIN non_member_board_table nmbt on(nmbt.board_code = bm.board_code)
+        SET
+            bm.id1 = #{board_type_code},
+            bm.id2 = #{id2},
+            bm.board_code = #{new_board_code},
+            bm.board_type_code = #{board_type_code},
+
+            bf.board_code = #{new_board_code},
+            bd.board_code = #{new_board_code},
+
+            nmbt.board_code = #{new_board_code}
+        WHERE
+            bm.board_code = #{board_code};
+    </update>
+
+
+
 </mapper>

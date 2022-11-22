@@ -66,8 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/service/visit/inquiry", "/service/recall/inquiry",  "/mypage/**", "/customer/complaint/regist-view", "/customer/suggestion/regist-view")
 				.access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_USER')")
 
-				.antMatchers("/manager/**")
-				.access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+//				.antMatchers("/manager/**")
+//				.access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 
                 .anyRequest()
                 .permitAll()

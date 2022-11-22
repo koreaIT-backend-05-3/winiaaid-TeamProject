@@ -114,7 +114,7 @@
 							from
 								board_mst
 							where
-							<if test="board_type_code != 2">
+							<if test="board_type_code != 2 and admin_flag == false">
 								user_code = #{user_code}
 								AND
 							</if>
@@ -139,7 +139,7 @@
 							</if>
 							board_type_code = #{board_type_code}) tc on(1=1)
 		WHERE
-			<if test="board_type_code != 2">
+			<if test="board_type_code != 2 and admin_flag == false">
 				bm.user_code = #{user_code}
 				AND
 			</if>
@@ -293,7 +293,7 @@
 				</choose>
 				and
 			</if>
-			<if test="board_type_code != 2">
+			<if test="board_type_code != 2 and admin_flag == false">
 				um.user_code = #{user_code}
 				and
 			</if>

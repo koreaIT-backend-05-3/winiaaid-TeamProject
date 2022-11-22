@@ -82,6 +82,7 @@ public class ConfigMapImpl implements ConfigMap{
         configMap.put("search_type", readBoardRequestDto.getSearchType());
         configMap.put("keyword", readBoardRequestDto.getKeyword());
         configMap.put("page", (readBoardRequestDto.getPage() - 1) * 5);
+        configMap.put("admin_flag", readBoardRequestDto.isAdminFlag());
 
         return configMap;
     }
@@ -188,6 +189,8 @@ public class ConfigMapImpl implements ConfigMap{
 
         configMap.put("board_code", boardCode);
         configMap.put("board_type_code", readBoardRequestDto.getBoardType().equals("complaint") ? 1 : readBoardRequestDto.getBoardType().equals("praise") ? 2 : 3);
+
+        configMap.put("admin_flag", readBoardRequestDto.isAdminFlag());
 
         return configMap;
     }
