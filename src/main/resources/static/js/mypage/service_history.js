@@ -327,6 +327,8 @@ function getLocalStorageData() {
     let pageHistory = localStorage.pageInfo;
 
     if(pageHistory != null) {
+        localStorage.removeItem("pageInfo");
+        
         return pageHistory;
     }else {
         return null;
@@ -349,7 +351,6 @@ function loadPageHistoryByLocalStorage() {
         localStorageData.completedResponseFlag ? completedResponseBox.setAttribute("checked", true) : "";
         searchInput.value = localStorageData.keyword;
         let page = localStorageData.page;
-        localStorage.removeItem("pageInfo");
         loadPage(page);
     }
 }

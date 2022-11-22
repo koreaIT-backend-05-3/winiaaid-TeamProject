@@ -3,7 +3,7 @@ const subNavUlItems = document.querySelectorAll(".sub-nav-ul");
 let preMenuTarget = null;
 
 setSubMenuTitleSpanClickEvent();
-// setHeaderMenuClickEvent();
+setHeaderMenuClickEvent();
 
 
 function setSubMenuTitleSpanClickEvent() {
@@ -60,8 +60,9 @@ function setHeaderMenuClickEvent() {
     const accountManageLiItems = document.querySelectorAll(".account-manage-list li");
 
     solutionManageLiItems[0].onclick = () => location.href = "/manager/solution/registration";
+    solutionManageLiItems[1].onclick = () => location.href = "/manager/solution/modification";
 
     productManageLiItems[0].onclick = () => location.href = "/manager/product/registration";
     productManageLiItems[1].onclick = () => location.href = "/manager/product/modification";
-    productManageLiItems[3].onclick = () => location.href = "/manager/trouble-symptom";
+    productManageLiItems[2].onclick = () => location.href = "/manager/trouble-symptom";
 }

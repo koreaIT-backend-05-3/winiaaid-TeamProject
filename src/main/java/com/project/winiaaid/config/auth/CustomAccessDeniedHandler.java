@@ -16,7 +16,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 들어옴");
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 권한 검증 실패");
+
         StringBuilder stringBuilder = new StringBuilder();
 
         response.setCharacterEncoding("UTF-8");

@@ -26,7 +26,10 @@ const solutionListDiv = document.querySelector(".solution-list-div");
 const solutionTbody = document.querySelector(".not-include-solution-tbody");
 const addProductSolutionButton = document.querySelector(".add-product-solution-button");
 
+let companyDiv = null;
+
 let selectProductObject = {
+    "companyName": null,
     "productCategoryName": null,
     "productGroupName": null,
     "productDetailName": null
@@ -240,6 +243,9 @@ function solutionTypeDeleteRequest(solutionTypeCode) {
 
 function saveLastRequestInLocalStorage(lastRequest) {
     localStorage.lastRequest = lastRequest;
+    if(lastRequest == "registrationSolutionBoardManage") {
+        localStorage.selectProductObject = JSON.stringify(selectProductObject);
+    }
 }
 
 function loadLastRequestInLocalStorage() {
@@ -281,7 +287,63 @@ function setLastRequestView(lastRequest) {
 }
 
 function setLastSelectProductView(selectProductObject) {
+    console.log(selectProductObject);
+    setRequestCompanyView(selectProductObject)
+    setReqeustCategoryView(selectProductObject);
+
+    if(selectProductObject.productGroupName != null) {
+        setRequestGroupView(selectProductObject);
+        
+    }
     
+    if(selectProductObject.productDetailName != null) {
+        setRequestProductView(selectProductObject);
+        
+    }
+
+    localStorage.removeItem("selectProductObject");
+}
+
+function setRequestCompanyView(selectProductObject) {
+    companyDiv.forEach(company => {
+        if(company.textContent == selectProductObject.companyName) {
+            company.click();
+            return false;
+        }
+    })
+}
+
+function setReqeustCategoryView(selectProductObject) {
+    const mainCategorySpanItems = document.querySelectorAll(".main-category-li .product-detail-span");
+
+    mainCategorySpanItems.forEach(span => {
+        if(span.textContent == selectProductObject.productCategoryName) {
+            span.click();
+            return false;
+        }
+    })
+}
+
+function setRequestGroupView(selectProductObject) {
+    const mainGroupSpanItems = document.querySelectorAll(".main-group-li .product-detail-span");
+    
+        mainGroupSpanItems.forEach(span => {
+            if(span.textContent == selectProductObject.productGroupName) {
+                span.click();
+                return false;
+            }
+        })
+}
+
+function setRequestProductView(selectProductObject) {
+    const mainProductSpanItems = document.querySelectorAll(".main-product-li .product-detail-span");
+
+    mainProductSpanItems.forEach(span => {
+        if(span.textContent == selectProductObject.productDetailName) {
+            span.click();
+            return false;
+        }
+    })
 }
 
 function setSolutionSelectDivClickEvent() {
@@ -483,7 +545,7 @@ function checkGroupFlag(category) {
     addVisibleClass(productSolutionListDiv);
     addVisibleClass(solutionListDiv);
 
-    selectProductObject.productObjectroductCategoryName = category.productCategoryName;
+    selectProductObject.productCategoryName = category.productCategoryName;
 
     if(category.groupFlag) {
         let productGroupList = getProductGroupList(category.productGroupCode);
@@ -835,8 +897,8 @@ function addProductSolutionRequest(solutionList, productCode) {
         success: (response) => {
             if(response.data) {
                 alert("추가 성공");
-                location.replace("/manager/solution/modification");
                 saveLastRequestInLocalStorage("registrationSolutionBoardManage");
+                location.replace("/manager/solution/modification");
             }else {
                 alert("추가 실패");
             }

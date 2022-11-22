@@ -910,13 +910,16 @@ function removeMainCategoryListInfoInLocalStorage() {
 }
 
 function loadMainCategoryListInfoInLocalStorage() {
-    let mainCAtegoryInfo = localStorage.mainCategoryList;
+    let mainCategoryInfo = localStorage.mainCategoryList;
 
-    if(mainCAtegoryInfo != null) {
-        mainCAtegoryInfo = JSON.parse(mainCAtegoryInfo);
+    if(mainCategoryInfo != null) {
+        removeMainCategoryListInfoInLocalStorage();
+
+        mainCategoryInfo = JSON.parse(mainCategoryInfo);
     }
 
-    return mainCAtegoryInfo;
+    console.log(mainCategoryInfo);
+    return mainCategoryInfo;
 }
 
 function clearAllValue() {

@@ -20,8 +20,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> dlsw들어옴");
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 인증 실패");
         log.info(authException.getClass().getSimpleName());
+
         List<String> signinInquiryViewList = new ArrayList<String>();
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -37,8 +38,11 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         log.info("URI: {}", uri);
 
         stringBuilder.append("<html><head></head><body><script>");
+        if(uri.contains("/manager/")){
+            stringBuilder.append("alert(\'접근 권한이 없습니다.\');");
+            stringBuilder.append("location.href=\'/main\';");
 
-        if(signinInquiryViewList.contains(uri)) {
+        }else if(signinInquiryViewList.contains(uri)) {
             stringBuilder.append("location.href=\'/signin/inquiry/service\';");
 
         }else if(uri.equals("/mypage/writing/customer")) {
@@ -53,6 +57,5 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
 
         response.getWriter().print(stringBuilder.toString());
-
     }
 }

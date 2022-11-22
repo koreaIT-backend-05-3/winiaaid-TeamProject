@@ -45,7 +45,7 @@ public class User {
 			return new ArrayList<String>();
 		}
 		
-		return Arrays.asList(user_roles.replaceAll("", "").split(","));
+		return Arrays.asList(user_roles.replaceAll(" ", "").split(","));
 	}
 
 	public ReadUserResponseDto toReadUserResponseDto() {

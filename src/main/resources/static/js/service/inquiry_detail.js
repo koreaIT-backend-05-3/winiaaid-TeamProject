@@ -118,9 +118,12 @@ function setReservationDetailInfo(reservationDetailInfo) {
 
 function loadListPage() {
     let locationInfo = localStorage.locationInfo;
+
     let url = null;
 
     if(locationInfo != null) {
+        localStorage.removeItem("locationInfo");
+        
         if(locationInfo == "inquiry") {
             url = `/service/visit/inquiry`;
 
@@ -133,7 +136,6 @@ function loadListPage() {
         url = `/service/visit/inquiry`;
     }
 
-    localStorage.removeItem("locationInfo");
     location.href = url;
 }
 

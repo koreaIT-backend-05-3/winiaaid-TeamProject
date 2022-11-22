@@ -163,6 +163,7 @@ function checkUserIdChange() {
 function setMainPhoneNumber() {
 	const phoneSelectOption = document.querySelectorAll(".main-phone-box .phone-select-box option")
 	let mainPhoneNumber = localStorage.mainPhoneNumber;
+	localStorage.removeItem("mainPhoneNumber");
 
 	setFirstNumber(phoneSelectOption, mainPhoneNumber);
 	setMiddleNumber(mainMiddlePhoneNumber, mainPhoneNumber);

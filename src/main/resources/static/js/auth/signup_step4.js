@@ -138,7 +138,6 @@ function signupconfirm() {
 		success: (response) => {
 			if(response.data) {
                 localStorage.stepPass = true;
-				localStorage.removeItem("mainPhoneNumber");
 				location.replace("/auth/signup/step5");
 			}
 		},

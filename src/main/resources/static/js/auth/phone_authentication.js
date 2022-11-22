@@ -123,7 +123,6 @@ function checkUser() {
                 return false;
 
             }else {
-                setMainPhoneNumberInLocalStorage();
                 localStorage.stepPass = true;
                 localStorage.mainPhoneNumber = mainPhoneNumberInput.value;
                 location.replace("/auth/signup/step3");
@@ -135,10 +134,6 @@ function checkUser() {
 
 function clearAuthenticationNumber() {
     authenticationNumberInput.value = "";
-}
-
-function setMainPhoneNumberInLocalStorage() {
-    localStorage.userMainPhoneNumber = JSON.stringify(mainPhoneNumberInput.value);
 }
 
 function setAlreadyHasSignupUserView(userInfo) {

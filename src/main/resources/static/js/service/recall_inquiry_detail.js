@@ -9,6 +9,8 @@ listButton.onclick = () => {
     let url = null;
 
     if(locationInfo != null) {
+        localStorage.removeItem("locationInfo");
+        
         if(locationInfo == "inquiry") {
             url = `/service/recall/inquiry`;
 
@@ -21,7 +23,6 @@ listButton.onclick = () => {
         url = `/service/recall/inquiry`;
     }
 
-    localStorage.removeItem("locationInfo");
     location.href = url;
 }
 
