@@ -3,7 +3,9 @@ const deleteButton = document.querySelector(".delete-button");
 const listButton = document.querySelector(".list-button");
 
 const responseTable = document.querySelector(".response-table");
-const responseTextArea = responseTable.querySelector(".content");
+const responseTextArea = responseTable.querySelector(".resonse-div .content");
+
+const responseWriteButton = document.querySelector(".response-write-button");
 
 let authenticationInfo = null;
 let boardCode = getBoardCodeByUri();
@@ -68,7 +70,7 @@ function getBoardDetailByBoardCode(){
     });
 }
 
-function deleteBoard(){
+function deleteBoard() {
     $.ajax({
         type:"delete",
         url:`/api/v1/board/${boardCode}`,
@@ -87,6 +89,7 @@ function deleteBoard(){
 function setButtonByUserCode(boardDetail) {
     if(isAdmin()) {
         showAdminDetailView();
+        setResponseAreaFocusOrBlurEvent();
 
     }else if((boardDetail.userCode == userCode || authenticationInfo != null) && boardDetail.responseFlag != 1) {
 
@@ -104,10 +107,8 @@ function showAdminDetailView() {
     if(boardType != "praise") {
         const responseRequestDiv = document.querySelector(".response-request-div");
         removeVisibleClass(responseRequestDiv);
-        removeVisibleClass(responseTable);
-        responseTextArea.removeAttribute("readOnly");
 
-        setResponseWriteButtonClickEvent();
+        setResponseWriteButtonClickEvent("write");
     }
 
     const moveBoardTypeDiv = document.querySelector(".move-board-type-div");
@@ -124,10 +125,14 @@ function setMoveBoardTypeButtonClickEvent() {
     moveBoardTypeButton.onclick = moveBoardTypeRequest;
 }
 
+function setResponseAreaFocusOrBlurEvent() {
+    responseTextArea.onfocus = () => responseTextArea.removeAttribute("readOnly");
+    responseTextArea.onblur = () => responseTextArea.setAttribute("readOnly", true);
+}
+
 function moveBoardTypeRequest() {
     const boardTypeCode = document.querySelector(".move-board-type-div select").value;
 
-    console.log(boardCode);
     $.ajax({
         async: false,
         type: "put",
@@ -157,10 +162,9 @@ function reload(boardTypeCode, boardCode) {
     location.replace(`/customer/${boardType}/detail/${boardCode}`);
 }
 
-function setResponseWriteButtonClickEvent() {
-    const responseWriteButton = document.querySelector(".response-write-button");
-
-    responseWriteButton.onclick = responseWriteRequest;
+function setResponseWriteButtonClickEvent(type) {
+    type == "write" ? responseWriteButton.onclick = responseWriteRequest
+    : responseWriteButton.onclick = responseModifyRequest
 }
 
 function responseWriteRequest() {
@@ -180,6 +184,29 @@ function responseWriteRequest() {
                 location.reload();
             }else {
                 alert("답변 작성 실패")
+            }
+        },
+        error: errorMessage
+    });
+}
+
+function responseModifyRequest() {
+    $.ajax({
+        async: false,
+        type: "put",
+        url: `/api/v1/manager/board-response/${boardCode}`,
+        contentType: "application/json",
+        data: JSON.stringify({
+            "boardCode": boardCode,
+            "responseContent": responseTextArea.value
+        }),
+        dataType: "json",
+        success: (response) => {
+            if(response.data) {
+                alert("답변 수정 완료");
+                location.reload();
+            }else {
+                alert("답변 수정 실패")
             }
         },
         error: errorMessage
@@ -218,9 +245,24 @@ function setBoardDetail(boardDetail){
 function setBoardResponse(boardDetail) {
     if(boardDetail.response != null) {
         responseTextArea.value = boardDetail.response;
+        setChangeToModifyButton();
+    }else {
+        responseTextArea.removeAttribute("readOnly");
 
-        removeVisibleClass(responseTable);
     }
+
+    if(boardType != "praise") {
+        removeVisibleClass(responseTable);
+
+    }
+}
+
+function setChangeToModifyButton() {
+    responseWriteButton.textContent = "수정하기";
+
+    responseWriteButton.onclick = () => responseTable.removeAttribute("readOnly");
+
+    setResponseWriteButtonClickEvent("modify");
 }
 
 function getBoardType(){
