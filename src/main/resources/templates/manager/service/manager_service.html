@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/manager/fragments/manager_main_style.css">
+    <link rel="stylesheet" href="/static/css/manager/fragments/manager_header.css">
+    <link rel="stylesheet" href="/static/css/util/paging.css">
+    <link rel="stylesheet" href="/static/css/manager/service/manager_service.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://kit.fontawesome.com/87ed282d9d.js" crossorigin="anonymous"></script>
+    <title>[관리자 페이지] 서비스 관리</title>
+</head>
+<body>
+	<th:block th:replace="manager/fragments/manager_header"></th:block>
+    <main>
+        <div id="container">
+            <div class="main-content">
+                <div>
+                    <h1>서비스 관리</h1>
+                </div>
+                <div class="main-service-type-div">
+                    <div>방문 서비스</div>
+                    <div>김치냉장고 리콜</div>
+                </div>
+                <div class="status-type-div">
+                    <select class="status-type-select">
+                        <option value="all">전체</option>
+                        <option value="cancel">접수 취소</option>
+                        <option value="ing">접수 완료</option>
+                        <option value="end">방문 완료</option>
+                    </select>
+                </div>
+                <div class="total-count-div">
+                    <span class="total-count-span"></span>
+                </div>
+                <div class="main-service-detail-div">
+                    <table>
+                        <thead>
+                            
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page-button-div">
+                        
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/util/paging.js"></script>
+    <script src="/static/js/manager/fragments/manager_header.js"></script>
+    <script src="/static/js/manager/service/manager_service.js"></script>
+</body>
+</html>

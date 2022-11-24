@@ -6,6 +6,7 @@ import com.project.winiaaid.service.recall.RecallService;
 import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.recall.RecallServiceRequestDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceDetailRequestDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import com.project.winiaaid.web.dto.requestInfo.ServiceRequestResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -48,11 +49,11 @@ public class RecallServiceRestController {
 	
 	@Log
 	@GetMapping("recall/{serviceCode}")
-	public ResponseEntity<?> getRecallRequest(@PathVariable String serviceCode, int userCode, String userName){
+	public ResponseEntity<?> getRecallRequest(ReadServiceDetailRequestDto readServiceDetailRequestDto){
 		ReadServiceInfoResponseDto recallServiceResponseDto = null;
 		
 		try {
-			recallServiceResponseDto = recallService.getRecallRequest(serviceCode, userCode, userName);
+			recallServiceResponseDto = recallService.getRecallRequest(readServiceDetailRequestDto);
 			if(recallServiceResponseDto == null) {
 				return ResponseEntity.badRequest().body(new CustomResponseDto<>(-1, "request failed", null));
 			}

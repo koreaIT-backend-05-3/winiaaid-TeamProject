@@ -46,4 +46,6 @@ public interface ManagerRepository {
     public int insertBoardResponse(ManagerBoard manager_board) throws Exception;
     public int updateBoardResponse(ManagerBoard manager_board) throws Exception;
     public int updateBoardType(ManagerBoard manager_board) throws Exception;
+
+    public List<ManagerServiceTitle> findServiceHistoryListByServiceTypeCode(Map<String, Object> config_map) throws Exception;
 }

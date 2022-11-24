@@ -32,4 +32,9 @@ public class ManagerPageController {
     public String loadSolutionTypeManagePage() {
         return "manager/solution/manager_solution_type_modify";
     }
+
+    @GetMapping("/service")
+    public String loadServiceManagePage() {
+        return "manager/service/manager_service";
+    }
 }

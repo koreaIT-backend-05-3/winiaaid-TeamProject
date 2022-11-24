@@ -64,25 +64,16 @@
 		</if>
 	</insert>
 	
-	<select id="getRecallRequest" parameterType="HashMap" resultMap="recallServiceInfoMap">
+	<select id="getRecallRequest" parameterType="com.project.winiaaid.domain.requestInfo.ReadServiceDetailRequest" resultMap="recallServiceInfoMap">
 		select
 			rst.service_code,
 			rst.request_date,
 			rst.progress_status,
 			rst.user_code,
 
-			<choose>
-				<when test="non_member_flag == false">
-					um.user_name,
-					um.main_phone_number,
-					ud.sub_phone_number,
-				</when>
-				<otherwise>
-					nmst.user_name,
-					nmst.main_phone_number,
-					nmst.sub_phone_number,
-				</otherwise>
-			</choose>
+			if(rst.non_member_flag = 0, um.user_name, nmst.user_name) as user_name,
+			if(rst.non_member_flag = 0, um.main_phone_number, nmst.main_phone_number) as main_phone_number,
+			if(rst.non_member_flag = 0, ud.sub_phone_number, nmst.sub_phone_number) as sub_phone_number,
 
 			rst.postal_code,
 			rst.main_address,
@@ -95,28 +86,27 @@
 			recall_service_table rst
 			LEFT OUTER JOIN service_type_table stt on(stt.service_type_code = rst.service_type_code)
 			LEFT OUTER JOIN product_model_detail pmd on(pmd.model_code = rst.model_code)
-			<choose>
-				<when test="non_member_flag == false">
-					LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)
-					LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
-				</when>
-				<otherwise>
-					LEFT OUTER JOIN non_member_service_table nmst on(nmst.user_code = rst.user_code)
-				</otherwise>
-			</choose>
+			LEFT OUTER JOIN user_mst um on(um.user_code = rst.user_code)
+			LEFT OUTER JOIN user_dtl ud on(ud.user_code = um.user_code)
+			LEFT OUTER JOIN non_member_service_table nmst on(nmst.user_code = rst.user_code)
 		where
 			service_code = #{service_code}
-			and
-			<choose>
-				<when test="non_member_flag == true">
-					non_member_flag = 1
-					and nmst.user_name = #{user_name}
-				</when>
-				<otherwise>
-					non_member_flag = 0
-					and rst.user_code = #{user_code}
-				</otherwise>
-			</choose>
+			<if test="admin_flag != true">
+				and
+				<choose>
+					<when test="non_member_flag == true">
+						non_member_flag = 1
+							and
+						nmst.user_name = #{user_name}
+					</when>
+					<otherwise>
+						non_member_flag = 0
+							and
+						rst.user_code = #{user_code}
+					</otherwise>
+				</choose>
+			</if>
+		;
 	</select>
 
 	<select id="getRecallRequestList" parameterType="hashmap" resultMap="recallServiceInfoMap">

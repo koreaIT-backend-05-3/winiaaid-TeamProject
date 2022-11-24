@@ -11,11 +11,8 @@ function getRepairServiceHistoryList(page) {
         url: `/api/v1/service/repair/history/list/user/${userCode}?progressStatus=all&page=${page}`,
         dataType: "json",
         success: (response) => {
-            if(response.data != null) {
-                let totalPage = getTotalPage(response.data[0].totalCount, 10);
-                setPage(totalPage);
-                setRepairServiceHistoryData(response.data);
-            }
+            setRepairServiceHistoryData(response.data);
+            
         },
         error: errorMessage
     });
@@ -25,16 +22,22 @@ function setRepairServiceHistoryData(repairDataList) {
     const tbody = document.querySelector("tbody");
     const requestCount = document.querySelector(".request-count");
 
-    requestCount.textContent = repairDataList[0].totalCount;
 
     clearDomObject(tbody);
 
-    if(isEmpty(repairDataList)) {
+    if(repairDataList[0].totalCount == 0) {
         tbody.innerHTML = `
         <tr>
             <td colspan="7">서비스 신청 내역이 없습니다.</td>
         </tr>`;
+
+        requestCount.textContent = 0;
+
     }else {
+        let totalPage = getTotalPage(repairDataList[0].totalCount, 10);
+        setPage(totalPage);
+
+        requestCount.textContent = repairDataList[0].totalCount;
         
         let fristData = true;
 

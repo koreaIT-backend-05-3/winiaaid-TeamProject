@@ -6,6 +6,7 @@ import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceDetailRequestDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import com.project.winiaaid.web.dto.requestInfo.ServiceRequestResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -64,11 +65,11 @@ public class RepairServiceRestController {
 
     @Log
     @GetMapping("/repair/detail/history/{serviceCode}")
-    public ResponseEntity<?> getRepairServiceDetailHistoryInfo(@PathVariable String serviceCode, int userCode, String userName) {
+    public ResponseEntity<?> getRepairServiceDetailHistoryInfo(ReadServiceDetailRequestDto readServiceDetailRequestDto) {
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
 
         try {
-            repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(serviceCode, userCode, userName);
+            repairServiceResponseDto = repairService.getRepairServiceDetailHistoryInfo(readServiceDetailRequestDto);
 
             if(repairServiceResponseDto == null) {
                 return ResponseEntity.badRequest().body(new CustomResponseDto<>(-1, "request failed", null));

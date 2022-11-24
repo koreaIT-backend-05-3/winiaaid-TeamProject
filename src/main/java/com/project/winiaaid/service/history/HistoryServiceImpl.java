@@ -26,18 +26,13 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public List<ReadServiceHistoryTitleResponseDto> getServiceHistoryInfoListByServiceTypeCode(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception {
         List<ServiceHistoryTitle> serviceHistoryTitleEntityList = null;
-        List<ReadServiceHistoryTitleResponseDto> serviceHistoryTitleResponseDtoList = null;
         Map<String, Object> configMap = null;
 
         configMap = configMapper.setReadServiceHistoryListConfigMap(serviceType, userCode, readServiceRequestDto);
 
         serviceHistoryTitleEntityList = serviceHistoryRepository.findServiceHistoryInfoListByServiceTypeCode(configMap);
 
-        if(serviceHistoryTitleEntityList != null) {
-            serviceHistoryTitleResponseDtoList = changeToServiceHistoryTitleResponseDtoList(serviceHistoryTitleEntityList);
-        }
-
-        return serviceHistoryTitleResponseDtoList;
+        return changeToServiceHistoryTitleResponseDtoList(serviceHistoryTitleEntityList);
     }
 
     @Override
@@ -71,8 +66,8 @@ public class HistoryServiceImpl implements HistoryService {
 
     private List<ReadServiceHistoryTitleResponseDto> changeToServiceHistoryTitleResponseDtoList(List<ServiceHistoryTitle> serviceResponseDtoList) {
         return serviceResponseDtoList.stream()
-               .map(ServiceHistoryTitle::toReadServiceHistoryTitleResponseDto)
-               .collect(Collectors.toList());
+                   .map(ServiceHistoryTitle::toReadServiceHistoryTitleResponseDto)
+                   .collect(Collectors.toList());
     }
 
     private List<ReadWritingServiceHistoryTitleResponseDto> changeTodWritingServiceHistoryTitleResponseDto(List<WritingServiceHistoryTitle> writingServiceHistoryTitleList) {

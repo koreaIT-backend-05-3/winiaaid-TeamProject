@@ -25,16 +25,17 @@ public interface ConfigMap {
     public Map<String, Object> setCreateRepairServiceConfigMap(RepairProductInfoEntity repairProductInfoEntity) throws Exception;
     public Map<String, Object> setReadRepairServiceHistoryDetailListAndPastAddressListConfigMap(int userCode, int page, String type) throws Exception;
     public Map<String, Object> setReadServiceHistoryListConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception;
-    public Map<String, Object> setReadServiceDetailHistoryConfigMap(String serviceCode, int userCode, String userName) throws Exception;
     public Map<String, Object> setReadNonMemberServiceDetailHistoryConfigMap(String serviceCode, String userName) throws Exception;
 
     public Map<String, Object> setReadBoardDetailHistoryConfigMap(String viewType, String boardCode, ReadBoardRequestDto readBoardRequestDto) throws Exception;
 
     public Map<String, Object> setReadWritingServiceHistoryListConfigMap(String serviceType, int userCode, ReadServiceRequestDto readServiceRequestDto) throws Exception;
 
-    public Map<String, Object> setReadUserInfoConfigMap(String requesttype, AuthenticationUserRequestDto authenticationUserRequestDto) throws Exception;
+    public Map<String, Object> setReadUserInfoConfigMap(String requestType, AuthenticationUserRequestDto authenticationUserRequestDto) throws Exception;
 
     public Map<String, Object> setDeleteProductInfoConfigMap(String productType, int keyCode, DeleteProductRequestDto deleteProductRequestDto, List<String> productCategoryCodeList) throws Exception;
 
     public Map<String, Object> setReadProductTroubleSymptomConfigMap(int categoryCode, String loadType) throws Exception;
+
+    public Map<String, Object> setReadServiceHistoryTitleListConfigMap(String serviceType, String progressStatus, int page) throws Exception;
 }

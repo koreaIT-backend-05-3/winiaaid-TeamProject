@@ -8,16 +8,15 @@ import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.repair.AddressResponseDto;
 import com.project.winiaaid.web.dto.repair.RepairReservationInfoDto;
 import com.project.winiaaid.web.dto.repair.RepairServiceRequestDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceDetailRequestDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import com.project.winiaaid.web.dto.requestInfo.ServiceRequestResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -80,14 +79,11 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(String serviceCode, int userCode, String userName) throws Exception {
+    public ReadServiceInfoResponseDto getRepairServiceDetailHistoryInfo(ReadServiceDetailRequestDto readServiceDetailRequestDto) throws Exception {
         ServiceInfo repairServiceInfoEntity = null;
         ReadServiceInfoResponseDto repairServiceResponseDto = null;
-        Map<String, Object> configMap = null;
 
-        configMap = configMapper.setReadServiceDetailHistoryConfigMap(serviceCode, userCode, userName);
-
-        repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(configMap);
+        repairServiceInfoEntity = repairRepository.findRepairServiceDetailHistoryInfo(readServiceDetailRequestDto.toReadServiceDetailRequestEntity());
 
         if(repairServiceInfoEntity != null) {
             repairServiceResponseDto = requestService.changeToRepairServiceResponseDto(repairServiceInfoEntity);

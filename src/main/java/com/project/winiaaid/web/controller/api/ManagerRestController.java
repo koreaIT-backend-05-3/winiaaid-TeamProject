@@ -10,6 +10,7 @@ import com.project.winiaaid.web.dto.manager.board.UpdateBoardTypeRequestDto;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
+import com.project.winiaaid.web.dto.manager.service.ReadServiceHistoryTitleResponseManagerDto;
 import com.project.winiaaid.web.dto.manager.solution.*;
 import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
 import com.project.winiaaid.web.dto.solution.ReadSolutionTitleResponseDto;
@@ -386,6 +387,20 @@ public class ManagerRestController {
     }
 
 
+    @Log
+    @GetMapping("/{serviceType}/service/title/list")
+    public ResponseEntity<?> getServiceHistoryListByServiceTypeCode(@PathVariable String serviceType, @RequestParam String progressStatus, @RequestParam int page) {
+        List<ReadServiceHistoryTitleResponseManagerDto> serviceHistoryList = null;
+
+        try {
+            serviceHistoryList = managerService.getServiceHistoryListByServiceTypeCode(serviceType, progressStatus, page);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to load list of service history", serviceHistoryList));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful load of the service history list", serviceHistoryList));
+    }
 
 
     private String uploadSolutionFileAndReturnFileUrl(MultipartFile file) throws IOException {

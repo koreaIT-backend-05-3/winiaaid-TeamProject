@@ -4,13 +4,12 @@ import com.project.winiaaid.domain.recall.RecallProductInfoEntity;
 import com.project.winiaaid.domain.recall.RecallRepository;
 import com.project.winiaaid.domain.recall.RecallServiceCode;
 import com.project.winiaaid.domain.recall.RecallUserInfoEntity;
-import com.project.winiaaid.domain.repair.RepairProductInfoEntity;
-import com.project.winiaaid.domain.repair.RepairServiceCode;
 import com.project.winiaaid.domain.requestInfo.ServiceInfo;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.util.RequestService;
 import com.project.winiaaid.util.UserService;
 import com.project.winiaaid.web.dto.recall.RecallServiceRequestDto;
+import com.project.winiaaid.web.dto.requestInfo.ReadServiceDetailRequestDto;
 import com.project.winiaaid.web.dto.requestInfo.ReadServiceInfoResponseDto;
 import com.project.winiaaid.web.dto.requestInfo.ServiceRequestResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -66,14 +65,11 @@ public class RecallServiceImpl implements RecallService {
 	}
 
 	@Override
-	public ReadServiceInfoResponseDto getRecallRequest(String serviceCode, int userCode, String userName) throws Exception {
+	public ReadServiceInfoResponseDto getRecallRequest(ReadServiceDetailRequestDto readServiceDetailRequestDto) throws Exception {
 		ServiceInfo recallServiceInfo = null;
 		ReadServiceInfoResponseDto readServiceInfoResponseDto = null;
-		Map<String, Object> configMap = null;
 
-		configMap = configMapper.setReadServiceDetailHistoryConfigMap(serviceCode, userCode, userName);
-
-		recallServiceInfo = recallRepository.getRecallRequest(configMap);
+		recallServiceInfo = recallRepository.getRecallRequest(readServiceDetailRequestDto.toReadServiceDetailRequestEntity());
 
 		if(recallServiceInfo != null) {
 			readServiceInfoResponseDto = requestService.changeToRepairServiceResponseDto(recallServiceInfo);
@@ -84,14 +80,12 @@ public class RecallServiceImpl implements RecallService {
 	
 	@Override
 	public List<ReadServiceInfoResponseDto> getRecallRequestList(int page, int userCode) throws Exception {
-			int index = (page - 1) * 10;
-			
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("index", index);
+			map.put("index", (page - 1) * 10);
 			map.put("user_code", userCode);
-			
-			List<ReadServiceInfoResponseDto> list = new ArrayList<ReadServiceInfoResponseDto>();
-			
+
+			List<ReadServiceInfoResponseDto> list = new ArrayList<>();
+
 			recallRepository.getRecallRequestList(map).forEach(recall -> {
 				list.add(recall.toServiceResponseDto());
 			});

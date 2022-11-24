@@ -153,18 +153,6 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     @Override
-    public Map<String, Object> setReadServiceDetailHistoryConfigMap(String serviceCode, int userCode, String userName) throws Exception {
-        Map<String, Object> configMap = new HashMap<>();
-
-        configMap.put("non_member_flag", userCode == 0);
-        configMap.put("user_code", userCode);
-        configMap.put("service_code", serviceCode);
-        configMap.put("user_name", userName);
-
-        return configMap;
-    }
-
-    @Override
     public Map<String, Object> setReadNonMemberServiceDetailHistoryConfigMap(String serviceCode, String userName) throws Exception {
         Map<String, Object> configMap = new HashMap<>();
 
@@ -243,6 +231,18 @@ public class ConfigMapImpl implements ConfigMap{
 
         configMap.put("load_type", loadType);
         configMap.put("category_code",categoryCode);
+
+        return configMap;
+    }
+
+    @Override
+    public Map<String, Object> setReadServiceHistoryTitleListConfigMap(String serviceType, String progressStatus, int page) throws Exception {
+        Map<String, Object> configMap = new HashMap<>();
+
+        configMap.put("service_type_code", serviceType.equals("visit") ? 2 : 3);
+        configMap.put("progress_status",progressStatus);
+        configMap.put("progress_status_code",progressStatus.equals("cancel") ? 0 : progressStatus.equals("ing") ? 1 : 2);
+        configMap.put("page", (page -1) * 10);
 
         return configMap;
     }

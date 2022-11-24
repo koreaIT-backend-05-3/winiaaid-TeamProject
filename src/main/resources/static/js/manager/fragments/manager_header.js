@@ -54,13 +54,15 @@ function removeVisibleClass(domObject) {
 
 function setHeaderMenuClickEvent() {
     const solutionManageLiItems = document.querySelectorAll(".solution-manage-list li");
-    const requestManageLiItems = document.querySelectorAll(".request-manage-list li");
+    const requestManageLiItem = document.querySelector(".request-manage-list li");
     const productManageLiItems = document.querySelectorAll(".product-manage-list li");
     const boardManageLiItem = document.querySelector(".board-manage-list li");
-    const accountManageLiItems = document.querySelectorAll(".account-manage-list li");
+    const accountManageLiItem = document.querySelector(".account-manage-list li");
 
     solutionManageLiItems[0].onclick = () => location.href = "/manager/solution/registration";
     solutionManageLiItems[1].onclick = () => location.href = "/manager/solution/modification";
+
+    requestManageLiItem.onclick = () => location.href = "/manager/service";
 
     productManageLiItems[0].onclick = () => location.href = "/manager/product/registration";
     productManageLiItems[1].onclick = () => location.href = "/manager/product/modification";

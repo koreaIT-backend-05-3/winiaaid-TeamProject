@@ -33,4 +33,9 @@ public class RecallReservationInfoEntity implements ReservationInfoEntity {
                 .totalCount(total_count)
                 .build();
     }
+
+    @Override
+    public boolean isEmpty() {
+        return total_count == 0;
+    }
 }

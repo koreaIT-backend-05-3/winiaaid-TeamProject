@@ -14,6 +14,9 @@ listButton.onclick = () => {
         if(locationInfo == "inquiry") {
             url = `/service/recall/inquiry`;
 
+        }else if(locationInfo == "manager") {
+            url = "/manager/service";
+
         }else {
             url = `/mypage/service/history/${progressStatus == 1 ? "ing" : "end"}`;
 
@@ -32,7 +35,7 @@ function loadRecallRequestComplete(){
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/recall/${serviceCode}?userCode=${userCode}&userName=${userName}`,
+        url: `/api/v1/service/recall/${serviceCode}?userCode=${userCode}&userName=${userName}&adminFlag=${isAdmin()}`,
         dataType: "json",
         async: false,
         success: (response) => {
@@ -117,4 +120,8 @@ function errorMessage(request, status, error) {
     console.log(request.status);
     console.log(request.responseText);
     console.log(error);
+}
+
+function isAdmin() {
+    return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
 }

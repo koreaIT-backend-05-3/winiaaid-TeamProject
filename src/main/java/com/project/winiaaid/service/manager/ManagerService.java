@@ -5,6 +5,7 @@ import com.project.winiaaid.web.dto.manager.board.UpdateBoardResponseRequestDto;
 import com.project.winiaaid.web.dto.manager.board.UpdateBoardTypeRequestDto;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
+import com.project.winiaaid.web.dto.manager.service.ReadServiceHistoryTitleResponseManagerDto;
 import com.project.winiaaid.web.dto.manager.solution.*;
 import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
@@ -35,4 +36,6 @@ public interface ManagerService {
     public boolean insertBoardResponse(CreateBoardResponseRequestDto createBoardResponseRequestDto) throws Exception;
     public boolean updateBoardResponse(UpdateBoardResponseRequestDto updateBoardResponseRequestDto) throws Exception;
     public String updateBoardType(UpdateBoardTypeRequestDto updateBoardType) throws Exception;
+
+    public List<ReadServiceHistoryTitleResponseManagerDto> getServiceHistoryListByServiceTypeCode(String serviceType, String statusType, int page) throws Exception;
 }

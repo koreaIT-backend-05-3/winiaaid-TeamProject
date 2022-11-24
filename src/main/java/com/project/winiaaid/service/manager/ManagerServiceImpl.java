@@ -4,10 +4,7 @@ import com.project.winiaaid.domain.board.Board;
 import com.project.winiaaid.domain.board.BoardCode;
 import com.project.winiaaid.domain.board.BoardRepository;
 import com.project.winiaaid.domain.file.ProductImage;
-import com.project.winiaaid.domain.manager.ManagerBoard;
-import com.project.winiaaid.domain.manager.ManagerProduct;
-import com.project.winiaaid.domain.manager.ManagerRepository;
-import com.project.winiaaid.domain.manager.ManagerSolution;
+import com.project.winiaaid.domain.manager.*;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.web.dto.manager.board.CreateBoardResponseRequestDto;
@@ -15,11 +12,13 @@ import com.project.winiaaid.web.dto.manager.board.UpdateBoardResponseRequestDto;
 import com.project.winiaaid.web.dto.manager.board.UpdateBoardTypeRequestDto;
 import com.project.winiaaid.web.dto.manager.product.AddProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.DeleteProductRequestDto;
+import com.project.winiaaid.web.dto.manager.service.ReadServiceHistoryTitleResponseManagerDto;
 import com.project.winiaaid.web.dto.manager.solution.*;
 import com.project.winiaaid.web.dto.manager.trouble.InsertTroubleSymptomOfProductRequestDto;
 import com.project.winiaaid.web.dto.manager.product.UpdateProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -297,10 +297,11 @@ public class ManagerServiceImpl implements ManagerService {
 
 
 
-
-
-
-
+    @Override
+    public List<ReadServiceHistoryTitleResponseManagerDto> getServiceHistoryListByServiceTypeCode(String serviceType, String progressStatus, int page) throws Exception {
+        Map<String, Object> configMap = configMapper.setReadServiceHistoryTitleListConfigMap(serviceType, progressStatus, page);
+        return changeToReadServiceHistoryTitleResponseManagerDtoList(managerRepository.findServiceHistoryListByServiceTypeCode(configMap));
+    }
 
     private boolean insertNewMainGroupCategory(ManagerProduct productEntity) throws Exception {
         boolean status = false;
@@ -368,6 +369,14 @@ public class ManagerServiceImpl implements ManagerService {
     private void setManagerBoardEntity(ManagerBoard managerBoardEntity, BoardCode boardCodeEntity) throws Exception {
         managerBoardEntity.setNew_board_code(boardCodeEntity.getBoard_code());
         managerBoardEntity.setId2(boardCodeEntity.getId2());
+    }
+
+    private List<ReadServiceHistoryTitleResponseManagerDto> changeToReadServiceHistoryTitleResponseManagerDtoList(List<ManagerServiceTitle> serviceTitleList) throws Exception {
+        log.info("check: {}", serviceTitleList);
+        return serviceTitleList.isEmpty() ? null :
+                serviceTitleList.stream()
+                        .map(ManagerServiceTitle::toReadSolutionDetailResponseDto)
+                        .collect(Collectors.toList());
     }
 
 //    private void checkIfTheImageHasChangedAndChangeIt(UpdateProductRequestDto updateProductRequestDto, ManagerProduct managerProduct) throws IOException {

@@ -25,7 +25,7 @@ function getReservationDetailInfo() {
     $.ajax({
         async: false,
         type: "get",
-        url: `/api/v1/service/repair/detail/history/${serviceCode}?userCode=${userCode}&userName=${userName}`,
+        url: `/api/v1/service/repair/detail/history/${serviceCode}?userCode=${userCode}&userName=${userName}&adminFlag=${isAdmin()}`,
         dataType: "json",
         success: (response) => {
             setReservationDetailInfo(response.data);
@@ -127,6 +127,9 @@ function loadListPage() {
         if(locationInfo == "inquiry") {
             url = `/service/visit/inquiry`;
 
+        }else if(locationInfo == "manager") {
+            url = "/manager/service";
+
         }else {
             url = `/mypage/service/history/${progressStatus == 1 ? "ing" : "end"}`;
 
@@ -145,4 +148,8 @@ function setButtonClickEvent() {
 
     modifyButton.onclick = () => modifyReservationService(serviceCode);
     cancelButton.onclick = () => cancelReservationService(serviceCode);
+}
+
+function isAdmin() {
+    return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
 }

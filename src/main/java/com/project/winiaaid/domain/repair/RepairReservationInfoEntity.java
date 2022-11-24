@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Slf4j
 public class RepairReservationInfoEntity implements ReservationInfoEntity {
     private int engineer_code;
     private String engineer_name;
@@ -25,6 +27,7 @@ public class RepairReservationInfoEntity implements ReservationInfoEntity {
     private LocalDateTime reservation_date;
     private int total_count;
 
+    @Override
     public ReservationInfoDto toReservationInfoDto() {
         return RepairReservationInfoDto.builder()
                 .engineerCode(engineer_code)
@@ -35,5 +38,12 @@ public class RepairReservationInfoEntity implements ReservationInfoEntity {
                 .reservationDate(reservation_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .totalCount(total_count)
                 .build();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        log.info("total_count: {}", total_count);
+        log.info("total_count == 0: {}", total_count == 0);
+        return total_count == 0;
     }
 }
