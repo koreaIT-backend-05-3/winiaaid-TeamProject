@@ -86,7 +86,7 @@ table td {
     font-weight: 400;
 }
 
-.reservation-modify-button-div button:first-child {
+.reservation-modify-button-div button:first-child, .complete-button {
     border: 1px solid #0a71cc;
     margin-right: 5px;
     color: #0a71cc;
@@ -121,4 +121,8 @@ table td {
 
 .go-list-button:hover {
     text-decoration: underline;
+}
+
+.visible {
+    display: none;
 }

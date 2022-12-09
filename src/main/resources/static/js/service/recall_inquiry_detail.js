@@ -42,6 +42,7 @@ function loadRecallRequestComplete(){
             getRecallRequest(response.data)
             addCancelButton(response.data)
             addcancelClickEvent(response.data.productInfo.serviceCode)
+            addCompleteButtonClickEvent();
         },
         error : errorMessage
     })
@@ -80,8 +81,8 @@ function getRecallRequest(recallRequest){
 function addCancelButton(data){
 	const note = document.querySelector('.note')
 	progressStatus = data.reservationInfo.progressStatus;
-	if(progressStatus == 1){
-		note.innerHTML = "<button class='cancel'>신청취소</button>"
+	if(progressStatus == 1) {
+		note.innerHTML = `${isAdmin() ? '<button class="complete-button" type="button">방문완료</button><button class="cancel">신청취소</button>' : '<button class="cancel">신청취소</button>'}`;
 	}else{
 		note.innerHTML = ""
 	}
@@ -106,10 +107,18 @@ function updateCancelRecallRequest(serviceCode){
 		url: `/api/v1/service/recall/cancel/${serviceCode}`,
 		dataType: "json",
 		success: (response) => {
-			loadRecallRequestComplete();
+			isAdmin() ? location.replace("/manager/service") : loadRecallRequestComplete();
 		},
 		error: errorMessage
 	})
+}
+
+function addCompleteButtonClickEvent() {
+    const completeButton = document.querySelector(".complete-button");
+
+    const serviceType = "recall";
+
+    completeButton.onclick = () => completeReservationService(serviceType, serviceCode);
 }
 
 function errorMessage(request, status, error) {

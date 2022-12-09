@@ -91,7 +91,7 @@ function setReservationDetailInfo(reservationDetailInfo) {
                 <th>상세내용</th>
                 <td>${productInfoObject.description}</td>
                 <th>예약변경/취소 및 평가하기</th>
-                <td>${progressStatus == 1 ? '<div class="reservation-modify-button-div"><button class="modify-button" type="button">예약변경</button><button class="cancel-button" type="button">예약취소</button></div>' : ''}</td>
+                <td>${progressStatus == 1 ? `<div class="reservation-modify-button-div"><button class="modify-button ${isAdmin() ? 'visible' : ''}" type="button">예약변경</button>${isAdmin() ? '<button class="complete-button" type="button">방문완료</button>' : ''}<button class="cancel-button" type="button">예약취소</button></div>` : ''}</td>
             </tr>
         `;
 
@@ -143,9 +143,13 @@ function loadListPage() {
 }
 
 function setButtonClickEvent() {
+    const completeButton = document.querySelector(".complete-button");
     const modifyButton = document.querySelector(".modify-button");
     const cancelButton = document.querySelector(".cancel-button");
 
+    const serviceType = "repair";
+
+    completeButton.onclick = () => completeReservationService(serviceType, serviceCode);
     modifyButton.onclick = () => modifyReservationService(serviceCode);
     cancelButton.onclick = () => cancelReservationService(serviceCode);
 }

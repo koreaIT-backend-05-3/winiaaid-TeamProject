@@ -303,6 +303,15 @@ public class ManagerServiceImpl implements ManagerService {
         return changeToReadServiceHistoryTitleResponseManagerDtoList(managerRepository.findServiceHistoryListByServiceTypeCode(configMap));
     }
 
+    @Override
+    public boolean completeRepairServiceByRepairServiceCode(String serviceType, String serviceCode) throws Exception {
+        return managerRepository.completeRepairServiceByRepairServiceCode(serviceType, serviceCode) > 0;
+    }
+
+
+
+
+
     private boolean insertNewMainGroupCategory(ManagerProduct productEntity) throws Exception {
         boolean status = false;
         int productGroupCode = managerRepository.findMaxProductGroupCode();

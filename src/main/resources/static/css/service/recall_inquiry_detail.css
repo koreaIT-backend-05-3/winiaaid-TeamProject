@@ -122,6 +122,20 @@ table td{
     background-color: transparent;
 }
 
+.complete-button {
+    margin-right: 5px;
+
+    width: 78px;
+    height: 31px;
+    border: 1px solid #0a71cc;
+
+    font-weight: 400;
+    color: #0a71cc;
+
+    line-height: 29px;
+    background-color: transparent;
+}
+
 .client-information{
     margin-bottom: 50px;
 }

@@ -1,5 +1,12 @@
 window.onload = () => {
-    DataLoadTypeSetter.getInstance();
+    let lastRequestInfo = LastRequest.getInstance().lastRequestInfo;
+    console.log(lastRequestInfo);
+    DataLoadTypeSetter.getInstance(lastRequestInfo);
+
+    if(lastRequestInfo != null) {
+        nowPage = lastRequestInfo.page;
+        ServiceDataLoader.getInstance().getServiceDataList(nowPage);
+    }
 }
 
 function loadPage(page) {
@@ -11,21 +18,29 @@ class DataLoadTypeSetter {
 
     serviceDataLoader = null;
 
-    boardType = null;
+    serviceType = null;
     progressStatus = null;
 
     mainServiceTypeItems = null;
     statusTypeSelect = null;
 
-    static getInstance() {
+    lastRequestInfo = null;
+
+    static getInstance(lastRequestInfo) {
         if(this.#instance == null) {
-            this.#instance = new DataLoadTypeSetter();
+            this.#instance = new DataLoadTypeSetter(lastRequestInfo);
         }
 
         return this.#instance;
     }
 
-    constructor() {
+    constructor(lastRequestInfo) {
+        if(lastRequestInfo != null) {
+            this.lastRequestInfo = lastRequestInfo;
+            this.setServiceTypeByLastRequestInfo();
+            this.setProgressStatusByLastRequestInfo();
+        }
+
         this.serviceDataLoader = ServiceDataLoader.getInstance();
         this.setServiceTypeClickEvent();
         this.setProgressStatusSelectEvent();
@@ -36,7 +51,7 @@ class DataLoadTypeSetter {
         this.mainServiceTypeItems = document.querySelectorAll(".main-service-type-div div");
 
         this.mainServiceTypeItems.forEach(serviceTypeDiv => {
-            serviceTypeDiv.onclick = (e) => this.selectBoardType(e.target);
+            serviceTypeDiv.onclick = (e) => this.selectServiceType(e.target);
         })
 
     }
@@ -48,10 +63,10 @@ class DataLoadTypeSetter {
 
     }
 
-    selectBoardType(div) {
+    selectServiceType(div) {
         this.initializeSelectServiceType();
 
-        this.boardType = div.textContent == "방문 서비스" ? "visit" : "recall";
+        this.serviceType = div.textContent == "방문 서비스" ? "visit" : "recall";
         div.classList.add("select-div");
 
         nowPage = 1;
@@ -76,16 +91,34 @@ class DataLoadTypeSetter {
 
     }
 
-
-
-
-    getBoardType() {
-        return this.boardType;
+    getServiceType() {
+        return this.serviceType;
     }
 
     getProgressStatus() {
         const statusTypeSelect = document.querySelector(".status-type-select");
         return statusTypeSelect.value;
+    }
+
+    setServiceTypeByLastRequestInfo() {
+        const serviceTypeDivItems = document.querySelectorAll(".main-service-type-div div");
+
+        this.serviceType = this.lastRequestInfo.serviceType;
+
+        this.serviceType == "visit" ? serviceTypeDivItems[0].classList.add("select-div") : serviceTypeDivItems[1].classList.add("select-div");
+    }
+
+    setProgressStatusByLastRequestInfo() {
+        const progressStatusOptionItems = document.querySelectorAll(".status-type-select option");
+
+        this.progressStatus = this.lastRequestInfo.progressStatus;
+
+        progressStatusOptionItems.forEach(option => {
+            if(this.progressStatus == option.value) {
+                option.setAttribute("selected", true);
+                return false;
+            }
+        })
     }
 
 }
@@ -105,7 +138,7 @@ class ServiceDataLoader {
     }
 
     getServiceDataList(page) {
-        this.serviceType = DataLoadTypeSetter.getInstance().getBoardType();
+        this.serviceType = DataLoadTypeSetter.getInstance().getServiceType();
         this.progressStatus = DataLoadTypeSetter.getInstance().getProgressStatus();
 
         if(this.serviceType != null) {
@@ -226,4 +259,33 @@ class ServiceDataLoader {
     clearDomObject(domObject) {
         domObject.innerHTML = "";
     }
+}
+
+class LastRequest {
+    static #instance = null;
+
+    lastRequestInfo = null;
+
+    static getInstance() {
+        if(this.#instance == null) {
+            this.#instance = new LastRequest();
+        }
+
+        return this.#instance;
+    }
+
+    constructor() {
+        this.getLastRequestInfoInLocalStorage();
+    }
+
+    getLastRequestInfoInLocalStorage() {
+        this.lastRequestInfo = localStorage.lastRequestInfo;
+        localStorage.removeItem("lastRequestInfo");
+
+        if(this.lastRequestInfo != null) {
+            this.lastRequestInfo = JSON.parse(this.lastRequestInfo);
+        }
+
+    }
+
 }

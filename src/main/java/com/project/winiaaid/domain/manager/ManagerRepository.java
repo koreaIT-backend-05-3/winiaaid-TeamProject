@@ -48,4 +48,5 @@ public interface ManagerRepository {
     public int updateBoardType(ManagerBoard manager_board) throws Exception;
 
     public List<ManagerServiceTitle> findServiceHistoryListByServiceTypeCode(Map<String, Object> config_map) throws Exception;
+    public int completeRepairServiceByRepairServiceCode(String service_type, String service_code) throws Exception;
 }

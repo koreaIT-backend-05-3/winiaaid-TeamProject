@@ -12,7 +12,7 @@ function cancelReservationService(repairServiceCode) {
                 if(response.data) {
                     alert("접수 내역을 취소하였습니다.");
                     if(userCode != 0) {
-                        location.replace("/service/visit/inquiry");
+                        isAdmin() ? loadManagerServicePage() : location.replace("/service/visit/inquiry");
                         
                     }else {
                         location.replace("/main");
@@ -28,4 +28,34 @@ function cancelReservationService(repairServiceCode) {
             }
         });
     }
+}
+
+function completeReservationService(serviceType, repairServiceCode) {
+    if(confirm("방문 완료 처리하시겠습니까?")) {
+        $.ajax({
+            async: false,
+            type: "put",
+            url: `/api/v1/manager/${serviceType}/complete/${repairServiceCode}`,
+            dataType: "json",
+            success: (response) => {
+                if(response.data) {
+                    alert("방문 완료 처리했습니다.");
+                    loadManagerServicePage();
+                }
+            },
+            error: (request, status, error) => {
+                console.log(request.status);
+                console.log(request.responseText);
+                console.log(error);
+            }
+        })
+    }
+}
+
+function isAdmin() {
+    return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
+}
+
+function loadManagerServicePage() {
+    location.replace("/manager/service");
 }

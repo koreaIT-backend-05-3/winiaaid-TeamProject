@@ -402,6 +402,21 @@ public class ManagerRestController {
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successful load of the service history list", serviceHistoryList));
     }
 
+    @Log
+    @PutMapping("/{serviceType}/complete/{serviceCode}")
+    public ResponseEntity<?> completeRepairServiceByRepairServiceCode(@PathVariable String serviceType, @PathVariable String serviceCode) {
+        boolean status = false;
+
+        try {
+            status = managerService.completeRepairServiceByRepairServiceCode(serviceType, serviceCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to complete the service history", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully complete service history", status));
+    }
+
 
     private String uploadSolutionFileAndReturnFileUrl(MultipartFile file) throws IOException {
         String customPath = "winiaaid-images/temp_solution_files/";

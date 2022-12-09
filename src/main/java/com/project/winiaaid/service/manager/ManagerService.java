@@ -38,4 +38,5 @@ public interface ManagerService {
     public String updateBoardType(UpdateBoardTypeRequestDto updateBoardType) throws Exception;
 
     public List<ReadServiceHistoryTitleResponseManagerDto> getServiceHistoryListByServiceTypeCode(String serviceType, String statusType, int page) throws Exception;
+    public boolean completeRepairServiceByRepairServiceCode(String serviceType, String serviceCode) throws Exception;
 }

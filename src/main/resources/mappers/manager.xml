@@ -645,4 +645,25 @@
             </if>
         LIMIT #{page}, 10;
     </select>
+
+    <update id="completeRepairServiceByRepairServiceCode" parameterType="String">
+        UPDATE
+            <choose>
+                <when test="service_type == 'repair'">
+                    repair_service_table rst
+                    INNER JOIN engineer_reservation_table ert on(ert.service_code = rst.service_code)
+                </when>
+                <otherwise>
+                    recall_service_table rst
+                </otherwise>
+            </choose>
+        SET
+            rst.progress_status = 2
+            <if test="service_type == 'repair'">
+                ,
+                ert.progress_status = 0
+            </if>
+        WHERE
+            rst.service_code = #{service_code};
+    </update>
 </mapper>
