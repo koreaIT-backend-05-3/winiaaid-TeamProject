@@ -18,11 +18,11 @@ class UserLoader {
     setUserList() {
         const tbody = document.querySelector("tbody");
 
-        const userList = this.loadUserList();
+        this.userList = this.loadUserList();
 
-        if(userList != null) {
+        if(this.userList != null) {
             this.clearDomObject(tbody);
-            userList.forEach(user => {
+            this.userList.forEach(user => {
                 tbody.innerHTML += `
                     <tr>
                         <td>${user.userName}</td>
@@ -91,6 +91,8 @@ class UserRemover {
     setUserWithdrawalButtonClickEvent() {
         const withdrawalButtonItems = document.querySelectorAll(".withdrawal-button");
         const userList = UserLoader.getInstance().userList;
+
+        console.log(userList);
 
         withdrawalButtonItems.forEach((button, index) => {
             button.onclick = () => this.withdrawalUser(userList[index]);

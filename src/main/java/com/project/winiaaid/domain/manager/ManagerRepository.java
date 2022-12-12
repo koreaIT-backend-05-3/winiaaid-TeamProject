@@ -52,4 +52,5 @@ public interface ManagerRepository {
     public int completeRepairServiceByRepairServiceCode(String service_type, String service_code) throws Exception;
 
     public List<User> findAllUserList() throws Exception;
+    public int deleteUserByUserCode(int user_code) throws Exception;
 }

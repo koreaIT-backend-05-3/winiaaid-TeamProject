@@ -316,6 +316,11 @@ public class ManagerServiceImpl implements ManagerService {
         return changeToReadUserResponseDtoList(managerRepository.findAllUserList());
     }
 
+    @Override
+    public boolean deleteUserByUserCode(int userCode) throws Exception {
+        return managerRepository.deleteUserByUserCode(userCode) > 0;
+    }
+
     private boolean insertNewMainGroupCategory(ManagerProduct productEntity) throws Exception {
         boolean status = false;
         int productGroupCode = managerRepository.findMaxProductGroupCode();

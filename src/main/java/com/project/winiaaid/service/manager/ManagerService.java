@@ -42,4 +42,5 @@ public interface ManagerService {
     public boolean completeRepairServiceByRepairServiceCode(String serviceType, String serviceCode) throws Exception;
 
     public List<ReadUserResponseDto> getAllUserList() throws Exception;
+    public boolean deleteUserByUserCode(int userCode) throws Exception;
 }

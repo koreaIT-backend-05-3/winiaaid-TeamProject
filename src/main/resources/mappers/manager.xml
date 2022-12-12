@@ -694,4 +694,12 @@
             user_mst um
             LEFT OUTER JOIN user_dtl ud ON(ud.user_code = um.user_code)
     </select>
+
+    <delete id="deleteUserByUserCode" parameterType="Integer">
+        DELETE
+        FROM
+            user_mst
+        WHERE
+            user_code = #{user_code};
+    </delete>
 </mapper>

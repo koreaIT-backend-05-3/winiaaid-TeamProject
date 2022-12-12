@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -429,10 +430,25 @@ public class ManagerRestController {
             userList = managerService.getAllUserList();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to complete the user list", userList));
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to complete the load user list", userList));
         }
 
-        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully complete user list", userList));
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully complete load user list", userList));
+    }
+
+    @Log
+    @DeleteMapping("/user/{userCode}")
+    public ResponseEntity<?> deleteUserByUserCode(@PathVariable int userCode) {
+        boolean status = false;
+
+        try {
+            status = managerService.deleteUserByUserCode(userCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Member deletion failed", status));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Member deletion successful", status));
     }
 
 
