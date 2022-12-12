@@ -1,6 +1,7 @@
 package com.project.winiaaid.domain.manager;
 
 import com.project.winiaaid.domain.file.ProductImage;
+import com.project.winiaaid.domain.user.User;
 import com.project.winiaaid.web.dto.manager.board.CreateBoardResponseRequestDto;
 import org.apache.catalina.Manager;
 import org.apache.ibatis.annotations.Mapper;
@@ -49,4 +50,6 @@ public interface ManagerRepository {
 
     public List<ManagerServiceTitle> findServiceHistoryListByServiceTypeCode(Map<String, Object> config_map) throws Exception;
     public int completeRepairServiceByRepairServiceCode(String service_type, String service_code) throws Exception;
+
+    public List<User> findAllUserList() throws Exception;
 }

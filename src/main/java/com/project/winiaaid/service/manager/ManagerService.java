@@ -1,5 +1,6 @@
 package com.project.winiaaid.service.manager;
 
+import com.project.winiaaid.web.dto.auth.ReadUserResponseDto;
 import com.project.winiaaid.web.dto.manager.board.CreateBoardResponseRequestDto;
 import com.project.winiaaid.web.dto.manager.board.UpdateBoardResponseRequestDto;
 import com.project.winiaaid.web.dto.manager.board.UpdateBoardTypeRequestDto;
@@ -39,4 +40,6 @@ public interface ManagerService {
 
     public List<ReadServiceHistoryTitleResponseManagerDto> getServiceHistoryListByServiceTypeCode(String serviceType, String statusType, int page) throws Exception;
     public boolean completeRepairServiceByRepairServiceCode(String serviceType, String serviceCode) throws Exception;
+
+    public List<ReadUserResponseDto> getAllUserList() throws Exception;
 }

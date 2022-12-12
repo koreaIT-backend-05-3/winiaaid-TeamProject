@@ -5,8 +5,10 @@ import com.project.winiaaid.domain.board.BoardCode;
 import com.project.winiaaid.domain.board.BoardRepository;
 import com.project.winiaaid.domain.file.ProductImage;
 import com.project.winiaaid.domain.manager.*;
+import com.project.winiaaid.domain.user.User;
 import com.project.winiaaid.util.ConfigMap;
 import com.project.winiaaid.util.FileService;
+import com.project.winiaaid.web.dto.auth.ReadUserResponseDto;
 import com.project.winiaaid.web.dto.manager.board.CreateBoardResponseRequestDto;
 import com.project.winiaaid.web.dto.manager.board.UpdateBoardResponseRequestDto;
 import com.project.winiaaid.web.dto.manager.board.UpdateBoardTypeRequestDto;
@@ -309,8 +311,10 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
 
-
-
+    @Override
+    public List<ReadUserResponseDto> getAllUserList() throws Exception {
+        return changeToReadUserResponseDtoList(managerRepository.findAllUserList());
+    }
 
     private boolean insertNewMainGroupCategory(ManagerProduct productEntity) throws Exception {
         boolean status = false;
@@ -386,6 +390,12 @@ public class ManagerServiceImpl implements ManagerService {
                 serviceTitleList.stream()
                         .map(ManagerServiceTitle::toReadSolutionDetailResponseDto)
                         .collect(Collectors.toList());
+    }
+
+    private List<ReadUserResponseDto> changeToReadUserResponseDtoList(List<User> userList) throws Exception {
+        return userList.stream()
+                .map(User::toReadUserResponseDto)
+                .collect(Collectors.toList());
     }
 
 //    private void checkIfTheImageHasChangedAndChangeIt(UpdateProductRequestDto updateProductRequestDto, ManagerProduct managerProduct) throws IOException {

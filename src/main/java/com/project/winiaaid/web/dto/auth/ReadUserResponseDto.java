@@ -28,4 +28,5 @@ public class ReadUserResponseDto {
     private String staffCompany;
     private String employeeNumber;
     private LocalDateTime createDate;
+    private String createDateToString;
 }

@@ -4,6 +4,7 @@ import com.project.winiaaid.handler.aop.annotation.Log;
 import com.project.winiaaid.service.manager.ManagerService;
 import com.project.winiaaid.util.FileService;
 import com.project.winiaaid.web.dto.CustomResponseDto;
+import com.project.winiaaid.web.dto.auth.ReadUserResponseDto;
 import com.project.winiaaid.web.dto.manager.board.CreateBoardResponseRequestDto;
 import com.project.winiaaid.web.dto.manager.board.UpdateBoardResponseRequestDto;
 import com.project.winiaaid.web.dto.manager.board.UpdateBoardTypeRequestDto;
@@ -415,6 +416,23 @@ public class ManagerRestController {
         }
 
         return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully complete service history", status));
+    }
+
+
+
+    @Log
+    @GetMapping("/user/list")
+    public ResponseEntity<?> getAllUserList() {
+        List<ReadUserResponseDto> userList = null;
+
+        try {
+            userList = managerService.getAllUserList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(new CustomResponseDto<>(-1, "Failed to complete the user list", userList));
+        }
+
+        return ResponseEntity.ok(new CustomResponseDto<>(1, "Successfully complete user list", userList));
     }
 
 

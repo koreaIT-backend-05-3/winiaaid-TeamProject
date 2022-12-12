@@ -1,0 +1,41 @@
+.title-div {
+    margin: 50px;
+}
+
+.member-table-div {
+    display: flex;
+    justify-content: center;
+
+    padding: 30px;
+
+    width: 980px;
+
+    background-color: #dbdbdb;
+}
+
+table {
+    width: 800px;
+}
+
+th, td {
+    padding: 10px;
+
+    text-align: center;
+}
+
+thead tr {
+    border-bottom: 1px solid black;
+}
+
+tbody tr {
+    border-bottom: 1px solid black;
+}
+
+.withdrawal-button {
+    border: none;
+
+    color: red;
+    background-color: #dbdbdb;
+
+    cursor: pointer;
+}

@@ -666,4 +666,32 @@
         WHERE
             rst.service_code = #{service_code};
     </update>
+
+
+
+    <select id="findAllUserList" resultType="com.project.winiaaid.domain.user.User">
+        SELECT
+            um.user_code,
+            um.user_name,
+            um.user_id,
+            um.user_email,
+            um.user_gender,
+            um.postal_code,
+            um.main_address,
+            um.detail_address,
+            um.main_phone_number,
+            um.user_birth,
+            um.birth_type,
+            um.create_date,
+
+            ud.sub_phone_number,
+            ud.email_receive_flag,
+            ud.sms_receive_flag,
+            ud.mail_receive_flag,
+            ud.staff_company,
+            ud.employee_number
+        FROM
+            user_mst um
+            LEFT OUTER JOIN user_dtl ud ON(ud.user_code = um.user_code)
+    </select>
 </mapper>

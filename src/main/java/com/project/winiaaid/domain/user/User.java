@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,7 +70,7 @@ public class User {
 				.smsReceiveFlag(sms_receive_flag == 1)
 				.staffCompany(staff_company)
 				.employeeNumber(employee_number)
-				.createDate(create_date)
+				.createDateToString(create_date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
 				.build();
 	}
 

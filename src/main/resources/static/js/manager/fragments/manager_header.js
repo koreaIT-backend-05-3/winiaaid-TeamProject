@@ -69,4 +69,6 @@ function setHeaderMenuClickEvent() {
     productManageLiItems[2].onclick = () => location.href = "/manager/trouble-symptom";
 
     boardManageLiItem.onclick = () => location.href = "/customer/complaint/list";
+
+    accountManageLiItem.onclick = () => location.href = "/manager/member";
 }

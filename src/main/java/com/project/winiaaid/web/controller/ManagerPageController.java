@@ -37,4 +37,9 @@ public class ManagerPageController {
     public String loadServiceManagePage() {
         return "manager/service/manager_service";
     }
+
+    @GetMapping("/member")
+    public String loadMemberManagePage() {
+        return "manager/member/manager_member";
+    }
 }
