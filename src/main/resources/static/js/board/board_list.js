@@ -340,15 +340,6 @@ function checkNonMemberViewPage() {
     return location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == "non-member";
 }
 
-function isAdmin() {
-    if(user != null) {
-        
-        return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
-    }
-
-    return false;
-}
-
 function errorMessage(request, status, error) {
     alert("에러");
     console.log(request.status);

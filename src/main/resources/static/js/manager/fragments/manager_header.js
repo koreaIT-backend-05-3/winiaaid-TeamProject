@@ -4,6 +4,7 @@ let preMenuTarget = null;
 
 setSubMenuTitleSpanClickEvent();
 setHeaderMenuClickEvent();
+setLoadMainPageButtonClickEvent();
 
 
 function setSubMenuTitleSpanClickEvent() {
@@ -71,4 +72,10 @@ function setHeaderMenuClickEvent() {
     boardManageLiItem.onclick = () => location.href = "/customer/complaint/list";
 
     accountManageLiItem.onclick = () => location.href = "/manager/member";
+}
+
+function setLoadMainPageButtonClickEvent() {
+    const loadMainPageButton = document.querySelector(".load-main-page-button");
+
+    loadMainPageButton.onclick = () => location.href = "/main";
 }

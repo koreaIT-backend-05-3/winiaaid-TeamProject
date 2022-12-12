@@ -21,6 +21,16 @@ header {
     font-size: 16PX;
 }
 
+.load-manager-page-button {
+    border: none;
+
+    font-size: 20px;
+    font-weight: 700;
+    color: black;
+
+    cursor: pointer;
+}
+
 .top-bar ul{
 	display: flex;
 }

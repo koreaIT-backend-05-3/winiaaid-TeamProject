@@ -6,11 +6,15 @@
     display: flex;
     justify-content: center;
 
+    margin-bottom: 50px;
     padding: 30px;
 
     width: 980px;
+    height: 600px;
 
     background-color: #dbdbdb;
+
+    overflow: auto;
 }
 
 table {

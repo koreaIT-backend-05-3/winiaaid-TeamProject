@@ -30,6 +30,10 @@ if(user != null) {
 
     const logoutButton = document.querySelector(".logout");
     logoutButton.onclick = setLogoutButtonClickEvent;
+
+    if(isAdmin()) {
+        setLoadManagerPageEvent();
+    }
     
 }else{
 	const signinButton = document.querySelector(".signin");
@@ -143,4 +147,20 @@ function loadUserBoardHistoryPage() {
 
 function loadUserInfoModifyPage() {
     location.href = "/mypage/modify/info";
+}
+
+function isAdmin() {
+    if(user != null) {
+        return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
+    }
+
+    return false;
+}
+
+function setLoadManagerPageEvent() {
+    const loadManagerPageButton = document.querySelector(".load-manager-page-button");
+
+    loadManagerPageButton.classList.remove("menu-visible");
+
+    loadManagerPageButton.onclick = () => location.href = "/manager/main";
 }

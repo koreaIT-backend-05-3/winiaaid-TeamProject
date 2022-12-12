@@ -153,11 +153,3 @@ function setButtonClickEvent() {
     modifyButton.onclick = () => modifyReservationService(serviceCode);
     cancelButton.onclick = () => cancelReservationService(serviceCode);
 }
-
-function isAdmin() {
-    if(user != null) {
-        return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
-    }
-
-    return false;
-}

@@ -130,12 +130,3 @@ function errorMessage(request, status, error) {
     console.log(request.responseText);
     console.log(error);
 }
-
-function isAdmin() {
-    if(user != null) {
-        
-        return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
-    }
-
-    return false;
-}
