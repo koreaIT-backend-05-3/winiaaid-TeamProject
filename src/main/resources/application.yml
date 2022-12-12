@@ -26,7 +26,7 @@ mybatis:
   - /mappers/*.xml
   
 file:
-  path: /home/ubuntu/upload/
+  path: /home/ubuntu/springboot/project/winiaaid-TeamProject/upload/
 #  path: C:/project/workspace/git/winiaaid-TeamProject/src/main/resources/static/
 #  path: /Users/gim-yujeong/workspace/git/winiaaid-TeamProject/upload/
 
