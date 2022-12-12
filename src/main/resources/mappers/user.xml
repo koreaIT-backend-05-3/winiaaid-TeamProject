@@ -59,6 +59,7 @@
 		um.detail_address,
 		um.main_phone_number,
 		um.birth_type,
+		um.create_date,
 
 		ud.sub_phone_number,
 		ud.email_receive_flag,

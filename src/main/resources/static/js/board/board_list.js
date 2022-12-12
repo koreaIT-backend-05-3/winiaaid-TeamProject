@@ -341,7 +341,12 @@ function checkNonMemberViewPage() {
 }
 
 function isAdmin() {
-    return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
+    if(user != null) {
+        
+        return user.userRoles.indexOf("ROLE_MANAGER") != -1 || user.userRoles.indexOf("ROLE_ADMIN") != -1
+    }
+
+    return false;
 }
 
 function errorMessage(request, status, error) {
