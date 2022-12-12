@@ -234,8 +234,6 @@ function checkCategorySlideAmount() {
 function checkProductSlideAmount() {
     const swiperSlides = document.querySelectorAll(".swiper-product .swiper-slide");
     const swiperMoveDivs = document.querySelectorAll(".swiper-product .slide-div");
-    console.log(swiperMoveDivs);
-    console.log(swiperMoveDivs.length);
 
     if(swiperSlides.length > 1) {
         removeVisibles(swiperMoveDivs);

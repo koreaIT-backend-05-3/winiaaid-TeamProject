@@ -44,232 +44,36 @@ for(let titlebutton of selectTitleButtons){
 /* Category */
 const categoryButtons = document.querySelectorAll('.category li button')
 const categoryItemSlide = document.querySelector('.category-items-slide')
-const wrapper = document.querySelector('.slide-wrapper')
-const item = document.querySelector('.item')
-const item2 = document.querySelector('.item2');
-const prevButton = document.querySelector(".slide-button-prev")
-const nextButton = document.querySelector(".slide-button-next")
+const wrapper = document.querySelector('.swiper2 .swiper-wrapper')
+const prevButton = document.querySelector(".swiper2 .swiper-button-prev")
+const nextButton = document.querySelector(".swiper2 .swiper-button-next")
 let currentIndex = 0;
-const items = [
-    {
-        type: "kimchi-fridge",
-        name: "뚜껑형",
-        img: "/static/images/category1_1.jpg"
-    },
-    {
-        type: "kimchi-fridge",
-        name: "스탠드형",
-        img: "/static/images/category1_2.jpg"
-    },
-    {
-        type: "air-contidioner",
-        name: "스탠드에어컨",
-        img: "/static/images/category2_1.jpg"
-    },
-    {
-        type: "air-contidioner",
-        name: "벽걸이에어컨",
-        img: "/static/images/category2_2.jpg"
-    },
-    {
-        type: "air-contidioner",
-        name: "천장형에어컨",
-        img: "/static/images/category2_3.jpg"
-    },
-    {
-        type: "air-contidioner",
-        name: "이동형에어컨",
-        img: "/static/images/category2_4.jpg"
-    },
-    {
-        type: "air-contidioner",
-        name: "창문형에어컨",
-        img: "/static/images/category2_5.jpg"
-    },
-    {
-        type: "rice-cooker",
-        name: "딤채쿡",
-        img: "/static/images/category3_1.png"
-    },
-    {
-        type: "kitchen-appliances",
-        name: "김치냉장고",
-        img: "/static/images/category1_1.jpg"
-    },
-    {
-        type: "kitchen-appliances",
-        name: "냉장고",
-        img: "/static/images/category4_2.jpg"
-    },
-    {
-        type: "kitchen-appliances",
-        name: "전기밥솥",
-        img: "/static/images/category3_1.png"
-    },
-    {
-        type: "kitchen-appliances",
-        name: "전기레인지",
-        img: "/static/images/category4_4.jpg"
-    },
-    {
-        type: "kitchen-appliances",
-        name: "전자레인지/오븐",
-        img: "/static/images/category4_5.png"
-    },
-    {
-        type: "kitchen-appliances",
-        name: "에어프라이어",
-        img: "/static/images/category4_6.jpg"
-    },
-    {
-        type: "kitchen-appliances",
-        name: "정수기",
-        img: "/static/images/category4_7.jpg"
-    },
-    {
-        type: "kitchen-appliances",
-        name: "식기세척기",
-        img: "/static/images/category4_8.jpg"
-    },
-    {
-        type: "kitchen-appliances",
-        name: "전기주전자",
-        img: "/static/images/category4_9.jpg"
-    },
-    {
-        type: "kitchen-appliances",
-        name: "뉴트리불렛",
-        img: "/static/images/category4_10.jpg"
-    },
-    {
-        type: "household-appliances",
-        name: "에어컨",
-        img: "/static/images/category2_1.jpg"
-    },
-    {
-        type: "household-appliances",
-        name: "에어워셔/스포워셔",
-        img: "/static/images/category5_2.jpg"
-    },
-    {
-        type: "household-appliances",
-        name: "제습기",
-        img: "/static/images/category5_3.jpg"
-    },
-    {
-        type: "household-appliances",
-        name: "공기청정기",
-        img: "/static/images/category5_4.png"
-    },
-    {
-        type: "household-appliances",
-        name: "세탁기/건조기",
-        img: "/static/images/category5_5.jpg"
-    },
-    {
-        type: "household-appliances",
-        name: "비데",
-        img: "/static/images/category5_6.jpg"
-    },
-    {
-        type: "household-appliances",
-        name: "눈마사지기(서비스접수불가제품)",
-        img: "/static/images/category5_7.jpg"
-    },
-    {
-        type: "household-appliances",
-        name: "TV",
-        img: "/static/images/category5_8.jpg"
-    },
-    {
-        type: "household-appliances",
-        name: "온풍기",
-        img: "/static/images/category5_9.jpg"
-    },
-    {
-        type: "household-appliances",
-        name: "샤워기/청소기/멀티드라이어",
-        img: "/static/images/category5_10.jpg"
-    }
-];
 
-for(let categoryButton of categoryButtons){
-    categoryButton.onclick = (e) => {
-        const itemViews = items.filter(item => item.type == e.target.classList[0]);
 
-        if(!e.target.classList.contains('on')){
-            for(let i = 0; i < categoryButtons.length; i++){
-                categoryButtons[i].classList.remove('on')
-                categoryItemSlide.classList.add('show');
-            }
-        }else{
-            categoryItemSlide.classList.remove('show');
-        }
-        categoryButton.classList.toggle('on');
+setMainCategoryProductList();
 
-        wrapper.style.left = '0';
-        currentIndex = 0;
-        item.classList.remove('haspage2');
-        prevButton.classList.add('visible')
-        nextButton.classList.add('visible', 'on')
-        prevButton.classList.remove('on')
-        item.innerHTML = ``;
-        item2.innerHTML = ``;
-        if(itemViews.length < 8){
-            for(let i = 0; i < itemViews.length; i++){
-                item.innerHTML += `
-                    <button type="button">
-                        <span class="item-image"><img src="${itemViews[i].img}"></span>
-                        ${itemViews[i].name}
-                    </button>
-                `
-            }
-        }else{
-            item.classList.add('haspage2')
-            prevButton.classList.remove('visible')
-            nextButton.classList.remove('visible')
-            for(let i = 0; i < 8; i++){
-                item.innerHTML += `
-                    <button type="button">
-                        <span class="item-image"><img src="${itemViews[i].img}"></span>
-                        ${itemViews[i].name}
-                    </button>
-                `
-            }
-            for(let i = 8; i < itemViews.length; i++) {
-                item2.innerHTML += `
-                    <button type="button">
-                        <span class="item-image"><img src="${itemViews[i].img}"></span>
-                        ${itemViews[i].name}
-                    </button>
-                `
-            }
-        }
 
-    }
-}
+// nextButton.onclick = () => {
+//     nextButton.classList.toggle('on')
+//     prevButton.classList.toggle('on')
+//     if(currentIndex < 1){
+//         currentIndex++;
+//     }else{
+//         currentIndex = 0;
+//     }
+//     wrapper.style.left = -1400 * currentIndex + "px";
+// }
 
-nextButton.onclick = () => {
-    nextButton.classList.toggle('on')
-    prevButton.classList.toggle('on')
-    if(currentIndex < 1){
-        currentIndex++;
-    }else{
-        currentIndex = 0;
-    }
-    wrapper.style.left = -1400 * currentIndex + "px";
-}
-
-prevButton.onclick = () => {
-    nextButton.classList.toggle('on')
-    prevButton.classList.toggle('on')
-    if(currentIndex > 0){
-        currentIndex--;
-    }else{
-        currentIndex = 1;
-    }
-    wrapper.style.left = -1400 * currentIndex + "px";
-}
+// prevButton.onclick = () => {
+//     nextButton.classList.toggle('on')
+//     prevButton.classList.toggle('on')
+//     if(currentIndex > 0){
+//         currentIndex--;
+//     }else{
+//         currentIndex = 1;
+//     }
+//     wrapper.style.left = -1400 * currentIndex + "px";
+// }
 
 
 /* Notice - Event */
@@ -302,4 +106,188 @@ goGopButton.onclick = () => {
         top: 0,
         behavior: 'smooth'
     });
+}
+
+
+function setMainCategoryProductList() {
+    const categoryInfoList = loadMainCategoryProductList();
+
+    let totalPage = 0;
+    let size = 0;
+
+    totalPage = categoryInfoList.length % 5 == 0 ? categoryInfoList.length / 5 : Math.floor(categoryInfoList.length / 5) + 1;
+    size = categoryInfoList.length;
+
+    for(let i = 0; i < totalPage; i++) {
+        let innerHTML = "";
+        let startIndex = 5 * i;
+        let endIndex = i == totalPage - 1 ? size : startIndex + 5;
+
+        
+        innerHTML += `<div class="swiper-slide">`;
+        innerHTML += `<ul class="category-image-ul">`;
+        
+        for(startIndex; startIndex < endIndex; startIndex++) {
+            innerHTML += `
+                <li class="category-image-li">
+                    <div>
+                        <img src="/image/winiaaid-images/winia-product/category-images/${categoryInfoList[startIndex].productMainCategoryImage}" alt="${categoryInfoList[startIndex].productCategoryName}">
+                    </div>
+                </li>
+                `;
+        }
+        
+        innerHTML += `</ul></div>`;
+        const swiperWrapper = document.querySelector(".swiper1 .swiper-wrapper");
+        swiperWrapper.innerHTML += innerHTML;
+    }
+
+    makeCategorySwiper();
+    setCategoryClickEvent(categoryInfoList);
+}
+
+function loadMainCategoryProductList() {
+    let categoryInfoList = null;
+
+    $.ajax({
+        async: false,
+        type: "get",
+        url: `/api/v1/product/list/category/winia`,
+        dataType: "json",
+        success: (response) => {
+            if(response.data != null) {
+                categoryInfoList = response.data;
+            }
+        },
+        error: (request, status, error) => {
+            console.log(request.status);
+            console.log(request.responseText);
+            console.log(error);
+        } 
+    });
+
+    return categoryInfoList;
+}
+
+function setCategoryClickEvent(categoryInfoList) {
+    const categoryImageLiItems = document.querySelectorAll(".category-image-li");
+
+    categoryImageLiItems.forEach((category, index) => {
+        category.onclick = () => setProductDetailListByCategoryCode(categoryInfoList[index], index);
+    })
+}
+
+function setProductDetailListByCategoryCode(category, index) {
+    const categoryImageLiItems = document.querySelectorAll(".category-image-li");
+    const slideButtonItems = document.querySelectorAll(".swiper2 .slide-div");
+    const swiperWrapper = document.querySelector(".swiper2 .swiper-wrapper");
+
+    const groupFlag = category.groupFlag;
+    let productDetailList = null;
+
+    if(!categoryImageLiItems[index].classList.contains("on")) {
+        categoryImageLiItems.forEach(li => li.classList.remove("on"));
+        categoryItemSlide.classList.add('show');
+
+        removeVisibles(slideButtonItems);
+
+    }else {
+        categoryItemSlide.classList.remove('show');
+
+        addVisibles(slideButtonItems);
+    }
+    
+    categoryImageLiItems[index].classList.toggle('on');
+
+    productDetailList = getProductDetailList(category);
+
+
+    if(!groupFlag) {
+        productDetailList = productDetailList[0].productDetailList;
+    }
+
+
+    let totalPage = 0;
+    let size = 0;
+    swiperWrapper.innerHTML = "";
+
+    totalPage = productDetailList.length % 8 == 0 ? productDetailList.length / 8 : Math.floor(productDetailList.length / 8) + 1;
+    size = productDetailList.length;
+
+    for(let i = 0; i < totalPage; i++) {
+        let innerHTML = "";
+        let startIndex = 8 * i;
+        let endIndex = i == totalPage - 1 ? size : startIndex + 8;
+
+        
+        innerHTML += `<div class="swiper-slide">`;
+        innerHTML += `<ul class="product-image-ul">`;
+        
+        for(startIndex; startIndex < endIndex; startIndex++) {
+            innerHTML += `
+                <li class="product-image-li">
+                    <div>
+                        <img src="/image/winiaaid-images/winia-product/images/${groupFlag ? productDetailList[startIndex].productMainImage : productDetailList[startIndex].productDetailImage}" alt="${groupFlag ? productDetailList[startIndex].productCategoryName : productDetailList[startIndex].productDetailName}">
+                    </div>
+                </li>
+                `;
+        }
+        
+        innerHTML += `</ul></div>`;
+        swiperWrapper.innerHTML += innerHTML;
+    }
+
+    makeProductSwiper();
+}
+
+function getProductDetailList(category) {
+    let productDetailList = null;
+
+    $.ajax({
+        async: false,
+        type: "get",
+        url: `/api/v1/product/list/category/winia/${category.groupFlag ? 'group' : 'default'}/${category.groupFlag ? category.productGroupCode : category.productCategoryCode}`,
+        dataType: "json",
+        success: (response) => {
+            productDetailList = response.data;
+        },
+        error: (request, status, error) => {
+            console.log(request.status);
+            console.log(request.responseText);
+            console.log(error);
+        }
+    })
+
+    return productDetailList;
+}
+
+
+function makeCategorySwiper() {
+    const swiper1 = new Swiper(".swiper1", {
+        slidesPerView: 1,
+        spaceBetween: 300,
+        navigation: {
+            nextEl: '.swiper1 .swiper-button-next',
+            prevEl: '.swiper1 .swiper-button-prev'
+        }
+    });
+}
+
+function makeProductSwiper() {
+    const swiper2 = new Swiper(".swiper2", {
+        slidesPerView: 1,
+        spaceBetween: 100,
+        navigation: {
+            nextEl: '.swiper2 .swiper-button-next',
+            prevEl: '.swiper2 .swiper-button-prev'
+        }
+    });
+}
+
+function addVisibles(domObjects) {
+    domObjects.forEach(domObject => domObject.classList.add("visible"));
+}
+
+function removeVisibles(domObjects) {
+    domObjects.forEach(domObject => domObject.classList.remove("visible"));
 }
