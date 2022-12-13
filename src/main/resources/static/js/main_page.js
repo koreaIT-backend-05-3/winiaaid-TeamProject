@@ -110,6 +110,7 @@ goGopButton.onclick = () => {
 
 
 function setMainCategoryProductList() {
+    const swiperWrapper = document.querySelector(".swiper1 .swiper-wrapper");
     const categoryInfoList = loadMainCategoryProductList();
 
     let totalPage = 0;
@@ -117,6 +118,8 @@ function setMainCategoryProductList() {
 
     totalPage = categoryInfoList.length % 5 == 0 ? categoryInfoList.length / 5 : Math.floor(categoryInfoList.length / 5) + 1;
     size = categoryInfoList.length;
+
+    swiperWrapper.innerHTML = "";
 
     for(let i = 0; i < totalPage; i++) {
         let innerHTML = "";
@@ -138,7 +141,6 @@ function setMainCategoryProductList() {
         }
         
         innerHTML += `</ul></div>`;
-        const swiperWrapper = document.querySelector(".swiper1 .swiper-wrapper");
         swiperWrapper.innerHTML += innerHTML;
     }
 
@@ -266,6 +268,7 @@ function makeCategorySwiper() {
     const swiper1 = new Swiper(".swiper1", {
         slidesPerView: 1,
         spaceBetween: 300,
+        allowTouchMove: false,
         navigation: {
             nextEl: '.swiper1 .swiper-button-next',
             prevEl: '.swiper1 .swiper-button-prev'
@@ -277,6 +280,7 @@ function makeProductSwiper() {
     const swiper2 = new Swiper(".swiper2", {
         slidesPerView: 1,
         spaceBetween: 100,
+        allowTouchMove: false,
         navigation: {
             nextEl: '.swiper2 .swiper-button-next',
             prevEl: '.swiper2 .swiper-button-prev'
