@@ -41,14 +41,14 @@ function loadPage(nowPage) {
 }
 
 function searchAddress(nowPage) {
-    let confirmKey = "devU01TX0FVVEgyMDIyMDkwNzAyNTExNTExMjk1ODg=";
+    let confirmKey = "devU01TX0FVVEgyMDIyMTIxMzE1MjcwMjExMzMzMTU=";
     $.ajax({
         url: "https://business.juso.go.kr/addrlink/addrLinkApi.do",
         type: "get",
         data: {
             currentPage: nowPage,
             countPerPage: 10,
-            confmKey: "devU01TX0FVVEgyMDIyMDkxNTAyMDYyODExMjk3MzQ=",
+            confmKey: confirmKey,
             keyword: searchKeyword.value,
             resultType: "json",
             hstryYn: "Y"
