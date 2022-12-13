@@ -17,12 +17,14 @@ let productInfoObject = {
 function setProductImages(domObject, productInfoList, type, isGroup) {
 
     if(type == "mainCategory") {
+        const swiperWrapper = document.querySelector(".swiper-category .swiper-wrapper");
 
         let totalPage = 0;
         let size = 0;
 
         totalPage = productInfoList.length % 6 == 0 ? productInfoList.length / 6 : Math.floor(productInfoList.length / 6) + 1;
         size = productInfoList.length;
+        swiperWrapper.innerHTML = "";
 
         for(let i = 0; i < totalPage; i++) {
             let innerHTML = "";
@@ -47,7 +49,6 @@ function setProductImages(domObject, productInfoList, type, isGroup) {
             }
             
             innerHTML += `</ul></div>`;
-            const swiperWrapper = document.querySelector(".swiper-category .swiper-wrapper");
             swiperWrapper.innerHTML += innerHTML;
         }
         
