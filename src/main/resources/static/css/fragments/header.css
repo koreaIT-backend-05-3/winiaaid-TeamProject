@@ -221,3 +221,8 @@ header {
     }
     
 }
+
+.unimplemented {
+    color: #999;
+    cursor: default !important;
+}

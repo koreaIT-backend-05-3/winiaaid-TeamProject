@@ -372,9 +372,11 @@ function setSolutionListTypeView() {
     if(getBoardType() == "faq") {
         solutionTypeUnitItems[0].classList.add("selected-solution-type")
         titleH1.textContent = "자주하는 질문";
+        document.title = "자주하는 질문"
     }else {
         solutionTypeUnitItems[1].classList.add("selected-solution-type")
         titleH1.textContent = "자가진단";
+        document.title = "자가진단"
     }
 }
 

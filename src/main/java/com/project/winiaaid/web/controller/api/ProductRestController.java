@@ -43,7 +43,6 @@ public class ProductRestController {
 
 //    @Cacheable(value = "product")
     @CompanyCheck
-    @UriCheck
     @GetMapping("/list/category/{company}/{type}/{code}")
     public ResponseEntity<?> getDetailProductListByType(@PathVariable String company, @PathVariable String type, @PathVariable int code) {
         List<?> productDetailList = null;

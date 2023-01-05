@@ -40,7 +40,6 @@ public class SolutionRestController {
     }
 
     @Log
-    @CompanyCheck
     @UriCheck
     @GetMapping("/{boardType}/list")
     public ResponseEntity<?> getSolutionListByKeyCode(@PathVariable String boardType, ReadSolutionRequestDto readSolutionRequestDto) {

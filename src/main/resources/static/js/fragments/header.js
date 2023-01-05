@@ -68,6 +68,8 @@ userBoardHistory.onclick = loadUserBoardHistoryPage;
 
 userInfoModify.onclick = loadUserInfoModifyPage;
 
+setUnimplementedEvent();
+
 
 for(let i = 0; i < menuLines.length; i++) {
     const menuLine = menuLines[i];
@@ -147,6 +149,16 @@ function loadUserBoardHistoryPage() {
 
 function loadUserInfoModifyPage() {
     location.href = "/mypage/modify/info";
+}
+
+function setUnimplementedEvent() {
+    const unimplementedItems = document.querySelectorAll(".unimplemented");
+
+    unimplementedItems.forEach(unimplemented => {
+        unimplemented.onclick = () => {
+            alert("오픈 준비중!");
+        }
+    })
 }
 
 function isAdmin() {

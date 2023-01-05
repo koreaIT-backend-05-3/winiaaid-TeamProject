@@ -248,6 +248,6 @@ public class ConfigMapImpl implements ConfigMap{
     }
 
     private LocalDateTime createLocalDateTimeThreeMonthsAgo() {
-        return LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue() - 3, LocalDateTime.now().getDayOfMonth(), LocalDateTime.now().getHour(), LocalDateTime.now().getMinute());
+        return LocalDateTime.now().minusMonths(3);
     }
 }
